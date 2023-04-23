@@ -5,6 +5,6 @@ export default async function getTeams(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { event } = req.query;
-  return await fetchData(res, `event/${event}/simple`);
+  const { match } = req.query;
+  return await fetchData(res, `match/${match}`);
 }

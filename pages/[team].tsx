@@ -11,6 +11,7 @@ import {
   FaFacebook,
   FaGithub,
   FaInstagram,
+  FaLink,
   FaMedal,
   FaTwitch,
   FaTwitter,
@@ -140,19 +141,12 @@ export default function TeamPage({
               <p className="text-gray-400 text-sm font-medium">
                 {teamData.school_name}{" "}
               </p>
-              <a
-                href={
-                  teamData.website
-                    ? teamData.website
-                    : `https://frc-events.firstinspires.org/team/${teamData.team_number}`
-                }
-                target="_blank"
-              >
-                <h1 className="font-black text-4xl">
-                  FRC {teamData.team_number}:{" "}
-                  <span className="text-primary">{teamData.nickname}</span>
-                </h1>
-              </a>
+
+              <h1 className="font-black text-4xl">
+                FRC {teamData.team_number}:{" "}
+                <span className="text-primary">{teamData.nickname}</span>
+              </h1>
+
               <p className="text-gray-400">
                 <b>
                   {teamData.city}, {teamData.state_prov}, {teamData.country}
@@ -171,6 +165,19 @@ export default function TeamPage({
           </div>
 
           <div className="flex flex-wrap gap-3 md:gap-5 mt-3">
+            {teamData.website && (
+              <a href={teamData.website} target="_blank">
+                <Social
+                  icon={FaLink}
+                  name={
+                    teamData.website.includes("https")
+                      ? teamData.website.replace("https://www.", "")
+                      : teamData.website.replace("http://www.", "")
+                  }
+                  className="text-white font-bold"
+                />
+              </a>
+            )}
             {teamSocials.map((social: any, key: number) => {
               return (
                 <div key={key} className="flex">

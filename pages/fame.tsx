@@ -40,7 +40,7 @@ export default function HOF() {
                   <br /> <br />
                   <Link href={`/${team.name}`} legacyBehavior>
                     <a>
-                      <span className="font-bold hover:text-primary">
+                      <span className="font-bold hover:text-[#ecc729]">
                         Team {team.name}
                       </span>
                     </a>
@@ -48,7 +48,7 @@ export default function HOF() {
                 </div>
 
                 <div className="award-event">
-                  <span className="text-xs">{team.year}</span>
+                  <span className="text-xs font-semibold">{team.year}</span>
                 </div>
               </div>
             );

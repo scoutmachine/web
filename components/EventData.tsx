@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaYoutube } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
@@ -40,16 +41,27 @@ const EventList = (props: any) => {
       </td>
 
       <th scope="row" className={`px-6 py-4 whitespace-nowrap`}>
-        <span
-          className={`font-bold ${
-            props.didWeWin() === "win" && props.isTeam && "text-green-400"
-          } ${props.didWeWin() === "lose" && props.isTeam && "text-red-400"} ${
-            props.didWeWin() === "unknown" && props.isTeam && "text-gray-400"
-          }`}
+        <Link
+          href={`/events/${props.match.key.replace("_", "/")}`}
+          legacyBehavior
         >
-          {props.search_array(newText, props.match.comp_level)}{" "}
-          {props.match.match_number}
-        </span>{" "}
+          <a>
+            <span
+              className={`font-bold ${
+                props.didWeWin() === "win" && props.isTeam && "text-green-400"
+              } ${
+                props.didWeWin() === "lose" && props.isTeam && "text-red-400"
+              } ${
+                props.didWeWin() === "unknown" &&
+                props.isTeam &&
+                "text-gray-400"
+              }`}
+            >
+              {props.search_array(newText, props.match.comp_level)}{" "}
+              {props.match.comp_level !== "qm" ? `${props.match.set_number} (Match ${props.match.match_number})` : props.match.match_number}
+            </span>{" "}
+          </a>
+        </Link>
       </th>
 
       {props.isTeam && (
