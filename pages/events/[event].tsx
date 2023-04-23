@@ -1,7 +1,9 @@
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
 import { TabButton } from "@/components/TabButton";
 import { API_URL } from "@/lib/constants";
+import { convertDate } from "@/util/date";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -23,6 +25,10 @@ export default function Event({
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex);
   };
+
+  const formattedDate = `${convertDate(eventInfo.start_date)} -
+  ${convertDate(eventInfo.end_date)}, ${eventInfo.start_date.substring(0, 4)}`;
+
   return (
     <>
       <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
@@ -31,7 +37,7 @@ export default function Event({
             {eventInfo.name}
           </h1>
           <p className="text-gray-400 text-left">
-            {eventInfo.city}, {eventInfo.country} •{" "}
+            {formattedDate} • {eventInfo.city}, {eventInfo.country} •{" "}
             {eventInfo.district && (
               <span>{eventInfo.district.display_name} District • </span>
             )}
@@ -47,90 +53,92 @@ export default function Event({
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center mt-5 pr-8 pl-8">
-        <div className="bg-gray-800 md:w-[900px] rounded-lg py-6 px-12">
-          <h1 className="text-2xl text-primary font-black">
-            Alliances{" "}
-            <span className="text-gray-400 font-medium">
-              ─ Who got selected?
-            </span>
-          </h1>
-          <table className="w-full mt-5 text-sm text-left bg-gray-600 border-2 border-gray-500">
-            <thead className="text-xs text-white uppercase">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  #
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Captain
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  1st Pick
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  2nd Pick
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Backup
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {eventAlliances.map((alliance: any, key: number) => {
-                return (
-                  <tr
-                    key={key}
-                    className="text-gray-300 bg-gray-700 border-2 border-gray-500 hover:bg-gray-600"
-                  >
-                    <td className="px-6 py-4 font-bold">{alliance.name}</td>
+      {eventAlliances && (
+        <div className="flex flex-wrap items-center justify-center mt-5 pr-8 pl-8">
+          <div className="bg-gray-800 md:w-[900px] rounded-lg py-6 px-12">
+            <h1 className="text-2xl text-primary font-black">
+              Alliances{" "}
+              <span className="text-gray-400 font-medium">
+                ─ Who got selected?
+              </span>
+            </h1>
+            <table className="w-full mt-5 text-sm text-left bg-gray-600 border-2 border-gray-500">
+              <thead className="text-xs text-white uppercase">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    #
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Captain
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    1st Pick
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    2nd Pick
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Backup
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {eventAlliances.map((alliance: any, key: number) => {
+                  return (
+                    <tr
+                      key={key}
+                      className="text-gray-300 bg-gray-700 border-2 border-gray-500 hover:bg-gray-600"
+                    >
+                      <td className="px-6 py-4 font-bold">{alliance.name}</td>
 
-                    <td className="px-6 py-4 hover:text-primary">
-                      <Link
-                        href={`/${alliance.picks[0].slice(3)}`}
-                        legacyBehavior
-                      >
-                        <a>{alliance.picks[0].slice(3)}</a>
-                      </Link>
-                    </td>
-
-                    <td className="px-6 py-4 hover:text-primary">
-                      <Link
-                        href={`/${alliance.picks[1].slice(3)}`}
-                        legacyBehavior
-                      >
-                        <a>{alliance.picks[1].slice(3)}</a>
-                      </Link>
-                    </td>
-
-                    <td className="px-6 py-4 hover:text-primary">
-                      <Link
-                        href={`/${alliance.picks[2].slice(3)}`}
-                        legacyBehavior
-                      >
-                        <a>{alliance.picks[2].slice(3)}</a>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4">
-                      {alliance.picks.length > 3 ? (
+                      <td className="px-6 py-4 hover:text-primary">
                         <Link
-                          href={`/${alliance.picks[3].slice(3)}`}
+                          href={`/${alliance.picks[0].slice(3)}`}
                           legacyBehavior
                         >
-                          <a className="hover:text-primary">
-                            {alliance.picks[3].slice(3)}
-                          </a>
+                          <a>{alliance.picks[0].slice(3)}</a>
                         </Link>
-                      ) : (
-                        <ImCross className="text-gray-500" />
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+
+                      <td className="px-6 py-4 hover:text-primary">
+                        <Link
+                          href={`/${alliance.picks[1].slice(3)}`}
+                          legacyBehavior
+                        >
+                          <a>{alliance.picks[1].slice(3)}</a>
+                        </Link>
+                      </td>
+
+                      <td className="px-6 py-4 hover:text-primary">
+                        <Link
+                          href={`/${alliance.picks[2].slice(3)}`}
+                          legacyBehavior
+                        >
+                          <a>{alliance.picks[2].slice(3)}</a>
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4">
+                        {alliance.picks.length > 3 ? (
+                          <Link
+                            href={`/${alliance.picks[3].slice(3)}`}
+                            legacyBehavior
+                          >
+                            <a className="hover:text-primary">
+                              {alliance.picks[3].slice(3)}
+                            </a>
+                          </Link>
+                        ) : (
+                          <ImCross className="text-gray-500" />
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex justify-center">
         <div className="bg-gray-800 px-10 py-10 mt-5 rounded-lg md:w-[900px] w-[350px]">
@@ -173,11 +181,11 @@ export default function Event({
                     <a>
                       <div className="bg-gray-700 border-2 border-gray-500 hover:bg-gray-600 rounded-lg py-3 px-5">
                         <h1 className="font-black text-xl">
-                          {team.nickname.length > 17
-                            ? `${team.nickname.slice(0, 17)}...`
+                          {team.nickname.length > 15
+                            ? `${team.nickname.slice(0, 15)}...`
                             : team.nickname}
                         </h1>
-                        <p className="text-gray-400">{team.team_number}</p>
+                        <p className="text-gray-400">Team {team.team_number}</p>
                       </div>
                     </a>
                   </Link>
@@ -194,9 +202,7 @@ export default function Event({
                 team={team}
               />
             ) : (
-              <p className="text-red-400 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
-                Looks like there&apos;s no data available for this event! 😔{" "}
-              </p>
+              <ErrorMessage message="Looks like there's no data available for this event! 😔" />
             ))}
         </div>
       </div>
@@ -222,15 +228,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const eventAlliances = await fetch(
     `${API_URL}/api/events/alliances?event=${event}`
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .catch(() => null);
 
   const eventRankings = await fetch(
     `${API_URL}/api/events/rankings?event=${event}`
-  ).then((res) => res.json());
+  ).then((res) => res.json()).catch(() => null);
 
   const eventAwards = await fetch(
     `${API_URL}/api/events/awards?event=${event}`
-  ).then((res) => res.json());
+  ).then((res) => res.json()).catch(() => null);
 
   return {
     props: {

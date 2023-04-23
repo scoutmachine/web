@@ -6,5 +6,6 @@ export default async function getTeams(
   res: NextApiResponse
 ) {
   const { event } = req.query;
+  console.log(`event/${event}/simple`)
   return await fetchData(res, `event/${event}/simple`);
 }

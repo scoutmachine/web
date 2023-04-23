@@ -6,7 +6,7 @@ export const Footer = () => {
       <div className="text-gray-300 text-sm uppercase mb-3">
         Copyright © {new Date().getFullYear()} ⎯{" "}
         <a href="https://frc6070.ca" target="_blank">
-          <span className="text-primary font-bold">
+          <span className="text-primary hover:text-white font-bold">
             Team 6070 Gryphon Machine
           </span>
         </a>
