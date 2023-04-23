@@ -6,7 +6,7 @@ export const Header = (props: any) => {
       <Link href="/" legacyBehavior>
         <a>
           <h1 className="text-center text-primary hover:text-white md:text-5xl text-3xl font-black mt-16 mb-2">
-            {props.title ?? '6070 presents: Scouting Machine'}
+            {props.title ?? 'Scouting Machine'}
           </h1>
         </a>
       </Link>

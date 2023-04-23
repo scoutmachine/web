@@ -9,10 +9,10 @@ export default function Home({ initial }: any) {
   const [allTeams, setAllTeams] = useState(
     initial.sort(() => Math.random() - 0.5)
   );
-  const [searchTeams, setSearchTeams] = useState([]);
   const [query, setQuery] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [page, setPage] = useState(0);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -30,11 +30,15 @@ export default function Home({ initial }: any) {
     };
 
     const filterTeams = async () => {
-      return (await getTeams()).initialTeams.filter((team: any) =>
-        (team.team_number + team.nickname + team.city)
-          .toLowerCase()
-          .includes(query.toLowerCase())
+      setIsSearching(true);
+      const filteredTeams = (await getTeams()).initialTeams.filter(
+        (team: any) =>
+          (team.team_number + team.nickname + team.city)
+            .toLowerCase()
+            .includes(query.toLowerCase())
       );
+      setIsSearching(false);
+      return filteredTeams;
     };
 
     const runFilters = async () => {
@@ -75,15 +79,30 @@ export default function Home({ initial }: any) {
               className="rounded-lg bg-gray-700 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
             />
 
-            {allTeams.length === 0 && (
+            {query && allTeams.length !== 0 && (
               <div className="mt-5">
+                <span className="text-gray-400 text-sm">
+                  {isSearching ? "Filtering" : "Filtered"} through{" "}
+                  {allTeams.length} FRC team{allTeams.length > 1 ? "s" : ""} by
+                  &quot;{query}
+                  &quot;
+                </span>
+              </div>
+            )}
+
+            {allTeams.length === 0 && (
+              <div className="text-gray-400 text-sm mt-5">
                 <span>
                   😥 No results found for <strong>{query}</strong>.
                 </span>
               </div>
             )}
 
-            <div className="flex flex-col md:grid md:grid-cols-6 gap-3 mt-10 md:pr-32 md:pl-32 pr-8 pl-8">
+            <div
+              className={`flex flex-col ${
+                allTeams.length > 1 && "md:grid md:grid-cols-5"
+              } gap-3 mt-10 md:pr-32 md:pl-32 pr-8 pl-8`}
+            >
               {Array.isArray(allTeams) &&
                 allTeams.map((team: any, key: number) => {
                   return (
@@ -113,12 +132,14 @@ export default function Home({ initial }: any) {
                 })}
             </div>
 
-            <button
-              onClick={loadMore}
-              className="rounded-lg bg-gray-700 py-2 px-5 mt-5 text-gray-200 hover:bg-gray-600"
-            >
-              Load more
-            </button>
+            {!query && (
+              <button
+                onClick={loadMore}
+                className="rounded-lg bg-gray-700 py-2 px-5 mt-5 text-gray-200 hover:bg-gray-600"
+              >
+                Load more
+              </button>
+            )}
           </div>
 
           <Footer />
