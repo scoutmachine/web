@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { Navbar } from "@/components/Navbar";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
@@ -85,6 +86,8 @@ export default function Home({ initial }: any) {
     <>
       {isClient && (
         <>
+        <Navbar />
+        
           <div className="flex flex-col justify-center items-center">
             <Header />
             <input

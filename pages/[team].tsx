@@ -22,6 +22,7 @@ import { Header } from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { findTeam } from "@/util/team";
+import { Navbar } from "@/components/Navbar";
 
 const Social = (props: any) => {
   return (
@@ -110,6 +111,8 @@ export default function TeamPage({
 
   return (
     <>
+      <Navbar />
+
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
         <div className="bg-gray-800 rounded-lg py-10 px-10 md:w-[900px] mt-16 relative">
           <div className="md:flex">

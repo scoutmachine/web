@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
 import { TabButton } from "@/components/TabButton";
 import { API_URL } from "@/lib/constants";
 import { convertDate } from "@/util/date";
@@ -31,6 +32,8 @@ export default function Event({
 
   return (
     <>
+      <Navbar />
+
       <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
         <div className="bg-gray-800 md:w-[900px] rounded-lg py-12 px-12">
           <h1 className="text-3xl text-primary tetxt-left font-black">
@@ -234,11 +237,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const eventRankings = await fetch(
     `${API_URL}/api/events/rankings?event=${event}`
-  ).then((res) => res.json()).catch(() => null);
+  )
+    .then((res) => res.json())
+    .catch(() => null);
 
-  const eventAwards = await fetch(
-    `${API_URL}/api/events/awards?event=${event}`
-  ).then((res) => res.json()).catch(() => null);
+  const eventAwards = await fetch(`${API_URL}/api/events/awards?event=${event}`)
+    .then((res) => res.json())
+    .catch(() => null);
 
   return {
     props: {

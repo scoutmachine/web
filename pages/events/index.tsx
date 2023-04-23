@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { Navbar } from "@/components/Navbar";
 import { API_URL } from "@/lib/constants";
 import { convertDate } from "@/util/date";
 import { GetServerSideProps } from "next";
@@ -43,122 +44,130 @@ const Title = (props: any) => {
 
 export default function Events({ events }: any) {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Header title="2023 Events ─ Scouting Machine" />
+    <>
+      <Navbar />
+      
+      <div className="flex flex-col items-center justify-center">
+        <Header title="2023 Events ─ Scouting Machine" />
 
-      <Title title="Preseason">
-        {
-          events.filter((event: any) => event.event_type_string === "Preseason")
-            .length
-        }
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.event_type_string === "Preseason")
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
+        <Title title="Preseason">
+          {
+            events.filter(
+              (event: any) => event.event_type_string === "Preseason"
+            ).length
+          }
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.event_type_string === "Preseason")
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Week 1">
+          {events.filter((event: any) => event.week === 0).length}
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.week === 0)
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Week 2">
+          {events.filter((event: any) => event.week === 1).length}
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.week === 1)
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Week 3">
+          {events.filter((event: any) => event.week === 2).length}
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.week === 2)
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Week 4">
+          {events.filter((event: any) => event.week === 3).length}
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.week === 3)
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Week 5">
+          {events.filter((event: any) => event.week === 4).length}
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.week === 4)
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Week 6">
+          {events.filter((event: any) => event.week === 5).length}
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter((event: any) => event.week === 5)
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="FIRST Championship - Houston, TX">
+          {
+            events.filter(
+              (event: any) =>
+                event.event_type_string === "Championship Division"
+            ).length
+          }
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
+          {events
+            .filter(
+              (event: any) =>
+                event.event_type_string === "Championship Division"
+            )
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Title title="Offseason">
+          {
+            events.filter(
+              (event: any) => event.event_type_string === "Offseason"
+            ).length
+          }
+        </Title>
+        <div className="md:pl-32 md:pr-32 flex items-center justify-center md:flex-row flex-col gap-5">
+          {events
+            .filter((event: any) => event.event_type_string === "Offseason")
+            .map((event: any, key: number) => {
+              return <Event key={key} event={event} />;
+            })}
+        </div>
+
+        <Footer />
       </div>
-
-      <Title title="Week 1">
-        {events.filter((event: any) => event.week === 0).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.week === 0)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 2">
-        {events.filter((event: any) => event.week === 1).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.week === 1)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 3">
-        {events.filter((event: any) => event.week === 2).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.week === 2)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 4">
-        {events.filter((event: any) => event.week === 3).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.week === 3)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 5">
-        {events.filter((event: any) => event.week === 4).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.week === 4)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 6">
-        {events.filter((event: any) => event.week === 5).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter((event: any) => event.week === 5)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="FIRST Championship - Houston, TX">
-        {
-          events.filter(
-            (event: any) => event.event_type_string === "Championship Division"
-          ).length
-        }
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {events
-          .filter(
-            (event: any) => event.event_type_string === "Championship Division"
-          )
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Offseason">
-        {
-          events.filter((event: any) => event.event_type_string === "Offseason")
-            .length
-        }
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center md:flex-row flex-col gap-5">
-        {events
-          .filter((event: any) => event.event_type_string === "Offseason")
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Footer />
-    </div>
+    </>
   );
 }
 

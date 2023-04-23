@@ -1,4 +1,5 @@
 import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/Navbar";
 import { HOFTeams } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,8 @@ import { FaMedal } from "react-icons/fa";
 export default function HOF() {
   return (
     <>
+      <Navbar />
+
       <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
         <div className="bg-gray-800 md:w-[1000px] w-[350px] rounded-lg py-12 px-12">
           <a href="https://www.firsthalloffame.org/" target="_blank">

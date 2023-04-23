@@ -1,8 +1,15 @@
+import { Navbar } from "@/components/Navbar";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 
 export default function MatchPage({ matchData }: any) {
-  return <h1>{matchData.match_number}</h1>;
+  return (
+    <>
+      <Navbar />
+      
+      <h1>{matchData.match_number}</h1>
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
