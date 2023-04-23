@@ -2,26 +2,30 @@ import { Footer } from "@/components/Footer";
 import { HOFTeams } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
-import { FaAward } from "react-icons/fa";
+import { FaMedal } from "react-icons/fa";
 export default function HOF() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center">
-        <div className="md:w-[900px] flex flex-col justify-center items-center">
-          <h1 className="flex text-3xl md:text-5xl mt-16 font-black text-primary mb-2">
-            <FaAward className="mr-5" />{" "}
-            <span className="italic mr-3">FIRST</span> Hall of Fame
-          </h1>
-          <p className="text-gray-400 text-center pr-6 pl-6">
-            The Chairman&apos;s Award stands as the pinnacle of achievement
-            within the <span className="italic">FIRST</span> community,
-            recognizing individuals who embody the organization&apos;s mission
-            and ideals to the fullest extent. Those who receive this coveted
-            honor are bestowed with the privilege of being enshrined in the
-            esteemed <span className="italic">FIRST</span> Hall of Fame.
+      <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
+        <div className="bg-gray-800 md:w-[1000px] w-[350px] rounded-lg py-12 px-12">
+          <a href="https://www.firsthalloffame.org/" target="_blank">
+            <h1 className="md:flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-white">
+              <FaMedal className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
+              <span className="italic md:mr-3 mr-1">FIRST</span> Hall of Fame
+            </h1>
+          </a>
+          <p className="text-gray-400">
+            The Impact Award (previously Chairman&apos;s Award) stands as the
+            pinnacle of achievement within the{" "}
+            <span className="italic">FIRST</span> community, recognizing teams
+            who embody the organization&apos;s mission and ideals to the fullest
+            extent. Those who receive this coveted honor are bestowed with the
+            privilege of being enshrined in the esteemed{" "}
+            <span className="italic">FIRST</span> Hall of Fame.
           </p>
         </div>
-        <div className="bg-gray-900 rounded-lg py-10 md:px-10 px-[26px] flex items-center justify-center grid md:grid-cols-6 grid-cols-2 mt-12 gap-x-5 md:w-[1000px] w-[350px]">
+
+        <div className="bg-gray-800 rounded-lg py-10 md:px-10 px-[26px] flex items-center justify-center grid md:grid-cols-6 grid-cols-2 mt-5 gap-x-5 md:w-[1000px] w-[350px]">
           {HOFTeams.map((team: any, key: number) => {
             return (
               <div className="banner" key={key}>
@@ -35,7 +39,7 @@ export default function HOF() {
                 </div>
                 <div className="award-name mt-5">
                   <span className="italic font-black">
-                    {team.name === "321" ? "Impact Award" : "Chairman's Award"}
+                    {team.year > "2022" ? "Impact Award" : "Chairman's Award"}
                   </span>{" "}
                   <br /> <br />
                   <Link href={`/${team.name}`} legacyBehavior>
