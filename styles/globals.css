@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.fadeInDown {
+  animation: fadeInDown 1s forwards;
+}
+
+.fadeInDownAfter {
+  animation: fadeInDownAfter 1s forwards;
+}
+
+@keyframes fadeInDown {
+  0% {
+     opacity: 0;
+     transform: translateY(-20px);
+  }
+  100% {
+     opacity: 1;
+     transform: translateY(0);
+  }
+} 
+
+@keyframes fadeInDownAfter {
+  20% {
+     opacity: 0;
+     transform: translateY(-20px);
+  }
+  100% {
+     opacity: 1;
+     transform: translateY(0);
+  }
+} 
+
+.banner {
+  background: #0f4bcb;
+  color: #fff;
+  display: inline-block;
+  height: 170px;
+  line-height: 1.2;
+  margin: 0 0 40px;
+  padding: 8px;
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  white-space: normal;
+  width: 140px;
+}
+
+.banner:after {
+  border-bottom: 70px solid #0f4bcb;
+  border-color: #0f4bcb #0f4bcb transparent;
+  border-style: solid;
+  border-width: 5px 70px 20px;
+  content: "";
+  display: block;
+  left: 0;
+  position: absolute;
+  top: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Light */
+::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+
+/* Dark */
+::-webkit-scrollbar-thumb:hover {
+  background: #1f2937;
+}
