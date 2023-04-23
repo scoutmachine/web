@@ -180,7 +180,7 @@ export default function Event({
                   <Link key={key} href={`/${team.team_number}`} legacyBehavior>
                     <a>
                       <div className="bg-gray-700 border-2 border-gray-500 hover:bg-gray-600 rounded-lg py-3 px-5">
-                        <h1 className="font-black text-xl">
+                        <h1 className="font-bold text-gray-300 text-xl">
                           {team.nickname.length > 15
                             ? `${team.nickname.slice(0, 15)}...`
                             : team.nickname}

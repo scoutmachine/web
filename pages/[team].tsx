@@ -4,13 +4,14 @@ import { TabButton } from "@/components/TabButton";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useRef } from "react";
 import { useCallback, useEffect, useState } from "react";
 import {
   FaAward,
   FaFacebook,
   FaGithub,
   FaInstagram,
+  FaMedal,
   FaTwitch,
   FaTwitter,
   FaYoutube,
@@ -48,6 +49,28 @@ export default function TeamPage({
   const router = useRouter();
   const { team } = router.query;
   const currentDistrict = teamDistrict[teamDistrict.length - 1];
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    window.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      window.removeEventListener("click", handleOutsideClick);
+    };
+  }, [dropdownRef]);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex);
@@ -269,14 +292,14 @@ export default function TeamPage({
             >
               Awards
             </TabButton>
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <div
                 className={`bg-gray-700 w-[300px] text-white  ${
                   isDropdownOpen
                     ? "rounded-t-lg border-2 border-b-gray-500 border-transparent"
                     : "rounded-lg"
                 } px-5 py-2 flex items-center justify-between cursor-pointer`}
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={toggleDropdown}
               >
                 <span className="font-bold">
                   {String(activeTab).length >= 4
@@ -346,8 +369,15 @@ export default function TeamPage({
                           target="_blank"
                           className="bg-gray-700 rounded-lg px-5 py-5 hover:bg-gray-600 border-2 border-gray-500"
                         >
-                          <h1 className="font-bold">{award.name}</h1>
-                          <p className="text-gray-400">{award.year}</p>
+                          <div className="flex">
+                            {award.name.includes("Winner") && (
+                              <FaMedal className="text-xl mr-2 text-[#ecc729]" />
+                            )}
+                            <h1 className="font-bold text-gray-300 mt-[-5px]">
+                              {award.name}
+                            </h1>
+                          </div>
+                          <p className="text-gray-400 mt-3">{award.year}</p>
                         </a>
                       );
                     })}

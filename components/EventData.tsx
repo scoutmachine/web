@@ -185,6 +185,7 @@ export const EventData = (props: any) => {
             <tbody>
               {props.data
                 ?.filter((match: any) => match.comp_level === "f")
+                .reverse()
                 .map((match: any, key: number) => {
                   return (
                     <EventList
