@@ -13,6 +13,7 @@ export default function Home({ initial }: any) {
   const [isClient, setIsClient] = useState(false);
   const [page, setPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -53,12 +54,28 @@ export default function Home({ initial }: any) {
   }, [query, initial]);
 
   const loadMore = async () => {
+    setIsLoadingMore(true);
     const nextPage = page + 1;
     const response = await fetch(`${API_URL}/api/team/teams?page=${nextPage}`);
-    const newTeams = await response.json();
+    const newTeams = await response.json().then(teams => teams.slice(0, 100));
     setAllTeams([...allTeams, ...newTeams]);
     setPage(nextPage);
+    setIsLoadingMore(false);
   };
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+      !isLoadingMore
+    ) {
+      loadMore();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [allTeams, isLoadingMore]);
 
   const changeSearch = (event: { target: { value: string } }) => {
     setQuery(event.target.value);
@@ -76,8 +93,9 @@ export default function Home({ initial }: any) {
               value={query}
               onChange={changeSearch}
               spellCheck="false"
-              className="rounded-lg bg-gray-700 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
+              className="rounded-lg bg-gray-700 border-2 border-gray-500 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
             />
+            <span className="text-xs text-gray-500 font-semibold lowercase mt-2">(Search by Team Number / Name / Location)</span>
 
             {query && allTeams.length !== 0 && (
               <div className="mt-5">
@@ -132,13 +150,10 @@ export default function Home({ initial }: any) {
                 })}
             </div>
 
-            {!query && (
-              <button
-                onClick={loadMore}
-                className="rounded-lg bg-gray-700 py-2 px-5 mt-5 text-gray-200 hover:bg-gray-600"
-              >
-                Load more
-              </button>
+            {!query && isLoadingMore && (
+              <span className="text-gray-400 mt-5">
+                Hang tight! Loading more teams...
+              </span>
             )}
           </div>
 
@@ -168,7 +183,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       initial: await baseFetch(
         String(Math.floor(Math.random() * (18 - 0 + 1) + 0))
-      ),
+      ).then(teams => teams.slice(0, 100)),
     },
   };
 };
