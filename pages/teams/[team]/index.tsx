@@ -56,7 +56,10 @@ export default function TeamPage({
   const { team } = router.query;
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [visibleBanners, setVisibleBanners] = useState(14);
+  const filteredAwards = teamAwards.filter(
+    (award: any) =>
+      award.name.includes("Winner") || award.name.includes("Impact Award")
+  );
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -378,12 +381,7 @@ export default function TeamPage({
                 <>
                   <div className="md:grid grid-cols-7">
                     <AnimatePresence>
-                      {teamAwards
-                        .filter(
-                          (award: any) =>
-                            award.name.includes("Winner") ||
-                            award.name.includes("Impact Award")
-                        )
+                      {filteredAwards
                         .reverse()
                         .slice(0, showAll ? teamAwards.length : 14)
                         .sort(
@@ -427,14 +425,12 @@ export default function TeamPage({
                         })}
                     </AnimatePresence>
                   </div>
-                  {teamAwards.filter((award: any) =>
-                    award.name.includes("Winner")
-                  ).length > 14 && (
+                  {filteredAwards.length > 14 && (
                     <h1 className="text-gray-400 italic font-semibold text-sm mt-[-15px] mb-5">
                       {showAll
                         ? ""
                         : `(${
-                            teamAwards.length - 14
+                            filteredAwards.length - 14
                           } more events won that aren't shown -`}{" "}
                       <span
                         onClick={() => setShowAll(!showAll)}
@@ -448,7 +444,11 @@ export default function TeamPage({
 
                   <div className="md:grid md:grid-cols-4 gap-4">
                     {teamAwards
-                      .filter((award: any) => !award.name.includes("Winner"))
+                      .filter(
+                        (award: any) =>
+                          !award.name.includes("Winner") ||
+                          !award.name.includes("Impact Award")
+                      )
                       .sort(
                         (teamAwardA: any, teamAwardB: any) =>
                           parseInt(teamAwardB.year) - parseInt(teamAwardA.year)
