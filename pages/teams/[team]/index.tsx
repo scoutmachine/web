@@ -408,11 +408,18 @@ export default function TeamPage({
                                   alt="FIRST Logo"
                                 />
                               </div>
-                              <div className="award-name mt-5 mb-3">
-                                <span className="italic font-black">
-                                  {award.name}
-                                </span>{" "}
-                              </div>
+                              <Link
+                                href={`/events/${award.event_key}`}
+                                legacyBehavior
+                              >
+                                <a>
+                                  <div className="award-name mt-5 mb-3">
+                                    <span className="italic font-black text-white hover:text-primary">
+                                      {award.name}
+                                    </span>{" "}
+                                  </div>
+                                </a>
+                              </Link>
 
                               <div className="award-event">{award.year}</div>
                             </motion.div>
