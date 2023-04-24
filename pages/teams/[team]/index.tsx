@@ -18,7 +18,6 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
-import { Header } from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { findTeam } from "@/util/team";
@@ -43,14 +42,17 @@ export default function TeamPage({
   const [eventData, setEventData] = useState([]);
   const [matchData, setMatchData] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(teamData.website ? false : true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const year = yearsParticipated.map((year: any) => {
-    return year;
-  });
+  const year = yearsParticipated
+    ? yearsParticipated.map((year: any) => year)
+    : [];
+  const currentDistrict = teamDistrict
+    ? teamDistrict[teamDistrict.length - 1]
+    : null;
   const router = useRouter();
   const { team } = router.query;
-  const currentDistrict = teamDistrict[teamDistrict.length - 1];
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -116,14 +118,14 @@ export default function TeamPage({
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
         <div className="bg-gray-800 rounded-lg py-10 px-10 md:w-[900px] mt-16 relative">
           <div className="md:flex">
-            {!error && (
+            {!error ? (
               <Image
                 className="rounded-lg mr-5 w-20 mb-5 md:mb-0"
-                alt="a"
+                alt={`${teamData.team_number} Logo`}
                 height="50"
                 width="50"
                 priority={true}
-                src={teamData.website && `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                src={`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
                   teamData.website.startsWith("https")
                     ? teamData.website
                     : `https://${teamData.website.slice(7)}`
@@ -132,17 +134,20 @@ export default function TeamPage({
                   setError(true);
                 }}
               />
+            ) : (
+              <Image
+                className="mr-5 w-20 mb-5 md:mb-0"
+                alt="FIRST Logo"
+                height="50"
+                width="50"
+                priority={true}
+                src={`/first-icon.svg`}
+              />
             )}
-            {error && (
-              <div className="flex items-center justify-center px-6 rounded-lg bg-gray-700 border-2 border-gray-500 mr-5">
-                <span className="text-gray-400 font-bold text-md text-center">
-                  FRC <br /> {teamData.team_number}{" "}
-                </span>
-              </div>
-            )}
+
             <div>
               <p className="text-gray-400 text-sm font-medium">
-                {teamData.school_name}{" "}
+                {teamData.school_name && teamData.school_name}{" "}
               </p>
 
               <h1 className="font-black text-4xl">
@@ -181,76 +186,77 @@ export default function TeamPage({
                 />
               </a>
             )}
-            {teamSocials.map((social: any, key: number) => {
-              return (
-                <div key={key} className="flex">
-                  {social.type === "facebook-profile" && (
-                    <a
-                      href={`https://facebook.com/${social.foreign_key}`}
-                      target="_blank"
-                    >
-                      <Social
-                        icon={FaFacebook}
-                        name={social.foreign_key}
-                        className="text-blue-500"
-                      />
-                    </a>
-                  )}
+            {teamSocials &&
+              teamSocials.map((social: any, key: number) => {
+                return (
+                  <div key={key} className="flex">
+                    {social.type === "facebook-profile" && (
+                      <a
+                        href={`https://facebook.com/${social.foreign_key}`}
+                        target="_blank"
+                      >
+                        <Social
+                          icon={FaFacebook}
+                          name={social.foreign_key}
+                          className="text-blue-500"
+                        />
+                      </a>
+                    )}
 
-                  {social.type === "github-profile" && (
-                    <a
-                      href={`https://github.com/${social.foreign_key}`}
-                      target="_blank"
-                    >
-                      <Social
-                        icon={FaGithub}
-                        name={social.foreign_key}
-                        className="text-white"
-                      />
-                    </a>
-                  )}
+                    {social.type === "github-profile" && (
+                      <a
+                        href={`https://github.com/${social.foreign_key}`}
+                        target="_blank"
+                      >
+                        <Social
+                          icon={FaGithub}
+                          name={social.foreign_key}
+                          className="text-white"
+                        />
+                      </a>
+                    )}
 
-                  {social.type === "instagram-profile" && (
-                    <a
-                      href={`https://instagram.com/${social.foreign_key}`}
-                      target="_blank"
-                    >
-                      <Social
-                        icon={FaInstagram}
-                        name={social.foreign_key}
-                        className="text-pink-400"
-                      />
-                    </a>
-                  )}
+                    {social.type === "instagram-profile" && (
+                      <a
+                        href={`https://instagram.com/${social.foreign_key}`}
+                        target="_blank"
+                      >
+                        <Social
+                          icon={FaInstagram}
+                          name={social.foreign_key}
+                          className="text-pink-400"
+                        />
+                      </a>
+                    )}
 
-                  {social.type === "twitter-profile" && (
-                    <a
-                      href={`https://twitter.com/${social.foreign_key}`}
-                      target="_blank"
-                    >
-                      <Social
-                        icon={FaTwitter}
-                        name={social.foreign_key}
-                        className="text-sky-400"
-                      />
-                    </a>
-                  )}
+                    {social.type === "twitter-profile" && (
+                      <a
+                        href={`https://twitter.com/${social.foreign_key}`}
+                        target="_blank"
+                      >
+                        <Social
+                          icon={FaTwitter}
+                          name={social.foreign_key}
+                          className="text-sky-400"
+                        />
+                      </a>
+                    )}
 
-                  {social.type === "youtube-channel" && (
-                    <a
-                      href={`https://youtube.com/${social.foreign_key}`}
-                      target="_blank"
-                    >
-                      <Social
-                        icon={FaYoutube}
-                        name={social.foreign_key}
-                        className="text-red-500"
-                      />
-                    </a>
-                  )}
-                </div>
-              );
-            })}
+                    {social.type === "youtube-channel" && (
+                      <a
+                        href={`https://youtube.com/${social.foreign_key}`}
+                        target="_blank"
+                      >
+                        <Social
+                          icon={FaYoutube}
+                          name={social.foreign_key}
+                          className="text-red-500"
+                        />
+                      </a>
+                    )}
+                  </div>
+                );
+              })}
           </div>
 
           <div className="bg-gray-700 border-2 border-gray-500 rounded-lg py-4 px-6 mt-5">
