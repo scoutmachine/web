@@ -344,7 +344,7 @@ export default function TeamPage({
               >
                 {yearsParticipated.length > 0 ? (
                   <div className="grid grid-cols-3 gap-3">
-                    {yearsParticipated.reverse().map((year: any, key: any) => (
+                    {yearsParticipated.map((year: any, key: any) => (
                       <div
                         key={key}
                         className=" cursor-pointer bg-gray-600 hover:bg-gray-500 hover:cursor-pointer py-1 px-3 rounded-lg border border-gray-500"
@@ -524,7 +524,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       teamSocials,
       teamAwards,
       teamDistrict,
-      yearsParticipated,
+      yearsParticipated: yearsParticipated.reverse(),
     },
   };
 };
