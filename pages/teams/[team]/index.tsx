@@ -420,20 +420,24 @@ export default function TeamPage({
                         })}
                     </AnimatePresence>
                   </div>
-                  <h1 className="text-gray-400 italic font-semibold text-sm mt-[-15px] mb-5">
-                    {showAll
-                      ? ""
-                      : `(${
-                          teamAwards.length - 14
-                        } more events won that aren't shown -`}{" "}
-                    <span
-                      onClick={() => setShowAll(!showAll)}
-                      className="text-primary hover:text-white hover:cursor-pointer"
-                    >
-                      {showAll ? "show less?" : "show all?"}
-                    </span>
-                    {!showAll && ")"}
-                  </h1>
+                  {teamAwards.filter((award: any) =>
+                    award.name.includes("Winner")
+                  ).length > 14 && (
+                    <h1 className="text-gray-400 italic font-semibold text-sm mt-[-15px] mb-5">
+                      {showAll
+                        ? ""
+                        : `(${
+                            teamAwards.length - 14
+                          } more events won that aren't shown -`}{" "}
+                      <span
+                        onClick={() => setShowAll(!showAll)}
+                        className="text-primary hover:text-white hover:cursor-pointer"
+                      >
+                        {showAll ? "show less?" : "show all?"}
+                      </span>
+                      {!showAll && ")"}
+                    </h1>
+                  )}
 
                   <div className="md:grid md:grid-cols-4 gap-4">
                     {teamAwards
