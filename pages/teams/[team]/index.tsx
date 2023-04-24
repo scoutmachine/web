@@ -116,7 +116,7 @@ export default function TeamPage({
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
-        <div className="bg-gray-800 rounded-lg py-10 px-10 md:w-[900px] mt-16 relative">
+        <div className="bg-gray-800 rounded-lg py-10 px-10 md:w-[1100px] mt-16 relative">
           <div className="md:flex">
             {!error ? (
               <Image
@@ -299,7 +299,7 @@ export default function TeamPage({
           </div>
         </div>
 
-        <div className="relative bg-gray-800 rounded-lg py-10 px-10 md:w-[900px] mt-8">
+        <div className="relative bg-gray-800 rounded-lg py-10 px-10 md:w-[1100px] mt-8">
           <div className="flex flex-wrap gap-4">
             <TabButton
               active={activeTab}
@@ -369,7 +369,7 @@ export default function TeamPage({
           <div className="flex flex-col gap-4 mt-5">
             {activeTab === 1 &&
               (teamAwards.length > 0 ? (
-                <div className="md:grid md:grid-cols-3 gap-4">
+                <div className="md:grid md:grid-cols-4 gap-4">
                   {teamAwards
                     .sort(
                       (teamAwardA: any, teamAwardB: any) =>

@@ -10,7 +10,7 @@ const links = [
 export const Navbar = () => {
   return (
     <>
-      <div className="w-full mt-5 bg-gray-800 border-2 border-gray-500 rounded-lg py-5 px-8 mb-[-10px] h-full max-w-[56rem] mx-auto flex flex-col">
+      <div className="w-full mt-5 bg-gray-800 border-2 border-gray-500 rounded-lg py-5 px-8 mb-[-10px] h-full max-w-[69rem] mx-auto flex flex-col">
         <div className="w-full flex items-center justify-between">
           <Link href="/" legacyBehavior>
             <a>
