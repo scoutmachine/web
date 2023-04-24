@@ -72,7 +72,10 @@ export default function Event({
                 onClick={() => handleTabClick(5)}
                 className="group"
               >
-                Teams <span className="bg-gray-600 py-[1px] px-2 ml-1 rounded-full border-2 border-gray-500">{eventTeams.length}</span>
+                Teams{" "}
+                <span className="bg-gray-600 py-[1px] px-2 ml-1 rounded-full border-2 border-gray-500">
+                  {eventTeams.length}
+                </span>
               </TabButton>
             </div>
 
@@ -87,7 +90,9 @@ export default function Event({
               <AlliancesScreen alliances={eventAlliances} />
             )}
 
-            {activeTab === 5 && <TeamsScreen teams={eventTeams} />}
+            {activeTab === 5 && (
+              <TeamsScreen teams={eventTeams} />
+            )}
           </div>
         </div>
       </div>
@@ -125,7 +130,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const eventAwards = await fetch(`${API_URL}/api/events/awards?event=${event}`)
     .then((res) => res.json())
-    .catch(() => null);
 
   return {
     props: {

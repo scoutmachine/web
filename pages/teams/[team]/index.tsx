@@ -34,6 +34,7 @@ export const Social = (props: any) => {
 
 export default function TeamPage({
   teamData,
+  teamAvatar,
   teamSocials,
   teamAwards,
   yearsParticipated,
@@ -131,7 +132,7 @@ export default function TeamPage({
                 height="50"
                 width="50"
                 priority={true}
-                src={`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                src={teamAvatar ? `data:image/jpeg;base64,${teamAvatar}` : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
                   teamData.website.startsWith("https")
                     ? teamData.website
                     : `https://${teamData.website.slice(7)}`
@@ -446,7 +447,7 @@ export default function TeamPage({
                     {teamAwards
                       .filter(
                         (award: any) =>
-                          !award.name.includes("Winner") ||
+                          !award.name.includes("Winner") &&
                           !award.name.includes("Impact Award")
                       )
                       .sort(
@@ -581,6 +582,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const teamData = await fetch(`${API_URL}/api/team?team=${team}`).then((res) =>
     res.json()
   );
+  const teamAvatar = await fetch(
+    `${API_URL}/api/team/avatar?team=${team}`
+  ).then((res) => res.json());
   const teamSocials = await fetch(
     `${API_URL}/api/team/socials?team=${team}`
   ).then((res) => res.json());
@@ -600,6 +604,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       teamData,
+      teamAvatar: teamAvatar.avatar,
       teamSocials,
       teamAwards,
       teamDistrict,

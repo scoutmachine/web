@@ -10,7 +10,7 @@ export default function HOF() {
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
-        <div className="bg-gray-800 md:w-[900px] w-[350px] rounded-lg py-12 px-12">
+        <div className="bg-gray-800 md:w-[1100px] w-[350px] rounded-lg py-12 px-12">
           <a href="https://www.firsthalloffame.org/" target="_blank">
             <h1 className="md:flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-white">
               <FaMedal className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
@@ -28,7 +28,7 @@ export default function HOF() {
           </p>
         </div>
 
-        <div className="bg-gray-800 rounded-lg py-10 md:px-10 px-[26px] flex items-center justify-center grid md:grid-cols-5 grid-cols-2 mt-5 gap-x-5 md:w-[900px] w-[350px]">
+        <div className="bg-gray-800 rounded-lg py-10 md:px-10 px-[26px] flex items-center justify-center grid md:grid-cols-7 grid-cols-2 mt-5 gap-x-5 md:w-[1100px] w-[350px]">
           {HOFTeams.map((team: any, key: number) => {
             return (
               <div className="banner" key={key}>

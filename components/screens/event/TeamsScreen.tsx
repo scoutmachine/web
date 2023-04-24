@@ -1,5 +1,6 @@
 import { Tooltip } from "@/components/Toolip";
 import Link from "next/link";
+import Image from "next/image";
 
 export const TeamsScreen = (props: any) => {
   return (
