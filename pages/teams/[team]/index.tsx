@@ -23,7 +23,7 @@ import Link from "next/link";
 import { findTeam } from "@/util/team";
 import { Navbar } from "@/components/Navbar";
 
-const Social = (props: any) => {
+export const Social = (props: any) => {
   return (
     <p className={`flex ${props.className} hover:text-primary`}>
       <props.icon className="text-2xl mr-1" /> {props.name}

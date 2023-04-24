@@ -14,8 +14,6 @@ export const Tooltip = (props: any) => {
     setIsHovering(false);
   };
 
- 
-
   return (
     <div className="flex flex-col">
       <Tippy
@@ -36,13 +34,14 @@ export const Tooltip = (props: any) => {
                 <span className="font-bold">Team {props.team.team_number}</span>{" "}
                 is {props.team.school_name && `from ${props.team.school_name}`}{" "}
                 located in {props.team.city}, {props.team.state_prov},{" "}
-                {props.team.country} competing with FIRST since{" "}
-                {props.team.rookie_year} 
+                {props.team.country} competing with{" "}
+                <span className="italic">FIRST</span> since{" "}
+                {props.team.rookie_year}
               </h1>
             </>
           )
         }
-        className={`tooltip bg-gray-800 py-3 px-3 rounded-lg text-white ${
+        className={`tooltip border-2 border-gray-500 bg-gray-700 py-3 px-3 rounded-lg text-white ${
           isHovering ? "fade-in" : "fade-out"
         }`}
       >

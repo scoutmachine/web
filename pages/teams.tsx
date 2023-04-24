@@ -143,7 +143,9 @@ export default function Home({ initial }: any) {
                         <a>
                           <div className="px-5 py-10 bg-gray-700 border-2 border-gray-500 h-40 rounded-lg hover:bg-gray-600">
                             <h1 className="text-gray-200 font-black">
-                              {team.nickname}
+                              {team.nickname.length > 31
+                                ? `${team.nickname.slice(0, 31)}...`
+                                : team.nickname}
                             </h1>
                             <p className="text-gray-400 text-xs uppercase">
                               {team.city

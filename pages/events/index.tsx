@@ -4,32 +4,28 @@ import { Navbar } from "@/components/Navbar";
 import { API_URL } from "@/lib/constants";
 import { convertDate } from "@/util/date";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 
 const Event = (props: any) => {
   return (
-    <a
-      href={`${
-        props.event.first_event_code
-          ? `https://frc-events.firstinspires.org/2023/${props.event.first_event_code}`
-          : props.event.website
-      }`}
-      target="_blank"
-    >
-      <div className="bg-gray-700 hover:bg-gray-600 px-5 py-5 h-40 md:w-[300px] w-[350px] rounded-lg border-2 border-gray-500 relative">
-        <h1 className="font-black text-xl">
-          {props.event.name.length > 42
-            ? `${props.event.name.slice(0, 42)}...`
-            : props.event.name}
-        </h1>
-        <p className="text-gray-300">
-          {convertDate(props.event.start_date)} -{" "}
-          {convertDate(props.event.end_date)}, 2023
-        </p>
-        <p className="text-gray-400 absolute bottom-3 left-5">
-          {props.event.city}, {props.event.country}
-        </p>
-      </div>
-    </a>
+    <Link href={`/events/${props.event.key}`} legacyBehavior>
+      <a>
+        <div className="bg-gray-700 hover:bg-gray-600 px-5 py-5 h-40 md:w-[300px] w-[350px] rounded-lg border-2 border-gray-500 relative">
+          <h1 className="font-black text-xl">
+            {props.event.name.length > 42
+              ? `${props.event.name.slice(0, 42)}...`
+              : props.event.name}
+          </h1>
+          <p className="text-gray-300">
+            {convertDate(props.event.start_date)} -{" "}
+            {convertDate(props.event.end_date)}, 2023
+          </p>
+          <p className="text-gray-400 absolute bottom-3 left-5">
+            {props.event.city}, {props.event.country}
+          </p>
+        </div>
+      </a>
+    </Link>
   );
 };
 
@@ -46,7 +42,7 @@ export default function Events({ events }: any) {
   return (
     <>
       <Navbar />
-      
+
       <div className="flex flex-col items-center justify-center">
         <Header title="2023 Events ─ Scouting Machine" />
 

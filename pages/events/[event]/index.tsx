@@ -3,12 +3,15 @@ import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { TabButton } from "@/components/TabButton";
+import { Tooltip } from "@/components/Toolip";
 import { API_URL } from "@/lib/constants";
+import { Social } from "@/pages/teams/[team]";
 import { convertDate } from "@/util/date";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { FaLink } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 
 export default function Event({
@@ -20,7 +23,6 @@ export default function Event({
   eventAwards,
 }: any) {
   const router = useRouter();
-  const { team } = router.query;
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabIndex: number) => {
@@ -34,13 +36,38 @@ export default function Event({
     <>
       <Navbar />
 
-      <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
+      <div className="flex flex-wrap items-center justify-center mt-10 pr-8 pl-8">
         <div className="bg-gray-800 md:w-[900px] rounded-lg py-12 px-12">
           <h1 className="text-3xl text-primary tetxt-left font-black">
             {eventInfo.name}
           </h1>
           <p className="text-gray-400 text-left">
-            {formattedDate} • {eventInfo.city}, {eventInfo.country} •{" "}
+            <span className="mb-[-22px] flex">
+              {formattedDate}{" "}
+              <span className="bg-gray-700 rounded-full py-[3.5px] ml-1 px-2 text-xs font-semibold">
+                {eventInfo.week !== null
+                  ? `Week ${eventInfo.week + 1} (${eventTeams.length} team${
+                      eventTeams.length > 1 && "s"
+                    })`
+                  : `${eventInfo.event_type_string} ${
+                      eventTeams.length > 0 &&
+                      `(${eventTeams.length} team${
+                        eventTeams.length > 1 && "s"
+                      })`
+                    }`}
+              </span>{" "}
+            </span>
+            <br />{" "}
+            {eventInfo.location_name && (
+              <a
+                className="hover:text-primary"
+                href={eventInfo.gmaps_url}
+                target="_blank"
+              >
+                {eventInfo.location_name},
+              </a>
+            )}{" "}
+            {eventInfo.city}, {eventInfo.country} •{" "}
             {eventInfo.district && (
               <span>{eventInfo.district.display_name} District • </span>
             )}
@@ -49,10 +76,20 @@ export default function Event({
               target="_blank"
             >
               <span className="text-white hover:text-primary">
+                {" "}
                 FIRST Inspires
               </span>
             </a>
           </p>
+          {eventInfo.website && eventInfo.website !== "N/A" && (
+            <a href={eventInfo.website} target="_blank">
+              <Social
+                icon={FaLink}
+                name={eventInfo.website.replace(".html", "")}
+                className="text-white font-bold mt-3"
+              />
+            </a>
+          )}
         </div>
       </div>
 
@@ -177,21 +214,25 @@ export default function Event({
           </div>
 
           {activeTab === 4 && (
-            <div className="flex flex-col md:grid grid-cols-3 gap-5 mt-5">
+            <div className="flex flex-col md:grid grid-cols-3 gap-3 mt-5">
               {eventTeams.map((team: any, key: number) => {
                 return (
-                  <Link key={key} href={`/teams/${team.team_number}`} legacyBehavior>
-                    <a>
-                      <div className="bg-gray-700 border-2 border-gray-500 hover:bg-gray-600 rounded-lg py-3 px-5">
-                        <h1 className="font-bold text-gray-300 text-xl">
-                          {team.nickname.length > 15
-                            ? `${team.nickname.slice(0, 15)}...`
-                            : team.nickname}
-                        </h1>
-                        <p className="text-gray-400">Team {team.team_number}</p>
-                      </div>
-                    </a>
-                  </Link>
+                  <Tooltip team={team} key={key}>
+                    <Link href={`/teams/${team.team_number}`} legacyBehavior>
+                      <a>
+                        <div className="bg-gray-700 border-2 border-gray-500 hover:bg-gray-600 rounded-lg py-3 px-5">
+                          <h1 className="font-bold text-gray-300 text-xl">
+                            {team.nickname.length > 16
+                              ? `${team.nickname.slice(0, 16)}...`
+                              : team.nickname}
+                          </h1>
+                          <p className="text-gray-400">
+                            Team {team.team_number}
+                          </p>
+                        </div>
+                      </a>
+                    </Link>
+                  </Tooltip>
                 );
               })}
             </div>
@@ -199,11 +240,7 @@ export default function Event({
 
           {activeTab === 1 &&
             (matches.length > 0 ? (
-              <EventData
-                data={matches}
-                isTeam={team ? true : false}
-                team={team}
-              />
+              <EventData data={matches} isTeam={false} />
             ) : (
               <ErrorMessage message="Looks like there's no data available for this event! 😔" />
             ))}
