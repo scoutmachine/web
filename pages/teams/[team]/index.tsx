@@ -22,6 +22,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { findTeam } from "@/util/team";
 import { Navbar } from "@/components/Navbar";
+import { AnimatePresence, motion } from "framer-motion";
 
 export const Social = (props: any) => {
   return (
@@ -44,6 +45,7 @@ export default function TeamPage({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(teamData.website ? false : true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const year = yearsParticipated
     ? yearsParticipated.map((year: any) => year)
     : [];
@@ -54,6 +56,7 @@ export default function TeamPage({
   const { team } = router.query;
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [visibleBanners, setVisibleBanners] = useState(14);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -306,7 +309,10 @@ export default function TeamPage({
               tab={1}
               onClick={() => handleTabClick(1)}
             >
-              Awards
+              Awards{" "}
+              <span className="bg-gray-600 py-[1px] px-2 ml-1 rounded-full border-2 border-gray-500">
+                {teamAwards.length}
+              </span>
             </TabButton>
             <div className="relative" ref={dropdownRef}>
               <div
@@ -371,36 +377,64 @@ export default function TeamPage({
               (teamAwards.length > 0 ? (
                 <>
                   <div className="md:grid grid-cols-7">
-                    {teamAwards
-                      .filter((award: any) => award.name.includes("Winner"))
-                      .reverse()
-                      .slice(0, 14)
-                      .sort(
-                        (teamAwardA: any, teamAwardB: any) =>
-                          parseInt(teamAwardB.year) - parseInt(teamAwardA.year)
-                      )
-                      .map((award: any, key: number) => {
-                        return (
-                          <div className="banner" key={key}>
-                            <div className="flex items-center justify-center mt-3">
-                              <Image
-                                src="/first-icon.svg"
-                                height="50"
-                                width="50"
-                                alt="FIRST Logo"
-                              />
-                            </div>
-                            <div className="award-name mt-5 mb-3">
-                              <span className="italic font-black">
-                                {award.name}
-                              </span>{" "}
-                            </div>
+                    <AnimatePresence>
+                      {teamAwards
+                        .filter(
+                          (award: any) =>
+                            award.name.includes("Winner") ||
+                            award.name.includes("Impact Award")
+                        )
+                        .reverse()
+                        .slice(0, showAll ? teamAwards.length : 14)
+                        .sort(
+                          (teamAwardA: any, teamAwardB: any) =>
+                            parseInt(teamAwardB.year) -
+                            parseInt(teamAwardA.year)
+                        )
+                        .map((award: any, key: number) => {
+                          return (
+                            <motion.div
+                              className="banner"
+                              key={key}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                            >
+                              <div className="flex items-center justify-center mt-3">
+                                <Image
+                                  src="/first-icon.svg"
+                                  height="50"
+                                  width="50"
+                                  alt="FIRST Logo"
+                                />
+                              </div>
+                              <div className="award-name mt-5 mb-3">
+                                <span className="italic font-black">
+                                  {award.name}
+                                </span>{" "}
+                              </div>
 
-                            <div className="award-event">{award.year}</div>
-                          </div>
-                        );
-                      })}
+                              <div className="award-event">{award.year}</div>
+                            </motion.div>
+                          );
+                        })}
+                    </AnimatePresence>
                   </div>
+                  <h1 className="text-gray-400 italic font-semibold text-sm mt-[-15px] mb-5">
+                    {showAll
+                      ? ""
+                      : `(${
+                          teamAwards.length - 14
+                        } more events won that aren't shown -`}{" "}
+                    <span
+                      onClick={() => setShowAll(!showAll)}
+                      className="text-primary hover:text-white hover:cursor-pointer"
+                    >
+                      {showAll ? "show less?" : "show all?"}
+                    </span>
+                    {!showAll && ")"}
+                  </h1>
+
                   <div className="md:grid md:grid-cols-4 gap-4">
                     {teamAwards
                       .filter((award: any) => !award.name.includes("Winner"))
