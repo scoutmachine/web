@@ -123,7 +123,7 @@ export default function TeamPage({
                 height="50"
                 width="50"
                 priority={true}
-                src={`https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                src={teamData.website && `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
                   teamData.website.startsWith("https")
                     ? teamData.website
                     : `https://${teamData.website.slice(7)}`

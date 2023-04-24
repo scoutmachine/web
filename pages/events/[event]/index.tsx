@@ -180,7 +180,7 @@ export default function Event({
             <div className="flex flex-col md:grid grid-cols-3 gap-5 mt-5">
               {eventTeams.map((team: any, key: number) => {
                 return (
-                  <Link key={key} href={`/${team.team_number}`} legacyBehavior>
+                  <Link key={key} href={`/teams/${team.team_number}`} legacyBehavior>
                     <a>
                       <div className="bg-gray-700 border-2 border-gray-500 hover:bg-gray-600 rounded-lg py-3 px-5">
                         <h1 className="font-bold text-gray-300 text-xl">

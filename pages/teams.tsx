@@ -1,6 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Navbar } from "@/components/Navbar";
+import { Tooltip } from "@/components/Toolip";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
@@ -54,29 +55,33 @@ export default function Home({ initial }: any) {
     runFilters();
   }, [query, initial]);
 
-  const loadMore = async () => {
-    setIsLoadingMore(true);
-    const nextPage = page + 1;
-    const response = await fetch(`${API_URL}/api/team/teams?page=${nextPage}`);
-    const newTeams = await response.json().then(teams => teams.slice(0, 100));
-    setAllTeams([...allTeams, ...newTeams]);
-    setPage(nextPage);
-    setIsLoadingMore(false);
-  };
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-      !isLoadingMore
-    ) {
-      loadMore();
-    }
-  };
-
   useEffect(() => {
+    const loadMore = async () => {
+      setIsLoadingMore(true);
+      const nextPage = page + 1;
+      const response = await fetch(
+        `${API_URL}/api/team/teams?page=${nextPage}`
+      );
+      const newTeams = await response
+        .json()
+        .then((teams) => teams.slice(0, 100));
+      setAllTeams([...allTeams, ...newTeams]);
+      setPage(nextPage);
+      setIsLoadingMore(false);
+    };
+
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        !isLoadingMore
+      ) {
+        loadMore();
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [allTeams, isLoadingMore]);
+  }, [allTeams, isLoadingMore, page]);
 
   const changeSearch = (event: { target: { value: string } }) => {
     setQuery(event.target.value);
@@ -86,8 +91,8 @@ export default function Home({ initial }: any) {
     <>
       {isClient && (
         <>
-        <Navbar />
-        
+          <Navbar />
+
           <div className="flex flex-col justify-center items-center">
             <Header />
             <input
@@ -98,7 +103,9 @@ export default function Home({ initial }: any) {
               spellCheck="false"
               className="rounded-lg bg-gray-700 border-2 border-gray-500 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
             />
-            <span className="text-xs text-gray-500 font-semibold lowercase mt-2">(Search by Team Number / Name / Location)</span>
+            <span className="text-xs text-gray-500 font-semibold lowercase mt-2">
+              (Search by Team Number / Name / Location)
+            </span>
 
             {query && allTeams.length !== 0 && (
               <div className="mt-5">
@@ -127,28 +134,30 @@ export default function Home({ initial }: any) {
               {Array.isArray(allTeams) &&
                 allTeams.map((team: any, key: number) => {
                   return (
-                    <Link
-                      href={`/${team.team_number}`}
-                      legacyBehavior
-                      key={key}
-                    >
-                      <a>
-                        <div className="px-5 py-10 bg-gray-700 border-2 border-gray-500 h-40 rounded-lg hover:bg-gray-600">
-                          <h1 className="text-gray-200 font-black">
-                            {team.nickname}
-                          </h1>
-                          <p className="text-gray-400 text-xs uppercase">
-                            {team.city
-                              ? `${team.city}, ${team.country}`
-                              : "No location"}
-                          </p>
+                    <Tooltip team={team} key={key}>
+                      <Link
+                        href={`/teams/${team.team_number}`}
+                        legacyBehavior
+                        key={key}
+                      >
+                        <a>
+                          <div className="px-5 py-10 bg-gray-700 border-2 border-gray-500 h-40 rounded-lg hover:bg-gray-600">
+                            <h1 className="text-gray-200 font-black">
+                              {team.nickname}
+                            </h1>
+                            <p className="text-gray-400 text-xs uppercase">
+                              {team.city
+                                ? `${team.city}, ${team.country}`
+                                : "No location"}
+                            </p>
 
-                          <p className="text-gray-400 font-bold text-lg">
-                            FRC {team.team_number}
-                          </p>
-                        </div>
-                      </a>
-                    </Link>
+                            <p className="text-gray-400 font-bold text-lg">
+                              FRC {team.team_number}
+                            </p>
+                          </div>
+                        </a>
+                      </Link>
+                    </Tooltip>
                   );
                 })}
             </div>
@@ -186,7 +195,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       initial: await baseFetch(
         String(Math.floor(Math.random() * (18 - 0 + 1) + 0))
-      ).then(teams => teams.slice(0, 100)),
+      ).then((teams) => teams.slice(0, 100)),
     },
   };
 };

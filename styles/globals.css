@@ -26,35 +26,21 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.fadeInDown {
-  animation: fadeInDown 1s forwards;
+.tooltip {
+  transition: opacity 0.5s, transform 0.5s;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
-.fadeInDownAfter {
-  animation: fadeInDownAfter 1s forwards;
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes fadeInDown {
-  0% {
-     opacity: 0;
-     transform: translateY(-20px);
-  }
-  100% {
-     opacity: 1;
-     transform: translateY(0);
-  }
-} 
-
-@keyframes fadeInDownAfter {
-  20% {
-     opacity: 0;
-     transform: translateY(-20px);
-  }
-  100% {
-     opacity: 1;
-     transform: translateY(0);
-  }
-} 
+.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+}
 
 .banner {
   background: #0f4bcb;
