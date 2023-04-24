@@ -369,35 +369,69 @@ export default function TeamPage({
           <div className="flex flex-col gap-4 mt-5">
             {activeTab === 1 &&
               (teamAwards.length > 0 ? (
-                <div className="md:grid md:grid-cols-4 gap-4">
-                  {teamAwards
-                    .sort(
-                      (teamAwardA: any, teamAwardB: any) =>
-                        parseInt(teamAwardB.year) - parseInt(teamAwardA.year)
-                    )
-                    .map((award: any, key: number) => {
-                      return (
-                        <a
-                          key={key}
-                          href={`https://frc-events.firstinspires.org/${
-                            award.year
-                          }/${award.event_key.slice(4)}`}
-                          target="_blank"
-                          className="bg-gray-700 rounded-lg px-5 py-5 hover:bg-gray-600 border-2 border-gray-500"
-                        >
-                          <div className="flex">
-                            {award.name.includes("Winner") && (
-                              <FaMedal className="text-xl mr-2 text-[#ecc729]" />
-                            )}
-                            <h1 className="font-bold text-gray-300 mt-[-5px]">
-                              {award.name}
-                            </h1>
+                <>
+                  <div className="md:grid grid-cols-7">
+                    {teamAwards
+                      .filter((award: any) => award.name.includes("Winner"))
+                      .reverse()
+                      .slice(0, 14)
+                      .sort(
+                        (teamAwardA: any, teamAwardB: any) =>
+                          parseInt(teamAwardB.year) - parseInt(teamAwardA.year)
+                      )
+                      .map((award: any, key: number) => {
+                        return (
+                          <div className="banner" key={key}>
+                            <div className="flex items-center justify-center mt-3">
+                              <Image
+                                src="/first-icon.svg"
+                                height="50"
+                                width="50"
+                                alt="FIRST Logo"
+                              />
+                            </div>
+                            <div className="award-name mt-5 mb-3">
+                              <span className="italic font-black">
+                                {award.name}
+                              </span>{" "}
+                            </div>
+
+                            <div className="award-event">{award.year}</div>
                           </div>
-                          <p className="text-gray-400 mt-3">{award.year}</p>
-                        </a>
-                      );
-                    })}
-                </div>
+                        );
+                      })}
+                  </div>
+                  <div className="md:grid md:grid-cols-4 gap-4">
+                    {teamAwards
+                      .filter((award: any) => !award.name.includes("Winner"))
+                      .sort(
+                        (teamAwardA: any, teamAwardB: any) =>
+                          parseInt(teamAwardB.year) - parseInt(teamAwardA.year)
+                      )
+                      .map((award: any, key: number) => {
+                        return (
+                          <a
+                            key={key}
+                            href={`https://frc-events.firstinspires.org/${
+                              award.year
+                            }/${award.event_key.slice(4)}`}
+                            target="_blank"
+                            className="bg-gray-700 rounded-lg px-5 py-5 hover:bg-gray-600 border-2 border-gray-500"
+                          >
+                            <div className="flex">
+                              {award.name.includes("Winner") && (
+                                <FaMedal className="text-xl mr-2 text-[#ecc729]" />
+                              )}
+                              <h1 className="font-bold text-gray-300 mt-[-5px]">
+                                {award.name}
+                              </h1>
+                            </div>
+                            <p className="text-gray-400 mt-3">{award.year}</p>
+                          </a>
+                        );
+                      })}
+                  </div>
+                </>
               ) : (
                 <p className="text-gray-400">
                   Looks like {teamData.team_number} hasn&apos;t received any
