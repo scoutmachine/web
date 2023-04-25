@@ -38,79 +38,79 @@ export const EventsScreen = (props: any) => {
       <Title title="Preseason">
         {
           props.events.filter(
-            (event: any) => props.event.event_type_string === "Preseason"
+            (event: any) => event.event_type_string === "Preseason"
           ).length
         }
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
         {props.events
-          .filter((event: any) => props.event.event_type_string === "Preseason")
+          .filter((event: any) => event.event_type_string === "Preseason")
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
       </div>
 
       <Title title="Week 1">
-        {props.events.filter((event: any) => props.event.week === 0).length}
+        {props.events.filter((event: any) => event.week === 0).length}
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
         {props.events
-          .filter((event: any) => props.event.week === 0)
+          .filter((event: any) => event.week === 0)
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
       </div>
 
       <Title title="Week 2">
-        {props.events.filter((event: any) => props.event.week === 1).length}
+        {props.events.filter((event: any) => event.week === 1).length}
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
         {props.events
-          .filter((event: any) => props.event.week === 1)
+          .filter((event: any) => event.week === 1)
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
       </div>
 
       <Title title="Week 3">
-        {props.events.filter((event: any) => props.event.week === 2).length}
+        {props.events.filter((event: any) => event.week === 2).length}
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
         {props.events
-          .filter((event: any) => props.event.week === 2)
+          .filter((event: any) => event.week === 2)
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
       </div>
 
       <Title title="Week 4">
-        {props.events.filter((event: any) => props.event.week === 3).length}
+        {props.events.filter((event: any) => event.week === 3).length}
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
         {props.events
-          .filter((event: any) => props.event.week === 3)
+          .filter((event: any) => event.week === 3)
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
       </div>
 
       <Title title="Week 5">
-        {props.events.filter((event: any) => props.event.week === 4).length}
+        {props.events.filter((event: any) => event.week === 4).length}
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
         {props.events
-          .filter((event: any) => props.event.week === 4)
+          .filter((event: any) => event.week === 4)
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
       </div>
 
       <Title title="Week 6">
-        {props.events.filter((event: any) => props.event.week === 5).length}
+        {props.events.filter((event: any) => event.week === 5).length}
       </Title>
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.event
-          .filter((event: any) => props.event.week === 5)
+        {props.events
+          .filter((event: any) => event.week === 5)
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
@@ -118,18 +118,16 @@ export const EventsScreen = (props: any) => {
 
       <Title title="FIRST Championship - Houston, TX">
         {
-          props.event.filter(
-            (event: any) =>
-              props.event.event_type_string === "Championship Division"
+          props.events.filter(
+            (event: any) => event.event_type_string === "Championship Division"
           ).length
         }
       </Title>
 
       <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.event
+        {props.events
           .filter(
-            (event: any) =>
-              props.event.event_type_string === "Championship Division"
+            (event: any) => event.event_type_string === "Championship Division"
           )
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
@@ -138,15 +136,15 @@ export const EventsScreen = (props: any) => {
 
       <Title title="Offseason">
         {
-          props.event.filter(
-            (event: any) => props.event.event_type_string === "Offseason"
+          props.events.filter(
+            (event: any) => event.event_type_string === "Offseason"
           ).length
         }
       </Title>
 
       <div className="md:pl-32 md:pr-32 flex items-center justify-center md:flex-row flex-col gap-5">
-        {props.event
-          .filter((event: any) => props.event.event_type_string === "Offseason")
+        {props.events
+          .filter((event: any) => event.event_type_string === "Offseason")
           .map((event: any, key: number) => {
             return <Event key={key} event={event} />;
           })}
