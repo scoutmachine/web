@@ -6,8 +6,9 @@ import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
-export default function Home({ initial }: any) {
+export default function Home({ initial, teamAvatars }: any) {
   const [allTeams, setAllTeams] = useState(
     initial.sort(() => Math.random() - 0.5)
   );
@@ -126,42 +127,62 @@ export default function Home({ initial }: any) {
               </div>
             )}
 
-            <div
-              className={`flex flex-col ${
-                allTeams.length > 1 && "md:grid md:grid-cols-5"
-              } gap-3 mt-10 pr-8 pl-8`}
-            >
-              {Array.isArray(allTeams) &&
-                allTeams.map((team: any, key: number) => {
-                  return (
-                    <Tooltip team={team} key={key}>
-                      <Link
-                        href={`/teams/${team.team_number}`}
-                        legacyBehavior
-                        key={key}
-                      >
-                        <a>
-                          <div className="px-5 py-10 bg-gray-700 border-2 border-gray-500 h-40 rounded-lg hover:bg-gray-600">
-                            <h1 className="text-gray-200 font-black">
-                              {team.nickname.length > 31
-                                ? `${team.nickname.slice(0, 31)}...`
-                                : team.nickname}
-                            </h1>
-                            <p className="text-gray-400 text-xs uppercase">
-                              {team.city
-                                ? `${team.city}, ${team.country}`
-                                : "No location"}
-                            </p>
+            <div className="max-w-screen-3xl mx-auto pr-8 pl-8">
+              <div
+                className={`flex flex-col w-full ${
+                  allTeams.length > 1 && "md:grid md:grid-cols-5"
+                } gap-3 mt-10 `}
+              >
+                {Array.isArray(allTeams) &&
+                  allTeams.map((team: any, key: number) => {
+                    return (
+                      <Tooltip team={team} key={key}>
+                        <Link
+                          href={`/teams/${team.team_number}`}
+                          legacyBehavior
+                          key={key}
+                        >
+                          <a>
+                            <div className="relative px-5 py-10 bg-gray-800 border-2 border-gray-600 h-30 rounded-lg hover:bg-gray-600">
+                              <Image
+                                src={
+                                  teamAvatars[team.team_number]
+                                    ? `data:image/jpeg;base64,${
+                                        teamAvatars[team.team_number]
+                                      }`
+                                    : "/first-icon.svg"
+                                }
+                                height="40"
+                                width="40"
+                                alt=""
+                                className="rounded-lg mb-2 absolute top-5 right-5"
+                              />
 
-                            <p className="text-gray-400 font-bold text-lg">
-                              FRC {team.team_number}
-                            </p>
-                          </div>
-                        </a>
-                      </Link>
-                    </Tooltip>
-                  );
-                })}
+                              <h1 className="mt-[-20px] text-gray-200 font-black">
+                                {team.nickname.length > 20
+                                  ? `${team.nickname.slice(0, 20)}...`
+                                  : team.nickname}
+                              </h1>
+                              <p className="text-gray-400 text-xs uppercase">
+                                {team.city
+                                  ? `${
+                                      team.city.length > 20
+                                        ? `${team.city.slice(0, 20)}`
+                                        : team.city
+                                    }, ${team.country}`
+                                  : "No location"}
+                              </p>
+
+                              <p className="text-gray-400 font-bold text-lg">
+                                FRC {team.team_number}
+                              </p>
+                            </div>
+                          </a>
+                        </Link>
+                      </Tooltip>
+                    );
+                  })}
+              </div>
             </div>
 
             {!query && isLoadingMore && (
@@ -193,11 +214,30 @@ export const getServerSideProps: GetServerSideProps = async ({
       res.json()
     );
 
+  const getTeams = await baseFetch(
+    String(Math.floor(Math.random() * (18 - 0 + 1) + 0))
+  ).then((teams) => teams.slice(0, 100));
+
+  const teamAvatars: any = {};
+
+  const getTeamAvatars = getTeams.map(async (team: any) => {
+    const data = await fetch(
+      `${API_URL}/api/team/avatar?team=${team.team_number}`
+    ).then((res) => res.json());
+
+    try {
+      teamAvatars[team.team_number] = data.avatar;
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
+  await Promise.all(getTeamAvatars);
+
   return {
     props: {
-      initial: await baseFetch(
-        String(Math.floor(Math.random() * (18 - 0 + 1) + 0))
-      ).then((teams) => teams.slice(0, 100)),
+      initial: getTeams,
+      teamAvatars,
     },
   };
 };

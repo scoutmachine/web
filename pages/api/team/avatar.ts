@@ -6,11 +6,7 @@ export default async function getTeams(
   res: NextApiResponse
 ) {
   try {
-    const team = parseInt(req.query.team as string);
-
-    if (isNaN(team)) {
-      return res.status(400).send("Invalid team number");
-    }
+    const { team } = req.query;
 
     const response = await axios.get(
       `https://frc-api.firstinspires.org/v3.0/2023/avatars?teamNumber=${team}`,

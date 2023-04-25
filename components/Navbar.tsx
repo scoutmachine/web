@@ -19,7 +19,7 @@ export const Navbar = () => {
   return (
     <>
       <div className="pl-8 pr-8">
-        <div className="mt-5 bg-gray-800 border-2 border-gray-500 rounded-lg py-5 px-8 mb-[-10px] h-full max-w-screen-xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between">
+        <div className="mt-5 bg-gray-800 border-2 border-gray-500 rounded-lg py-5 px-8 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="flex relative">
             <Link href="/" legacyBehavior>
               <a>
