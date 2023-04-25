@@ -11,7 +11,7 @@ export default function HOF({ rookieTeams }: any) {
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center mt-16 pr-8 pl-8">
-        <div className="bg-gray-800 md:w-[1100px] w-[350px] rounded-lg py-12 px-12">
+        <div className="bg-gray-800 md:w-[1550px] w-[350px] rounded-lg py-12 px-12">
           <h1 className="md:flex text-3xl md:text-5xl font-black text-primary mb-2">
             <SiRobotframework className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
             <span className="italic md:mr-3 mr-1">FIRST</span> Rookie Teams
@@ -29,7 +29,7 @@ export default function HOF({ rookieTeams }: any) {
           </p>
         </div>
 
-        <div className="bg-gray-800 rounded-lg py-10 md:px-10 px-[26px] flex items-center justify-center grid md:grid-cols-5 grid-cols-2 mt-5 gap-4 md:w-[1100px] w-[350px]">
+        <div className="bg-gray-800 rounded-lg py-10 md:px-10 px-[26px] flex items-center justify-center grid md:grid-cols-5 grid-cols-2 mt-5 gap-4 md:w-[1550px] w-[350px]">
           {rookieTeams.map((team: any, key: number) => {
             return (
               <Link
