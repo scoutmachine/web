@@ -5,6 +5,7 @@ const links = [
   { title: "Teams", href: "/teams" },
   { title: "Events", href: "/events" },
   { title: "Hall of Fame", href: "/fame" },
+  { title: "Rookie Teams", href: "/rookies" },
 ];
 
 export const Navbar = () => {

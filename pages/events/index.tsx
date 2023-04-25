@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Navbar } from "@/components/Navbar";
-import { EventsScreen } from "@/components/screens/EventsScreen";
+import { EventsScreen } from "@/components/headers/EventsScreen";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 

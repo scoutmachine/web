@@ -1,6 +1,6 @@
-import { Social } from "@/pages/teams/[team]";
 import { convertDate } from "@/util/date";
 import { FaLink } from "react-icons/fa";
+import { Social } from "../Social";
 
 export const EventHeader = (props: any) => {
   const formattedDate = `${convertDate(props.event.start_date)} -

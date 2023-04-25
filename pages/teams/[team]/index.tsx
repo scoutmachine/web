@@ -6,31 +6,13 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { useCallback, useEffect, useState } from "react";
-import {
-  FaAward,
-  FaFacebook,
-  FaGithub,
-  FaInstagram,
-  FaLink,
-  FaMedal,
-  FaTwitch,
-  FaTwitter,
-  FaYoutube,
-} from "react-icons/fa";
+import { FaMedal, FaTwitch } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
 import Image from "next/image";
 import Link from "next/link";
-import { findTeam } from "@/util/team";
 import { Navbar } from "@/components/Navbar";
 import { AnimatePresence, motion } from "framer-motion";
-
-export const Social = (props: any) => {
-  return (
-    <p className={`flex ${props.className} hover:text-primary`}>
-      <props.icon className="text-2xl mr-1" /> {props.name}
-    </p>
-  );
-};
+import { TeamScreen } from "@/components/headers/TeamScreen";
 
 export default function TeamPage({
   teamData,
@@ -44,15 +26,11 @@ export default function TeamPage({
   const [eventData, setEventData] = useState([]);
   const [matchData, setMatchData] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(teamData.website ? false : true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const year = yearsParticipated
     ? yearsParticipated.map((year: any) => year)
     : [];
-  const currentDistrict = teamDistrict
-    ? teamDistrict[teamDistrict.length - 1]
-    : null;
   const router = useRouter();
   const { team } = router.query;
 
@@ -116,195 +94,17 @@ export default function TeamPage({
     return bTimestamp - aTimestamp;
   });
 
-  const isHOF = findTeam(String(teamData.team_number));
-
   return (
     <>
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
-        <div className="bg-gray-800 rounded-lg py-10 px-10 md:w-[1100px] mt-16 relative">
-          <div className="md:flex">
-            {!error ? (
-              <Image
-                className="rounded-lg mr-5 w-20 mb-5 md:mb-0"
-                alt={`${teamData.team_number} Logo`}
-                height="50"
-                width="50"
-                priority={true}
-                src={teamAvatar ? `data:image/jpeg;base64,${teamAvatar}` : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                  teamData.website.startsWith("https")
-                    ? teamData.website
-                    : `https://${teamData.website.slice(7)}`
-                }/&size=64`}
-                onError={() => {
-                  setError(true);
-                }}
-              />
-            ) : (
-              <Image
-                className="mr-5 w-20 mb-5 md:mb-0"
-                alt="FIRST Logo"
-                height="50"
-                width="50"
-                priority={true}
-                src={`/first-icon.svg`}
-              />
-            )}
-
-            <div>
-              <p className="text-gray-400 text-sm font-medium">
-                {teamData.school_name && teamData.school_name}{" "}
-              </p>
-
-              <h1 className="font-black text-4xl">
-                FRC {teamData.team_number}:{" "}
-                <span className="text-primary">{teamData.nickname}</span>
-              </h1>
-
-              <p className="text-gray-400">
-                <b>
-                  {teamData.city}, {teamData.state_prov}, {teamData.country}
-                </b>{" "}
-                • Joined <span>{teamData.rookie_year}</span> •{" "}
-                <a
-                  href={`https://frc-events.firstinspires.org/team/${teamData.team_number}`}
-                  target="_blank"
-                >
-                  <span className="text-white hover:text-primary">
-                    FIRST Inspires
-                  </span>
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3 md:gap-5 mt-3">
-            {teamData.website && (
-              <a href={teamData.website} target="_blank">
-                <Social
-                  icon={FaLink}
-                  name={
-                    teamData.website.includes("https")
-                      ? teamData.website.replace("https://www.", "")
-                      : teamData.website.replace("http://www.", "")
-                  }
-                  className="text-white font-bold"
-                />
-              </a>
-            )}
-            {teamSocials &&
-              teamSocials.map((social: any, key: number) => {
-                return (
-                  <div key={key} className="flex">
-                    {social.type === "facebook-profile" && (
-                      <a
-                        href={`https://facebook.com/${social.foreign_key}`}
-                        target="_blank"
-                      >
-                        <Social
-                          icon={FaFacebook}
-                          name={social.foreign_key}
-                          className="text-blue-500"
-                        />
-                      </a>
-                    )}
-
-                    {social.type === "github-profile" && (
-                      <a
-                        href={`https://github.com/${social.foreign_key}`}
-                        target="_blank"
-                      >
-                        <Social
-                          icon={FaGithub}
-                          name={social.foreign_key}
-                          className="text-white"
-                        />
-                      </a>
-                    )}
-
-                    {social.type === "instagram-profile" && (
-                      <a
-                        href={`https://instagram.com/${social.foreign_key}`}
-                        target="_blank"
-                      >
-                        <Social
-                          icon={FaInstagram}
-                          name={social.foreign_key}
-                          className="text-pink-400"
-                        />
-                      </a>
-                    )}
-
-                    {social.type === "twitter-profile" && (
-                      <a
-                        href={`https://twitter.com/${social.foreign_key}`}
-                        target="_blank"
-                      >
-                        <Social
-                          icon={FaTwitter}
-                          name={social.foreign_key}
-                          className="text-sky-400"
-                        />
-                      </a>
-                    )}
-
-                    {social.type === "youtube-channel" && (
-                      <a
-                        href={`https://youtube.com/${social.foreign_key}`}
-                        target="_blank"
-                      >
-                        <Social
-                          icon={FaYoutube}
-                          name={social.foreign_key}
-                          className="text-red-500"
-                        />
-                      </a>
-                    )}
-                  </div>
-                );
-              })}
-          </div>
-
-          <div className="bg-gray-700 border-2 border-gray-500 rounded-lg py-4 px-6 mt-5">
-            {isHOF && (
-              <Link href="/fame" legacyBehavior>
-                <a>
-                  <span className="text-[#ecc729] hover:text-white inline-block">
-                    {" "}
-                    <span className="flex mb-3 font-black">
-                      <FaAward className="text-2xl mr-1" />{" "}
-                      <span>Hall of Fame ({isHOF.year})</span>
-                    </span>
-                  </span>
-                </a>
-              </Link>
-            )}
-
-            <p className="text-white text-sm">
-              <span className="font-bold"> District: </span>
-              {currentDistrict && (
-                <a
-                  href={`https://frc-events.firstinspires.org/2023/district/${currentDistrict.abbreviation}`}
-                  target="_blank"
-                  className="hover:text-primary"
-                >
-                  {currentDistrict.display_name}{" "}
-                </a>
-              )}
-              <span className="text-gray-400">
-                {currentDistrict
-                  ? `(${currentDistrict.abbreviation.toUpperCase()}) `
-                  : "N/A"}
-              </span>
-            </p>
-
-            <p className="text-gray-400 font-bold text-sm italic">
-              {" "}
-              {teamData.name}
-            </p>
-          </div>
-        </div>
+        <TeamScreen
+          team={teamData}
+          socials={teamSocials}
+          avatar={teamAvatar}
+          district={teamDistrict}
+        />
 
         <div className="relative bg-gray-800 rounded-lg py-10 px-10 md:w-[1100px] mt-8">
           <div className="flex flex-wrap gap-4">
