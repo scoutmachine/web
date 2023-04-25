@@ -1,12 +1,15 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
+import { BsPeopleFill, BsFillCalendarEventFill } from "react-icons/bs";
+import { FaMedal } from "react-icons/fa";
+import { SiRobotframework } from "react-icons/si";
 
 const links = [
-  { title: "Teams", href: "/teams" },
-  { title: "Events", href: "/events" },
-  { title: "Hall of Fame", href: "/fame" },
-  { title: "Rookie Teams", href: "/rookies" },
+  { title: "Teams", href: "/teams", icon: <BsPeopleFill /> },
+  { title: "Events", href: "/events", icon: <BsFillCalendarEventFill /> },
+  { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
+  { title: "Rookie Teams", href: "/rookies", icon: <SiRobotframework /> },
 ];
 
 export const Navbar = () => {
@@ -47,7 +50,10 @@ export const Navbar = () => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
                   <a className="block md:inline-block text-[0.9rem] font-semibold text-white hover:text-primary mb-2 md:mb-0">
-                    {link.title}
+                    <div className="flex items-center">
+                      <span className="text-lg mr-2">{link.icon}</span>
+                      <span>{link.title}</span>
+                    </div>
                   </a>
                 </Link>
               );
@@ -56,7 +62,10 @@ export const Navbar = () => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
                   <a className="block md:inline-block text-[0.9rem] font-semibold text-white hover:text-primary mb-2 md:mb-0">
-                    {link.title}
+                    <div className="flex items-center">
+                      <span className="text-lg mr-2">{link.icon}</span>
+                      <span>{link.title}</span>
+                    </div>
                   </a>
                 </Link>
               );
