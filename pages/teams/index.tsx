@@ -129,7 +129,7 @@ export default function Home({ initial }: any) {
             <div
               className={`flex flex-col ${
                 allTeams.length > 1 && "md:grid md:grid-cols-5"
-              } gap-3 mt-10 md:pr-32 md:pl-32 pr-8 pl-8`}
+              } gap-3 mt-10 pr-8 pl-8`}
             >
               {Array.isArray(allTeams) &&
                 allTeams.map((team: any, key: number) => {
