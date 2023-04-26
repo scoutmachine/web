@@ -8,7 +8,9 @@ const Event = (props: any) => {
         <div
           className={`${
             props.event.event_type_string === "Championship Division" &&
-            "w-[310px]"
+            "md:w-[310px] w-[430px]"
+          } ${
+            props.event.event_type_string === "Offseason" && "md:w-full w-[430px]"
           } bg-gray-800 px-5 py-5 h-40 rounded-lg border-2 border-gray-600 relative`}
         >
           <h1 className="font-bold text-xl text-gray-300">
@@ -28,7 +30,6 @@ const Event = (props: any) => {
     </Link>
   );
 };
-
 
 export const EventsScreen = (props: any) => {
   const renderEventsSection = (filterCondition: any, title: string) => (
