@@ -3,17 +3,15 @@ import { Navbar } from "@/components/Navbar";
 import { Tooltip } from "@/components/Toolip";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
+import { useDebounce } from "use-debounce";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 
 export default function Home({ initial, teamAvatars }: any) {
-  const [allTeams, setAllTeams] = useState(
-    initial.sort(() => Math.random() - 0.5)
-  );
+  const [allTeams, setAllTeams] = useState(initial);
   const [query, setQuery] = useState("");
+  const [value] = useDebounce(query, 500);
   const [isClient, setIsClient] = useState(false);
   const [page, setPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
@@ -47,7 +45,7 @@ export default function Home({ initial, teamAvatars }: any) {
     };
 
     const runFilters = async () => {
-      if (query) {
+      if (value) {
         setAllTeams(await filterTeams());
       } else {
         setAllTeams(initial.sort(() => Math.random() - 0.5));
@@ -55,7 +53,7 @@ export default function Home({ initial, teamAvatars }: any) {
     };
 
     runFilters();
-  }, [query, initial]);
+  }, [initial, query, value]);
 
   useEffect(() => {
     const loadMore = async () => {
