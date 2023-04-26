@@ -1,6 +1,5 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
-import { Tooltip } from "@/components/Toolip";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useDebounce } from "use-debounce";
@@ -20,28 +19,15 @@ export default function Home({ initial, teamAvatars }: any) {
   useEffect(() => {
     setIsClient(true);
 
-    const getTeams = async () => {
-      const baseFetch = async (pageNum: string) =>
-        await fetch(`${API_URL}/api/team/teams?page=${pageNum}`).then((res) =>
-          res.json()
-        );
-      const pageNumbers = [...Array(20).keys()].map((i) => i.toString());
-      const pages = await Promise.all(pageNumbers.map((num) => baseFetch(num)));
-      const teams = pages.flatMap((page: any) => page);
-
-      return { initialTeams: teams };
-    };
-
     const filterTeams = async () => {
       setIsSearching(true);
-      const filteredTeams = (await getTeams()).initialTeams.filter(
-        (team: any) =>
-          (team.team_number + team.nickname + team.city)
-            .toLowerCase()
-            .includes(query.toLowerCase())
-      );
+
+      const filteredTeams = await fetch(
+        `${API_URL}/api/team/query?q=${value}`
+      ).then((res) => res.json());
+
       setIsSearching(false);
-      return filteredTeams;
+      return filteredTeams.teams;
     };
 
     const runFilters = async () => {
@@ -64,7 +50,7 @@ export default function Home({ initial, teamAvatars }: any) {
       );
       const newTeams = await response
         .json()
-        .then((teams) => teams.slice(0, 100));
+        .then((teams) => teams.slice(0, 50));
       setAllTeams([...allTeams, ...newTeams]);
       setPage(nextPage);
 
@@ -187,7 +173,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const getTeams = await baseFetch(
     String(Math.floor(Math.random() * (18 - 0 + 1) + 0))
-  ).then((teams) => teams.slice(0, 100));
+  ).then((teams) => teams.slice(0, 50));
 
   const teamAvatars: any = {};
 
