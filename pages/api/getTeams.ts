@@ -10,9 +10,9 @@ export default async function getTeamsAndAvatars(
       res.json()
     );
 
-  const teams = await baseFetch(Math.floor(Math.random() * 19)).then((teams) =>
-    teams.slice(0, 50)
-  );
+  const teams = await baseFetch(
+    Math.floor(Math.random() * (18 - 0 + 1) + 0)
+  ).then((teams) => teams.slice(0, 50));
 
   const teamAvatars: any = {};
 
