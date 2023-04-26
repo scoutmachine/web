@@ -21,7 +21,7 @@ export default async function getTeams(
       return res.status(response.status).send("API request failed");
     }
 
-    res.json({
+    res.status(200).json({
       avatar:
         response.data.teams.length > 0
           ? response.data.teams[0].encodedAvatar

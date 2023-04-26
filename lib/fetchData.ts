@@ -9,7 +9,7 @@ export const fetchData = async (res: NextApiResponse, route: string) => {
       },
     })
     .then(function (response) {
-      res.send(response.data);
+      res.status(200).send(response.data);
     })
     .catch(function (error) {
       console.log(error);
