@@ -32,5 +32,5 @@ export default async function getTeams(
     return filteredTeams;
   };
 
-  res.send({ teams: await filterTeams() });
+  res.status(200).send({ teams: await filterTeams() });
 }

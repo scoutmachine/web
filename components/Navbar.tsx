@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsPeopleFill, BsFillCalendarEventFill } from "react-icons/bs";
-import { FaMedal } from "react-icons/fa";
+import { FaMedal, FaSearch } from "react-icons/fa";
 import { SiRobotframework } from "react-icons/si";
 
 const links = [
@@ -70,6 +70,17 @@ export const Navbar = () => {
                 </Link>
               );
             })}
+
+            <div className="relative">
+              <input
+                className="bg-gray-700 rounded-lg border text-gray-400 border-gray-500 px-3 py-1 text-sm pl-8"
+                type="text"
+                placeholder="Search teams, events..."
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaSearch className="text-sm text-gray-400" />
+              </span>
+            </div>
           </div>
         </div>
       </div>
