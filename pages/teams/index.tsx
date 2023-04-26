@@ -6,15 +6,32 @@ import { useDebounce } from "use-debounce";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
+import { AiFillHome } from "react-icons/ai";
 
 export default function TeamsPage({ initial, avatars }: any) {
   const [allTeams, setAllTeams] = useState(initial);
   const [query, setQuery] = useState("");
+  const [filterByNumber, setFilterByNumber] = useState<number>(0);
   const [value] = useDebounce(query, 500);
   const [isClient, setIsClient] = useState(false);
   const [page, setPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const FilterNumber = (props: any) => {
+    return (
+      <button
+        onClick={() => setFilterByNumber(props.name.slice(0, -1))}
+        className={`${
+          filterByNumber === props.name.slice(0, -1)
+            ? "bg-gray-600"
+            : "bg-gray-700 hover:bg-gray-600"
+        } px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
+      >
+        {props.name}
+      </button>
+    );
+  };
 
   useEffect(() => {
     setIsClient(true);
@@ -30,16 +47,29 @@ export default function TeamsPage({ initial, avatars }: any) {
       return filteredTeams.teams;
     };
 
+    const filterTeamsByNumber = async () => {
+      setIsSearching(true);
+
+      const filteredTeams = await fetch(
+        `${API_URL}/api/team/query?f=${filterByNumber}`
+      ).then((res) => res.json());
+
+      setIsSearching(false);
+      return filteredTeams.teams;
+    };
+
     const runFilters = async () => {
       if (value) {
         setAllTeams(await filterTeams());
+      } else if (filterByNumber !== 0) {
+        setAllTeams(await filterTeamsByNumber());
       } else {
         setAllTeams(initial.sort(() => Math.random() - 0.5));
       }
     };
 
     runFilters();
-  }, [initial, query, value]);
+  }, [filterByNumber, initial, query, value]);
 
   useEffect(() => {
     const loadMore = async () => {
@@ -110,6 +140,32 @@ export default function TeamsPage({ initial, avatars }: any) {
               <span className="flex text-xs text-gray-500 font-semibold lowercase mt-2">
                 (Search by Team Number / Name / Location)
               </span>
+
+              <div className="mt-5 mb-[-15px] gap-2 flex">
+                <button
+                  onClick={() => {
+                    setFilterByNumber(0);
+                    setAllTeams(initial);
+                  }}
+                  className={`${
+                    filterByNumber === 0
+                      ? "bg-gray-600"
+                      : "bg-gray-700 hover:bg-gray-600"
+                  } px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
+                >
+                  <AiFillHome />
+                </button>
+                <FilterNumber name="999s" />
+                <FilterNumber name="1000s" />
+                <FilterNumber name="2000s" />
+                <FilterNumber name="3000s" />
+                <FilterNumber name="4000s" />
+                <FilterNumber name="5000s" />
+                <FilterNumber name="6000s" />
+                <FilterNumber name="7000s" />
+                <FilterNumber name="8000s" />
+                <FilterNumber name="9000s" />
+              </div>
             </Header>
 
             {query && allTeams.length !== 0 && (
@@ -131,8 +187,13 @@ export default function TeamsPage({ initial, avatars }: any) {
               </div>
             )}
 
+            <h1 className="text-gray-400 pl-8 mt-5 mb-3 text-xl">
+              showing <span className="font-bold">{allTeams.length}</span> teams
+              (out of 9999)
+            </h1>
+
             <div className="w-full mx-auto pr-8 pl-8">
-              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-10">
+              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 {Array.isArray(allTeams) &&
                   allTeams.map((team: any, key: number) => {
                     return <TeamCard key={key} team={team} avatars={avatars} />;

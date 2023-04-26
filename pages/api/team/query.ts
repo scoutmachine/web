@@ -5,11 +5,7 @@ export default async function getTeams(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { q } = req.query;
-
-  if (!q) {
-    return res.status(400).send("No query found.");
-  }
+  const { q, f } = req.query;
 
   const getTeams = async () => {
     const baseFetch = async (pageNum: string) =>
@@ -23,14 +19,32 @@ export default async function getTeams(
     return { initialTeams: teams };
   };
 
-  const filterTeams = async () => {
-    const filteredTeams = (await getTeams()).initialTeams.filter((team: any) =>
-      (team.team_number + team.nickname + team.city)
-        .toLowerCase()
-        .includes(String(q).toLowerCase())
-    );
-    return filteredTeams;
-  };
+  if (q) {
+    const filterTeams = async () => {
+      const filteredTeams = (await getTeams()).initialTeams.filter(
+        (team: any) =>
+          (team.team_number + team.nickname + team.city)
+            .toLowerCase()
+            .includes(String(q).toLowerCase())
+      );
+      return filteredTeams;
+    };
 
-  res.status(200).send({ teams: await filterTeams() });
+    res.status(200).send({ teams: await filterTeams() });
+  } else if (f) {
+    const filterTeams = async () => {
+      const filteredTeams = (await getTeams()).initialTeams.filter(
+        (team: any) =>
+          String(f).length > 3
+            ? String(team.team_number).substring(0, 1) ===
+                String(f).substring(0, 1) &&
+              String(team.team_number).length === String(f).length
+            : String(team.team_number).length < 4
+      );
+
+      return filteredTeams;
+    };
+
+    res.status(200).send({ teams: await filterTeams() });
+  }
 }
