@@ -4,10 +4,9 @@ import { Navbar } from "@/components/Navbar";
 import { TeamCard } from "@/components/TeamCard";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 import { SiRobotframework } from "react-icons/si";
 
-export default function HOF({ rookieTeams, teamAvatars }: any) {
+export default function RookiesPage({ rookieTeams, teamAvatars }: any) {
   return (
     <>
       <Navbar />

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 
-export default function Home({ initial, teamAvatars }: any) {
+export default function TeamsPage({ initial, teamAvatars }: any) {
   const [allTeams, setAllTeams] = useState(initial);
   const [query, setQuery] = useState("");
   const [value] = useDebounce(query, 500);

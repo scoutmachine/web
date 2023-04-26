@@ -11,7 +11,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function Event({
+export default function EventsPage({
   matches,
   eventInfo,
   eventTeams,

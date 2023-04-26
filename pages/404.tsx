@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 
-export default function FourOhFour() {
+export default function Page404() {
   return (
     <>
       <Navbar />

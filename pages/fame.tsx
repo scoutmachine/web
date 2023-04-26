@@ -5,7 +5,8 @@ import { HOFTeams } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa";
-export default function HOF() {
+
+export default function HOFPage() {
   return (
     <>
       <Navbar />
