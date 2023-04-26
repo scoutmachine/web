@@ -34,7 +34,7 @@ export const TeamCard = (props: any) => {
                     props.team.city.length > 20
                       ? `${props.team.city.slice(0, 20)}`
                       : props.team.city
-                  }, ${props.team.country}`
+                  }, ${props.team.state_prov}, ${props.team.country}`
                 : "No location"}
             </p>
 
