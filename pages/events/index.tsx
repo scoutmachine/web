@@ -11,7 +11,7 @@ export default function Events({ events }: any) {
       <Navbar />
 
       <div className="flex flex-col items-center justify-center">
-        <Header title="2023 Events ─ Scouting Machine" />
+        <Header title="Events" desc="2023 Season" />
         <EventsScreen events={events} />
         <Footer />
       </div>

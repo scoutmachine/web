@@ -5,8 +5,13 @@ const Event = (props: any) => {
   return (
     <Link href={`/events/${props.event.key}`} legacyBehavior>
       <a>
-        <div className="bg-gray-700 hover:bg-gray-600 px-5 py-5 h-40 md:w-[300px] w-[350px] rounded-lg border-2 border-gray-500 relative">
-          <h1 className="font-black text-xl">
+        <div
+          className={`${
+            props.event.event_type_string === "Championship Division" &&
+            "w-[310px]"
+          } bg-gray-800 px-5 py-5 h-40 rounded-lg border-2 border-gray-600 relative`}
+        >
+          <h1 className="font-bold text-xl text-gray-300">
             {props.event.name.length > 42
               ? `${props.event.name.slice(0, 42)}...`
               : props.event.name}
@@ -16,7 +21,7 @@ const Event = (props: any) => {
             {convertDate(props.event.end_date)}, 2023
           </p>
           <p className="text-gray-400 absolute bottom-3 left-5">
-            {props.event.city}, {props.event.country}
+            {props.event.city}, {props.event.state_prov}, {props.event.country}
           </p>
         </div>
       </a>
@@ -24,131 +29,45 @@ const Event = (props: any) => {
   );
 };
 
-const Title = (props: any) => {
-  return (
-    <h1 className=" text-gray-400 mt-10 mb-5 text-2xl">
-      <span className="font-black text-primary">{props.title}</span> (
-      {props.children} events)
-    </h1>
-  );
-};
+
 export const EventsScreen = (props: any) => {
+  const renderEventsSection = (filterCondition: any, title: string) => (
+    <div className="text-left">
+      <h1 className="pl-8 text-gray-400 mt-10 mb-5 text-2xl">
+        <span className="font-bold text-white">{title}</span> (
+        {props.events.filter(filterCondition).length} events)
+      </h1>
+      <div className="pl-8 pr-8 flex items-center justify-center flex-col grid sm:grid-cols-2 md:grid-cols-4 gap-3">
+        {props.events.filter(filterCondition).map((event: any, key: number) => {
+          return <Event key={key} event={event} />;
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <>
-      <Title title="Preseason">
-        {
-          props.events.filter(
-            (event: any) => event.event_type_string === "Preseason"
-          ).length
-        }
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.event_type_string === "Preseason")
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
+      {renderEventsSection(
+        (event: any) => event.event_type_string === "Preseason",
+        "Preseason"
+      )}
 
-      <Title title="Week 1">
-        {props.events.filter((event: any) => event.week === 0).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.week === 0)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
+      {renderEventsSection((event: any) => event.week === 0, "Week 1")}
+      {renderEventsSection((event: any) => event.week === 1, "Week 2")}
+      {renderEventsSection((event: any) => event.week === 2, "Week 3")}
+      {renderEventsSection((event: any) => event.week === 3, "Week 4")}
+      {renderEventsSection((event: any) => event.week === 4, "Week 5")}
+      {renderEventsSection((event: any) => event.week === 5, "Week 6")}
 
-      <Title title="Week 2">
-        {props.events.filter((event: any) => event.week === 1).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.week === 1)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
+      {renderEventsSection(
+        (event: any) => event.event_type_string === "Championship Division",
+        "FIRST Championship - Houston, TX"
+      )}
 
-      <Title title="Week 3">
-        {props.events.filter((event: any) => event.week === 2).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.week === 2)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 4">
-        {props.events.filter((event: any) => event.week === 3).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.week === 3)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 5">
-        {props.events.filter((event: any) => event.week === 4).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.week === 4)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Week 6">
-        {props.events.filter((event: any) => event.week === 5).length}
-      </Title>
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter((event: any) => event.week === 5)
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="FIRST Championship - Houston, TX">
-        {
-          props.events.filter(
-            (event: any) => event.event_type_string === "Championship Division"
-          ).length
-        }
-      </Title>
-
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center flex-col md:grid md:grid-cols-4 gap-3">
-        {props.events
-          .filter(
-            (event: any) => event.event_type_string === "Championship Division"
-          )
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
-
-      <Title title="Offseason">
-        {
-          props.events.filter(
-            (event: any) => event.event_type_string === "Offseason"
-          ).length
-        }
-      </Title>
-
-      <div className="md:pl-32 md:pr-32 flex items-center justify-center md:flex-row flex-col gap-5">
-        {props.events
-          .filter((event: any) => event.event_type_string === "Offseason")
-          .map((event: any, key: number) => {
-            return <Event key={key} event={event} />;
-          })}
-      </div>
+      {renderEventsSection(
+        (event: any) => event.event_type_string === "Offseason",
+        "Offseason"
+      )}
     </>
   );
 };

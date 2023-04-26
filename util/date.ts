@@ -10,18 +10,18 @@ export const convertDate = (dateParam: string) => {
   const day = date.getUTCDate();
 
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
     "June",
     "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   const monthName = months[month];
 
