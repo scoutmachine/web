@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 
-export default function TeamsPage({ initial, teamAvatars }: any) {
+export default function TeamsPage({ initial, avatars }: any) {
   const [allTeams, setAllTeams] = useState(initial);
   const [query, setQuery] = useState("");
   const [value] = useDebounce(query, 500);
@@ -60,7 +60,7 @@ export default function TeamsPage({ initial, teamAvatars }: any) {
         ).then((res) => res.json());
 
         try {
-          teamAvatars[team.team_number] = data.avatar;
+          avatars[team.team_number] = data.avatar;
         } catch (e) {
           console.error(e);
         }
@@ -81,7 +81,7 @@ export default function TeamsPage({ initial, teamAvatars }: any) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [allTeams, isLoadingMore, page, teamAvatars]);
+  }, [allTeams, isLoadingMore, page, avatars]);
 
   const changeSearch = (event: { target: { value: string } }) => {
     setQuery(event.target.value);
@@ -135,9 +135,7 @@ export default function TeamsPage({ initial, teamAvatars }: any) {
               <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-10">
                 {Array.isArray(allTeams) &&
                   allTeams.map((team: any, key: number) => {
-                    return (
-                      <TeamCard key={key} team={team} avatars={teamAvatars} />
-                    );
+                    return <TeamCard key={key} team={team} avatars={avatars} />;
                   })}
               </div>
             </div>
@@ -156,45 +154,20 @@ export default function TeamsPage({ initial, teamAvatars }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  query,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=604800"
+    "public, s-maxage=604800, stale-while-revalidate=604800"
   );
 
-  const baseFetch = async (pageNum: string) =>
-    await fetch(`${API_URL}/api/team/teams?page=${pageNum}`).then((res) =>
-      res.json()
-    );
-
-  const getTeams = await baseFetch(
-    String(Math.floor(Math.random() * (18 - 0 + 1) + 0))
-  ).then((teams) => teams.slice(0, 50));
-
-  const teamAvatars: any = {};
-
-  const getTeamAvatars = getTeams.map(async (team: any) => {
-    const data = await fetch(
-      `${API_URL}/api/team/avatar?team=${team.team_number}`
-    ).then((res) => res.json());
-
-    try {
-      teamAvatars[team.team_number] = data.avatar;
-    } catch (e) {
-      console.error(e);
-    }
-  });
-
-  await Promise.all(getTeamAvatars);
+  const { teams, avatars } = await fetch(`${API_URL}/api/getTeams`).then(
+    (res) => res.json()
+  );
 
   return {
     props: {
-      initial: getTeams,
-      teamAvatars,
+      initial: teams,
+      avatars,
     },
   };
 };
