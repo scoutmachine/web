@@ -141,7 +141,7 @@ export default function TeamsPage({ initial, avatars }: any) {
                 (Search by Team Number / Name / Location)
               </span>
 
-              <div className="mt-5 mb-[-15px] gap-2 flex flex-wrap">
+              <div className="mt-5 gap-2 flex flex-wrap">
                 <button
                   onClick={() => {
                     setFilterByNumber(0);
