@@ -168,29 +168,18 @@ export default function TeamsPage({ initial, avatars }: any) {
               </div>
             </Header>
 
-            {query && allTeams.length !== 0 && (
-              <div className="mt-5 pl-8">
-                <span className="text-gray-400 text-sm">
-                  {isSearching ? "Filtering" : "Filtered"} through{" "}
-                  {allTeams.length} FRC team{allTeams.length > 1 ? "s" : ""} by
-                  &quot;{query}
-                  &quot;
-                </span>
-              </div>
-            )}
-
-            {allTeams.length === 0 && (
-              <div className="text-gray-400 text-sm mt-5">
-                <span>
-                  😥 No results found for <strong>{query}</strong>.
-                </span>
-              </div>
-            )}
-
             <h1 className="text-gray-400 pl-8 mt-5 mb-3 text-xl">
               showing <span className="font-bold">{allTeams.length}</span> teams
               (out of 9999)
             </h1>
+
+            {allTeams.length === 0 && (
+              <div className="text-gray-400 text-sm pl-8">
+                <span>
+                  No teams found with &quot;<strong>{query}</strong>&quot;
+                </span>
+              </div>
+            )}
 
             <div className="w-full mx-auto pr-8 pl-8">
               <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -202,7 +191,7 @@ export default function TeamsPage({ initial, avatars }: any) {
             </div>
 
             {!query && isLoadingMore && (
-              <span className="text-gray-400 mt-5">
+              <span className="text-gray-400 mt-5 pl-8">
                 Hang tight! Loading more teams...
               </span>
             )}
