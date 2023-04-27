@@ -7,16 +7,18 @@ import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { AiFillHome } from "react-icons/ai";
+import { FaSearch } from "react-icons/fa";
 
 export default function TeamsPage({ initial, avatars }: any) {
   const [allTeams, setAllTeams] = useState(initial);
   const [query, setQuery] = useState("");
-  const [filterByNumber, setFilterByNumber] = useState<number>(0);
+  const [filterByNumber, setFilterByNumber] = useState<any>(0);
   const [value] = useDebounce(query, 500);
   const [isClient, setIsClient] = useState(false);
   const [page, setPage] = useState(0);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [location, setLocation] = useState<any>({});
 
   const FilterNumber = (props: any) => {
     return (
@@ -117,6 +119,35 @@ export default function TeamsPage({ initial, avatars }: any) {
     setQuery(event.target.value);
   };
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+
+        fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            setLocation({
+              city: data.city,
+            });
+          });
+      });
+    }
+  }, []);
+
+  const filterByLocation = async () => {
+    setIsSearching(true);
+
+    const filteredTeams = await fetch(
+      `${API_URL}/api/team/query?q=${location.city}`
+    ).then((res) => res.json());
+
+    setIsSearching(false);
+    setAllTeams(filteredTeams.teams);
+  };
+
   return (
     <>
       {isClient && (
@@ -154,6 +185,20 @@ export default function TeamsPage({ initial, avatars }: any) {
                   } px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
                 >
                   <AiFillHome />
+                </button>
+                <button
+                  onClick={() => {
+                    setFilterByNumber("01");
+                    filterByLocation();
+                  }}
+                  className={`${
+                    filterByNumber === "01"
+                      ? "bg-gray-600"
+                      : "bg-gray-700 hover:bg-gray-600"
+                  } flex px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
+                >
+                  <FaSearch className="text-[15px] mr-2 mt-[2px]" /> Search
+                  Nearby
                 </button>
                 <FilterNumber name="999s" />
                 <FilterNumber name="1000s" />
