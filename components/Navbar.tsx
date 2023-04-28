@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsPeopleFill, BsFillCalendarEventFill } from "react-icons/bs";
 import { FaMedal, FaSearch } from "react-icons/fa";
@@ -15,11 +15,26 @@ const links = [
 export const Navbar = () => {
   const [showLinks, setShowLinks] = useState(false);
   const numLinksPerColumn = Math.ceil(links.length / 2);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 0 && !isScrolled) {
+        setIsScrolled(true);
+      } else if (window.pageYOffset === 0 && isScrolled) {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isScrolled]);
 
   return (
     <>
-      <div className="pl-8 pr-8">
-        <div className="mt-5 bg-gray-800 border-2 border-gray-500 rounded-lg py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between">
+      <div className={`${isScrolled ? "navbar" : ""} pl-8 pr-8`}>
+        <div className={`${isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"} bg-gray-800 border-2 border-gray-500 py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}>
           <div className="flex relative">
             <Link href="/" legacyBehavior>
               <a>

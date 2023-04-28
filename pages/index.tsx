@@ -6,14 +6,18 @@ export default function LandingPage() {
     <>
       <Navbar />
 
-      <div className="flex items-center justify-center">
-        <h1 className="mt-16">
-          coming soon -{" "}
-          <Link href="/teams" legacyBehavior>
-            <a>
-              <span className="text-primary hover:text-white">teams?</span>
-            </a>
-          </Link>
+      <div
+        className="flex flex-col items-center justify-center pl-8 pr-8"
+        style={{ height: "calc(100vh - 100px)" }}
+      >
+        <h1 className="slideLeft uppercase text-7xl font-black text-white mr-[400px]">
+          FRC Data At Your
+        </h1>
+        <h1 className="scaleOut uppercase text-8xl font-black text-primary z-10">
+          Scout Machine
+        </h1>
+        <h1 className="slideRight uppercase text-7xl font-black text-white ml-[600px]">
+          Fingertips
         </h1>
       </div>
     </>
