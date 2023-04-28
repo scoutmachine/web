@@ -5,7 +5,9 @@ import { Navbar } from "@/components/Navbar";
 import { EventsScreen } from "@/components/headers/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";
+import { formatTime } from "@/util/time";
 import { useState, useEffect } from "react";
+import { log } from "@/util/log";
 
 async function fetchEventsData() {
   const cacheData = getStorage(`events_${CURR_YEAR}`);
@@ -13,9 +15,12 @@ async function fetchEventsData() {
     return cacheData;
   }
 
+  const start = performance.now();
   const res = await fetch(`${API_URL}/api/events/all`, {
     next: { revalidate: 60 },
   });
+
+  log("warning", `Fetching [/events/all] took ${formatTime(performance.now() - start)}`);
 
   if (!res.ok) {
     return undefined;

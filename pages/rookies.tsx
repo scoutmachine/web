@@ -5,8 +5,10 @@ import { Navbar } from "@/components/Navbar";
 import { TeamCard } from "@/components/TeamCard";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";
+import { formatTime } from "@/util/time";
 import { useState, useEffect } from "react";
 import { SiRobotframework } from "react-icons/si";
+import { log } from "@/util/log";
 
 async function fetchRookieTeamsData() {
   const cacheDataTeams = getStorage(`rookieTeams_${CURR_YEAR}`);
@@ -19,6 +21,7 @@ async function fetchRookieTeamsData() {
     };
   }
 
+  const start = performance.now();
   const getRookies = async (pageNum: string) =>
     await fetch(`${API_URL}/api/team/teams?page=${pageNum}`, {
       next: { revalidate: 60 },
@@ -31,6 +34,10 @@ async function fetchRookieTeamsData() {
       (team: any) =>
         team.rookie_year === 2023 && !team.nickname.includes("Off-Season")
     );
+  log(
+    "warning",
+    `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
+  );
 
   const teamAvatars: any = {};
 
@@ -43,6 +50,11 @@ async function fetchRookieTeamsData() {
   });
 
   await Promise.all(getTeamAvatars);
+
+  log(
+    "warning",
+    ` Fetching [/team/avatar] took ${formatTime(performance.now() - start)}`
+  );
 
   setStorage(`rookieTeams_${CURR_YEAR}`, data);
   setStorage(`rookieTeamsAvatars_${CURR_YEAR}`, teamAvatars);

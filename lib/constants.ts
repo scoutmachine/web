@@ -17,7 +17,7 @@ export const HOFTeams = [
   },
   {
     name: "503",
-    year: "2021"
+    year: "2021",
   },
   {
     name: "4613",
