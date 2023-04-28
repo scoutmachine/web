@@ -64,7 +64,7 @@ export const Navbar = () => {
             {links.slice(0, numLinksPerColumn).map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
-                  <a className="block md:inline-block text-[0.9rem] text-white hover:text-primary mb-2 md:mb-0">
+                  <a className="block md:inline-block text-[0.9rem] text-gray-400 hover:text-primary mb-2 md:mb-0">
                     <div className="flex items-center">
                       <span className="text-lg mr-2">{link.icon}</span>
                       <span>{link.title}</span>
@@ -76,7 +76,7 @@ export const Navbar = () => {
             {links.slice(numLinksPerColumn).map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
-                  <a className="block md:inline-block text-[0.9rem] text-white hover:text-primary mb-2 md:mb-0">
+                  <a className="block md:inline-block text-[0.9rem] text-gray-400 hover:text-primary mb-2 md:mb-0">
                     <div className="flex items-center">
                       <span className="text-lg mr-2">{link.icon}</span>
                       <span>{link.title}</span>
