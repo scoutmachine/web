@@ -4,13 +4,13 @@ import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/Navbar";
 import { TeamCard } from "@/components/TeamCard";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { getWithExpiry, setWithExpiry } from "@/util/localStorage";
+import { getStorage, setStorage } from "@/util/localStorage";
 import { useState, useEffect } from "react";
 import { SiRobotframework } from "react-icons/si";
 
 async function fetchRookieTeamsData() {
-  const cacheDataTeams = getWithExpiry(`rookieTeams_${CURR_YEAR}`);
-  const cacheDataAvatars = getWithExpiry(`rookieTeamsAvatars_${CURR_YEAR}`);
+  const cacheDataTeams = getStorage(`rookieTeams_${CURR_YEAR}`);
+  const cacheDataAvatars = getStorage(`rookieTeamsAvatars_${CURR_YEAR}`);
 
   if (cacheDataTeams && cacheDataAvatars) {
     return {
@@ -48,8 +48,8 @@ async function fetchRookieTeamsData() {
 
   await Promise.all(getTeamAvatars);
 
-  setWithExpiry(`rookieTeams_${CURR_YEAR}`, data);
-  setWithExpiry(`rookieTeamsAvatars_${CURR_YEAR}`, teamAvatars);
+  setStorage(`rookieTeams_${CURR_YEAR}`, data);
+  setStorage(`rookieTeamsAvatars_${CURR_YEAR}`, teamAvatars);
 
   return {
     teams: data,

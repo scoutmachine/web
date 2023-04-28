@@ -4,11 +4,11 @@ import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/Navbar";
 import { EventsScreen } from "@/components/headers/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { getWithExpiry, setWithExpiry } from "@/util/localStorage";
+import { getStorage, setStorage } from "@/util/localStorage";
 import { useState, useEffect } from "react";
 
 async function fetchEventsData() {
-  const cacheData = getWithExpiry(`events_${CURR_YEAR}`);
+  const cacheData = getStorage(`events_${CURR_YEAR}`);
   if (cacheData?.events?.length > 10) {
     return cacheData;
   }
@@ -24,7 +24,7 @@ async function fetchEventsData() {
   const data = await res.json();
   data.sort((a: any, b: any) => a.start_date.localeCompare(b.start_date));
 
-  setWithExpiry(`events_${CURR_YEAR}`, data);
+  setStorage(`events_${CURR_YEAR}`, data);
   return data;
 }
 

@@ -1,4 +1,4 @@
-export const setWithExpiry = (key: string, value: string, ttl?: number) => {
+export const setStorage = (key: string, value: string, ttl?: number) => {
   const now = new Date();
 
   const item = {
@@ -13,7 +13,7 @@ export const setWithExpiry = (key: string, value: string, ttl?: number) => {
   }
 };
 
-export const getWithExpiry = (key: string) => {
+export const getStorage = (key: string) => {
   const item = localStorage.getItem(key);
 
   if (!item) {
