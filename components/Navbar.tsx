@@ -19,9 +19,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.pageYOffset > 0 && !isScrolled) {
+      if (window.scrollY > 0 && !isScrolled) {
         setIsScrolled(true);
-      } else if (window.pageYOffset === 0 && isScrolled) {
+      } else if (window.scrollY === 0 && isScrolled) {
         setIsScrolled(false);
       }
     };
@@ -33,8 +33,17 @@ export const Navbar = () => {
 
   return (
     <>
-      <div className={`${isScrolled ? "navbar" : ""} pl-8 pr-8`}>
-        <div className={`${isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"} bg-gray-800 border-2 border-gray-500 py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}>
+      <div
+        className={`${
+          isScrolled ? "fixed top-0 left-0 right-0 z-50" : ""
+        } pl-8 pr-8`}
+      >
+        {" "}
+        <div
+          className={`${
+            isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
+          } bg-gray-800 border-2 border-gray-500 py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
+        >
           <div className="flex relative">
             <Link href="/" legacyBehavior>
               <a>
