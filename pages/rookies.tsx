@@ -39,11 +39,7 @@ async function fetchRookieTeamsData() {
       `${API_URL}/api/team/avatar?team=${team.team_number}`
     ).then((res) => res.json());
 
-    try {
-      teamAvatars[team.team_number] = data.avatar;
-    } catch (e) {
-      console.error(e);
-    }
+    teamAvatars[team.team_number] = data.avatar;
   });
 
   await Promise.all(getTeamAvatars);

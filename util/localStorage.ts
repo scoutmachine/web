@@ -9,7 +9,7 @@ export const setStorage = (key: string, value: string, ttl?: number) => {
   try {
     localStorage.setItem(key, JSON.stringify(item));
   } catch (e: any) {
-    console.error(e);
+    console.error(`Error while setting Local Storage item: ${e}`);
   }
 };
 
