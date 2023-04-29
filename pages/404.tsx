@@ -1,9 +1,13 @@
 import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
+import Head from 'next/head'
 
 export default function Page404() {
   return (
     <>
+      <Head>
+        <title>404 | Scout Machine</title>
+      </Head>
       <Navbar />
       <div className="flex items-center justify-center flex-col mt-16">
         <h1 className="text-5xl text-primary font-black">

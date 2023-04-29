@@ -10,6 +10,7 @@ import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Head from 'next/head'
 
 export default function EventsPage({
   matches,
@@ -28,6 +29,10 @@ export default function EventsPage({
 
   return (
     <>
+      <Head>
+        <title>{eventInfo.name} | Scout Machine</title>
+      </Head>
+
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center mt-10 pr-8 pl-8">

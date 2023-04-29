@@ -8,6 +8,7 @@ import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { AiFillHome } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
+import Head from 'next/head'
 
 export default function TeamsPage({ initial, avatars }: any) {
   const [allTeams, setAllTeams] = useState(initial);
@@ -152,6 +153,9 @@ export default function TeamsPage({ initial, avatars }: any) {
     <>
       {isClient && (
         <>
+          <Head>
+            <title>Teams | Scout Machine</title>
+          </Head>
           <Navbar />
 
           <div className="flex flex-col">

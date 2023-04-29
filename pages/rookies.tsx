@@ -8,6 +8,7 @@ import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { useState, useEffect } from "react";
 import { SiRobotframework } from "react-icons/si";
+import Head from 'next/head'
 import { log } from "@/util/log";
 
 async function fetchRookieTeamsData() {
@@ -90,6 +91,10 @@ export default function RookiesPage() {
 
   return (
     <>
+      <Head>
+        <title>Rookies | Scout Machine</title>
+      </Head>
+
       <Navbar />
 
       <Header

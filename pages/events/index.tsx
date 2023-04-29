@@ -6,8 +6,9 @@ import { EventsScreen } from "@/components/headers/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
-import { useState, useEffect } from "react";
 import { log } from "@/util/log";
+import { useState, useEffect } from "react";
+import Head from 'next/head'
 
 async function fetchEventsData() {
   const eventsData = getStorage(`events_${CURR_YEAR}`);
@@ -49,7 +50,12 @@ export default function EventsPage() {
 
   return (
     <>
+      <Head>
+        <title>Events | Scout Machine</title>
+      </Head>
+
       <Navbar />
+
       <div className="flex flex-col items-center justify-center">
         <Header title="Events" desc="2023 Season" />
         <EventsScreen events={events} />

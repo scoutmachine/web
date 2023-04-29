@@ -1,10 +1,15 @@
 import { Navbar } from "@/components/Navbar";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
+import Head from 'next/head'
 
 export default function MatchPage({ matchData }: any) {
   return (
     <>
+      <Head>
+        <title>Match | Scout Machine</title>
+      </Head>
+
       <Navbar />
 
       <h1>{matchData.match_number}</h1>

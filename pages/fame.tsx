@@ -5,10 +5,15 @@ import { HOFTeams } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa";
+import Head from 'next/head'
 
 export default function HOFPage() {
   return (
     <>
+      <Head>
+        <title>Hall of Fame | Scout Machine</title>
+      </Head>
+
       <Navbar />
 
       <Header

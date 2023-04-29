@@ -16,6 +16,7 @@ import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
 import { Loading } from "@/components/Loading";
+import Head from 'next/head'
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
@@ -161,6 +162,10 @@ export default function TeamPage() {
 
   return (
     <>
+      <Head>
+        <title>Team {teamData.teamData.team_number} | Scout Machine</title>
+      </Head>
+
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
