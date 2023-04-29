@@ -3,7 +3,7 @@ export const setStorage = (key: string, value: string, ttl?: number) => {
 
   const item = {
     value: value,
-    expiry: now.getTime() + 1000 * Number(ttl ?? 60 * 60),
+    expiry: now.getTime() + 1000 * Number(ttl ?? 60 * 60 * 24) // 1 day,
   };
 
   try {
