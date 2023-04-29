@@ -20,9 +20,13 @@ import { AboutTab } from "@/components/tabs/team/About";
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
+  const eventData = getStorage(`team_${team}_events`);
 
   if (teamData) {
-    return teamData;
+    return {
+      team: teamData,
+      events: eventData,
+    };
   }
 
   const start = performance.now();
@@ -73,11 +77,19 @@ async function fetchTeamData(team: string) {
     };
   };
 
+  const eventsData = await fetch(`${API_URL}/api/events?team=${team}`).then(
+    (res) => res.json()
+  );
+
   setStorage(
     `team_${team}_${CURR_YEAR}`,
     (await fetchInfo()) as unknown as string
   );
-  return await fetchInfo();
+  setStorage(`team_${team}_events`, eventsData);
+  return {
+    team: await fetchInfo(),
+    events: eventsData,
+  };
 }
 
 export default function TeamPage() {
@@ -96,12 +108,12 @@ export default function TeamPage() {
     if (!router.isReady) return;
 
     const fetchData = async () => {
-      const data = await fetchTeamData(team as string);
+      const data = (await fetchTeamData(team as string)).team;
       if (data) setTeamData(data);
     };
 
     fetchData();
-  }, [team, router.isReady]);
+  }, [team, router.isReady, teamData]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -128,28 +140,28 @@ export default function TeamPage() {
     }
   }, [dropdownRef]);
 
-  const getEventData = useCallback(async () => {
-    setLoading(true);
-    const fetchEventData = await fetch(
-      `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
-    ).then((res) => res.json());
+  // const getEventData = useCallback(async () => {
+  //   setLoading(true);
+  //   const fetchEventData = await fetch(
+  //     `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+  //   ).then((res) => res.json());
 
-    const eventMatchData: any = {};
+  //   const eventMatchData: any = {};
 
-    for (const event of fetchEventData) {
-      const matchData = await fetch(
-        `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
-      ).then((res) => res.json());
-      eventMatchData[event.event_code] = matchData;
-    }
-    setMatchData(eventMatchData);
-    setEventData(fetchEventData);
-    setLoading(false);
-  }, [team, activeTab]);
+  //   for (const event of fetchEventData) {
+  //     const matchData = await fetch(
+  //       `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
+  //     ).then((res) => res.json());
+  //     eventMatchData[event.event_code] = matchData;
+  //   }
+  //   setMatchData(eventMatchData);
+  //   setEventData(fetchEventData);
+  //   setLoading(false);
+  // }, [team, activeTab]);
 
-  useEffect(() => {
-    getEventData();
-  }, [getEventData]);
+  // useEffect(() => {
+  //   getEventData();
+  // }, [getEventData]);
 
   if (!teamData) return <Loading />;
 
@@ -252,7 +264,9 @@ export default function TeamPage() {
               </div>
             </div>
 
-            {loading && ![1, 2].includes(activeTab)  && <p className="text-gray-400 mt-5">Loading...</p>}
+            {loading && ![1, 2].includes(activeTab) && (
+              <p className="text-gray-400 mt-5">Loading...</p>
+            )}
 
             {activeTab === 1 && <AboutTab team={teamData} />}
 
