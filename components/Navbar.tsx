@@ -177,7 +177,7 @@ export const Navbar = () => {
                       href={`/teams/${team.teamNumber}`}
                       legacyBehavior
                     >
-                      <a>
+                      <a onClick={() => setSearchTerm("")}>
                         <div
                           className={`bg-gray-800 text-gray-400 py-1 px-3 border-2 border-b-gray-600 border-transparent cursor-pointer hover:bg-gray-700 ${
                             searchTerm.length === 0 && "hidden"

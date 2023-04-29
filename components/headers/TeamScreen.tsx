@@ -29,9 +29,9 @@ export const TeamScreen = (props: any) => {
                 props.avatar
                   ? `data:image/jpeg;base64,${props.avatar}`
                   : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                      props.team.website.startsWith("https")
+                      props.team.website?.startsWith("https")
                         ? props.team.website
-                        : `https://${props.team.website.slice(7)}`
+                        : `https://${props.team.website?.slice(7)}`
                     }/&size=64`
               }
               onError={() => {
@@ -61,7 +61,13 @@ export const TeamScreen = (props: any) => {
 
             <p className="text-gray-400">
               <b>
-                {props.team.city}, {props.team.state_prov}, {props.team.country}
+                {props.team.city && `${props.team.city},`}{" "}
+                {props.team.state_prov && `${props.team.state_prov},`}{" "}
+                {props.team.country}
+                {!props.team.city &&
+                  !props.team.state_prov &&
+                  !props.team.country &&
+                  "Unknown Location"}
               </b>{" "}
               • Joined <span>{props.team.rookie_year}</span> •{" "}
               <a
@@ -127,7 +133,6 @@ export const TeamScreen = (props: any) => {
           </p>
 
           <p className="text-gray-400 font-bold text-sm italic">
-            {" "}
             {props.team.name}
           </p>
         </div>
