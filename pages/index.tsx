@@ -11,7 +11,7 @@ export default function LandingPage() {
       <Navbar />
 
       <div
-        className="flex flex-col items-center justify-center pl-8 pr-8"
+        className="flex flex-col items-center justify-center pl-8 pr-8 md:block hidden"
         style={{ height: "calc(100vh - 100px)" }}
       >
         <h1 className="slideLeft uppercase text-7xl font-black text-white mr-[400px]">
