@@ -46,7 +46,11 @@ async function fetchRookieTeamsData() {
       `${API_URL}/api/team/avatar?team=${team.team_number}`
     ).then((res) => res.json());
 
-    teamAvatars[team.team_number] = data.avatar;
+    try {
+      teamAvatars[team.team_number] = data.avatar;
+    } catch {
+      teamAvatars[team.team_number] = null;
+    }
   });
 
   await Promise.all(getTeamAvatars);
