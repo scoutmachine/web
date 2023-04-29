@@ -10,9 +10,10 @@ import { useState, useEffect } from "react";
 import { log } from "@/util/log";
 
 async function fetchEventsData() {
-  const cacheData = getStorage(`events_${CURR_YEAR}`);
-  if (cacheData?.events?.length > 10) {
-    return cacheData;
+  const eventsData = getStorage(`events_${CURR_YEAR}`);
+  
+  if (eventsData) {
+    return eventsData;
   }
 
   const start = performance.now();

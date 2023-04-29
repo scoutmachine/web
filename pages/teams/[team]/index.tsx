@@ -1,8 +1,7 @@
 import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
 import { TabButton } from "@/components/TabButton";
-import { API_URL } from "@/lib/constants";
-import { GetServerSideProps } from "next";
+import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { useCallback, useEffect, useState } from "react";
@@ -13,32 +12,93 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import { TeamScreen } from "@/components/headers/TeamScreen";
+import { getStorage, setStorage } from "@/util/localStorage";
+import { formatTime } from "@/util/time";
+import { log } from "@/util/log";
+import { Loading } from "@/components/Loading";
 
-export default function TeamPage({
-  teamData,
-  teamAvatar,
-  teamSocials,
-  teamAwards,
-  yearsParticipated,
-  teamDistrict,
-}: any) {
+async function fetchTeamData(team: string) {
+  const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
+
+  if (teamData) {
+    return teamData;
+  }
+
+  const start = performance.now();
+
+  const fetchInfo = async () => {
+    const [
+      getTeam,
+      teamAvatar,
+      teamSocials,
+      teamAwards,
+      yearsParticipated,
+      teamDistrict,
+    ] = await Promise.all([
+      await fetch(`${API_URL}/api/team?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/socials?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/awards?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/years?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/districts?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+    ]).then((responses) => Promise.all(responses.map((res) => res.json())));
+
+    log(
+      "warning",
+      `Fetching [/team], [/team/${team}/...] took ${formatTime(
+        performance.now() - start
+      )}`
+    );
+
+    return {
+      teamData: getTeam,
+      teamAvatar: teamAvatar.avatar,
+      teamSocials,
+      teamAwards,
+      teamDistrict,
+      yearsParticipated: yearsParticipated.reverse(),
+    };
+  };
+
+  setStorage(
+    `team_${team}_${CURR_YEAR}`,
+    (await fetchInfo()) as unknown as string
+  );
+  return await fetchInfo();
+}
+
+export default function TeamPage() {
+  const router = useRouter();
+  const { team } = router.query;
+  const [teamData, setTeamData] = useState<any>();
   const [activeTab, setActiveTab] = useState<any>(1);
   const [eventData, setEventData] = useState([]);
   const [matchData, setMatchData] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
-  const year = yearsParticipated
-    ? yearsParticipated.map((year: any) => year)
-    : [];
-  const router = useRouter();
-  const { team } = router.query;
-
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const filteredAwards = teamAwards.filter(
-    (award: any) =>
-      award.name.includes("Winner") || award.name.includes("Impact Award")
-  );
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await fetchTeamData(team as string);
+      if (data) setTeamData(data);
+    }
+
+    fetchData();
+  }, [team]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -57,13 +117,13 @@ export default function TeamPage({
     };
   }, [dropdownRef]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleTabClick = (tabIndex: number) => {
-    setActiveTab(tabIndex);
-  };
+  useEffect(() => {
+    if (dropdownRef.current) {
+      dropdownRef.current.addEventListener("click", () =>
+        setIsDropdownOpen((prevState) => !prevState)
+      );
+    }
+  }, [dropdownRef]);
 
   const getEventData = useCallback(async () => {
     setLoading(true);
@@ -88,11 +148,16 @@ export default function TeamPage({
     getEventData();
   }, [getEventData]);
 
-  const sortedEventData = eventData.sort((a: any, b: any) => {
-    const aTimestamp = new Date(a.start_date).getTime();
-    const bTimestamp = new Date(b.start_date).getTime();
-    return bTimestamp - aTimestamp;
-  });
+  if (!teamData) return <Loading />;
+
+  const year = teamData.yearsParticipated
+    ? teamData.yearsParticipated.map((year: any) => year)
+    : [];
+
+  const filteredAwards = teamData.teamAwards.filter(
+    (award: any) =>
+      award.name.includes("Winner") || award.name.includes("Impact Award")
+  );
 
   return (
     <>
@@ -100,10 +165,10 @@ export default function TeamPage({
 
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
         <TeamScreen
-          team={teamData}
-          socials={teamSocials}
-          avatar={teamAvatar}
-          district={teamDistrict}
+          team={teamData.teamData}
+          socials={teamData.teamSocials}
+          avatar={teamData.teamAvatar}
+          district={teamData.teamDistrict}
         />
 
         <div className="md:pl-8 md:pr-8 w-full">
@@ -112,11 +177,11 @@ export default function TeamPage({
               <TabButton
                 active={activeTab}
                 tab={1}
-                onClick={() => handleTabClick(1)}
+                onClick={() => setActiveTab(1)}
               >
                 Awards{" "}
                 <span className="bg-gray-600 py-[1px] px-2 ml-1 rounded-full border-2 border-gray-500">
-                  {teamAwards.length}
+                  {teamData.teamAwards.length}
                 </span>
               </TabButton>
               <div className="relative" ref={dropdownRef}>
@@ -126,7 +191,7 @@ export default function TeamPage({
                       ? "rounded-t-lg border-2 border-b-gray-500 border-transparent"
                       : "rounded-lg"
                   } px-5 py-2 flex items-center justify-between cursor-pointer`}
-                  onClick={toggleDropdown}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <span className="font-bold">
                     {String(activeTab).length >= 4
@@ -153,14 +218,14 @@ export default function TeamPage({
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
-                  {yearsParticipated.length > 0 ? (
+                  {teamData.yearsParticipated.length > 0 ? (
                     <div className="grid grid-cols-3 gap-3">
-                      {yearsParticipated.map((year: any, key: any) => (
+                      {teamData.yearsParticipated.map((year: any, key: any) => (
                         <div
                           key={key}
                           className=" cursor-pointer bg-gray-600 hover:bg-gray-500 hover:cursor-pointer py-1 px-3 rounded-lg border border-gray-500"
                           onClick={() => {
-                            handleTabClick(Number(year));
+                            setActiveTab(Number(year));
                             setIsDropdownOpen(false);
                           }}
                         >
@@ -180,13 +245,13 @@ export default function TeamPage({
 
             <div className="flex flex-col mt-5">
               {activeTab === 1 &&
-                (teamAwards.length > 0 ? (
+                (teamData.teamAwards.length > 0 ? (
                   <>
                     <div className="md:grid sm:grid-cols-4 lg:grid-cols-7 grid-cols-10 gap-4">
                       <AnimatePresence>
                         {filteredAwards
                           .reverse()
-                          .slice(0, showAll ? teamAwards.length : 14)
+                          .slice(0, showAll ? teamData.teamAwards.length : 14)
                           .sort(
                             (teamAwardA: any, teamAwardB: any) =>
                               parseInt(teamAwardB.year) -
@@ -246,7 +311,7 @@ export default function TeamPage({
                     )}
 
                     <div className="md:grid md:grid-cols-4 gap-4">
-                      {teamAwards
+                      {teamData.teamAwards
                         .filter(
                           (award: any) =>
                             !award.name.includes("Winner") &&
@@ -294,43 +359,67 @@ export default function TeamPage({
             ) : (
               <div className="flex flex-col gap-5">
                 {year.includes(activeTab) &&
-                  sortedEventData.map((event: any, key: number) => {
-                    return (
-                      <div
-                        key={key}
-                        className="bg-gray-700 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
-                      >
-                        <div className="flex justify-between">
-                          <div>
-                            <Link href={`/events/${event.key}`} legacyBehavior>
-                              <a>
-                                <h1
-                                  className="font-black text-primary text-2xl hover:text-white"
-                                  key={key}
-                                >
-                                  {event.name}
-                                </h1>
+                  eventData
+                    .sort((a: any, b: any) => {
+                      const aTimestamp = new Date(a.start_date).getTime();
+                      const bTimestamp = new Date(b.start_date).getTime();
+                      return bTimestamp - aTimestamp;
+                    })
+                    .map((event: any, key: number) => {
+                      return (
+                        <div
+                          key={key}
+                          className="bg-gray-700 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
+                        >
+                          <div className="flex justify-between">
+                            <div>
+                              <Link
+                                href={`/events/${event.key}`}
+                                legacyBehavior
+                              >
+                                <a>
+                                  <h1
+                                    className="font-black text-primary text-2xl hover:text-white"
+                                    key={key}
+                                  >
+                                    {event.name}
+                                  </h1>
+                                </a>
+                              </Link>
+                              <a href={event.gmaps_url} target="_blank">
+                                <p className="text-gray-400 hover:text-white">
+                                  {event.location_name &&
+                                    `${event.location_name}, ${event.city}, ${event.country}`}
+                                </p>
                               </a>
-                            </Link>
-                            <a href={event.gmaps_url} target="_blank">
-                              <p className="text-gray-400 hover:text-white">
-                                {event.location_name &&
-                                  `${event.location_name}, ${event.city}, ${event.country}`}
-                              </p>
-                            </a>
-                            <span className="text-md text-gray-400">
-                              {convertDate(event.start_date)} -{" "}
-                              {convertDate(event.end_date)}, {activeTab}
-                            </span>
-                            <div className="md:hidden block mt-5">
-                              {isLive(event.start_date, event.end_date) <=
-                                event.end_date &&
+                              <span className="text-md text-gray-400">
+                                {convertDate(event.start_date)} -{" "}
+                                {convertDate(event.end_date)}, {activeTab}
+                              </span>
+                              <div className="md:hidden block mt-5">
+                                {isLive(event.start_date, event.end_date) <=
+                                  event.end_date &&
+                                  event.webcasts.length > 0 && (
+                                    <a
+                                      href={`https://twitch.tv/${event.webcasts[0].channel}`}
+                                      target="_blank"
+                                    >
+                                      <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                        <FaTwitch className="text-md mt-1 mr-2" />{" "}
+                                        {event.webcasts[0].channel}
+                                      </div>
+                                    </a>
+                                  )}
+                              </div>
+                            </div>
+                            <div className="md:block hidden">
+                              {isLive(event.start_date, event.end_date) &&
                                 event.webcasts.length > 0 && (
                                   <a
                                     href={`https://twitch.tv/${event.webcasts[0].channel}`}
                                     target="_blank"
                                   >
-                                    <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                    <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
                                       <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                       {event.webcasts[0].channel}
                                     </div>
@@ -338,37 +427,22 @@ export default function TeamPage({
                                 )}
                             </div>
                           </div>
-                          <div className="md:block hidden">
-                            {isLive(event.start_date, event.end_date) &&
-                              event.webcasts.length > 0 && (
-                                <a
-                                  href={`https://twitch.tv/${event.webcasts[0].channel}`}
-                                  target="_blank"
-                                >
-                                  <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
-                                    <FaTwitch className="text-md mt-1 mr-2" />{" "}
-                                    {event.webcasts[0].channel}
-                                  </div>
-                                </a>
-                              )}
-                          </div>
-                        </div>
 
-                        {matchData[event.event_code].length === 0 ? (
-                          <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
-                            Looks like there&apos;s no data available for this
-                            event! 😔{" "}
-                          </p>
-                        ) : (
-                          <EventData
-                            data={matchData[event.event_code]}
-                            team={team}
-                            isTeam={true}
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
+                          {matchData[event.event_code].length === 0 ? (
+                            <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
+                              Looks like there&apos;s no data available for this
+                              event! 😔{" "}
+                            </p>
+                          ) : (
+                            <EventData
+                              data={matchData[event.event_code]}
+                              team={team}
+                              isTeam={true}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
               </div>
             )}
           </div>
@@ -379,40 +453,3 @@ export default function TeamPage({
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { team }: any = context.params;
-
-  const teamData = await fetch(`${API_URL}/api/team?team=${team}`).then((res) =>
-    res.json()
-  );
-  const teamAvatar = await fetch(
-    `${API_URL}/api/team/avatar?team=${team}`
-  ).then((res) => res.json());
-  const teamSocials = await fetch(
-    `${API_URL}/api/team/socials?team=${team}`
-  ).then((res) => res.json());
-
-  const teamAwards = await fetch(
-    `${API_URL}/api/team/awards?team=${team}`
-  ).then((res) => res.json());
-
-  const yearsParticipated = await fetch(
-    `${API_URL}/api/team/years?team=${team}`
-  ).then((res) => res.json());
-
-  const teamDistrict = await fetch(
-    `${API_URL}/api/team/districts?team=${team}`
-  ).then((res) => res.json());
-
-  return {
-    props: {
-      teamData,
-      teamAvatar: teamAvatar.avatar,
-      teamSocials,
-      teamAwards,
-      teamDistrict,
-      yearsParticipated: yearsParticipated.reverse(),
-    },
-  };
-};
