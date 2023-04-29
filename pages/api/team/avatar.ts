@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+import { CURR_YEAR } from "@/lib/constants";
 
 export default async function getTeams(
   req: NextApiRequest,
@@ -9,7 +10,7 @@ export default async function getTeams(
     const { team } = req.query;
 
     const response = await axios.get(
-      `https://frc-api.firstinspires.org/v3.0/2023/avatars?teamNumber=${team}`,
+      `https://frc-api.firstinspires.org/v3.0/${CURR_YEAR}/avatars?teamNumber=${team}`,
       {
         headers: {
           Authorization: `Basic ${process.env.FIRST_API_KEY}`,

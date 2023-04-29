@@ -57,7 +57,7 @@ export default function EventsPage() {
       <Navbar />
 
       <div className="flex flex-col items-center justify-center">
-        <Header title="Events" desc="2023 Season" />
+        <Header title="Events" desc={`${CURR_YEAR} Season`} />
         <EventsScreen events={events} />
         <Footer />
       </div>

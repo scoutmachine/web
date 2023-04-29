@@ -5,6 +5,7 @@ import { useState } from "react";
 import { findTeam } from "@/util/team";
 import Link from "next/link";
 import { Social } from "../Social";
+import { CURR_YEAR } from "@/lib/constants";
 
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(props.team.website ? false : true);
@@ -111,7 +112,7 @@ export const TeamScreen = (props: any) => {
             <span className="font-bold"> District: </span>
             {currentDistrict && (
               <a
-                href={`https://frc-events.firstinspires.org/2023/district/${currentDistrict.abbreviation}`}
+                href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.abbreviation}`}
                 target="_blank"
                 className="hover:text-primary"
               >

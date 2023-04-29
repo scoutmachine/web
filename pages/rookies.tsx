@@ -33,7 +33,7 @@ async function fetchRookieTeamsData() {
     .flatMap((page: any) => page)
     .filter(
       (team: any) =>
-        team.rookie_year === 2023 && !team.nickname.includes("Off-Season")
+        team.rookie_year === CURR_YEAR && !team.nickname.includes("Off-Season")
     );
   log(
     "warning",
@@ -108,7 +108,7 @@ export default function RookiesPage() {
         desc={
           <p>
             Get ready to meet the fresh new faces of{" "}
-            <span className="italic">FIRST</span> Robotics for 2023! With over{" "}
+            <span className="italic">FIRST</span> Robotics for {CURR_YEAR}! With over{" "}
             <span className="font-bold text-white">{rookieTeams.length}</span>{" "}
             rookie teams joining the competition this year, the excitement is at
             an all-time high. We&apos;re thrilled to highlight these
