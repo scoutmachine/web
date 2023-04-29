@@ -28,7 +28,7 @@ export const TeamCard = (props: any) => {
                 ? `${props.team.nickname.slice(0, 20)}...`
                 : props.team.nickname}
             </h1>
-            <p className="text-gray-400 text-xs uppercase">
+            <p className="text-gray-400 text-xs">
               {props.team.city
                 ? `${
                     props.team.city.length > 20

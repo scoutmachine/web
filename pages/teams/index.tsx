@@ -166,7 +166,7 @@ export default function TeamsPage({ initial, avatars }: any) {
                 value={query}
                 onChange={changeSearch}
                 spellCheck="false"
-                className="rounded-lg bg-gray-700 border-2 border-gray-500 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
+                className="rounded-lg bg-gray-700 text-white border-2 border-gray-500 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
               />
               <span className="flex text-xs text-gray-500 font-semibold lowercase mt-2">
                 (Search by Team Number / Name / Location)
