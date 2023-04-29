@@ -49,7 +49,7 @@ async function fetchRookieTeamsData() {
       const data = await response.json();
       teamAvatars[team.team_number] = data.avatar;
     } catch (error) {
-      console.error(error);
+      log("error", error as string)
       teamAvatars[team.team_number] = null;
     }
   });
