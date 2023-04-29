@@ -53,7 +53,7 @@ async function fetchRookieTeamsData() {
 
   log(
     "warning",
-    ` Fetching [/team/avatar] took ${formatTime(performance.now() - start)}`
+    `Fetching [/team/avatar] took ${formatTime(performance.now() - start)}`
   );
 
   setStorage(`rookieTeams_${CURR_YEAR}`, data);
