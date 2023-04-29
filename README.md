@@ -1,1 +1,1 @@
-# machine
+# Scout Machine
