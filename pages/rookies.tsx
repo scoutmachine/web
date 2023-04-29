@@ -42,13 +42,14 @@ async function fetchRookieTeamsData() {
   const teamAvatars: any = {};
 
   const getTeamAvatars = data.map(async (team: any) => {
-    const data = await fetch(
-      `${API_URL}/api/team/avatar?team=${team.team_number}`
-    ).then((res) => res.json());
-
     try {
+      const response = await fetch(
+        `${API_URL}/api/team/avatar?team=${team.team_number}`
+      );
+      const data = await response.json();
       teamAvatars[team.team_number] = data.avatar;
-    } catch {
+    } catch (error) {
+      console.error(error);
       teamAvatars[team.team_number] = null;
     }
   });
