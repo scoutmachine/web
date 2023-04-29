@@ -1,15 +1,21 @@
+import { log } from "./log";
+
 export const setStorage = (key: string, value: string, ttl?: number) => {
   const now = new Date();
 
   const item = {
     value: value,
-    expiry: now.getTime() + 1000 * Number(ttl ?? 60 * 60 * 24) // 1 day,
+    expiry: now.getTime() + 1000 * Number(ttl ?? 60 * 60), // 1 hour,
   };
 
   try {
     localStorage.setItem(key, JSON.stringify(item));
-  } catch (e: any) {
-    console.error(`Error while setting Local Storage item: ${e}`);
+  } catch (e) {
+    log("error", `Failed while setting localStorage Item: [${e}]`);
+
+    if (e == "QUOTA_EXCEEDED_ERR") {
+      localStorage.clear();
+    }
   }
 };
 
