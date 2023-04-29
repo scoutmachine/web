@@ -53,8 +53,8 @@ export const TeamScreen = (props: any) => {
               {props.team.school_name && props.team.school_name}{" "}
             </p>
 
-            <h1 className="font-black text-4xl">
-              FRC {props.team.team_number}:{" "}
+            <h1 className="font-black text-white text-4xl">
+              Team {props.team.team_number}:{" "}
               <span className="text-primary">{props.team.nickname}</span>
             </h1>
 
