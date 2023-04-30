@@ -47,7 +47,7 @@ const channels = [
 export default function GameDayPage() {
   return (
     <>
-      <Navbar />
+      <Navbar active="Game Day" />
       <Header
         title="Game Day"
         desc="Watch all your favourite teams compete for the trophy - in one place."

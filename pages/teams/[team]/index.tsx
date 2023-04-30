@@ -322,7 +322,7 @@ export default function TeamPage() {
                                     href={`https://twitch.tv/${event.webcasts[0].channel}`}
                                     target="_blank"
                                   >
-                                    <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                    <div className="flex bg-[#6441a5] text-white hover:bg-white py-1 px-5 rounded-lg font-bold">
                                       <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                       {event.webcasts[0].channel}
                                     </div>
@@ -337,7 +337,7 @@ export default function TeamPage() {
                                   href={`https://twitch.tv/${event.webcasts[0].channel}`}
                                   target="_blank"
                                 >
-                                  <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                  <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 py-1 px-5 rounded-lg font-bold">
                                     <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                     {event.webcasts[0].channel}
                                   </div>

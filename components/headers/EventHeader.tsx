@@ -31,7 +31,6 @@ export const EventHeader = (props: any) => {
         <br />{" "}
         {props.event.location_name && (
           <a
-            className="hover:text-primary"
             href={props.event.gmaps_url}
             target="_blank"
           >
@@ -46,7 +45,7 @@ export const EventHeader = (props: any) => {
           href={`https://frc-events.firstinspires.org/${props.event.year}/${props.event.event_code}`}
           target="_blank"
         >
-          <span className="text-white hover:text-primary"> FIRST Inspires</span>
+          FIRST Inspires
         </a>
       </p>
       {props.event.website && props.event.website !== "N/A" && (

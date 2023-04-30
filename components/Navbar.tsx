@@ -68,7 +68,7 @@ async function fetchTeamsData() {
   return newTeamData;
 }
 
-export const Navbar = () => {
+export const Navbar = (props: { active?: string }) => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
@@ -168,11 +168,15 @@ export const Navbar = () => {
             {links.slice(0, numLinksPerColumn).map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
-                  <a className="block md:inline-block text-[0.9rem] text-lightGray font-medium mb-2 md:mb-0">
+                  <a
+                    className={`block md:inline-block text-[0.9rem] ${
+                      props.active === link.title
+                        ? "text-primary"
+                        : "text-lightGray"
+                    } font-medium mb-2 md:mb-0`}
+                  >
                     <div className="flex items-center">
-                      <span className="text-lg mr-2 text-lightGray">
-                        {link.icon}
-                      </span>
+                      <span className="text-lg mr-2">{link.icon}</span>
                       <span>{link.title}</span>
                     </div>
                   </a>
@@ -182,11 +186,15 @@ export const Navbar = () => {
             {links.slice(numLinksPerColumn).map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
-                  <a className="block md:inline-block text-[0.9rem] text-lightGray font-medium mb-2 md:mb-0">
+                  <a
+                    className={`block md:inline-block text-[0.9rem] ${
+                      props.active === link.title
+                        ? "text-primary"
+                        : "text-lightGray"
+                    } font-medium mb-2 md:mb-0`}
+                  >
                     <div className="flex items-center">
-                      <span className="text-lg mr-2 text-lightGray">
-                        {link.icon}
-                      </span>
+                      <span className="text-lg mr-2">{link.icon}</span>
                       <span>{link.title}</span>
                     </div>
                   </a>

@@ -11,8 +11,9 @@ const Event = (props: any) => {
             props.event.event_type_string === "Championship Division" &&
             "md:w-[310px] w-[430px]"
           } ${
-            props.event.event_type_string === "Offseason" && "md:w-full w-[430px]"
-          } bg-gray-800 px-5 py-5 h-40 rounded-lg border-2 border-gray-600 relative`}
+            props.event.event_type_string === "Offseason" &&
+            "md:w-full w-[430px]"
+          } border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative`}
         >
           <h1 className="font-bold text-xl text-gray-300">
             {props.event.name.length > 42
@@ -35,7 +36,7 @@ const Event = (props: any) => {
 export const EventsScreen = (props: any) => {
   const renderEventsSection = (filterCondition: any, title: string) => (
     <div className="text-left">
-      <h1 className="pl-8 text-gray-400 mt-10 mb-5 text-2xl">
+      <h1 className="pl-8 text-lightGray mt-10 mb-5 text-2xl">
         <span className="font-bold text-white">{title}</span> (
         {props.events.filter(filterCondition).length} events)
       </h1>

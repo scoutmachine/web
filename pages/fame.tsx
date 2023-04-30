@@ -14,7 +14,7 @@ export default function HOFPage() {
         <title>Hall of Fame | Scout Machine</title>
       </Head>
 
-      <Navbar />
+      <Navbar active="Hall of Fame" />
 
       <Header
         className="flex"

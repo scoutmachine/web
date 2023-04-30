@@ -18,7 +18,7 @@ export default function Page404() {
           were looking for.{" "}
           <Link href="/" legacyBehavior>
             <a>
-              <span className="text-white hover:text-primary">Go back home?</span>
+              <span className="text-white">Go back home?</span>
             </a>
           </Link>
         </p>

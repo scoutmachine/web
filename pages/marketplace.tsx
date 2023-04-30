@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 export default function MarketplacePage() {
   return (
     <>
-      <Navbar />
+      <Navbar active="Marketplace" />
 
       <Header title="Marketplace" desc="Have FRC parts you don't use anymore? Looking to sell or buy?" />
 

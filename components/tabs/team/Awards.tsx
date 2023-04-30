@@ -42,7 +42,7 @@ export const AwardsTab = (props: any) => {
                       <Link href={`/events/${award.event_key}`} legacyBehavior>
                         <a>
                           <div className="award-name mt-5 mb-3">
-                            <span className="italic font-black text-white hover:text-primary">
+                            <span className="italic font-black text-white">
                               {award.name}
                             </span>{" "}
                           </div>

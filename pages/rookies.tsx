@@ -95,7 +95,7 @@ export default function RookiesPage() {
         <title>Rookies | Scout Machine</title>
       </Head>
 
-      <Navbar />
+      <Navbar active="Rookie Teams" />
 
       <Header
         className="flex"

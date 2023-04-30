@@ -74,9 +74,8 @@ export const TeamScreen = (props: any) => {
                 href={`https://frc-events.firstinspires.org/team/${props.team.team_number}`}
                 target="_blank"
               >
-                <span className="text-white hover:text-primary">
+              
                   FIRST Inspires
-                </span>
               </a>
             </p>
           </div>
@@ -120,7 +119,6 @@ export const TeamScreen = (props: any) => {
               <a
                 href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.abbreviation}`}
                 target="_blank"
-                className="hover:text-primary"
               >
                 {currentDistrict.display_name}{" "}
               </a>

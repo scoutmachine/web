@@ -33,7 +33,7 @@ export const AlliancesScreen = (props: any) => {
               >
                 <td className="px-6 py-4 font-bold">{alliance.name}</td>
 
-                <td className="px-6 py-4 hover:text-primary">
+                <td className="px-6 py-4">
                   <Link
                     href={`/teams/${alliance.picks[0].slice(3)}`}
                     legacyBehavior
@@ -42,7 +42,7 @@ export const AlliancesScreen = (props: any) => {
                   </Link>
                 </td>
 
-                <td className="px-6 py-4 hover:text-primary">
+                <td className="px-6 py-4">
                   <Link
                     href={`/teams/${alliance.picks[1].slice(3)}`}
                     legacyBehavior
@@ -51,7 +51,7 @@ export const AlliancesScreen = (props: any) => {
                   </Link>
                 </td>
 
-                <td className="px-6 py-4 hover:text-primary">
+                <td className="px-6 py-4">
                   <Link
                     href={`/teams/${alliance.picks[2].slice(3)}`}
                     legacyBehavior
@@ -65,7 +65,7 @@ export const AlliancesScreen = (props: any) => {
                       href={`/teams/${alliance.picks[3].slice(3)}`}
                       legacyBehavior
                     >
-                      <a className="hover:text-primary">
+                      <a>
                         {alliance.picks[3].slice(3)}
                       </a>
                     </Link>

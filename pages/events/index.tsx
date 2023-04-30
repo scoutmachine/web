@@ -54,7 +54,7 @@ export default function EventsPage() {
         <title>Events | Scout Machine</title>
       </Head>
 
-      <Navbar />
+      <Navbar active="Events" />
 
       <div className="flex flex-col items-center justify-center">
         <Header title="Events" desc={`${CURR_YEAR} Season`} />

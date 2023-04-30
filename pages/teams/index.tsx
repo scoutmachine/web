@@ -156,7 +156,7 @@ export default function TeamsPage({ initial, avatars }: any) {
           <Head>
             <title>Teams | Scout Machine</title>
           </Head>
-          <Navbar />
+          <Navbar active="Teams" />
 
           <div className="flex flex-col">
             <Header
