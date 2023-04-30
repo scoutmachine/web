@@ -171,7 +171,7 @@ export default function TeamsPage({ initial, avatars }: any) {
                   value={query}
                   onChange={changeSearch}
                   spellCheck="false"
-                  className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 w-[450px] mt-5"
+                  className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
                 />
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
                   <FaSearch className="text-sm text-lightGray" />

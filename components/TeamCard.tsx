@@ -39,7 +39,7 @@ export const TeamCard = (props: any) => {
             </p>
 
             <p className="absolute bottom-3 text-lightGray font-medium text-base sm:text-lg">
-              {props.team.team_number}
+              # {props.team.team_number}
             </p>
           </div>
         </a>

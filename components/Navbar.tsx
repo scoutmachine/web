@@ -111,9 +111,9 @@ export const Navbar = () => {
             </Link>
 
             <div
-              className={`absolute right-0 md:hidden block ${
-                showLinks ? `bg-gray-600` : "bg-gray-700"
-              } rounded-lg py-2 px-[13px] w-11`}
+              className={`absolute right-0 md:hidden block border dark:border-[#2A2A2A] ${
+                showLinks ? `bg-[#1F1F1F]` : "dark:bg-card"
+              } rounded-lg py-2 px-[13px]`}
             >
               <AiOutlineMenu
                 className="md:hidden text-white text-xl"
