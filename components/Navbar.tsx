@@ -86,6 +86,10 @@ export const Navbar = () => {
     };
   }, [isScrolled]);
 
+  useEffect(() => {
+    window.addEventListener("click", () => setSearchTerm(""));
+  });
+
   if (!teams) return <Loading />;
 
   return (
@@ -173,7 +177,7 @@ export const Navbar = () => {
                   teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
                 } ${searchTerm && "border dark:border-[#2A2A2A]"} rounded-lg`}
               >
-                {teams &&
+                {teams && filteredOptions.length > 0 ? (
                   filteredOptions.map((team: any, key: number) => (
                     <Link
                       key={key}
@@ -189,11 +193,21 @@ export const Navbar = () => {
                             setSearchTerm(`${team.name} - ${team.teamNumber}`)
                           }
                         >
-                          <span className="font-medium">Team {team.teamNumber} |</span> {team.name}
+                          <span className="font-medium">
+                            Team {team.teamNumber} |
+                          </span>{" "}
+                          {team.name}
                         </div>
                       </a>
                     </Link>
-                  ))}
+                  ))
+                ) : (
+                  <div className="bg-card">
+                    <p className="text-gray-400 px-2 py-2 text-sm">
+                      No results found.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
