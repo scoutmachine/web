@@ -17,9 +17,9 @@ const Card = (props: any) => {
 
 const Feature = (props: any) => {
   return (
-    <span className="rounded-full bg-card px-3 py-2 text-sm text-lightGray border dark:border-[#2A2A2A]">
+    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 border dark:border-[#2A2A2A] text-center flex items-center justify-center">
       {props.name}
-    </span>
+    </div>
   );
 };
 
@@ -101,14 +101,18 @@ export default function LandingPage() {
           <h1 className="text-2xl text-lightGray font-bold mb-5">
             What are you waiting for?
           </h1>
-          <div className="md:flex-row space-y-3 md:space-x-3">
+          <div className="grid grid-cols-2 md:grid-cols-11 gap-3">
+            <Feature name="discover teams" />
+            <Feature name="view events" />
             <Feature name="team pages" />
             <Feature name="event pages" />
             <Feature name="match pages" />
-            <Feature name="wide search range" />
+            <Feature name="custom search" />
             <Feature name="team awards" />
+            <Feature name="hall of fame" />
             <Feature name="rookie teams" />
-            <Feature name="unique, modern, & simple design" />
+            <Feature name="game day" />
+            <Feature name="simple design" />
             <Feature name="...& so much more" />
           </div>
         </Card>
