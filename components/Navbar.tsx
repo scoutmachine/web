@@ -205,8 +205,8 @@ export const Navbar = () => {
               </span>
 
               <div
-                className={`absolute top-10 z-50 w-full overflow-x-hidden ${
-                  teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
+                className={`absolute top-10 z-50 w-full overflow-x-hidden ${searchTerm.length > 0 && 'h-64'} ${
+                  teams && filteredOptions.length > 4 && "overflow-y-auto"
                 } ${searchTerm && "border dark:border-[#2A2A2A]"} rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
