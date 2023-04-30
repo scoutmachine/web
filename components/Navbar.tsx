@@ -169,9 +169,9 @@ export const Navbar = () => {
               </span>
 
               <div
-                className={`absolute top-10 z-50 w-full ${
+                className={`absolute top-10 z-50 w-full overflow-x-hidden ${
                   teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
-                } ${searchTerm && "border-2 border-gray-600"} rounded-lg`}
+                } ${searchTerm && "border dark:border-[#2A2A2A]"} rounded-lg`}
               >
                 {teams &&
                   filteredOptions.map((team: any, key: number) => (
@@ -182,14 +182,14 @@ export const Navbar = () => {
                     >
                       <a onClick={() => setSearchTerm("")}>
                         <div
-                          className={`bg-gray-800 text-gray-400 py-1 px-3 border-2 border-b-gray-600 border-transparent cursor-pointer hover:bg-gray-700 ${
+                          className={`bg-card text-lightGray hover:dark:bg-[#191919] py-1 px-3 cursor-pointer hover:bg-gray-700 ${
                             searchTerm.length === 0 && "hidden"
                           }`}
                           onClick={() =>
                             setSearchTerm(`${team.name} - ${team.teamNumber}`)
                           }
                         >
-                          {team.teamNumber} | {team.name}
+                          <span className="font-medium">Team {team.teamNumber} |</span> {team.name}
                         </div>
                       </a>
                     </Link>

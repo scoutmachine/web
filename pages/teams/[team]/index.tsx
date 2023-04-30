@@ -140,28 +140,28 @@ export default function TeamPage() {
     }
   }, [dropdownRef]);
 
-  // const getEventData = useCallback(async () => {
-  //   setLoading(true);
-  //   const fetchEventData = await fetch(
-  //     `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
-  //   ).then((res) => res.json());
+  const getEventData = useCallback(async () => {
+    setLoading(true);
+    const fetchEventData = await fetch(
+      `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+    ).then((res) => res.json());
 
-  //   const eventMatchData: any = {};
+    const eventMatchData: any = {};
 
-  //   for (const event of fetchEventData) {
-  //     const matchData = await fetch(
-  //       `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
-  //     ).then((res) => res.json());
-  //     eventMatchData[event.event_code] = matchData;
-  //   }
-  //   setMatchData(eventMatchData);
-  //   setEventData(fetchEventData);
-  //   setLoading(false);
-  // }, [team, activeTab]);
+    for (const event of fetchEventData) {
+      const matchData = await fetch(
+        `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
+      ).then((res) => res.json());
+      eventMatchData[event.event_code] = matchData;
+    }
+    setMatchData(eventMatchData);
+    setEventData(fetchEventData);
+    setLoading(false);
+  }, [team, activeTab]);
 
-  // useEffect(() => {
-  //   getEventData();
-  // }, [getEventData]);
+  useEffect(() => {
+    getEventData();
+  }, [getEventData]);
 
   if (!teamData) return <Loading />;
 

@@ -16,8 +16,6 @@ export const AboutTab = (props: any) => {
     return event.event_type_string === "Championship Division";
   });
 
-  console.log(firstChampionship);
-
   const calcAvg = (data1: number, data2: number) => {
     return Math.round(data1 / data2);
   };
