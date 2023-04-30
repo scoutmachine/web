@@ -1,10 +1,9 @@
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { BsPeopleFill, BsFillCalendarEventFill } from "react-icons/bs";
-import { FaMedal, FaSearch } from "react-icons/fa";
+import { BsFillCalendarEventFill, BsFillLightningFill } from "react-icons/bs";
+import { FaMedal, FaSearch, FaRobot, FaHammer } from "react-icons/fa";
 import { SiRobotframework } from "react-icons/si";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
@@ -12,10 +11,10 @@ import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
 
 const links = [
-  { title: "Teams", href: "/teams", icon: <BsPeopleFill /> },
-  { title: "Events", href: "/events", icon: <BsFillCalendarEventFill /> },
+  { title: "Teams", href: "/teams", icon: <FaRobot /> },
+  { title: "Events", href: "/events", icon: <FaHammer /> },
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
-  { title: "Rookie Teams", href: "/rookies", icon: <SiRobotframework /> },
+  { title: "Rookie Teams", href: "/rookies", icon: <BsFillLightningFill /> },
 ];
 
 async function fetchTeamsData() {
@@ -100,13 +99,13 @@ export const Navbar = () => {
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
-          } bg-gray-800 border-2 border-gray-500 py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
+          } bg-card border dark:border-[#2A2A2A] dark:bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
         >
           <div className="flex relative">
             <Link href="/" legacyBehavior>
               <a>
-                <h1 className="font-black text-primary text-2xl">
-                  sm<span className="text-white">.</span>
+                <h1 className="font-black text-white text-2xl">
+                  scout machine
                 </h1>
               </a>
             </Link>
@@ -131,9 +130,11 @@ export const Navbar = () => {
             {links.slice(0, numLinksPerColumn).map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
-                  <a className="block md:inline-block text-[0.9rem] text-gray-400 hover:text-primary mb-2 md:mb-0">
+                  <a className="block md:inline-block text-[0.9rem] text-lightGray font-medium mb-2 md:mb-0">
                     <div className="flex items-center">
-                      <span className="text-lg mr-2">{link.icon}</span>
+                      <span className="text-lg mr-2 text-lightGray">
+                        {link.icon}
+                      </span>
                       <span>{link.title}</span>
                     </div>
                   </a>
@@ -143,9 +144,11 @@ export const Navbar = () => {
             {links.slice(numLinksPerColumn).map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
-                  <a className="block md:inline-block text-[0.9rem] text-gray-400 hover:text-primary mb-2 md:mb-0">
+                  <a className="block md:inline-block text-[0.9rem] text-lightGray font-medium mb-2 md:mb-0">
                     <div className="flex items-center">
-                      <span className="text-lg mr-2">{link.icon}</span>
+                      <span className="text-lg mr-2 text-lightGray">
+                        {link.icon}
+                      </span>
                       <span>{link.title}</span>
                     </div>
                   </a>
@@ -155,14 +158,14 @@ export const Navbar = () => {
 
             <div className="relative">
               <input
-                className="bg-gray-700 outline-none rounded-lg border text-gray-400 border-gray-500 px-3 py-1 text-sm pl-8"
+                className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8"
                 type="text"
-                placeholder="Search teams, events..."
+                placeholder="Search teams..."
                 onChange={(e) => setSearchTerm(e.target.value)}
                 spellCheck={false}
               />
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <FaSearch className="text-sm text-gray-400" />
+                <FaSearch className="text-sm text-lightGray" />
               </span>
 
               <div

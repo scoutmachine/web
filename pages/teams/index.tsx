@@ -8,7 +8,7 @@ import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { AiFillHome } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
-import Head from 'next/head'
+import Head from "next/head";
 
 export default function TeamsPage({ initial, avatars }: any) {
   const [allTeams, setAllTeams] = useState(initial);
@@ -27,9 +27,9 @@ export default function TeamsPage({ initial, avatars }: any) {
         onClick={() => setFilterByNumber(props.name.slice(0, -1))}
         className={`${
           filterByNumber === props.name.slice(0, -1)
-            ? "bg-gray-600"
-            : "bg-gray-700 hover:bg-gray-600"
-        } px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
+            ? "bg-[#191919]"
+            : "dark:bg-card hover:dark:bg-[#191919]"
+        } px-3 py-1 text-lightGray text-sm rounded-lg border dark:border-[#2A2A2A]`}
       >
         {props.name}
       </button>
@@ -162,31 +162,31 @@ export default function TeamsPage({ initial, avatars }: any) {
             <Header
               title="Teams"
               desc=" The all-in-one tool your FRC team needs to find the data you
-                  want, whenever you want."
+                  want, when you want."
             >
-              <input
-                type="text"
-                placeholder="Search teams..."
-                value={query}
-                onChange={changeSearch}
-                spellCheck="false"
-                className="rounded-lg bg-gray-700 text-white border-2 border-gray-500 py-2 px-5 mt-5 md:pr-4 md:pl-4 pr-8 pl-8 md:w-[450px]"
-              />
-              <span className="flex text-xs text-gray-500 font-semibold lowercase mt-2">
-                (Search by Team Number / Name / Location)
-              </span>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search teams (team #, location, name)..."
+                  value={query}
+                  onChange={changeSearch}
+                  spellCheck="false"
+                  className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 w-[450px] mt-5"
+                />
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
+                  <FaSearch className="text-sm text-lightGray" />
+                </span>
+              </div>
 
-              <div className="mt-5 gap-2 flex flex-wrap">
+              <div className="mt-3 gap-2 flex flex-wrap">
                 <button
                   onClick={() => {
                     setFilterByNumber(0);
                     setAllTeams(initial);
                   }}
                   className={`${
-                    filterByNumber === 0
-                      ? "bg-gray-600"
-                      : "bg-gray-700 hover:bg-gray-600"
-                  } px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
+                    filterByNumber === 0 ? "bg-[#191919]" : "dark:bg-card"
+                  } px-3 py-1 text-lightGray text-sm rounded-lg border dark:border-[#2A2A2A] hover:dark:bg-[#191919]`}
                 >
                   <AiFillHome />
                 </button>
@@ -197,9 +197,9 @@ export default function TeamsPage({ initial, avatars }: any) {
                   }}
                   className={`${
                     filterByNumber === "01"
-                      ? "bg-gray-600"
-                      : "bg-gray-700 hover:bg-gray-600"
-                  } flex px-3 py-1 text-gray-300 text-sm rounded-lg border-2 border-gray-500`}
+                      ? "bg-[#191919]"
+                      : "dark:bg-card"
+                  } px-3 py-1 text-lightGray text-sm flex rounded-lg border dark:border-[#2A2A2A] hover:dark:bg-[#191919]`}
                 >
                   <FaSearch className="text-[15px] mr-2 mt-[2px]" /> Search
                   Nearby
@@ -217,9 +217,9 @@ export default function TeamsPage({ initial, avatars }: any) {
               </div>
             </Header>
 
-            <h1 className="text-gray-400 pl-8 mt-5 mb-3 text-xl">
+            <h1 className="text-lightGray pl-8 mt-5 mb-3 text-md">
               showing <span className="font-bold">{allTeams.length}</span> teams
-              (out of 9999)
+              / 9999
             </h1>
 
             {allTeams.length === 0 && (

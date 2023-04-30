@@ -41,7 +41,7 @@ export const Tooltip = (props: any) => {
             </>
           )
         }
-        className={`tooltip border-2 border-gray-500 bg-gray-700 py-3 px-3 rounded-lg text-white ${
+        className={`tooltip border-2 dark:border-gray-700 bg-card py-3 px-3 rounded-lg text-white ${
           isHovering ? "fade-in" : "fade-out"
         }`}
       >

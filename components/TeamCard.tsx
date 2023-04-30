@@ -8,7 +8,7 @@ export const TeamCard = (props: any) => {
     <Tooltip team={props.team}>
       <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
         <a>
-          <div className="relative px-5 py-8 h-32 bg-gray-800 border-2 border-gray-600 rounded-lg">
+          <div className="relative px-5 py-8 h-32 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 rounded-lg">
             <Image
               src={
                 props.avatars[props.team.team_number]
@@ -28,7 +28,7 @@ export const TeamCard = (props: any) => {
                 ? `${props.team.nickname.slice(0, 20)}...`
                 : props.team.nickname}
             </h1>
-            <p className="text-gray-400 text-xs">
+            <p className="text-lightGray text-sm">
               {props.team.city
                 ? `${
                     props.team.city.length > 20
@@ -38,7 +38,7 @@ export const TeamCard = (props: any) => {
                 : "No location"}
             </p>
 
-            <p className="absolute bottom-3 text-gray-400 font-bold text-base sm:text-lg">
+            <p className="absolute bottom-3 text-lightGray font-medium text-base sm:text-lg">
               {props.team.team_number}
             </p>
           </div>
