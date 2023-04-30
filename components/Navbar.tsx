@@ -2,9 +2,9 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { BsFillCalendarEventFill, BsFillLightningFill } from "react-icons/bs";
+import { RiRadarFill } from "react-icons/ri";
+import { BsFillLightningFill } from "react-icons/bs";
 import { FaMedal, FaSearch, FaRobot, FaHammer } from "react-icons/fa";
-import { SiRobotframework } from "react-icons/si";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
@@ -15,6 +15,7 @@ const links = [
   { title: "Events", href: "/events", icon: <FaHammer /> },
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
   { title: "Rookie Teams", href: "/rookies", icon: <BsFillLightningFill /> },
+  { title: "Game Day", href: "/gameday", icon: <RiRadarFill /> },
 ];
 
 async function fetchTeamsData() {
