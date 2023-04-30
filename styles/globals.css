@@ -17,6 +17,16 @@ a:hover {
   transform: translateY(20px);
 }
 
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
 .banner {
   background: #0f4bcb;
   color: #fff;

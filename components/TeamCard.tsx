@@ -1,11 +1,10 @@
-import team from "@/pages/api/team";
 import Link from "next/link";
 import { Tooltip } from "./Toolip";
 import Image from "next/image";
 
 export const TeamCard = (props: any) => {
   return (
-    <Tooltip team={props.team}>
+    <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
       <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
         <a>
           <div className="relative px-5 py-8 h-32 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 rounded-lg">
