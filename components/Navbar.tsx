@@ -3,7 +3,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiRadarFill } from "react-icons/ri";
-import { BsFillLightningFill } from "react-icons/bs";
+import { BsFillLightningFill, BsFillPersonFill } from "react-icons/bs";
+import { MdSell } from "react-icons/md";
 import {
   FaMedal,
   FaSearch,
@@ -32,6 +33,7 @@ const links = [
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
   { title: "Rookie Teams", href: "/rookies", icon: <BsFillLightningFill /> },
   { title: "Game Day", href: "/gameday", icon: <RiRadarFill /> },
+  { title: "Marketplace", href: "/marketplace", icon: <MdSell /> },
 ];
 
 async function fetchTeamsData() {
@@ -194,7 +196,7 @@ export const Navbar = () => {
 
             <div className="relative">
               <input
-                className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8"
+                className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
                 type="text"
                 placeholder="Search teams..."
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -205,9 +207,11 @@ export const Navbar = () => {
               </span>
 
               <div
-                className={`absolute top-10 z-50 w-full overflow-x-hidden ${searchTerm.length > 0 && 'h-64'} ${
-                  teams && filteredOptions.length > 4 && "overflow-y-auto"
-                } ${searchTerm && "border dark:border-[#2A2A2A]"} rounded-lg`}
+                className={`absolute top-10 z-50 w-full overflow-x-hidden ${
+                  searchTerm.length > 0 && "h-64"
+                } ${teams && filteredOptions.length > 4 && "overflow-y-auto"} ${
+                  searchTerm && "border dark:border-[#2A2A2A]"
+                } rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
                   filteredOptions.map((team: any, key: number) => (
@@ -242,6 +246,9 @@ export const Navbar = () => {
                 )}
               </div>
             </div>
+            <button className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]">
+              <BsFillPersonFill className="text-lg mr-1" /> Sign Up
+            </button>
           </div>
         </div>
       </div>
