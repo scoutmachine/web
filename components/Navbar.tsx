@@ -4,11 +4,27 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiRadarFill } from "react-icons/ri";
 import { BsFillLightningFill } from "react-icons/bs";
-import { FaMedal, FaSearch, FaRobot, FaHammer } from "react-icons/fa";
+import {
+  FaMedal,
+  FaSearch,
+  FaRobot,
+  FaHammer,
+  FaGithub,
+  FaDiscord,
+  FaCoffee,
+} from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
+
+const Social = (props: any) => {
+  return (
+    <span className="flex cursor-pointer flex-col items-center rounded-md bg-[#f7f7f7] p-1 text-white hover:bg-gray-200 dark:bg-[#1f1f1f] hover:dark:bg-[#2a2a2a] text-xl mt-1">
+      {props.icon}
+    </span>
+  );
+};
 
 const links = [
   { title: "Teams", href: "/teams", icon: <FaRobot /> },
@@ -109,11 +125,26 @@ export const Navbar = () => {
           <div className="flex relative">
             <Link href="/" legacyBehavior>
               <a>
-                <h1 className="font-black text-white text-2xl">
+                <h1 className="font-extrabold text-white text-2xl mr-2 hidden md:block">
                   scout machine
+                </h1>
+                <h1 className="font-black text-white text-2xl mr-2 md:hidden">
+                  sm
                 </h1>
               </a>
             </Link>
+
+            <a href="https://github.com/gryphonmachine/machine" target="_blank">
+              <Social icon={<FaGithub />} />
+            </a>
+
+            <a href="https://discord.gg/yYtc8gpsXK" target="_blank">
+              <Social icon={<FaDiscord />} />
+            </a>
+
+            <a href="https://www.buymeacoffee.com/scoutmachine" target="_blank">
+              <Social icon={<FaCoffee />} />
+            </a>
 
             <div
               className={`absolute right-0 md:hidden block border dark:border-[#2A2A2A] ${
