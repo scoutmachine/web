@@ -2057,16 +2057,6 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-twitch-embed@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/react-twitch-embed/-/react-twitch-embed-3.0.1.tgz#59701297144ccede4e3fabe42c4789d66399d242"
-  integrity sha512-ZjsLB3AVDQiGpL30u5TNq0CrBSuZXMvhbTgNSeQwoT9ehGud3R4LHxA5PZlt/TEquRVEsNNryLtQbXekk/kyUQ==
-
-react-twitch-stream@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-twitch-stream/-/react-twitch-stream-1.0.4.tgz#af51cc255a6ddf6ff493955f247cb04e1576e360"
-  integrity sha512-akv9kkfGIOHrv5qYL5JgHdminXI6JkDf9A0N37/VYvWg/cacUSZY3+2YmUQ1RHVe0QkwSO6Q/6rh+FjiXcxnzQ==
-
 react@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
