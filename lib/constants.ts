@@ -1,4 +1,4 @@
-const dev = process.env.NODE_ENV !== "production";
+export const dev = process.env.NODE_ENV !== "production";
 
 export const CURR_YEAR = 2023;
 
