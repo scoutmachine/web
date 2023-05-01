@@ -1,5 +1,6 @@
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
+import Image from 'next/image'
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiRadarFill } from "react-icons/ri";
@@ -18,7 +19,7 @@ import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Social = (props: any) => {
   return (
@@ -75,6 +76,7 @@ export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
   const [showLinks, setShowLinks] = useState(false);
   const numLinksPerColumn = Math.ceil(links.length / 2);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     async function fetchData() {
@@ -255,9 +257,17 @@ export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
                 )}
               </div>
             </div>
-            <button onClick={() => signIn("google")} className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]">
+            {session ? <div className="relative">
+                  <Image
+                    src={session?.user?.image!}
+                    className="h-10 w-10 rounded-full"
+                    width={50}
+                    height={50}
+                    alt="pfp"
+                  />
+              </div> :             <button onClick={() => signIn("google")} className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]">
               <BsFillPersonFill className="text-lg mr-1" /> Sign Up
-            </button>
+            </button>}
           </div>
         </div>
       </div>
