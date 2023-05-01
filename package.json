@@ -12,6 +12,7 @@
     "studio": "prisma studio"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^1.0.6",
     "@prisma/client": "^4.13.0",
     "@tippyjs/react": "^4.2.6",
     "@types/node": "18.15.12",
@@ -24,6 +25,7 @@
     "eslint-config-next": "13.3.0",
     "framer-motion": "^10.12.4",
     "next": "13.3.0",
+    "next-auth": "^4.22.1",
     "node-cache": "^5.1.2",
     "postcss": "8.4.23",
     "prisma": "^4.13.0",
