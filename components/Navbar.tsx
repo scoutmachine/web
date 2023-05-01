@@ -18,6 +18,7 @@ import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
+import { signIn } from "next-auth/react";
 
 const Social = (props: any) => {
   return (
@@ -254,7 +255,7 @@ export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
                 )}
               </div>
             </div>
-            <button className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]">
+            <button onClick={() => signIn("google")} className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]">
               <BsFillPersonFill className="text-lg mr-1" /> Sign Up
             </button>
           </div>
