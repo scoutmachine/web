@@ -68,7 +68,7 @@ async function fetchTeamsData() {
   return newTeamData;
 }
 
-export const Navbar = (props: { active?: string }) => {
+export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
@@ -115,7 +115,7 @@ export const Navbar = (props: { active?: string }) => {
     <>
       <div
         className={`${
-          isScrolled ? "fixed top-0 left-0 right-0 z-50" : ""
+          isScrolled && !props.dontScroll ? "fixed top-0 left-0 right-0 z-50" : ""
         } pl-8 pr-8`}
       >
         {" "}
@@ -128,7 +128,7 @@ export const Navbar = (props: { active?: string }) => {
             <Link href="/" legacyBehavior>
               <a>
                 <h1 className="font-extrabold text-white text-2xl mr-2 hidden md:block">
-                  scout machine
+                  sm
                 </h1>
                 <h1 className="font-black text-white text-2xl mr-2 md:hidden">
                   sm

@@ -2,6 +2,7 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import Head from "next/head";
 import { FaCoffee, FaDiscord, FaGithub } from "react-icons/fa";
+import Image from "next/image";
 
 const Card = (props: any) => {
   return (
@@ -30,19 +31,25 @@ export default function LandingPage() {
         <title>Scout Machine</title>
       </Head>
 
-      <Navbar />
+      <Navbar dontScroll={true} />
 
       <div className="pr-8 pl-8">
         <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
-          <Card className="relative" withHeight>
-            <h1 className="font-black text-xl text-white">sm</h1>
+          <Card className="relative">
+            <Image
+              src="/smLogoGray.png"
+              height="60"
+              width="60"
+              alt="Scout Machine Logo"
+              className="ml-[-8px]"
+            />
 
-            <p className="text-lightGray font-semibold text-2xl md:text-4xl absolute bottom-10 left-8">
-              Elevate your FRC game with smarter data insights.
+            <p className="text-white font-semibold text-2xl md:text-4xl absolute bottom-10 left-8">
+              Smarter FRC data insights.
             </p>
           </Card>
 
-          <Card withHeight>
+          <Card>
             <h1 className="text-lightGray text-sm md:text-xl">
               Scout Machine is the all-in-one tool your FRC team needs to find
               the data you want, when you want. From accessing important data
@@ -54,7 +61,7 @@ export default function LandingPage() {
               </span>
             </h1>
           </Card>
-          <Card withHeight>
+          <Card>
             <h1 className="font-meidum text-sm md:text-xl text-lightGray">
               We&apos;re 100% open-source on{" "}
               <a
