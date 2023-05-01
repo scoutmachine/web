@@ -4,7 +4,7 @@ import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
 const Card = (props: any) => {
   return (
     <div
-      className={`${props.className} mt-10 flex ${
+      className={`${props.className} flex mt-5 ${
         props.withHeight && "h-[33vh]"
       } flex-col rounded-lg border border-gray-300 py-10 px-8 dark:border-[#2A2A2A] dark:bg-[#191919] max-w-screen-3xl`}
     >
@@ -15,7 +15,7 @@ const Card = (props: any) => {
 
 const Feature = (props: any) => {
   return (
-    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 border dark:border-[#2A2A2A] text-center flex items-center justify-center">
+    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 px-1 border dark:border-[#2A2A2A] text-center flex items-center justify-center">
       {props.name}
     </div>
   );
@@ -23,9 +23,9 @@ const Feature = (props: any) => {
 
 export const SignedOutScreen = () => {
   return (
-    <div className="pr-8 pl-8">
+    <div className="pr-8 pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
-        <Card className="relative">
+        <Card className="relative h-48 sm:h-auto">
           <Image
             src="/smLogoGray.png"
             height="60"
@@ -34,8 +34,8 @@ export const SignedOutScreen = () => {
             className="ml-[-8px]"
           />
 
-          <p className="text-white font-semibold text-2xl md:text-4xl absolute bottom-10 left-8">
-            Smarter FRC data insights.
+          <p className="text-white pr-6 md:pr-0 font-semibold text-2xl md:text-4xl">
+            Smarter FRC data insights
           </p>
         </Card>
 
@@ -60,7 +60,7 @@ export const SignedOutScreen = () => {
               className="text-white"
             >
               <span className="inline-block align-top	ml-1">
-                <FaGithub className="text-2xl" />
+                <FaGithub className="text-xl md:text-3xl" />
               </span>{" "}
               Github.
             </a>
@@ -73,7 +73,7 @@ export const SignedOutScreen = () => {
               className="text-violet-400"
             >
               <span className="inline-block align-top">
-                <FaDiscord className="text-3xl" />
+                <FaDiscord className="text-xl md:text-3xl" />
               </span>{" "}
               Discord
             </a>
@@ -87,7 +87,7 @@ export const SignedOutScreen = () => {
               className="text-primary"
             >
               <span className="inline-block align-top">
-                <FaCoffee className="text-3xl" />
+                <FaCoffee className="text-xl md:text-3xl" />
               </span>{" "}
               Buy us a Coffee
             </a>
@@ -95,10 +95,11 @@ export const SignedOutScreen = () => {
         </Card>
       </div>
       <Card>
-        <h1 className="text-2xl text-lightGray font-bold mb-5">
+        <h1 className="text-2xl text-lightGray font-bold mb-5 italic">
           What are you waiting for?
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-11 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-8 gap-3">
+          <Feature name="simple design" />
           <Feature name="discover teams" />
           <Feature name="view events" />
           <Feature name="team pages" />
@@ -109,8 +110,7 @@ export const SignedOutScreen = () => {
           <Feature name="hall of fame" />
           <Feature name="rookie teams" />
           <Feature name="game day" />
-          <Feature name="simple design" />
-          <Feature name="...& so much more" />
+          <Feature name="marketplace" />
         </div>
       </Card>
     </div>
