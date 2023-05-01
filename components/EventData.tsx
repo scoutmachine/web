@@ -58,7 +58,9 @@ const EventList = (props: any) => {
               }`}
             >
               {props.search_array(newText, props.match.comp_level)}{" "}
-              {props.match.comp_level !== "qm" ? `${props.match.set_number} (Match ${props.match.match_number})` : props.match.match_number}
+              {props.match.comp_level !== "qm"
+                ? `${props.match.set_number} (Match ${props.match.match_number})`
+                : props.match.match_number}
             </span>{" "}
           </a>
         </Link>

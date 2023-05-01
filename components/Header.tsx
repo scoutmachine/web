@@ -9,7 +9,9 @@ export const Header = (props: any) => {
         >
           {props.title}{" "}
           <span
-            className={`text-lightGray ${isValidElement(props.title) && "ml-4"}`}
+            className={`text-lightGray ${
+              isValidElement(props.title) && "ml-4"
+            }`}
           >
             / Scout Machine
           </span>

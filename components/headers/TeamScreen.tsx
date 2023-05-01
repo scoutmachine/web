@@ -74,8 +74,7 @@ export const TeamScreen = (props: any) => {
                 href={`https://frc-events.firstinspires.org/team/${props.team.team_number}`}
                 target="_blank"
               >
-              
-                  FIRST Inspires
+                FIRST Inspires
               </a>
             </p>
           </div>

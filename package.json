@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint && prettier --write .",
     "generate": "prisma generate",
     "push": "prisma db push",
     "studio": "prisma studio"
@@ -35,5 +35,8 @@
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4",
     "use-debounce": "^9.0.4"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
   }
 }

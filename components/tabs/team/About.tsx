@@ -39,7 +39,10 @@ export const AboutTab = (props: any) => {
       <Card title="Event Wins:" desc={eventsWon} />
       <Card title="Awards Won:" desc={props.team.teamAwards.length} />
       <Card title="Avg Awards per Season:" desc={avgAwards} />
-      <Card title="Trips to FIRST Championship:" desc={firstChampionship.length} />
+      <Card
+        title="Trips to FIRST Championship:"
+        desc={firstChampionship.length}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
-import Image from 'next/image'
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiRadarFill } from "react-icons/ri";
@@ -70,7 +70,7 @@ async function fetchTeamsData() {
   return newTeamData;
 }
 
-export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
+export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
@@ -118,7 +118,9 @@ export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
     <>
       <div
         className={`${
-          isScrolled && !props.dontScroll ? "fixed top-0 left-0 right-0 z-50" : ""
+          isScrolled && !props.dontScroll
+            ? "fixed top-0 left-0 right-0 z-50"
+            : ""
         } pl-8 pr-8`}
       >
         {" "}
@@ -257,17 +259,24 @@ export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
                 )}
               </div>
             </div>
-            {session ? <div className="relative">
-                  <Image
-                    src={session?.user?.image!}
-                    className="h-10 w-10 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="pfp"
-                  />
-              </div> :             <button onClick={() => signIn("google")} className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]">
-              <BsFillPersonFill className="text-lg mr-1" /> Sign Up
-            </button>}
+            {session ? (
+              <div className="relative">
+                <Image
+                  src={session?.user?.image!}
+                  className="h-10 w-10 rounded-full"
+                  width={50}
+                  height={50}
+                  alt="pfp"
+                />
+              </div>
+            ) : (
+              <button
+                onClick={() => signIn("google")}
+                className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
+              >
+                <BsFillPersonFill className="text-lg mr-1" /> Sign Up
+              </button>
+            )}
           </div>
         </div>
       </div>

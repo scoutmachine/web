@@ -8,7 +8,7 @@ import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { useState, useEffect } from "react";
 import { SiRobotframework } from "react-icons/si";
-import Head from 'next/head'
+import Head from "next/head";
 import { log } from "@/util/log";
 
 async function fetchRookieTeamsData() {
@@ -50,7 +50,7 @@ async function fetchRookieTeamsData() {
       const data = await response.json();
       teamAvatars[team.team_number] = data.avatar;
     } catch (error) {
-      log("error", error as string)
+      log("error", error as string);
       teamAvatars[team.team_number] = null;
     }
   });
@@ -108,7 +108,8 @@ export default function RookiesPage() {
         desc={
           <p>
             Get ready to meet the fresh new faces of{" "}
-            <span className="italic">FIRST</span> Robotics for {CURR_YEAR}! With over{" "}
+            <span className="italic">FIRST</span> Robotics for {CURR_YEAR}! With
+            over{" "}
             <span className="font-bold text-white">{rookieTeams.length}</span>{" "}
             rookie teams joining the competition this year, the excitement is at
             an all-time high. We&apos;re thrilled to highlight these

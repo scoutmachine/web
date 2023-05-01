@@ -8,11 +8,11 @@ import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
 import { useState, useEffect } from "react";
-import Head from 'next/head'
+import Head from "next/head";
 
 async function fetchEventsData() {
   const eventsData = getStorage(`events_${CURR_YEAR}`);
-  
+
   if (eventsData) {
     return eventsData;
   }
@@ -22,7 +22,10 @@ async function fetchEventsData() {
     next: { revalidate: 60 },
   });
 
-  log("warning", `Fetching [/events/all] took ${formatTime(performance.now() - start)}`);
+  log(
+    "warning",
+    `Fetching [/events/all] took ${formatTime(performance.now() - start)}`
+  );
 
   if (!res.ok) {
     return undefined;

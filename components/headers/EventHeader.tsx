@@ -30,10 +30,7 @@ export const EventHeader = (props: any) => {
         </span>
         <br />{" "}
         {props.event.location_name && (
-          <a
-            href={props.event.gmaps_url}
-            target="_blank"
-          >
+          <a href={props.event.gmaps_url} target="_blank">
             {props.event.location_name},
           </a>
         )}{" "}

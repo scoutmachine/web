@@ -10,7 +10,7 @@ import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Head from 'next/head'
+import Head from "next/head";
 
 export default function EventsPage({
   matches,
@@ -95,9 +95,7 @@ export default function EventsPage({
               <AlliancesScreen alliances={eventAlliances} />
             )}
 
-            {activeTab === 5 && (
-              <TeamsScreen teams={eventTeams} />
-            )}
+            {activeTab === 5 && <TeamsScreen teams={eventTeams} />}
           </div>
         </div>
       </div>
@@ -133,8 +131,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .then((res) => res.json())
     .catch(() => null);
 
-  const eventAwards = await fetch(`${API_URL}/api/events/awards?event=${event}`)
-    .then((res) => res.json())
+  const eventAwards = await fetch(
+    `${API_URL}/api/events/awards?event=${event}`
+  ).then((res) => res.json());
 
   return {
     props: {

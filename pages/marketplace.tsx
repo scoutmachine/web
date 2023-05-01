@@ -7,7 +7,10 @@ export default function MarketplacePage() {
     <>
       <Navbar active="Marketplace" />
 
-      <Header title="Marketplace" desc="Have FRC parts you don't use anymore? Looking to sell or buy?" />
+      <Header
+        title="Marketplace"
+        desc="Have FRC parts you don't use anymore? Looking to sell or buy?"
+      />
 
       <Footer />
     </>

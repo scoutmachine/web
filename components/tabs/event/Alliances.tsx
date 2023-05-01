@@ -65,9 +65,7 @@ export const AlliancesScreen = (props: any) => {
                       href={`/teams/${alliance.picks[3].slice(3)}`}
                       legacyBehavior
                     >
-                      <a>
-                        {alliance.picks[3].slice(3)}
-                      </a>
+                      <a>{alliance.picks[3].slice(3)}</a>
                     </Link>
                   ) : (
                     <ImCross className="text-gray-500" />

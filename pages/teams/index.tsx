@@ -196,9 +196,7 @@ export default function TeamsPage({ initial, avatars }: any) {
                     filterByLocation();
                   }}
                   className={`${
-                    filterByNumber === "01"
-                      ? "bg-[#191919]"
-                      : "dark:bg-card"
+                    filterByNumber === "01" ? "bg-[#191919]" : "dark:bg-card"
                   } px-3 py-1 text-lightGray text-sm flex rounded-lg border dark:border-[#2A2A2A] hover:dark:bg-[#191919]`}
                 >
                   <FaSearch className="text-[15px] mr-2 mt-[2px]" /> Search

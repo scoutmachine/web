@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
-import Head from 'next/head'
+import Head from "next/head";
 
 export default function Page404() {
   return (
