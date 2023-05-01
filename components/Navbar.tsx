@@ -96,11 +96,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0 && !isScrolled) {
-        setIsScrolled(true);
-      } else if (window.scrollY === 0 && isScrolled) {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -113,17 +109,11 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   });
 
   if (!teams) return <Loading />;
+  if (status === "loading") return <Loading />;
 
   return (
     <>
-      <div
-        className={`${
-          isScrolled && !props.dontScroll
-            ? "fixed top-0 left-0 right-0 z-50"
-            : ""
-        } pl-8 pr-8`}
-      >
-        {" "}
+      <div className={`sticky top-0 pl-8 pr-8 z-50`}>
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
@@ -263,10 +253,11 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
               <div className="relative">
                 <Image
                   src={session?.user?.image!}
-                  className="h-10 w-10 rounded-full"
+                  className="h-8 w-8 rounded-full"
                   width={50}
                   height={50}
                   alt="pfp"
+                  onClick={() => signOut()}
                 />
               </div>
             ) : (

@@ -7,7 +7,7 @@ export default function MarketplacePage() {
   return (
     <>
       <Head>
-        <title>Scout Machine | Marketplace</title>
+        <title>Marketplace | Scout Machine</title>
       </Head>
 
       <Navbar active="Marketplace" />
