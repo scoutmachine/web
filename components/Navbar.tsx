@@ -21,7 +21,7 @@ import { log } from "@/util/log";
 
 const Social = (props: any) => {
   return (
-    <span className="flex cursor-pointer flex-col items-center rounded-md bg-[#f7f7f7] p-1 text-white hover:bg-gray-200 dark:bg-[#1f1f1f] hover:dark:bg-[#2a2a2a] text-xl mt-1">
+    <span className="flex cursor-pointer flex-col items-center rounded-md bg-gray-500 p-1 text-white hover:bg-gray-200 dark:bg-[#1f1f1f] hover:dark:bg-[#2a2a2a] text-xl mt-1">
       {props.icon}
     </span>
   );
@@ -124,7 +124,7 @@ export const Navbar = (props: { active?: string, dontScroll?: boolean }) => {
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
           } bg-card border dark:border-[#2A2A2A] dark:bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
         >
-          <div className="flex relative">
+          <div className="flex relative space-x-1">
             <Link href="/" legacyBehavior>
               <a>
                 <h1 className="font-extrabold text-white text-2xl mr-2 hidden md:block">
