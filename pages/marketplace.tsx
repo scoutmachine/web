@@ -1,10 +1,15 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Navbar } from "@/components/Navbar";
+import Head from 'next/head'
 
 export default function MarketplacePage() {
   return (
     <>
+      <Head>
+        <title>Scout Machine | Marketplace</title>
+      </Head>
+
       <Navbar active="Marketplace" />
 
       <Header
