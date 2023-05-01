@@ -53,11 +53,11 @@ export default function GameDayPage() {
         desc="Watch all your favourite teams compete for the trophy - in one place."
       />
 
-      <div className="pl-8 pr-8 max-w-screen-3xl">
+      <div className="pl-8 pr-8 max-w-screen-3xl w-full">
         <h1 className="mt-10 mb-5 font-extrabold text-2xl">
           Official Event Streams
         </h1>
-        <div className="flex flex-col md:grid md:grid-cols-4 gap-5">
+        <div className="flex flex-col md:grid sm:grid sm:grid-cols-2 md:grid-cols-5 gap-5">
           {channels[0].official.map((channel: string, key: number) => {
             return <TwitchEmbed key={key} channel={channel} />;
           })}
@@ -66,7 +66,7 @@ export default function GameDayPage() {
         <h1 className="mt-10 mb-5 font-extrabold text-2xl">
           Special Event Streams
         </h1>
-        <div className="flex flex-col md:grid md:grid-cols-4 gap-5">
+        <div className="flex gap-5">
           {channels[0].special.map((channel: string, key: number) => {
             return <TwitchEmbed key={key} channel={channel} />;
           })}
