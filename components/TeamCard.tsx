@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { Tooltip } from "./Toolip";
 import Image from "next/image";
+import { FaStar } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 export const TeamCard = (props: any) => {
+  const { data: session } = useSession();
+
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
-      <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
-        <a>
-          <div className="relative px-5 py-8 h-32 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 rounded-lg">
+      <div className="relative px-5 py-8 h-32 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 rounded-lg">
+        <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
+          <a className="cursor-pointer">
             <Image
               src={
                 props.avatars[props.team.team_number]
@@ -40,9 +44,12 @@ export const TeamCard = (props: any) => {
             <p className="absolute bottom-3 text-lightGray font-medium text-base sm:text-lg">
               # {props.team.team_number}
             </p>
-          </div>
-        </a>
-      </Link>
+          </a>
+        </Link>
+        {session && (
+          <FaStar className="ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3" />
+        )}
+      </div>
     </Tooltip>
   );
 };
