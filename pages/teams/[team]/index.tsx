@@ -9,7 +9,7 @@ import { FaTwitch } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { TeamScreen } from "@/components/headers/TeamScreen";
+import { TeamScreen } from "@/components/screens/TeamScreen";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";

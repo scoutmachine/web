@@ -2,7 +2,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/Navbar";
-import { EventsScreen } from "@/components/headers/EventsScreen";
+import { EventsScreen } from "@/components/screens/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
