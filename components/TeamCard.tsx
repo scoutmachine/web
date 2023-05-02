@@ -3,9 +3,26 @@ import { Tooltip } from "./Toolip";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { API_URL } from "@/lib/constants";
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
+
+  const favouriteTeam = async () => {
+    const data = {
+      team_number: props.team.team_number,
+      nickname: props.team.nickname,
+      city: props.team.city,
+      state_prov: props.team.state_prov,
+      country: props.team.country,
+      website: props.team.website,
+    };
+
+    await fetch(`${API_URL}/api/@me/favourites`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  };
 
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
@@ -47,7 +64,10 @@ export const TeamCard = (props: any) => {
           </a>
         </Link>
         {session && (
-          <FaStar className="ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3" />
+          <FaStar
+            onClick={() => favouriteTeam()}
+            className="ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer"
+          />
         )}
       </div>
     </Tooltip>

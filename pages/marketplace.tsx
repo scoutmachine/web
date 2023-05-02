@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Navbar } from "@/components/Navbar";
 import { MarketplaceScreen } from "@/components/screens/MarketplaceScreen";
 import { db } from "@/lib/db";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 
 export default function MarketplacePage({
@@ -37,7 +38,7 @@ export default function MarketplacePage({
   }
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await db.post.findMany({
     where: {},
     include: {
