@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "scoutmachine",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,7 +27,6 @@
     "framer-motion": "^10.12.4",
     "next": "13.3.0",
     "next-auth": "^4.22.1",
-    "node-cache": "^5.1.2",
     "postcss": "8.4.23",
     "prisma": "^4.13.0",
     "react": "18.2.0",
