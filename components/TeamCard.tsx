@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import router from "next/router";
+import { Loading } from "./Loading";
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
@@ -16,14 +17,18 @@ export const TeamCard = (props: any) => {
   const favouritedTeam = favourites?.filter(
     (team: any) => team.team_number === props.team.team_number
   );
+  console.log(favouritedTeam)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const getFavourites = async () => {
       const data = await fetch(`${API_URL}/api/@me/favourites`).then((res) =>
         res.json()
       );
 
       setFavourites(data.favourited);
+      setIsLoading(false);
     };
 
     getFavourites();
@@ -50,8 +55,10 @@ export const TeamCard = (props: any) => {
       method: "DELETE",
     });
 
-    router.replace(router.asPath);
+    router.push(router.pathname);
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
