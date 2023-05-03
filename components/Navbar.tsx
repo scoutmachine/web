@@ -14,12 +14,15 @@ import {
   FaGithub,
   FaDiscord,
   FaCoffee,
+  FaHandPeace,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Dropdown } from "./Dropdown";
 
 const Social = (props: any) => {
   return (
@@ -76,7 +79,9 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const [showLinks, setShowLinks] = useState(false);
   const numLinksPerColumn = Math.ceil(links.length / 2);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false);
   const { data: session, status } = useSession();
+  console.log(profileDropdown);
 
   useEffect(() => {
     async function fetchData() {
@@ -250,26 +255,28 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
               </div>
             </div>
             {session ? (
-              <div className="relative">
-                <div className="dropdown">
+              <Dropdown
+                state={profileDropdown}
+                item={
                   <Image
                     src={session?.user?.image!}
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8 rounded-full cursor-pointer"
                     width={50}
                     height={50}
                     alt="pfp"
-                    onClick={() => signOut()}
+                    onMouseOver={() => setProfileDropdown(!profileDropdown)}
                   />
-                  <div className="dropdown-content">
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                    >
-                      Sign Out
-                    </a>
-                  </div>
+                }
+              >
+                <div className="py-2 flex items-center">
+                  <p
+                    className="flex text-sm text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
+                    onClick={() => signOut()}
+                  >
+                    <FaSignOutAlt className="text-lg mr-2"/> Sign Out
+                  </p>
                 </div>
-              </div>
+              </Dropdown>
             ) : (
               <button
                 onClick={() => signIn("google")}

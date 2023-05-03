@@ -18,13 +18,7 @@ export const SignedInScreen = (props: {
           </span>
         </h1>
         <p className="text-lightGray font-medium">
-          {props.session.user?.email}{" "}
-          <span
-            className="text-red-400 cursor-pointer hover:text-primary"
-            onClick={() => signOut()}
-          >
-            / Sign Out
-          </span>
+          {props.session.user?.email}
         </p>
       </div>
 
