@@ -17,6 +17,7 @@ const ModalHeader = () => (
         height={50}
         width={50}
         alt="Scout Machine Logo"
+        priority={true}
       />
     </div>
     <h1 className="font-semibold text-xl">Sign up / Scout Machine</h1>
