@@ -161,8 +161,7 @@ export default function TeamsPage({ initial, avatars }: any) {
           <div className="flex flex-col">
             <Header
               title="Teams"
-              desc=" The all-in-one tool your FRC team needs to find the data you
-                  want, when you want."
+              desc="Unleash the excitement of FRC with a new way to discover teams"
             >
               <div className="relative">
                 <input

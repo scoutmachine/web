@@ -17,17 +17,18 @@ export const TeamCard = (props: any) => {
   const favouritedTeam = favourites?.filter(
     (team: any) => team.team_number === props.team.team_number
   );
-  console.log(favouritedTeam)
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     const getFavourites = async () => {
-      const data = await fetch(`${API_URL}/api/@me/favourites`).then((res) =>
-        res.json()
-      );
+      const data = await fetch(`${API_URL}/api/@me/favourites`);
 
-      setFavourites(data.favourited);
+      if (data.ok) {
+        const JSONdata = await data.json();
+        setFavourites(JSONdata.favourited);
+      }
+
       setIsLoading(false);
     };
 

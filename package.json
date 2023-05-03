@@ -12,6 +12,7 @@
     "studio": "prisma studio"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
     "@next-auth/prisma-adapter": "^1.0.6",
     "@prisma/client": "^4.13.0",
     "@tippyjs/react": "^4.2.6",

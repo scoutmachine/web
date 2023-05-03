@@ -14,15 +14,15 @@ import {
   FaGithub,
   FaDiscord,
   FaCoffee,
-  FaHandPeace,
   FaSignOutAlt,
 } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Dropdown } from "./Dropdown";
+import { SignupModal } from "./modals/SignupModal";
 
 const Social = (props: any) => {
   return (
@@ -80,8 +80,8 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const numLinksPerColumn = Math.ceil(links.length / 2);
   const [isScrolled, setIsScrolled] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const { data: session, status } = useSession();
-  console.log(profileDropdown);
 
   useEffect(() => {
     async function fetchData() {
@@ -118,7 +118,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
   return (
     <>
-      <div className={`sticky top-0 pl-8 pr-8 z-50`}>
+      <div className={`sticky top-0 pl-8 pr-8 ${isScrolled && "z-50"}`}>
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
@@ -273,13 +273,13 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                     className="flex text-sm text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
                     onClick={() => signOut()}
                   >
-                    <FaSignOutAlt className="text-lg mr-2"/> Sign Out
+                    <FaSignOutAlt className="text-lg mr-2" /> Sign Out
                   </p>
                 </div>
               </Dropdown>
             ) : (
               <button
-                onClick={() => signIn("google")}
+                onClick={() => setShowLoginModal(true)}
                 className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
               >
                 <BsFillPersonFill className="text-lg mr-1" /> Sign Up
@@ -288,6 +288,8 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
           </div>
         </div>
       </div>
+
+      <SignupModal isOpen={showLoginModal} setOpen={setShowLoginModal} />
     </>
   );
 };
