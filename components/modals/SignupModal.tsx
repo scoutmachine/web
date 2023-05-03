@@ -48,8 +48,8 @@ const ModalFooter = ({ setOpen }: Props) => (
       <div className="mt-4">
         <button
           type="button"
-          className="flex cursor-not-allowed rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
-          // onClick={() => signIn("github")}
+          className="flex rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
+          onClick={() => signIn("github")}
         >
           <FaGithub className="text-xl mr-2" /> Continue with Github
         </button>
