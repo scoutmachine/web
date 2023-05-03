@@ -8,6 +8,7 @@ export default async function getTeams(
   res: NextApiResponse
 ) {
   const session = (await getServerSession(req, res, authOptions)) as Session;
+  const { id } = req.query;
 
   if (!session) {
     res.status(400).send("You are not logged in.");
@@ -50,6 +51,20 @@ export default async function getTeams(
       }
     } else {
       res.status(400).send("Invalid body");
+    }
+  }
+
+  if (req.method === "DELETE") {
+    const data = await db.favouritedTeam.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (data) {
+      res.status(200).send("Successfully unfavourited team");
+    } else {
+      res.status(400).send("Unable to unfavourite team");
     }
   }
 }

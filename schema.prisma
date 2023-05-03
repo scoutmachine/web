@@ -64,12 +64,13 @@ model Post {
 }
 
 model FavouritedTeam {
-  team_number Int     @unique
-  website     String
+  id          Int     @id @default(autoincrement())
+  team_number Int
+  website     String?
   nickname    String
-  city        String
-  state_prov  String
-  country     String
+  city        String?
+  state_prov  String?
+  country     String?
   User        User?   @relation(fields: [userId], references: [id])
   userId      String?
 }

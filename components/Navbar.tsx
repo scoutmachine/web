@@ -251,14 +251,24 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
             </div>
             {session ? (
               <div className="relative">
-                <Image
-                  src={session?.user?.image!}
-                  className="h-8 w-8 rounded-full"
-                  width={50}
-                  height={50}
-                  alt="pfp"
-                  onClick={() => signOut()}
-                />
+                <div className="dropdown">
+                  <Image
+                    src={session?.user?.image!}
+                    className="h-8 w-8 rounded-full"
+                    width={50}
+                    height={50}
+                    alt="pfp"
+                    onClick={() => signOut()}
+                  />
+                  <div className="dropdown-content">
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    >
+                      Sign Out
+                    </a>
+                  </div>
+                </div>
               </div>
             ) : (
               <button

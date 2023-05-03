@@ -23,7 +23,11 @@ export default function LandingPage({ user, avatars }: any) {
           <title>Scout Machine</title>
         </Head>
         <Navbar dontScroll={true} />
-        <SignedInScreen session={session} favourites={user.favourited} avatars={avatars} />
+        <SignedInScreen
+          session={session}
+          favourites={user.favourited}
+          avatars={avatars}
+        />
         <Footer />
       </>
     );
@@ -45,29 +49,33 @@ export default function LandingPage({ user, avatars }: any) {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = (await getServerSession(req, res, authOptions)) as Session;
 
-  const user = await db.user.findUnique({
-    where: {
-      // @ts-ignore
-      id: session.user.id,
-    },
-    include: {
-      favourited: true,
-    },
-  });
+  if (session) {
+    const user = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user.id,
+      },
+      include: {
+        favourited: true,
+      },
+    });
 
-  const teamAvatars: any = {};
+    const teamAvatars: any = {};
 
-  const avatars = user?.favourited.map(async (team: any) => {
-    const data = await fetch(
-      `${API_URL}/api/team/avatar?team=${team.team_number}`
-    ).then((res) => res.json());
+    user?.favourited.map(async (team: any) => {
+      const data = await fetch(
+        `${API_URL}/api/team/avatar?team=${team.team_number}`
+      ).then((res) => res.json());
 
-    try {
-      teamAvatars[team.team_number] = data.avatar;
-    } catch (e) {
-      console.error(e);
-    }
-  });
+      try {
+        teamAvatars[team.team_number] = data.avatar;
+      } catch (e) {
+        console.error(e);
+      }
+    });
 
-  return { props: { user, avatars: teamAvatars } };
+    return { props: { user, avatars: teamAvatars } };
+  }
+
+  return { props: {} };
 };

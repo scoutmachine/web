@@ -4,9 +4,30 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import router from "next/router";
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
+  const [favourites, setFavourites] = useState<any>();
+  const isFavourited = favourites?.some(
+    (team: any) => team.team_number === props.team.team_number
+  );
+  const favouritedTeam = favourites?.filter(
+    (team: any) => team.team_number === props.team.team_number
+  );
+
+  useEffect(() => {
+    const getFavourites = async () => {
+      const data = await fetch(`${API_URL}/api/@me/favourites`).then((res) =>
+        res.json()
+      );
+
+      setFavourites(data.favourited);
+    };
+
+    getFavourites();
+  }, []);
 
   const favouriteTeam = async () => {
     const data = {
@@ -22,6 +43,14 @@ export const TeamCard = (props: any) => {
       method: "POST",
       body: JSON.stringify(data),
     });
+  };
+
+  const unfavouriteTeam = async () => {
+    await fetch(`${API_URL}/api/@me/favourites?id=${favouritedTeam[0].id}`, {
+      method: "DELETE",
+    });
+
+    router.replace(router.asPath);
   };
 
   return (
@@ -65,8 +94,12 @@ export const TeamCard = (props: any) => {
         </Link>
         {session && (
           <FaStar
-            onClick={() => favouriteTeam()}
-            className="ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer"
+            onClick={() => (isFavourited ? unfavouriteTeam() : favouriteTeam())}
+            className={`${
+              isFavourited
+                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[25px]"
+                : "fill-transparent stroke-primary stroke-[25px] hover:fill-primary"
+            } ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer`}
           />
         )}
       </div>
