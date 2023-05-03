@@ -264,7 +264,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                     width={50}
                     height={50}
                     alt="pfp"
-                    onMouseOver={() => setProfileDropdown(!profileDropdown)}
+                    onClick={() => setProfileDropdown(!profileDropdown)}
                   />
                 }
               >
