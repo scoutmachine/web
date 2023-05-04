@@ -10,11 +10,11 @@ const Card = (props: any) => {
 };
 
 export const AboutTab = (props: any) => {
-  const events = getStorage(`team_${props.team.teamData.team_number}_events`);
+  // const events = getStorage(`team_${props.team.teamData.team_number}_events`);
 
-  const firstChampionship = events.filter((event: any) => {
-    return event.event_type_string === "Championship Division";
-  });
+  // const firstChampionship = events.filter((event: any) => {
+  //   return event.event_type_string === "Championship Division";
+  // });
 
   const calcAvg = (data1: number, data2: number) => {
     return Math.round(data1 / data2);
@@ -35,14 +35,14 @@ export const AboutTab = (props: any) => {
         title="Seasons Completed:"
         desc={props.team.yearsParticipated.length}
       />
-      <Card title="Events Competed:" desc={events.length} />
+      {/* <Card title="Events Competed:" desc={events.length} /> */}
       <Card title="Event Wins:" desc={eventsWon} />
       <Card title="Awards Won:" desc={props.team.teamAwards.length} />
       <Card title="Avg Awards per Season:" desc={avgAwards} />
-      <Card
+      {/* <Card
         title="Trips to FIRST Championship:"
         desc={firstChampionship.length}
-      />
+      /> */}
     </div>
   );
 };
