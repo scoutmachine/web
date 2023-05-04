@@ -17,7 +17,7 @@ export const Header = (props: any) => {
           </span>
         </h1>
 
-        <h2 className="text-gray-400 text-xl">{props.desc}</h2>
+        <h2 className="text-lightGray text-xl">{props.desc}</h2>
         {props.children && props.children}
       </div>
     </div>

@@ -14,8 +14,8 @@ export const TabButton = (props: Props) => {
       onClick={props.onClick}
       className={`${props.className} px-5 py-2 rounded-lg font-semibold ${
         props.active === props.tab
-          ? "bg-gray-600 text-white"
-          : "text-gray-400 bg-gray-700 hover:bg-gray-600 hover:text-white"
+          ? "dark:bg-card border dark:border-[#2A2A2A] text-white"
+          : "text-lightGray dark:bg-card hover:border hover:border-[#2A2A2A] hover:text-lightGray"
       }`}
     >
       {props.children}

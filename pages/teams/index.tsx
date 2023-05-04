@@ -220,7 +220,7 @@ export default function TeamsPage({ initial, avatars }: any) {
             </h1>
 
             {allTeams.length === 0 && (
-              <div className="text-gray-400 text-sm pl-8">
+              <div className="text-lightGray text-sm pl-8">
                 <span>
                   No teams found with &quot;<strong>{query}</strong>&quot;
                 </span>
@@ -237,7 +237,7 @@ export default function TeamsPage({ initial, avatars }: any) {
             </div>
 
             {!query && isLoadingMore && (
-              <span className="text-gray-400 mt-5 pl-8">
+              <span className="text-lightGray mt-5 pl-8">
                 Hang tight! Loading more teams...
               </span>
             )}

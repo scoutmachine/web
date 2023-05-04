@@ -15,8 +15,8 @@ export const TeamScreen = (props: any) => {
     : null;
 
   return (
-    <div className="md:pl-8 md:pr-8 w-full">
-      <div className="bg-gray-800 rounded-lg px-10 py-10 flex flex-col max-w-screen-3xl mt-16">
+    <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
+      <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
         <div className="md:flex">
           {!error ? (
             <Image
@@ -50,7 +50,7 @@ export const TeamScreen = (props: any) => {
           )}
 
           <div>
-            <p className="text-gray-400 text-sm font-medium">
+            <p className="text-lightGray text-sm font-medium">
               {props.team.school_name && props.team.school_name}{" "}
             </p>
 
@@ -59,7 +59,7 @@ export const TeamScreen = (props: any) => {
               <span className="text-primary">{props.team.nickname}</span>
             </h1>
 
-            <p className="text-gray-400">
+            <p className="text-lightGray">
               <b>
                 {props.team.city && `${props.team.city},`}{" "}
                 {props.team.state_prov && `${props.team.state_prov},`}{" "}
@@ -97,7 +97,7 @@ export const TeamScreen = (props: any) => {
           {props.socials && <Socials socials={props.socials} />}
         </div>
 
-        <div className="bg-gray-700 border-2 border-gray-500 rounded-lg py-4 px-6 mt-5">
+        <div className="dark:bg-card border dark:border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
           {isHOF && (
             <Link href="/fame" legacyBehavior>
               <a>
@@ -122,14 +122,14 @@ export const TeamScreen = (props: any) => {
                 {currentDistrict.display_name}{" "}
               </a>
             )}
-            <span className="text-gray-400">
+            <span className="text-lightGray">
               {currentDistrict
                 ? `(${currentDistrict.abbreviation.toUpperCase()}) `
                 : "N/A"}
             </span>
           </p>
 
-          <p className="text-gray-400 font-bold text-sm italic">
+          <p className="text-lightGray font-bold text-sm italic">
             {props.team.name}
           </p>
         </div>

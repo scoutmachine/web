@@ -2,31 +2,29 @@ import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
 import { TabButton } from "@/components/TabButton";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { FaTwitch } from "react-icons/fa";
+import { FaMedal, FaTwitch } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
+import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
+import { AnimatePresence, motion } from "framer-motion";
 import { TeamScreen } from "@/components/screens/TeamScreen";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
 import { Loading } from "@/components/Loading";
-import Head from "next/head";
-import { AwardsTab } from "@/components/tabs/team/Awards";
 import { AboutTab } from "@/components/tabs/team/About";
+import { AwardsTab } from "@/components/tabs/team/Awards";
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
-  const eventData = getStorage(`team_${team}_events`);
 
   if (teamData) {
-    return {
-      team: teamData,
-      events: eventData,
-    };
+    return teamData;
   }
 
   const start = performance.now();
@@ -77,19 +75,11 @@ async function fetchTeamData(team: string) {
     };
   };
 
-  const eventsData = await fetch(`${API_URL}/api/events?team=${team}`).then(
-    (res) => res.json()
-  );
-
   setStorage(
     `team_${team}_${CURR_YEAR}`,
     (await fetchInfo()) as unknown as string
   );
-  setStorage(`team_${team}_events`, eventsData);
-  return {
-    team: await fetchInfo(),
-    events: eventsData,
-  };
+  return await fetchInfo();
 }
 
 export default function TeamPage() {
@@ -103,17 +93,18 @@ export default function TeamPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [currentYearTab, setCurrentYearTab] = useState();
 
   useEffect(() => {
     if (!router.isReady) return;
 
     const fetchData = async () => {
-      const data = (await fetchTeamData(team as string)).team;
+      const data = await fetchTeamData(team as string);
       if (data) setTeamData(data);
     };
 
     fetchData();
-  }, [team, router.isReady, teamData]);
+  }, [router.isReady, team]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -132,13 +123,13 @@ export default function TeamPage() {
     };
   }, [dropdownRef]);
 
-  useEffect(() => {
-    if (dropdownRef.current) {
-      dropdownRef.current.addEventListener("click", () =>
-        setIsDropdownOpen((prevState) => !prevState)
-      );
-    }
-  }, [dropdownRef]);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleTabClick = (tabIndex: number) => {
+    setActiveTab(tabIndex);
+  };
 
   const getEventData = useCallback(async () => {
     setLoading(true);
@@ -163,6 +154,12 @@ export default function TeamPage() {
     getEventData();
   }, [getEventData]);
 
+  const sortedEventData = eventData.sort((a: any, b: any) => {
+    const aTimestamp = new Date(a.start_date).getTime();
+    const bTimestamp = new Date(b.start_date).getTime();
+    return bTimestamp - aTimestamp;
+  });
+
   if (!teamData) return <Loading />;
 
   const year = teamData.yearsParticipated
@@ -171,10 +168,6 @@ export default function TeamPage() {
 
   return (
     <>
-      <Head>
-        <title>Team {teamData.teamData.team_number} | Scout Machine</title>
-      </Head>
-
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
@@ -185,8 +178,8 @@ export default function TeamPage() {
           district={teamData.teamDistrict}
         />
 
-        <div className="md:pl-8 md:pr-8 w-full">
-          <div className="bg-gray-800 rounded-lg px-10 py-10 flex flex-col max-w-screen-3xl mt-10">
+        <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
+          <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-5">
             <div className="flex flex-wrap gap-4">
               <TabButton
                 active={activeTab}
@@ -201,20 +194,26 @@ export default function TeamPage() {
                 onClick={() => setActiveTab(2)}
               >
                 Awards{" "}
-                <span className="bg-gray-600 py-[1px] px-2 ml-1 rounded-full border-2 border-gray-500">
+                <span className="border dark:border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
                   {teamData.teamAwards.length}
                 </span>
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
-                  className={`bg-gray-700 w-[300px] text-white  ${
+                  className={`dark:bg-card border dark:border-[#2A2A2A] w-[300px] text-white  ${
                     isDropdownOpen
                       ? "rounded-t-lg border-2 border-b-gray-500 border-transparent"
                       : "rounded-lg"
                   } px-5 py-2 flex items-center justify-between cursor-pointer`}
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={toggleDropdown}
                 >
-                  <span className="font-bold">
+                  <span
+                    className={`font-bold ${
+                      activeTab === currentYearTab
+                        ? "text-white"
+                        : "text-lightGray"
+                    }`}
+                  >
                     {String(activeTab).length >= 4
                       ? `${activeTab} Season`
                       : "Select a Season"}
@@ -235,7 +234,7 @@ export default function TeamPage() {
                   </svg>
                 </div>
                 <div
-                  className={`absolute right-0 left-0 bg-gray-700 text-white rounded-b-lg px-3 py-4 ${
+                  className={`absolute right-0 left-0 dark:bg-card border dark:border-[#2A2A2A] text-white rounded-b-lg px-3 py-4 ${
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
@@ -244,10 +243,11 @@ export default function TeamPage() {
                       {teamData.yearsParticipated.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className=" cursor-pointer bg-gray-600 hover:bg-gray-500 hover:cursor-pointer py-1 px-3 rounded-lg border border-gray-500"
+                          className=" cursor-pointer text-lightGray dark:bg-card border dark:border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={() => {
-                            setActiveTab(Number(year));
+                            handleTabClick(Number(year));
                             setIsDropdownOpen(false);
+                            setCurrentYearTab(year);
                           }}
                         >
                           {year}
@@ -255,7 +255,7 @@ export default function TeamPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="px-2 text-gray-400">
+                    <p className="px-2 text-lightGray">
                       Looks like {teamData.team_number} hasn&apos;t competed,
                       yet.
                     </p>
@@ -278,66 +278,45 @@ export default function TeamPage() {
               />
             )}
 
-            <div className="flex flex-col gap-5 mt-5">
+            <div className="flex flex-col gap-5">
               {year.includes(activeTab) &&
-                eventData
-                  .sort((a: any, b: any) => {
-                    const aTimestamp = new Date(a.start_date).getTime();
-                    const bTimestamp = new Date(b.start_date).getTime();
-                    return bTimestamp - aTimestamp;
-                  })
-                  .map((event: any, key: number) => {
-                    return (
-                      <div
-                        key={key}
-                        className="bg-gray-700 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
-                      >
-                        <div className="flex justify-between">
-                          <div>
-                            <Link href={`/events/${event.key}`} legacyBehavior>
-                              <a>
-                                <h1
-                                  className="font-black text-primary text-2xl hover:text-white"
-                                  key={key}
-                                >
-                                  {event.name}
-                                </h1>
-                              </a>
-                            </Link>
-                            <a href={event.gmaps_url} target="_blank">
-                              <p className="text-gray-400 hover:text-white">
-                                {event.location_name &&
-                                  `${event.location_name}, ${event.city}, ${event.country}`}
-                              </p>
+                sortedEventData.map((event: any, key: number) => {
+                  return (
+                    <div
+                      key={key}
+                      className="border dark:border-[#2A2A2A] dark:bg-card mt-5 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
+                    >
+                      <div className="flex justify-between">
+                        <div>
+                          <Link href={`/events/${event.key}`} legacyBehavior>
+                            <a>
+                              <h1
+                                className="font-black text-primary text-2xl hover:text-white"
+                                key={key}
+                              >
+                                {event.name}
+                              </h1>
                             </a>
-                            <span className="text-md text-gray-400">
-                              {convertDate(event.start_date)} -{" "}
-                              {convertDate(event.end_date)}, {activeTab}
-                            </span>
-                            <div className="md:hidden block mt-5">
-                              {isLive(event.start_date, event.end_date) <=
-                                event.end_date &&
-                                event.webcasts.length > 0 && (
-                                  <a
-                                    href={`https://twitch.tv/${event.webcasts[0].channel}`}
-                                    target="_blank"
-                                  >
-                                    <div className="flex bg-[#6441a5] text-white hover:bg-white py-1 px-5 rounded-lg font-bold">
-                                      <FaTwitch className="text-md mt-1 mr-2" />{" "}
-                                      {event.webcasts[0].channel}
-                                    </div>
-                                  </a>
-                                )}
-                            </div>
-                          </div>
-                          <div className="md:block hidden">
-                            {isLive(event.start_date, event.end_date) &&
+                          </Link>
+                          <a href={event.gmaps_url} target="_blank">
+                            <p className="text-lightGray hover:text-white">
+                              {event.location_name &&
+                                `${event.location_name}, ${event.city}, ${event.country}`}
+                            </p>
+                          </a>
+                          <span className="text-md text-lightGray">
+                            {convertDate(event.start_date)} -{" "}
+                            {convertDate(event.end_date)}, {activeTab}
+                          </span>
+                          <div className="md:hidden block mt-5">
+                            {isLive(event.start_date, event.end_date) <=
+                              event.end_date &&
                               event.webcasts.length > 0 && (
                                 <a
                                   href={`https://twitch.tv/${event.webcasts[0].channel}`}
                                   target="_blank"
                                 >
-                                  <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 py-1 px-5 rounded-lg font-bold">
+                                  <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
                                     <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                     {event.webcasts[0].channel}
                                   </div>
@@ -345,22 +324,37 @@ export default function TeamPage() {
                               )}
                           </div>
                         </div>
-
-                        {matchData[event.event_code].length === 0 ? (
-                          <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
-                            Looks like there&apos;s no data available for this
-                            event! 😔{" "}
-                          </p>
-                        ) : (
-                          <EventData
-                            data={matchData[event.event_code]}
-                            team={team}
-                            isTeam={true}
-                          />
-                        )}
+                        <div className="md:block hidden">
+                          {isLive(event.start_date, event.end_date) &&
+                            event.webcasts.length > 0 && (
+                              <a
+                                href={`https://twitch.tv/${event.webcasts[0].channel}`}
+                                target="_blank"
+                              >
+                                <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                  <FaTwitch className="text-md mt-1 mr-2" />{" "}
+                                  {event.webcasts[0].channel}
+                                </div>
+                              </a>
+                            )}
+                        </div>
                       </div>
-                    );
-                  })}
+
+                      {matchData[event.event_code].length === 0 ? (
+                        <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
+                          Looks like there&apos;s no data available for this
+                          event! 😔{" "}
+                        </p>
+                      ) : (
+                        <EventData
+                          data={matchData[event.event_code]}
+                          team={team}
+                          isTeam={true}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </div>

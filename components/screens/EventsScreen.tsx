@@ -24,7 +24,7 @@ const Event = (props: any) => {
             {convertDate(props.event.start_date)} -{" "}
             {convertDate(props.event.end_date)}, {CURR_YEAR}
           </p>
-          <p className="text-gray-400 absolute bottom-3 left-5">
+          <p className="text-lightGray absolute bottom-3 left-5">
             {props.event.city}, {props.event.state_prov}, {props.event.country}
           </p>
         </div>

@@ -13,7 +13,7 @@ export const AwardsTab = (props: any) => {
     <div className="flex flex-col mt-5">
       {props.team.teamAwards.length > 0 ? (
         <>
-          <div className="md:grid sm:grid-cols-4 lg:grid-cols-7 grid-cols-10 gap-4">
+          <div className="flex flex-wrap md:flex-row gap-3">
             <AnimatePresence>
               {filteredAwards
                 .reverse()
@@ -56,7 +56,7 @@ export const AwardsTab = (props: any) => {
             </AnimatePresence>
           </div>
           {filteredAwards.length > 14 && (
-            <h1 className="text-gray-400 italic font-semibold text-sm mt-[-15px] mb-5">
+            <h1 className="text-lightGray italic font-semibold text-sm mt-[-15px] mb-5">
               {props.showAll
                 ? ""
                 : `(${
@@ -91,7 +91,7 @@ export const AwardsTab = (props: any) => {
                       award.year
                     }/${award.event_key.slice(4)}`}
                     target="_blank"
-                    className="bg-gray-700 rounded-lg px-5 py-5 hover:bg-gray-600 border-2 border-gray-500"
+                    className="rounded-lg px-5 py-5 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600"
                   >
                     <div className="flex">
                       {award.name.includes("Winner") && (
@@ -101,14 +101,14 @@ export const AwardsTab = (props: any) => {
                         {award.name}
                       </h1>
                     </div>
-                    <p className="text-gray-400 mt-3">{award.year}</p>
+                    <p className="text-lightGray mt-3">{award.year}</p>
                   </a>
                 );
               })}
           </div>
         </>
       ) : (
-        <p className="text-gray-400">
+        <p className="text-lightGray">
           Looks like {props.team.team_number} hasn&apos;t received any awards
           yet.
         </p>

@@ -2,9 +2,9 @@ import { getStorage } from "@/util/localStorage";
 
 const Card = (props: any) => {
   return (
-    <div className="bg-gray-700 px-5 py-5 rounded-lg flex border-2 border-gray-500">
+    <div className="border dark:border-[#2A2A2A] dark:bg-card px-5 py-5 rounded-lg flex">
       <h1 className="font-bold mr-2">{props.title}</h1>
-      <p className="text-gray-400">{props.desc}</p>
+      <p className="text-lightGray">{props.desc}</p>
     </div>
   );
 };

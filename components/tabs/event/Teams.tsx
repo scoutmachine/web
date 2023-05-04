@@ -16,7 +16,7 @@ export const TeamsScreen = (props: any) => {
                       ? `${team.nickname.slice(0, 16)}...`
                       : team.nickname}
                   </h1>
-                  <p className="text-gray-400">Team {team.team_number}</p>
+                  <p className="text-lightGray">Team {team.team_number}</p>
                 </div>
               </a>
             </Link>

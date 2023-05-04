@@ -14,7 +14,7 @@ export const EventHeader = (props: any) => {
       <h1 className="text-3xl text-primary tetxt-left font-black">
         {props.event.name}
       </h1>
-      <p className="text-gray-400 text-left">
+      <p className="text-lightGray text-left">
         <span className="mb-[-22px] flex">
           {formattedDate}{" "}
           <span className="bg-gray-700 rounded-full py-[3.5px] ml-1 px-2 text-xs font-semibold">

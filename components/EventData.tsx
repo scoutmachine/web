@@ -24,7 +24,7 @@ const newText = [
 
 const EventList = (props: any) => {
   return (
-    <tr className="text-gray-300 bg-gray-700 border-2 border-gray-500 hover:bg-gray-600">
+    <tr className="text-lightGray border dark:border-[#2A2A2A] dark:bg-card hover:bg-[#191919]">
       <td className="px-6 py-4">
         {props.match.videos && props.match.videos.length > 0 ? (
           <a
@@ -34,7 +34,7 @@ const EventList = (props: any) => {
             <FaYoutube className="text-2xl text-red-400 hover:text-white" />
           </a>
         ) : (
-          <p className="text-gray-400">
+          <p className="text-lightGray">
             <ImCross className="text-lg" />
           </p>
         )}
@@ -54,7 +54,7 @@ const EventList = (props: any) => {
               } ${
                 props.didWeWin() === "unknown" &&
                 props.isTeam &&
-                "text-gray-400"
+                "text-lightGray"
               }`}
             >
               {props.search_array(newText, props.match.comp_level)}{" "}
@@ -68,7 +68,7 @@ const EventList = (props: any) => {
 
       {props.isTeam && (
         <td className="px-6 py-4">
-          <span className="text-gray-400">
+          <span className="text-lightGray">
             <span
               className={` ${
                 props.findAlliances().alliance === "Red"
@@ -87,7 +87,7 @@ const EventList = (props: any) => {
             ? props.match.score_breakdown.red.totalPoints
             : "?"}{" "}
         </span>
-        <span className="text-gray-400 font-regular">
+        <span className="text-lightGray font-regular">
           (
           {props.match.alliances.red.team_keys.includes("frc0")
             ? "TBD"
@@ -103,7 +103,7 @@ const EventList = (props: any) => {
             ? props.match.score_breakdown.blue.totalPoints
             : "?"}{" "}
         </span>
-        <span className="text-gray-400 font-regular">
+        <span className="text-lightGray font-regular">
           (
           {props.match.alliances.blue.team_keys.includes("frc0")
             ? "TBD"
@@ -168,13 +168,13 @@ export const EventData = (props: any) => {
       {isClient && (
         <div className="relative overflow-x-auto">
           {props.isTeam && (
-            <div className="bg-gray-600 text-gray-400 mt-5 px-5 py-3 rounded-lg border-2 border-gray-500">
+            <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] text-lightGray mt-5 px-5 py-3 rounded-lg border-2 border-gray-500">
               <span className="text-green-400">Win</span> /{" "}
               <span className="text-red-400">Loss</span> /{" "}
-              <span className="text-gray-400">Unknown</span>
+              <span className="text-lightGray">Unknown</span>
             </div>
           )}
-          <table className="w-full mt-5 text-sm text-left bg-gray-600 border-2 border-gray-500">
+          <table className="w-full mt-5 text-sm text-left bg-[#191919] border dark:border-[#2A2A2A]">
             <thead className="text-xs text-white uppercase">
               <tr>
                 <th scope="col" className="px-6 py-3">

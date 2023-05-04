@@ -247,7 +247,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                   ))
                 ) : (
                   <div className="bg-card">
-                    <p className="text-gray-400 px-2 py-2 text-sm">
+                    <p className="text-lightGray px-2 py-2 text-sm">
                       No results found.
                     </p>
                   </div>

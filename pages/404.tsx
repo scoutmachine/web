@@ -13,7 +13,7 @@ export default function Page404() {
         <h1 className="text-5xl text-primary font-black">
           404 - Page Not Found
         </h1>
-        <p className="text-gray-400">
+        <p className="text-lightGray">
           We tried searching our entire site, but couldn&apos;t find what you
           were looking for.{" "}
           <Link href="/" legacyBehavior>
