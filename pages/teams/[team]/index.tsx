@@ -2,16 +2,13 @@ import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
 import { TabButton } from "@/components/TabButton";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
-import { useCallback, useEffect, useState } from "react";
-import { FaMedal, FaTwitch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaTwitch } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
-import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
-import { AnimatePresence, motion } from "framer-motion";
 import { TeamScreen } from "@/components/screens/TeamScreen";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
@@ -103,8 +100,28 @@ export default function TeamPage() {
       if (data) setTeamData(data);
     };
 
+    const getEventData = async () => {
+      setLoading(true);
+      const fetchEventData = await fetch(
+        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+      ).then((res) => res.json());
+
+      const eventMatchData: any = {};
+
+      for (const event of fetchEventData) {
+        const matchData = await fetch(
+          `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
+        ).then((res) => res.json());
+        eventMatchData[event.event_code] = matchData;
+      }
+      setMatchData(eventMatchData);
+      setEventData(fetchEventData);
+      setLoading(false);
+    };
+
     fetchData();
-  }, [router.isReady, team]);
+    getEventData();
+  }, [activeTab, router.isReady, team]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -130,35 +147,6 @@ export default function TeamPage() {
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex);
   };
-
-  const getEventData = useCallback(async () => {
-    setLoading(true);
-    const fetchEventData = await fetch(
-      `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
-    ).then((res) => res.json());
-
-    const eventMatchData: any = {};
-
-    for (const event of fetchEventData) {
-      const matchData = await fetch(
-        `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
-      ).then((res) => res.json());
-      eventMatchData[event.event_code] = matchData;
-    }
-    setMatchData(eventMatchData);
-    setEventData(fetchEventData);
-    setLoading(false);
-  }, [team, activeTab]);
-
-  useEffect(() => {
-    getEventData();
-  }, [getEventData]);
-
-  const sortedEventData = eventData.sort((a: any, b: any) => {
-    const aTimestamp = new Date(a.start_date).getTime();
-    const bTimestamp = new Date(b.start_date).getTime();
-    return bTimestamp - aTimestamp;
-  });
 
   if (!teamData) return <Loading />;
 
@@ -280,43 +268,64 @@ export default function TeamPage() {
 
             <div className="flex flex-col gap-5">
               {year.includes(activeTab) &&
-                sortedEventData.map((event: any, key: number) => {
-                  return (
-                    <div
-                      key={key}
-                      className="border dark:border-[#2A2A2A] dark:bg-card mt-5 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
-                    >
-                      <div className="flex justify-between">
-                        <div>
-                          <Link href={`/events/${event.key}`} legacyBehavior>
-                            <a>
-                              <h1
-                                className="font-black text-primary text-2xl hover:text-white"
-                                key={key}
-                              >
-                                {event.name}
-                              </h1>
+                eventData
+                  .sort((a: any, b: any) => {
+                    const aTimestamp = new Date(a.start_date).getTime();
+                    const bTimestamp = new Date(b.start_date).getTime();
+                    return bTimestamp - aTimestamp;
+                  })
+                  .map((event: any, key: number) => {
+                    return (
+                      <div
+                        key={key}
+                        className="border dark:border-[#2A2A2A] dark:bg-card mt-5 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
+                      >
+                        <div className="flex justify-between">
+                          <div>
+                            <Link href={`/events/${event.key}`} legacyBehavior>
+                              <a>
+                                <h1
+                                  className="font-black text-primary text-2xl hover:text-white"
+                                  key={key}
+                                >
+                                  {event.name}
+                                </h1>
+                              </a>
+                            </Link>
+                            <a href={event.gmaps_url} target="_blank">
+                              <p className="text-lightGray hover:text-white">
+                                {event.location_name &&
+                                  `${event.location_name}, ${event.city}, ${event.country}`}
+                              </p>
                             </a>
-                          </Link>
-                          <a href={event.gmaps_url} target="_blank">
-                            <p className="text-lightGray hover:text-white">
-                              {event.location_name &&
-                                `${event.location_name}, ${event.city}, ${event.country}`}
-                            </p>
-                          </a>
-                          <span className="text-md text-lightGray">
-                            {convertDate(event.start_date)} -{" "}
-                            {convertDate(event.end_date)}, {activeTab}
-                          </span>
-                          <div className="md:hidden block mt-5">
-                            {isLive(event.start_date, event.end_date) <=
-                              event.end_date &&
+                            <span className="text-md text-lightGray">
+                              {convertDate(event.start_date)} -{" "}
+                              {convertDate(event.end_date)}, {activeTab}
+                            </span>
+                            <div className="md:hidden block mt-5">
+                              {isLive(event.start_date, event.end_date) <=
+                                event.end_date &&
+                                event.webcasts.length > 0 && (
+                                  <a
+                                    href={`https://twitch.tv/${event.webcasts[0].channel}`}
+                                    target="_blank"
+                                  >
+                                    <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                      <FaTwitch className="text-md mt-1 mr-2" />{" "}
+                                      {event.webcasts[0].channel}
+                                    </div>
+                                  </a>
+                                )}
+                            </div>
+                          </div>
+                          <div className="md:block hidden">
+                            {isLive(event.start_date, event.end_date) &&
                               event.webcasts.length > 0 && (
                                 <a
                                   href={`https://twitch.tv/${event.webcasts[0].channel}`}
                                   target="_blank"
                                 >
-                                  <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                  <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
                                     <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                     {event.webcasts[0].channel}
                                   </div>
@@ -324,37 +333,22 @@ export default function TeamPage() {
                               )}
                           </div>
                         </div>
-                        <div className="md:block hidden">
-                          {isLive(event.start_date, event.end_date) &&
-                            event.webcasts.length > 0 && (
-                              <a
-                                href={`https://twitch.tv/${event.webcasts[0].channel}`}
-                                target="_blank"
-                              >
-                                <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
-                                  <FaTwitch className="text-md mt-1 mr-2" />{" "}
-                                  {event.webcasts[0].channel}
-                                </div>
-                              </a>
-                            )}
-                        </div>
-                      </div>
 
-                      {matchData[event.event_code].length === 0 ? (
-                        <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
-                          Looks like there&apos;s no data available for this
-                          event! 😔{" "}
-                        </p>
-                      ) : (
-                        <EventData
-                          data={matchData[event.event_code]}
-                          team={team}
-                          isTeam={true}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
+                        {matchData[event.event_code].length === 0 ? (
+                          <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
+                            Looks like there&apos;s no data available for this
+                            event! 😔{" "}
+                          </p>
+                        ) : (
+                          <EventData
+                            data={matchData[event.event_code]}
+                            team={team}
+                            isTeam={true}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
             </div>
           </div>
         </div>

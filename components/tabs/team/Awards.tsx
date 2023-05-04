@@ -56,7 +56,7 @@ export const AwardsTab = (props: any) => {
             </AnimatePresence>
           </div>
           {filteredAwards.length > 14 && (
-            <h1 className="text-lightGray italic font-semibold text-sm mt-[-15px] mb-5">
+            <h1 className="text-lightGray italic font-semibold text-sm mb-5">
               {props.showAll
                 ? ""
                 : `(${
