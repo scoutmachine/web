@@ -59,8 +59,6 @@ export const TeamCard = (props: any) => {
     router.push(router.pathname);
   };
 
-  if (isLoading) return <Loading />;
-
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
       <div className="relative px-5 py-8 h-32 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 rounded-lg">

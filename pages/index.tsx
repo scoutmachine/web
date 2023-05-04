@@ -62,17 +62,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
     const teamAvatars: any = {};
 
-    user?.favourited.map(async (team: any) => {
-      const data = await fetch(
-        `${API_URL}/api/team/avatar?team=${team.team_number}`
-      ).then((res) => res.json());
+    if (user?.favourited) {
+      await Promise.all(
+        user.favourited.map(async (team: any) => {
+          const data = await fetch(
+            `${API_URL}/api/team/avatar?team=${team.team_number}`
+          ).then((res) => res.json());
 
-      try {
-        teamAvatars[team.team_number] = data.avatar;
-      } catch (e) {
-        console.error(e);
-      }
-    });
+          teamAvatars[team.team_number] = data.avatar;
+        })
+      );
+    }
 
     return { props: { user, avatars: teamAvatars } };
   }
