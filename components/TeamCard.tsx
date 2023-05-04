@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import router from "next/router";
-import { Loading } from "./Loading";
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
@@ -17,10 +16,9 @@ export const TeamCard = (props: any) => {
   const favouritedTeam = favourites?.filter(
     (team: any) => team.team_number === props.team.team_number
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const [isStarFilled, setIsStarFilled] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     const getFavourites = async () => {
       const data = await fetch(`${API_URL}/api/@me/favourites`);
 
@@ -28,8 +26,6 @@ export const TeamCard = (props: any) => {
         const JSONdata = await data.json();
         setFavourites(JSONdata.favourited);
       }
-
-      setIsLoading(false);
     };
 
     getFavourites();
@@ -100,11 +96,18 @@ export const TeamCard = (props: any) => {
         </Link>
         {session && (
           <FaStar
-            onClick={() => (isFavourited ? unfavouriteTeam() : favouriteTeam())}
+            onClick={() => {
+              if (isFavourited) {
+                unfavouriteTeam();
+              } else {
+                setIsStarFilled(!isStarFilled);
+                favouriteTeam();
+              }
+            }}
             className={`${
-              isFavourited
-                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[25px]"
-                : "fill-transparent stroke-primary stroke-[25px] hover:fill-primary"
+              isFavourited || isStarFilled
+                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px]"
+                : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary"
             } ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer`}
           />
         )}
