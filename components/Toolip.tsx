@@ -22,7 +22,7 @@ export const Tooltip = (props: any) => {
               <div className="flex items-center justify-center">
                 <Image
                   className="rounded-lg mr-5 w-6 mb-2"
-                  alt="FIRST Logo"
+                  alt={`Team ${props.team.team_number} Avatar`}
                   height="25"
                   width="25"
                   priority={true}

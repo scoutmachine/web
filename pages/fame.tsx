@@ -53,6 +53,7 @@ export default function HOFPage() {
                     height="50"
                     width="50"
                     alt="FIRST Logo"
+                    priority={true}
                   />
                 </div>
                 <div className="award-name mt-5">

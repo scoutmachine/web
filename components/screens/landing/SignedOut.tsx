@@ -31,6 +31,7 @@ export const SignedOutScreen = () => {
             height="60"
             width="60"
             alt="Scout Machine Logo"
+            priority={true}
             className="ml-[-8px]"
           />
 

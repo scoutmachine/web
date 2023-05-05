@@ -73,7 +73,8 @@ export const TeamCard = (props: any) => {
               }
               height="40"
               width="40"
-              alt=""
+              alt={`Team ${props.team.team_number} Avatar`}
+              priority={true}
               className="rounded-lg mb-2 absolute top-5 right-3"
             />
 

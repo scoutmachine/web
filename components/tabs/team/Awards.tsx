@@ -36,6 +36,7 @@ export const AwardsTab = (props: any) => {
                           src="/first-icon.svg"
                           height="50"
                           width="50"
+                          priority={true}
                           alt="FIRST Logo"
                         />
                       </div>

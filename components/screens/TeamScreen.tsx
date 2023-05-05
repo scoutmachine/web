@@ -21,7 +21,7 @@ export const TeamScreen = (props: any) => {
           {!error ? (
             <Image
               className="rounded-lg mr-5 w-20 mb-5 md:mb-0"
-              alt={`${props.team.team_number} Logo`}
+              alt={`Team ${props.team.team_number} Avatar`}
               height="50"
               width="50"
               priority={true}
