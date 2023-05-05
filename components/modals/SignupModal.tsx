@@ -3,6 +3,7 @@ import { Dispatch, Fragment, SetStateAction } from "react";
 import Image from "next/image";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { Modal } from "./Modal";
 
 type Props = {
   isOpen: boolean;
@@ -33,7 +34,7 @@ const ModalBody = () => (
   </div>
 );
 
-const ModalFooter = ({ setOpen }: Props) => (
+const ModalFooter = ({ setOpen }: any) => (
   <>
     <div className="flex flex-col md:flex-row justify-center items-center gap-2">
       <div className="mt-4">
@@ -66,46 +67,12 @@ const ModalFooter = ({ setOpen }: Props) => (
 
 export const SignupModal = ({ isOpen, setOpen }: Props) => {
   return (
-    <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setOpen(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/75" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl border border-gray-300 bg-[#f0f0f0] p-6 text-center transition-all dark:border-[#2A2A2A] dark:bg-[#191919]">
-                  <ModalHeader />
-                  <ModalBody />
-                  <ModalFooter isOpen={isOpen} setOpen={setOpen} />
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
+    <Modal
+      header={<ModalHeader />}
+      body={<ModalBody />}
+      footer={<ModalFooter setOpen={setOpen} />}
+      isOpen={isOpen}
+      setOpen={setOpen}
+    />
   );
 };
