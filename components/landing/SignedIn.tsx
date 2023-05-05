@@ -16,15 +16,18 @@ export const SignedInScreen = (props: {
     <>
       <div className="pr-8 pl-8 max-w-screen-3xl w-full">
         <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] mt-10 rounded-lg px-10 py-10">
-          <h1 className="flex font-bold text-5xl">
-            Welcome back,
-            <span className="text-primary ml-2">
+          <h1 className="flex flex-wrap font-bold text-5xl">
+            Welcome back,{" "}
+            <span className="text-primary md:ml-2">
               {props.session.user?.name?.split(" ")[0]}!
             </span>
           </h1>
           <p className="text-lightGray font-medium">
-            {props.session.user?.email} {" "}
-            <span className="cursor-pointer text-white" onClick={() => setShowEditProfileModal(true)}>
+            {props.session.user?.email}{" "}
+            <span
+              className="cursor-pointer text-white"
+              onClick={() => setShowEditProfileModal(true)}
+            >
               / Edit Profile
             </span>
           </p>
