@@ -4,6 +4,7 @@ import { FaStar } from "react-icons/fa";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import { EditProfileModal } from "../modals/EditProfileModal";
+import { greetings } from "@/lib/constants";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -11,13 +12,14 @@ export const SignedInScreen = (props: {
   avatars: any;
 }) => {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   return (
     <>
       <div className="pr-8 pl-8 max-w-screen-3xl w-full">
         <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] mt-10 rounded-lg px-10 py-10">
           <h1 className="flex flex-wrap font-bold text-5xl">
-            Welcome back,{" "}
+            {greeting},{" "}
             <span className="text-primary md:ml-2">
               {props.session.user?.name}!
             </span>
