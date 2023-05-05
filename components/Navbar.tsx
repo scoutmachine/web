@@ -2,10 +2,6 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { AiOutlineMenu } from "react-icons/ai";
-import { RiRadarFill } from "react-icons/ri";
-import { BsFillLightningFill, BsFillPersonFill } from "react-icons/bs";
-import { MdSell } from "react-icons/md";
 import {
   FaMedal,
   FaSearch,
@@ -16,6 +12,10 @@ import {
   FaCoffee,
   FaSignOutAlt,
   FaUserCircle,
+  FaTag,
+  FaBolt,
+  FaTwitch,
+  FaBars
 } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
@@ -38,9 +38,9 @@ const links = [
   { title: "Teams", href: "/teams", icon: <FaRobot /> },
   { title: "Events", href: "/events", icon: <FaHammer /> },
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
-  { title: "Rookie Teams", href: "/rookies", icon: <BsFillLightningFill /> },
-  { title: "Game Day", href: "/gameday", icon: <RiRadarFill /> },
-  { title: "Marketplace", href: "/marketplace", icon: <MdSell /> },
+  { title: "Rookie Teams", href: "/rookies", icon: <FaBolt /> },
+  { title: "Game Day", href: "/gameday", icon: <FaTwitch /> },
+  { title: "Marketplace", href: "/marketplace", icon: <FaTag /> },
 ];
 
 async function fetchTeamsData() {
@@ -156,7 +156,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                 showLinks ? `bg-[#1F1F1F]` : "dark:bg-card"
               } rounded-lg py-2 px-[13px]`}
             >
-              <AiOutlineMenu
+              <FaBars
                 className="md:hidden text-white text-xl"
                 onClick={() => setShowLinks(!showLinks)}
               />
@@ -295,7 +295,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                 onClick={() => setShowLoginModal(true)}
                 className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
               >
-                <BsFillPersonFill className="text-lg" />
+                <FaUserCircle className="text-lg" />
               </button>
             )}
           </div>

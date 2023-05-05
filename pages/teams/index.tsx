@@ -6,8 +6,7 @@ import { useDebounce } from "use-debounce";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
-import { AiFillHome } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
+import { FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
 
 export default function TeamsPage({ initial, avatars }: any) {
@@ -187,7 +186,7 @@ export default function TeamsPage({ initial, avatars }: any) {
                     filterByNumber === 0 ? "bg-[#191919]" : "dark:bg-card"
                   } px-3 py-1 text-lightGray text-sm rounded-lg border dark:border-[#2A2A2A] hover:dark:bg-[#191919]`}
                 >
-                  <AiFillHome />
+                  <FaHome />
                 </button>
                 <button
                   onClick={() => {

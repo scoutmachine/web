@@ -7,7 +7,7 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { useState, useEffect } from "react";
-import { SiRobotframework } from "react-icons/si";
+import { FaBolt } from "react-icons/fa";
 import Head from "next/head";
 import { log } from "@/util/log";
 
@@ -101,7 +101,7 @@ export default function RookiesPage() {
         className="flex"
         title={
           <p className="md:flex text-3xl md:text-5xl font-black text-primary mb-2">
-            <SiRobotframework className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />
+            <FaBolt className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />
             <span className="italic md:mr-3 mr-1">FIRST</span> Rookie Teams
           </p>
         }

@@ -45,7 +45,11 @@ const ModalBody = ({ setOpen }: any) => {
   };
 
   const updateDisplay = async () => {
-    if (displayName.length > 0) {
+    if (displayName.length === 0) {
+      setErrorMessage("Display Name left blank");
+    } else if (displayName === session?.user?.name) {
+      setErrorMessage("That already is your name!");
+    } else {
       await fetch(`${API_URL}/api/@me/update`, {
         method: "POST",
         body: JSON.stringify({ name: displayName }),
@@ -53,13 +57,15 @@ const ModalBody = ({ setOpen }: any) => {
 
       reloadSession();
       setOpen(false);
-    } else {
-      setErrorMessage("Display Name left blank");
     }
   };
 
   const updateAvatar = async () => {
-    if (avatar.length > 0) {
+    if (avatar.length === 0) {
+      setErrorMessage("Avatar URL left blank");
+    } else if (avatar === session?.user?.image) {
+      setErrorMessage("That already is your avatar!");
+    } else {
       await fetch(`${API_URL}/api/@me/update`, {
         method: "POST",
         body: JSON.stringify({ image: avatar }),
@@ -67,8 +73,6 @@ const ModalBody = ({ setOpen }: any) => {
 
       reloadSession();
       setOpen(false);
-    } else {
-      setErrorMessage("Avatar URL left blank");
     }
   };
 
