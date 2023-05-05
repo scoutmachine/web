@@ -1,10 +1,8 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
-import { BiRename } from "react-icons/bi";
-import { RxAvatar } from "react-icons/rx";
-import { MdEmail } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
+import { FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
 
 type Props = {
   isOpen: boolean;
@@ -95,7 +93,7 @@ const ModalBody = ({ setOpen }: any) => {
           <p className="uppercase text-xs text-lightGray mb-2">Email</p>
           <Input
             placeholder={session?.user?.email}
-            icon={MdEmail}
+            icon={FaEnvelope}
             className="cursor-not-allowed"
             disabled
           />
@@ -106,7 +104,7 @@ const ModalBody = ({ setOpen }: any) => {
           <div className="flex gap-x-2">
             <Input
               placeholder={session?.user?.name}
-              icon={BiRename}
+              icon={FaSignature}
               state={setDisplayName}
             />
             <button
@@ -123,7 +121,7 @@ const ModalBody = ({ setOpen }: any) => {
           <div className="flex gap-x-2">
             <Input
               placeholder={session?.user?.image}
-              icon={RxAvatar}
+              icon={FaUserCircle}
               state={setAvatar}
             />
             <button

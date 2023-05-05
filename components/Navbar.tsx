@@ -15,6 +15,7 @@ import {
   FaDiscord,
   FaCoffee,
   FaSignOutAlt,
+  FaUserCircle,
 } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
@@ -23,7 +24,6 @@ import { log } from "@/util/log";
 import { signOut, useSession } from "next-auth/react";
 import { Dropdown } from "./Dropdown";
 import { SignupModal } from "./modals/SignupModal";
-import { RxAvatar } from "react-icons/rx";
 import { EditProfileModal } from "./modals/EditProfileModal";
 
 const Social = (props: any) => {
@@ -279,7 +279,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                       setProfileDropdown(false);
                     }}
                   >
-                    <RxAvatar className="text-lg mr-2" /> Edit Profile
+                    <FaUserCircle className="text-lg mr-2" /> Edit Profile
                   </p>
 
                   <p
