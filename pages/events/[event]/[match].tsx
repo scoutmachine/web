@@ -55,7 +55,7 @@ export default function MatchPage() {
   return (
     <>
       <Head>
-        <title>Match | Scout Machine</title>
+        <title>Match {matchData.match_number} | Scout Machine</title>
       </Head>
 
       <Navbar />
