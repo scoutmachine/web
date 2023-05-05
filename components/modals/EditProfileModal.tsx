@@ -82,7 +82,7 @@ const ModalBody = ({ setOpen }: any) => {
           errorMessage ? "mb-1" : "mb-5"
         }`}
       >
-        You can currently only change your <b>Display Name & Avatar</b>.
+        Update your account information
       </p>
 
       {errorMessage && (

@@ -36,7 +36,7 @@ export const SignedInScreen = (props: {
           <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED TEAMS
         </p>
         {props.favourites.length > 0 ? (
-          <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-6 gap-3">
+          <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4 gap-3">
             {props.favourites.map((team: any, key: number) => {
               return <TeamCard key={key} team={team} avatars={props.avatars} />;
             })}
