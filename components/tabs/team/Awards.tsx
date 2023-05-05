@@ -97,7 +97,7 @@ export const AwardsTab = (props: any) => {
                       {award.name.includes("Winner") && (
                         <FaMedal className="text-xl mr-2 text-[#ecc729]" />
                       )}
-                      <h1 className="font-bold text-gray-300 mt-[-5px]">
+                      <h1 className="font-bold text-lightGray mt-[-5px]">
                         {award.name}
                       </h1>
                     </div>

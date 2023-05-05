@@ -29,7 +29,7 @@ export const AlliancesScreen = (props: any) => {
             return (
               <tr
                 key={key}
-                className="text-gray-300 bg-gray-700 border-2 border-gray-500 hover:bg-gray-600"
+                className="text-lightGray bg-gray-700 border-2 border-gray-500 hover:bg-gray-600"
               >
                 <td className="px-6 py-4 font-bold">{alliance.name}</td>
 
