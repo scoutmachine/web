@@ -19,7 +19,7 @@ const Input = (props: any) => {
         className={`${props.className} w-full border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
         type="text"
         disabled={props.disabled ?? false}
-        placeholder={props.placeholder}
+        defaultValue={props.placeholder}
         spellCheck={false}
         onChange={(e) => props.state(e.target.value)}
       />
@@ -38,9 +38,9 @@ const ModalHeader = () => (
 
 const ModalBody = ({ setOpen }: any) => {
   const { data: session } = useSession();
-  const [displayName, setDisplayName] = useState();
-  const [avatar, setAvatar] = useState();
-  //   const [errorMessage, setErrorMessage] = useState<string>();
+  const [displayName, setDisplayName] = useState<string>("");
+  const [avatar, setAvatar] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");
@@ -48,30 +48,48 @@ const ModalBody = ({ setOpen }: any) => {
   };
 
   const updateDisplay = async () => {
-    await fetch(`${API_URL}/api/@me/update`, {
-      method: "POST",
-      body: JSON.stringify({ name: displayName }),
-    });
+    if (displayName.length > 0) {
+      await fetch(`${API_URL}/api/@me/update`, {
+        method: "POST",
+        body: JSON.stringify({ name: displayName }),
+      });
 
-    reloadSession();
-    setOpen(false);
+      reloadSession();
+      setOpen(false);
+    } else {
+      setErrorMessage("Display Name left blank");
+    }
   };
 
   const updateAvatar = async () => {
-    await fetch(`${API_URL}/api/@me/update`, {
-      method: "POST",
-      body: JSON.stringify({ image: avatar }),
-    });
+    if (avatar.length > 0) {
+      await fetch(`${API_URL}/api/@me/update`, {
+        method: "POST",
+        body: JSON.stringify({ image: avatar }),
+      });
 
-    reloadSession();
-    setOpen(false);
+      reloadSession();
+      setOpen(false);
+    } else {
+      setErrorMessage("Avatar URL left blank");
+    }
   };
 
   return (
     <div className="mt-2">
-      <p className="text-sm text-gray-500 mb-5 mt-[-5px]">
+      <p
+        className={`text-sm text-gray-500 mt-[-5px] ${
+          errorMessage ? "mb-1" : "mb-5"
+        }`}
+      >
         You can currently only change your <b>Display Name & Avatar</b>.
       </p>
+
+      {errorMessage && (
+        <p className="text-red-500 text-xs mb-5">
+          <b>ERROR:</b> {errorMessage}
+        </p>
+      )}
 
       <div className="flex flex-col space-y-4">
         <div>

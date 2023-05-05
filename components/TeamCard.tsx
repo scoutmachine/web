@@ -16,7 +16,7 @@ export const TeamCard = (props: any) => {
   const favouritedTeam = favourites?.filter(
     (team: any) => team.team_number === props.team.team_number
   );
-  const [isStarFilled, setIsStarFilled] = useState(true);
+  const [isStarFilled, setIsStarFilled] = useState(false);
 
   useEffect(() => {
     const getFavourites = async () => {

@@ -21,12 +21,12 @@ const ModalHeader = () => (
         priority={true}
       />
     </div>
-    <h1 className="font-semibold text-xl">Sign up / Scout Machine</h1>
+    <h1 className="font-semibold text-xl text-center">Sign up / Scout Machine</h1>
   </>
 );
 
 const ModalBody = () => (
-  <div className="mt-2 space-y-4">
+  <div className="mt-2 space-y-4 text-center">
     <p className="text-sm text-gray-500">
       Thank you for considering using Scout Machine! We appreciate each and
       every one of our users.
@@ -58,7 +58,7 @@ const ModalFooter = ({ setOpen }: any) => (
     </div>
     <p
       onClick={() => setOpen(false)}
-      className="text-xs italic text-lightGray hover:text-primary mt-2 cursor-pointer"
+      className="text-xs italic text-lightGray hover:text-primary mt-2 cursor-pointer text-center"
     >
       I want to go back
     </p>

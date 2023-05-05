@@ -19,7 +19,7 @@ export const SignedInScreen = (props: {
           <h1 className="flex flex-wrap font-bold text-5xl">
             Welcome back,{" "}
             <span className="text-primary md:ml-2">
-              {props.session.user?.name?.split(" ")[0]}!
+              {props.session.user?.name}!
             </span>
           </h1>
           <p className="text-lightGray font-medium">

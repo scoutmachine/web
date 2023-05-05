@@ -216,10 +216,8 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
               <div
                 className={`absolute top-10 z-50 w-full overflow-x-hidden ${
-                  searchTerm.length > 0 && "h-64"
-                } ${teams && filteredOptions.length > 4 && "overflow-y-auto"} ${
-                  searchTerm && "border dark:border-[#2A2A2A]"
-                } rounded-lg`}
+                  teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
+                } ${searchTerm && "border dark:border-[#2A2A2A]"} rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
                   filteredOptions.map((team: any, key: number) => (
@@ -280,9 +278,9 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
+                className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
               >
-                <BsFillPersonFill className="text-lg mr-1" /> Sign Up
+                <BsFillPersonFill className="text-lg" />
               </button>
             )}
           </div>
