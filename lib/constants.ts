@@ -6,20 +6,6 @@ export const API_URL = dev
   ? "http://localhost:3000"
   : "https://machine.frc6070.ca";
 
-export const greetings = [
-  "Aloha",
-  "Welcome back",
-  "Bonjour",
-  "How you doin",
-  "Good day",
-  "Howdy",
-  "Hey",
-  "Hello",
-  "Hi",
-  "Hello there",
-  "Greetings",
-];
-
 export const HOFTeams = [
   {
     name: "321",

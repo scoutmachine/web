@@ -9,11 +9,10 @@ import { db } from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { API_URL, greetings } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 
 export default function LandingPage({ user, avatars }: any) {
   const { data: session, status } = useSession();
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   if (status === "loading") return <Loading />;
 
@@ -28,7 +27,6 @@ export default function LandingPage({ user, avatars }: any) {
           session={session}
           favourites={user.favourited}
           avatars={avatars}
-          greeting={greeting}
         />
         <Footer />
       </>

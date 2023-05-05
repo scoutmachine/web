@@ -109,7 +109,7 @@ export const AwardsTab = (props: any) => {
         </>
       ) : (
         <p className="text-lightGray">
-          Looks like {props.team.team_number} hasn&apos;t received any awards
+          Looks like {props.team.teamData.team_number} hasn&apos;t received any awards
           yet.
         </p>
       )}

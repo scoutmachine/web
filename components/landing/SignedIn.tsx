@@ -8,7 +8,6 @@ export const SignedInScreen = (props: {
   session: Session;
   favourites: any;
   avatars: any;
-  greeting: any;
 }) => {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
@@ -17,7 +16,7 @@ export const SignedInScreen = (props: {
       <div className="pr-8 pl-8 max-w-screen-3xl w-full">
         <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] mt-10 rounded-lg px-10 py-10">
           <h1 className="flex flex-wrap font-bold text-5xl">
-            {props.greeting},{" "}
+            Welcome back,{" "}
             <span className="text-primary md:ml-2">
               {props.session.user?.name}!
             </span>
