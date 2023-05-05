@@ -15,7 +15,7 @@ import {
   FaTag,
   FaBolt,
   FaTwitch,
-  FaBars
+  FaBars,
 } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
@@ -25,6 +25,7 @@ import { signOut, useSession } from "next-auth/react";
 import { Dropdown } from "./Dropdown";
 import { SignupModal } from "./modals/SignupModal";
 import { EditProfileModal } from "./modals/EditProfileModal";
+import { SignoutModal } from "./modals/SignoutModal";
 
 const Social = (props: any) => {
   return (
@@ -84,6 +85,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showSignoutModal, setShowSignoutModal] = useState(false);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -284,7 +286,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
                   <p
                     className="flex text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={() => signOut()}
+                    onClick={() => setShowSignoutModal(true)}
                   >
                     <FaSignOutAlt className="text-lg mr-2" /> Sign Out
                   </p>
@@ -303,6 +305,11 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
       </div>
 
       <SignupModal isOpen={showLoginModal} setOpen={setShowLoginModal} />
+
+      <SignoutModal
+        isOpen={showSignoutModal}
+        setOpen={setShowSignoutModal}
+      />
 
       <EditProfileModal
         isOpen={showEditProfileModal}
