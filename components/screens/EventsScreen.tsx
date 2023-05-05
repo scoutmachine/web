@@ -15,7 +15,7 @@ const Event = (props: any) => {
             "md:w-full w-[430px]"
           } border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative`}
         >
-          <h1 className="font-bold text-xl text-lightGray">
+          <h1 className="font-bold text-xl text-white">
             {props.event.name.length > 42
               ? `${props.event.name.slice(0, 42)}...`
               : props.event.name}

@@ -1,16 +1,12 @@
 import { Session } from "next-auth";
-import { TeamCard } from "../TeamCard";
+import { TeamCard } from "../../TeamCard";
 import { FaStar } from "react-icons/fa";
-import { useState } from "react";
-import { EditProfileModal } from "../modals/EditProfileModal";
 
 export const SignedInScreen = (props: {
   session: Session;
   favourites: any;
   avatars: any;
 }) => {
-  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
-
   return (
     <>
       <div className="pr-8 pl-8 max-w-screen-3xl w-full">
@@ -22,13 +18,7 @@ export const SignedInScreen = (props: {
             </span>
           </h1>
           <p className="text-lightGray font-medium">
-            {props.session.user?.email}{" "}
-            <span
-              className="cursor-pointer text-white"
-              onClick={() => setShowEditProfileModal(true)}
-            >
-              / Edit Profile
-            </span>
+            {props.session.user?.email}
           </p>
         </div>
 
@@ -47,11 +37,6 @@ export const SignedInScreen = (props: {
           </span>
         )}
       </div>
-
-      <EditProfileModal
-        isOpen={showEditProfileModal}
-        setOpen={setShowEditProfileModal}
-      />
     </>
   );
 };

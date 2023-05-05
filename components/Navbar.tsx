@@ -23,6 +23,8 @@ import { log } from "@/util/log";
 import { signOut, useSession } from "next-auth/react";
 import { Dropdown } from "./Dropdown";
 import { SignupModal } from "./modals/SignupModal";
+import { RxAvatar } from "react-icons/rx";
+import { EditProfileModal } from "./modals/EditProfileModal";
 
 const Social = (props: any) => {
   return (
@@ -81,6 +83,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -215,9 +218,11 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
               </span>
 
               <div
-                className={`absolute top-10 z-50 w-full overflow-x-hidden ${
+                className={`absolute top-10 w-full overflow-x-hidden ${
                   teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
-                } ${searchTerm && "border dark:border-[#2A2A2A]"} rounded-lg`}
+                } ${
+                  searchTerm && "z-50 border dark:border-[#2A2A2A]"
+                } rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
                   filteredOptions.map((team: any, key: number) => (
@@ -266,9 +271,19 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                   />
                 }
               >
-                <div className="py-2 flex items-center">
+                <div className="py-2 gap-y-2 flex flex-col items-center">
                   <p
-                    className="flex text-sm text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
+                    className="flex text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
+                    onClick={() => {
+                      setShowEditProfileModal(true);
+                      setProfileDropdown(false);
+                    }}
+                  >
+                    <RxAvatar className="text-lg mr-2" /> Edit Profile
+                  </p>
+
+                  <p
+                    className="flex text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
                     onClick={() => signOut()}
                   >
                     <FaSignOutAlt className="text-lg mr-2" /> Sign Out
@@ -288,6 +303,11 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
       </div>
 
       <SignupModal isOpen={showLoginModal} setOpen={setShowLoginModal} />
+
+      <EditProfileModal
+        isOpen={showEditProfileModal}
+        setOpen={setShowEditProfileModal}
+      />
     </>
   );
 };

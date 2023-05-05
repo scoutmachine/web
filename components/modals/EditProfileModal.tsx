@@ -5,7 +5,6 @@ import { RxAvatar } from "react-icons/rx";
 import { MdEmail } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
-import router from "next/router";
 
 type Props = {
   isOpen: boolean;
