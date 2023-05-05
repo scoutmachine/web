@@ -29,7 +29,7 @@ import { SignoutModal } from "./modals/SignoutModal";
 
 const Social = (props: any) => {
   return (
-    <span className="flex cursor-pointer flex-col items-center rounded-md bg-gray-500 p-1 text-white hover:bg-gray-200 bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
+    <span className="flex cursor-pointer flex-col items-center rounded-md p-1 text-white hover:bg-gray-200 bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
       {props.icon}
     </span>
   );
@@ -222,9 +222,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
               <div
                 className={`absolute top-10 w-full overflow-x-hidden ${
                   teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
-                } ${
-                  searchTerm && "z-50 border border-[#2A2A2A]"
-                } rounded-lg`}
+                } ${searchTerm && "z-50 border border-[#2A2A2A]"} rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
                   filteredOptions.map((team: any, key: number) => (
