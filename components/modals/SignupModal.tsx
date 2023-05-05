@@ -21,7 +21,9 @@ const ModalHeader = () => (
         priority={true}
       />
     </div>
-    <h1 className="font-semibold text-xl text-center">Sign up / Scout Machine</h1>
+    <h1 className="font-semibold text-xl text-center">
+      Sign up / Scout Machine
+    </h1>
   </>
 );
 
@@ -41,7 +43,12 @@ const ModalFooter = ({ setOpen }: any) => (
         <button
           type="button"
           className="flex rounded-lg bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
-          onClick={() => signIn("google")}
+          onClick={() => {
+            localStorage.getItem("signUpState")
+              ? null
+              : localStorage.setItem("signUpState", "in");
+            signIn("google");
+          }}
         >
           <FaGoogle className="text-xl mr-2" /> Continue with Google
         </button>
@@ -50,7 +57,12 @@ const ModalFooter = ({ setOpen }: any) => (
         <button
           type="button"
           className="flex rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
-          onClick={() => signIn("github")}
+          onClick={() => {
+            localStorage.getItem("signUpState")
+              ? null
+              : localStorage.setItem("signUpState", "in");
+            signIn("github");
+          }}
         >
           <FaGithub className="text-xl mr-2" /> Continue with Github
         </button>

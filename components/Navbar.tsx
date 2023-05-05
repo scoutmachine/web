@@ -299,7 +299,8 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                 onClick={() => setShowLoginModal(true)}
                 className="text-sm flex border border-[#2A2A2A] bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
               >
-                <FaUserCircle className="text-lg" />
+                <FaUserCircle className="text-lg mr-2" /> Sign{" "}
+                {localStorage.getItem("signUpState") ?? "up"}
               </button>
             )}
           </div>
