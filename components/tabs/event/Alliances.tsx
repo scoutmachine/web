@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ImBlocked } from "react-icons/im";
+import { FaTimes } from "react-icons/fa";
 
 export const AlliancesScreen = (props: any) => {
   return (
@@ -68,7 +68,7 @@ export const AlliancesScreen = (props: any) => {
                       <a>{alliance.picks[3].slice(3)}</a>
                     </Link>
                   ) : (
-                    <ImBlocked className="text-gray-500" />
+                    <FaTimes className="text-gray-500" />
                   )}
                 </td>
               </tr>

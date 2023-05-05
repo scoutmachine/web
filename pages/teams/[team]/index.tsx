@@ -17,6 +17,7 @@ import { Loading } from "@/components/Loading";
 import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
@@ -201,7 +202,7 @@ export default function TeamPage() {
                   onClick={toggleDropdown}
                 >
                   <span
-                    className={`font-bold ${
+                    className={`font-bold hover:text-white ${
                       activeTab === currentYearTab
                         ? "text-white"
                         : "text-lightGray"
@@ -236,7 +237,7 @@ export default function TeamPage() {
                       {teamData.yearsParticipated.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className=" cursor-pointer text-lightGray dark:bg-card border dark:border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          className="cursor-pointer text-lightGray hover:text-white dark:bg-card border dark:border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={() => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
@@ -340,10 +341,7 @@ export default function TeamPage() {
                         </div>
 
                         {matchData[event.event_code].length === 0 ? (
-                          <p className="text-red-400 mt-5 font-bold py-3 px-5 rounded-lg border-2 border-red-500">
-                            Looks like there&apos;s no data available for this
-                            event! 😔{" "}
-                          </p>
+                          <ErrorMessage message="Looks like there's no data available for this event!" />
                         ) : (
                           <EventData
                             data={matchData[event.event_code]}

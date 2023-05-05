@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FaYoutube } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import { FaYoutube, FaTimes } from "react-icons/fa";
 
 const newText = [
   {
@@ -35,7 +34,7 @@ const EventList = (props: any) => {
           </a>
         ) : (
           <p className="text-lightGray">
-            <ImCross className="text-lg" />
+            <FaTimes className="text-2xl" />
           </p>
         )}
       </td>

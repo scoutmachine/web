@@ -1,6 +1,6 @@
 import { Session } from "next-auth";
 import { TeamCard } from "../../TeamCard";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaTags } from "react-icons/fa";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -22,20 +22,43 @@ export const SignedInScreen = (props: {
           </p>
         </div>
 
-        <p className="flex text-lightGray font-bold text-md mt-8 md:mt-16">
-          <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED TEAMS
-        </p>
-        {props.favourites.length > 0 ? (
-          <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4 flex flex-col gap-3">
-            {props.favourites.map((team: any, key: number) => {
-              return <TeamCard key={key} team={team} avatars={props.avatars} />;
-            })}
-          </div>
-        ) : (
+        <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
+          <p className="flex text-lightGray font-bold text-md">
+            <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED
+            <span className="border dark:border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+              {props.favourites.length}{" "}
+              {props.favourites.length === 1 ? "team" : "teams"}
+            </span>
+          </p>
+          {props.favourites.length > 0 ? (
+            <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4 flex flex-col gap-3">
+              {props.favourites.map((team: any, key: number) => {
+                return (
+                  <TeamCard
+                    key={key}
+                    team={team}
+                    avatars={props.avatars}
+                    showFavLoading
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <span className="text-lightGray text-sm font-medium">
+              Looks like you have not favourited any teams, yet.
+            </span>
+          )}
+
+          <p className="flex text-lightGray font-bold text-md mt-8 md:mt-16">
+            <FaTags className="text-[22px] mr-2 text-lightGray" /> Marketplace
+            <span className="border dark:border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+              0 posts
+            </span>
+          </p>
           <span className="text-lightGray text-sm font-medium">
-            Looks like you have no favourited teams, yet.
+            Looks like you have no activity on marketplace, yet.
           </span>
-        )}
+        </div>
       </div>
     </>
   );

@@ -12,7 +12,7 @@ import {
   FaCoffee,
   FaSignOutAlt,
   FaUserCircle,
-  FaTag,
+  FaTags,
   FaBolt,
   FaTwitch,
   FaBars,
@@ -21,7 +21,7 @@ import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { Dropdown } from "./Dropdown";
 import { SignupModal } from "./modals/SignupModal";
 import { EditProfileModal } from "./modals/EditProfileModal";
@@ -41,7 +41,7 @@ const links = [
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
   { title: "Rookie Teams", href: "/rookies", icon: <FaBolt /> },
   { title: "Game Day", href: "/gameday", icon: <FaTwitch /> },
-  { title: "Marketplace", href: "/marketplace", icon: <FaTag /> },
+  { title: "Marketplace", href: "/marketplace", icon: <FaTags /> },
 ];
 
 async function fetchTeamsData() {

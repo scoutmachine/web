@@ -88,7 +88,7 @@ export default function EventsPage({
               (matches.length > 0 ? (
                 <EventData data={matches} isTeam={false} />
               ) : (
-                <ErrorMessage message="Looks like there's no data available for this event! 😔" />
+                <ErrorMessage message="Looks like there's no data available for this event!" />
               ))}
 
             {eventAlliances && activeTab == 2 && (

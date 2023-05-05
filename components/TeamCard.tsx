@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import router from "next/router";
+import { Loading } from "./Loading";
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
@@ -54,6 +55,8 @@ export const TeamCard = (props: any) => {
 
     router.push(router.pathname);
   };
+
+  if (!isFavourited && props.showFavLoading) return <Loading />;
 
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
