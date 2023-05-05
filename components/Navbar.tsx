@@ -29,7 +29,7 @@ import { SignoutModal } from "./modals/SignoutModal";
 
 const Social = (props: any) => {
   return (
-    <span className="flex cursor-pointer flex-col items-center rounded-md bg-gray-500 p-1 text-white hover:bg-gray-200 dark:bg-[#1f1f1f] hover:dark:bg-[#2a2a2a] text-xl mt-1">
+    <span className="flex cursor-pointer flex-col items-center rounded-md bg-gray-500 p-1 text-white hover:bg-gray-200 bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
       {props.icon}
     </span>
   );
@@ -127,7 +127,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
-          } bg-card border dark:border-[#2A2A2A] dark:bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
+          } bg-card border border-[#2A2A2A] bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
         >
           <div className="flex relative space-x-1">
             <Link href="/" legacyBehavior>
@@ -154,8 +154,8 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
             </a>
 
             <div
-              className={`absolute right-0 md:hidden block border dark:border-[#2A2A2A] ${
-                showLinks ? `bg-[#1F1F1F]` : "dark:bg-card"
+              className={`absolute right-0 md:hidden block border border-[#2A2A2A] ${
+                showLinks ? `bg-[#1F1F1F]` : "bg-card"
               } rounded-lg py-2 px-[13px]`}
             >
               <FaBars
@@ -209,7 +209,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
             <div className="relative">
               <input
-                className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
+                className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
                 type="text"
                 placeholder="Search teams..."
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -223,7 +223,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                 className={`absolute top-10 w-full overflow-x-hidden ${
                   teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
                 } ${
-                  searchTerm && "z-50 border dark:border-[#2A2A2A]"
+                  searchTerm && "z-50 border border-[#2A2A2A]"
                 } rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
@@ -235,7 +235,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                     >
                       <a onClick={() => setSearchTerm("")}>
                         <div
-                          className={`bg-card text-lightGray hover:dark:bg-[#191919] py-1 px-3 cursor-pointer hover:bg-gray-700 ${
+                          className={`bg-card text-lightGray hover:bg-[#191919] py-1 px-3 cursor-pointer hover:bg-gray-700 ${
                             searchTerm.length === 0 && "hidden"
                           }`}
                           onClick={() =>
@@ -264,11 +264,12 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                 state={profileDropdown}
                 item={
                   <Image
-                    src={session?.user?.image!}
-                    className="h-8 w-8 rounded-full cursor-pointer"
-                    width={50}
-                    height={50}
-                    alt="pfp"
+                    src={session.user?.image as string}
+                    className="rounded-full cursor-pointer"
+                    width={30}
+                    height={30}
+                    alt={`${session.user?.name} Avatar`}
+                    priority={true}
                     onClick={() => setProfileDropdown(!profileDropdown)}
                   />
                 }
@@ -286,7 +287,10 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
                   <p
                     className="flex text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={() => setShowSignoutModal(true)}
+                    onClick={() => {
+                      setShowSignoutModal(true);
+                      setProfileDropdown(false);
+                    }}
                   >
                     <FaSignOutAlt className="text-lg mr-2" /> Sign Out
                   </p>
@@ -295,7 +299,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="text-sm flex border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
+                className="text-sm flex border border-[#2A2A2A] bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
               >
                 <FaUserCircle className="text-lg" />
               </button>
@@ -306,10 +310,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
 
       <SignupModal isOpen={showLoginModal} setOpen={setShowLoginModal} />
 
-      <SignoutModal
-        isOpen={showSignoutModal}
-        setOpen={setShowSignoutModal}
-      />
+      <SignoutModal isOpen={showSignoutModal} setOpen={setShowSignoutModal} />
 
       <EditProfileModal
         isOpen={showEditProfileModal}

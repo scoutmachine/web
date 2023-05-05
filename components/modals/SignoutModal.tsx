@@ -9,24 +9,6 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const Input = (props: any) => {
-  return (
-    <div className="relative w-full">
-      <input
-        className={`${props.className} w-full border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
-        type="text"
-        disabled={props.disabled ?? false}
-        defaultValue={props.placeholder}
-        spellCheck={false}
-        onChange={(e) => props.state(e.target.value)}
-      />
-      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-        <props.icon className="text-sm text-lightGray" />
-      </span>
-    </div>
-  );
-};
-
 const ModalHeader = () => (
   <>
     <>
@@ -49,9 +31,13 @@ const ModalHeader = () => (
 const ModalBody = ({ setOpen }: any) => {
   return (
     <div className="mt-2">
-      <p className="text-sm text-gray-500 mt-[-5px] text-center">
+      <p className="text-sm text-gray-500 mt-[-5px] text-center mb-2">
         Are you sure you want to sign out of your current session?
       </p>
+
+      <div className="border dark:border-[#2A2A2A] dark:bg-card rounded-lg px-1 py-1">
+        <p className="text-xs text-center text-lightGray">{navigator.userAgent}</p>
+      </div>
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-2">
         <div className="mt-4">

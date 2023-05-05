@@ -57,7 +57,7 @@ export const TeamCard = (props: any) => {
 
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
-      <div className="relative px-5 py-8 h-32 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 rounded-lg">
+      <div className="relative px-5 py-8 h-32 border border-[#2A2A2A] bg-card hover:border-gray-600 rounded-lg">
         <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
           <a className="cursor-pointer">
             <Image

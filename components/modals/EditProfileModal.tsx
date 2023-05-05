@@ -35,8 +35,8 @@ const ModalHeader = () => (
 
 const ModalBody = ({ setOpen }: any) => {
   const { data: session } = useSession();
-  const [displayName, setDisplayName] = useState<string>("");
-  const [avatar, setAvatar] = useState<string>("");
+  const [displayName, setDisplayName] = useState(session?.user?.name);
+  const [avatar, setAvatar] = useState(session?.user?.image);
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const reloadSession = () => {
@@ -45,7 +45,7 @@ const ModalBody = ({ setOpen }: any) => {
   };
 
   const updateDisplay = async () => {
-    if (displayName.length === 0) {
+    if (displayName?.length === 0) {
       setErrorMessage("Display Name left blank");
     } else if (displayName === session?.user?.name) {
       setErrorMessage("That already is your name!");
@@ -61,7 +61,7 @@ const ModalBody = ({ setOpen }: any) => {
   };
 
   const updateAvatar = async () => {
-    if (avatar.length === 0) {
+    if (avatar?.length === 0) {
       setErrorMessage("Avatar URL left blank");
     } else if (avatar === session?.user?.image) {
       setErrorMessage("That already is your avatar!");
@@ -107,7 +107,7 @@ const ModalBody = ({ setOpen }: any) => {
           <p className="uppercase text-xs text-lightGray mb-2">Display Name</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={session?.user?.name}
+              placeholder={displayName}
               icon={FaSignature}
               state={setDisplayName}
             />
@@ -124,7 +124,7 @@ const ModalBody = ({ setOpen }: any) => {
           <p className="uppercase text-xs text-lightGray mb-2">Avatar</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={session?.user?.image}
+              placeholder={avatar}
               icon={FaUserCircle}
               state={setAvatar}
             />

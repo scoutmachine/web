@@ -10,7 +10,7 @@ export const SignedInScreen = (props: {
   return (
     <>
       <div className="pr-8 pl-8 max-w-screen-3xl w-full">
-        <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] mt-10 rounded-lg px-10 py-10">
+        <div className="border border-[#2a2a2a] bg-[#191919] mt-10 rounded-lg px-10 py-10">
           <h1 className="flex flex-wrap font-bold text-5xl">
             Welcome back,{" "}
             <span className="text-primary md:ml-2">
@@ -22,11 +22,11 @@ export const SignedInScreen = (props: {
           </p>
         </div>
 
-        <p className="flex text-lightGray font-bold text-md mt-16">
+        <p className="flex text-lightGray font-bold text-md mt-8 md:mt-16">
           <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED TEAMS
         </p>
         {props.favourites.length > 0 ? (
-          <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4 gap-3">
+          <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4 flex flex-col gap-3">
             {props.favourites.map((team: any, key: number) => {
               return <TeamCard key={key} team={team} avatars={props.avatars} />;
             })}
