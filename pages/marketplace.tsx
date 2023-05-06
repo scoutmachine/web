@@ -2,7 +2,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Navbar } from "@/components/navbar";
 import { MarketplaceScreen } from "@/components/screens/MarketplaceScreen";
-import { db } from "@/lib/db";
+import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
