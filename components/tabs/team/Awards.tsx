@@ -65,7 +65,7 @@ export const AwardsTab = (props: any) => {
                   } more events won that aren't shown -`}{" "}
               <span
                 onClick={() => props.setShowAll(!props.showAll)}
-                className="text-primary hover:text-white hover:cursor-pointer"
+                className="text-white hover:text-primary hover:cursor-pointer"
               >
                 {props.showAll ? "show less?" : "show all?"}
               </span>

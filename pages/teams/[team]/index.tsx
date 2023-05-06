@@ -5,7 +5,7 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { FaTwitch } from "react-icons/fa";
+import { FaArrowUp, FaTwitch } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
@@ -194,41 +194,32 @@ export default function TeamPage() {
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
-                  className={`bg-card border border-[#2A2A2A] w-[300px] text-white  ${
+                  className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
                     isDropdownOpen
-                      ? "rounded-t-lg border-2 border-b-gray-500 border-transparent"
+                      ? "rounded-t-lg border-2 border-b-[#2A2A2A] border-transparent"
                       : "rounded-lg"
                   } px-5 py-2 flex items-center justify-between cursor-pointer`}
                   onClick={toggleDropdown}
                 >
                   <span
-                    className={`font-bold hover:text-white ${
+                    className={`font-bold group-hover:text-white transition-all duration-150 ${
                       activeTab === currentYearTab
                         ? "text-white"
                         : "text-lightGray"
-                    }`}
+                    } ${isDropdownOpen && "text-white"}`}
                   >
                     {String(activeTab).length >= 4
                       ? `${activeTab} Season`
                       : "Select a Season"}
                   </span>
-                  <svg
-                    className={`h-5 w-5 transform ${
-                      isDropdownOpen ? "-rotate-180" : ""
+                  <FaArrowUp
+                    className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
+                      isDropdownOpen ? "-rotate-180 text-white" : ""
                     }`}
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.707a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 1 1-1.414 1.414L11 5.414V14a1 1 0 1 1-2 0V5.414L6.707 7.707a1 1 0 0 1-1.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  />
                 </div>
                 <div
-                  className={`absolute right-0 left-0 bg-card border border-[#2A2A2A] text-white rounded-b-lg px-3 py-4 ${
+                  className={`absolute right-0 left-0 bg-card text-white rounded-b-lg px-3 py-4 ${
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
@@ -237,7 +228,7 @@ export default function TeamPage() {
                       {teamData.yearsParticipated.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className="cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={() => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
@@ -250,8 +241,8 @@ export default function TeamPage() {
                     </div>
                   ) : (
                     <p className="px-2 text-lightGray">
-                      Looks like {teamData.teamData.team_number} hasn&apos;t competed,
-                      yet.
+                      Looks like {teamData.teamData.team_number} hasn&apos;t
+                      competed, yet.
                     </p>
                   )}
                 </div>

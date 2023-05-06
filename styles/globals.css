@@ -54,6 +54,16 @@ a:hover {
   top: 100%;
 }
 
+.popStar:hover {
+  animation: pop 0.3s linear 1;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
 ::-webkit-scrollbar {
   width: 2px;
 }

@@ -167,7 +167,7 @@ export const EventData = (props: any) => {
       {isClient && (
         <div className="relative overflow-x-auto">
           {props.isTeam && (
-            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray mt-5 px-5 py-3 rounded-lg border-2 border-gray-500">
+            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray mt-5 px-5 py-3 rounded-lg">
               <span className="text-green-400">Win</span> /{" "}
               <span className="text-red-400">Loss</span> /{" "}
               <span className="text-lightGray">Unknown</span>

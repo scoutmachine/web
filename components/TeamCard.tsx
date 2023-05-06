@@ -3,9 +3,7 @@ import { Tooltip } from "./Toolip";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
-import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
-import router from "next/router";
 import { Loading } from "./Loading";
 import {
   favouriteTeam,
@@ -111,8 +109,8 @@ export const TeamCard = (props: any) => {
             }}
             className={`${
               isFavourited || isStarFilled
-                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px]"
-                : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary"
+                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px] transition duration-300 popStar"
+                : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary transition duration-300 popStar"
             } ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer`}
           />
         )}
