@@ -114,7 +114,7 @@ export default function TeamsPage() {
     };
 
     fetchTeams();
-  }, [startIndex, endIndex]);
+  });
 
   const changeSearch = async (event: { target: { value: string } }) => {
     const searchTerm = event.target.value;
