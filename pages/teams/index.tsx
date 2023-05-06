@@ -147,7 +147,7 @@ export default function TeamsPage() {
     }
   }, [endIndex, query, startIndex, teamNumberRange]);
 
-  if (!teams && !avatars) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <>
