@@ -7,6 +7,11 @@ import { API_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import router from "next/router";
 import { Loading } from "./Loading";
+import {
+  favouriteTeam,
+  getFavourites,
+  unfavouriteTeam,
+} from "@/util/favourites";
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
@@ -20,43 +25,19 @@ export const TeamCard = (props: any) => {
   const [isStarFilled, setIsStarFilled] = useState(false);
 
   useEffect(() => {
-    const getFavourites = async () => {
-      const data = await fetch(`${API_URL}/api/@me/favourites`);
-
-      if (data.ok) {
-        const JSONdata = await data.json();
-        setFavourites(JSONdata.favourited);
-      }
-    };
-
-    getFavourites();
+    getFavourites(setFavourites);
   }, []);
 
-  const favouriteTeam = async () => {
-    const data = {
-      team_number: props.team.team_number,
-      nickname: props.team.nickname,
-      city: props.team.city,
-      state_prov: props.team.state_prov,
-      country: props.team.country,
-      website: props.team.website,
-    };
-
-    await fetch(`${API_URL}/api/@me/favourites`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-  };
-
-  const unfavouriteTeam = async () => {
-    await fetch(`${API_URL}/api/@me/favourites?id=${favouritedTeam[0].id}`, {
-      method: "DELETE",
-    });
-
-    router.push(router.pathname);
-  };
-
   if (!isFavourited && props.showFavLoading) return <Loading />;
+
+  const data = {
+    team_number: props.team.team_number,
+    nickname: props.team.nickname,
+    city: props.team.city,
+    state_prov: props.team.state_prov,
+    country: props.team.country,
+    website: props.team.website,
+  };
 
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
@@ -102,10 +83,10 @@ export const TeamCard = (props: any) => {
           <FaStar
             onClick={() => {
               if (isFavourited) {
-                unfavouriteTeam();
+                unfavouriteTeam(favouritedTeam);
               } else {
                 setIsStarFilled(!isStarFilled);
-                favouriteTeam();
+                favouriteTeam(data);
               }
             }}
             className={`${

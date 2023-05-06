@@ -16,6 +16,7 @@ import {
   FaBolt,
   FaTwitch,
   FaBars,
+  FaStar,
 } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
@@ -26,6 +27,12 @@ import { Dropdown } from "./Dropdown";
 import { SignupModal } from "./modals/SignupModal";
 import { EditProfileModal } from "./modals/EditProfileModal";
 import { SignoutModal } from "./modals/SignoutModal";
+import {
+  favouriteTeam,
+  getFavourites,
+  unfavouriteTeam,
+} from "@/util/favourites";
+import router from "next/router";
 
 const Social = (props: any) => {
   return (
@@ -60,23 +67,20 @@ async function fetchTeamsData() {
   const pages = await Promise.all(pageNumbers.map((num) => getTeams(num)));
   const teams: any = pages.flatMap((page: any) => page);
 
-  const newTeamData = teams.map((team: any) => {
-    return {
-      teamNumber: team.team_number,
-      name: team.nickname,
-    };
-  });
-
   log(
     "warning",
     `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
   );
 
-  setStorage(`teams_${CURR_YEAR}`, newTeamData);
-  return newTeamData;
+  setStorage(`teams_${CURR_YEAR}`, teams);
+  return teams;
 }
 
-export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
+export const Navbar = (props: {
+  active?: string;
+  dontScroll?: boolean;
+  refresh?: boolean;
+}) => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
@@ -87,6 +91,13 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showSignoutModal, setShowSignoutModal] = useState(false);
   const { data: session, status } = useSession();
+
+  const [favourites, setFavourites] = useState<any>();
+  const [isStarFilled, setIsStarFilled] = useState(false);
+
+  useEffect(() => {
+    getFavourites(setFavourites);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -99,7 +110,7 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
   const filteredOptions =
     teams &&
     teams.filter((team: any) =>
-      (team.name + team.teamNumber)
+      (team.nickname + team.team_number)
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
     );
@@ -225,29 +236,62 @@ export const Navbar = (props: { active?: string; dontScroll?: boolean }) => {
                 } ${searchTerm && "z-50 border border-[#2A2A2A]"} rounded-lg`}
               >
                 {teams && filteredOptions.length > 0 ? (
-                  filteredOptions.map((team: any, key: number) => (
-                    <Link
-                      key={key}
-                      href={`/teams/${team.teamNumber}`}
-                      legacyBehavior
-                    >
-                      <a onClick={() => setSearchTerm("")}>
-                        <div
-                          className={`bg-card text-lightGray hover:bg-[#191919] py-1 px-3 cursor-pointer hover:bg-gray-700 ${
-                            searchTerm.length === 0 && "hidden"
-                          }`}
-                          onClick={() =>
-                            setSearchTerm(`${team.name} - ${team.teamNumber}`)
-                          }
+                  filteredOptions.map((team: any, key: number) => {
+                    const isFavourited = favourites?.some(
+                      (favouritedTeam: any) =>
+                        favouritedTeam.team_number === team.team_number
+                    );
+                    const favouritedTeam = favourites?.filter(
+                      (favouritedTeam: any) =>
+                        favouritedTeam.team_number === team.team_number
+                    );
+
+                    return (
+                      <div
+                        key={key}
+                        className={`bg-card text-lightGray py-1 px-3 cursor-pointer ${
+                          searchTerm.length === 0 && "hidden"
+                        }`}
+                        onClick={() =>
+                          setSearchTerm(
+                            `${team.nickname} - ${team.team_number}`
+                          )
+                        }
+                      >
+                        <Link
+                          key={key}
+                          href={`/teams/${team.team_number}`}
+                          legacyBehavior
                         >
-                          <span className="font-medium">
-                            Team {team.teamNumber} |
-                          </span>{" "}
-                          {team.name}
-                        </div>
-                      </a>
-                    </Link>
-                  ))
+                          <a onClick={() => setSearchTerm("")}>
+                            <span className="font-medium">
+                              {team.team_number} |
+                            </span>{" "}
+                            {team.nickname}{" "}
+                          </a>
+                        </Link>
+
+                        {session && (
+                          <FaStar
+                            onClick={() => {
+                              if (isFavourited) {
+                                unfavouriteTeam(favouritedTeam);
+                              } else {
+                                setIsStarFilled(!isStarFilled);
+                                favouriteTeam(team);
+                                props.refresh && router.push(router.pathname);
+                              }
+                            }}
+                            className={`inline-block mb-1 ml-1 ${
+                              isFavourited || isStarFilled
+                                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px]"
+                                : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary"
+                            }`}
+                          />
+                        )}
+                      </div>
+                    );
+                  })
                 ) : (
                   <div className="bg-card">
                     <p className="text-lightGray px-2 py-2 text-sm">

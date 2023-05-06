@@ -22,7 +22,7 @@ export default function LandingPage({ user, avatars }: any) {
         <Head>
           <title>Scout Machine</title>
         </Head>
-        <Navbar dontScroll />
+        <Navbar dontScroll refresh />
         <SignedInScreen
           session={session}
           favourites={user.favourited}
