@@ -164,7 +164,7 @@ export default function TeamPage() {
 
       <Navbar />
 
-      <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-8 md:pr-8 md:pl-0 md:pr-0">
+      <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-0 md:pr-0">
         <TeamScreen
           team={teamData.teamData}
           socials={teamData.teamSocials}
