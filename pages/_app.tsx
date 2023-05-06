@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "tailwindcss/tailwind.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App({
   Component,
@@ -10,6 +11,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
+      <Analytics />
     </SessionProvider>
   );
 }
