@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { CURR_YEAR } from "@/lib/constants";
+import { fetchFIRST } from "@/lib/fetchFIRST";
 
 export default async function getTeams(
   req: NextApiRequest,
@@ -9,14 +10,7 @@ export default async function getTeams(
   try {
     const { team } = req.query;
 
-    const response = await axios.get(
-      `https://frc-api.firstinspires.org/v3.0/${CURR_YEAR}/avatars?teamNumber=${team}`,
-      {
-        headers: {
-          Authorization: `Basic ${process.env.FIRST_API_KEY}`,
-        },
-      }
-    );
+    const response = await fetchFIRST(`/avatars?teamNumber=${team}`);
 
     if (response.status < 200 || response.status >= 300) {
       return res.status(response.status).send("API request failed");

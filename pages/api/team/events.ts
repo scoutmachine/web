@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { fetchData } from "@/lib/fetchData";
+import { fetchTBA } from "@/lib/fetchTBA";
 
 export default async function getTeams(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { team, year } = req.query;
-  return await fetchData(res, `team/frc${team}/events/${year}`);
+  return await fetchTBA(res, `team/frc${team}/events/${year}`);
 }

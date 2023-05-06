@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiResponse } from "next";
 
-export const fetchData = async (res: NextApiResponse, route: string) => {
+export const fetchTBA = async (res: NextApiResponse, route: string) => {
   await axios
     .get(`https://www.thebluealliance.com/api/v3/${route}`, {
       headers: {

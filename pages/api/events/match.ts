@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { fetchData } from "@/lib/fetchData";
+import { fetchTBA } from "@/lib/fetchTBA";
 
 export default async function getTeams(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { match } = req.query;
-  return await fetchData(res, `match/${match}`);
+  return await fetchTBA(res, `match/${match}`);
 }
