@@ -9,7 +9,7 @@ export const Header = (props: any) => {
         >
           {props.title}{" "}
           <span
-            className={`text-lightGray ${
+            className={`text-white ${
               isValidElement(props.title) && "ml-4"
             }`}
           >
