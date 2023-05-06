@@ -18,32 +18,25 @@ async function fetchTeamsData(
 ) {
   const teamsData = getStorage(`teams_${CURR_YEAR}`);
   const teamAvatarsData = getStorage(`cached_avatars_${CURR_YEAR}`);
+  const sortedTeams = teamsData.sort(() => Math.random() - 0.5);
 
   if (teamsData && teamAvatarsData) {
-    const filteredTeams = teamsData.filter((team: any) => {
-      return (
-        team.team_number?.toString().includes(searchTerm) ||
-        team.nickname
-          ?.toString()
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        team.location
-          ?.toString()
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
-      );
-    });
+    const filteredTeams = teamsData.filter((team: any) =>
+      (team.team_number + team.nickname + team.city)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
 
     return {
       teams: searchTerm
         ? filteredTeams.slice(startIndex, endIndex)
-        : teamsData.sort(() => Math.random() - 0.5).slice(0, 50),
+        : sortedTeams.slice(0, 50),
       avatars: teamAvatarsData,
     };
   }
 
   const teamAvatars: any = {};
-  const teamsSlice = teamsData.slice(startIndex, endIndex);
+  const teamsSlice = sortedTeams.slice(startIndex, endIndex);
   const start = performance.now();
 
   await Promise.all(
