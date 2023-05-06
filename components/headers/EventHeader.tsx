@@ -10,14 +10,16 @@ export const EventHeader = (props: any) => {
   )}`;
 
   return (
-    <div className="bg-gray-800 md:w-[1100px] rounded-lg py-12 px-12">
-      <h1 className="text-3xl text-primary tetxt-left font-black">
+    <div className="pr-4 pl-4 md:pr-0 md:pl-0 w-full max-w-screen-3xl">
+
+    <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col">
+    <h1 className="text-3xl text-primary tetxt-left font-black">
         {props.event.name}
       </h1>
       <p className="text-lightGray text-left">
         <span className="mb-[-22px] flex">
           {formattedDate}{" "}
-          <span className="bg-gray-700 rounded-full py-[3.5px] ml-1 px-2 text-xs font-semibold">
+          <span className="border border-[#2A2A2A] text-lightGray rounded-full py-[3.5px] ml-1 px-2 text-xs font-semibold">
             {props.event.week !== null
               ? `Week ${props.event.week + 1} (${props.teams.length} team${
                   props.teams.length > 1 && "s"
@@ -54,6 +56,7 @@ export const EventHeader = (props: any) => {
           />
         </a>
       )}
+    </div>
     </div>
   );
 };

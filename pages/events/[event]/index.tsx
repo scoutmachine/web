@@ -8,7 +8,6 @@ import { AlliancesScreen } from "@/components/tabs/event/Alliances";
 import { TeamsScreen } from "@/components/tabs/event/Teams";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
 
@@ -20,7 +19,6 @@ export default function EventsPage({
   eventRankings,
   eventAwards,
 }: any) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabIndex: number) => {
@@ -38,9 +36,9 @@ export default function EventsPage({
       <div className="flex flex-wrap items-center justify-center mt-10 pl-4 pr-4 md:pr-8 md:pl-8">
         <EventHeader event={eventInfo} teams={eventTeams} />
 
-        <div className="flex justify-center">
-          <div className="bg-gray-800 px-10 py-10 mt-5 rounded-lg md:w-[1100px] w-[350px]">
-            <div className="flex gap-5">
+        <div className="pr-4 pl-4 md:pr-0 md:pl-0 w-full max-w-screen-3xl flex justify-center">
+          <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-5 w-full">
+            <div className="flex flex-wrap gap-5">
               <TabButton
                 active={activeTab}
                 tab={1}
@@ -78,7 +76,7 @@ export default function EventsPage({
                 className="group"
               >
                 Teams{" "}
-                <span className="bg-gray-600 py-[1px] px-2 ml-1 rounded-full border-2 border-gray-500">
+                <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
                   {eventTeams.length}
                 </span>
               </TabButton>
@@ -93,6 +91,13 @@ export default function EventsPage({
 
             {eventAlliances && activeTab == 2 && (
               <AlliancesScreen alliances={eventAlliances} />
+            )}
+
+            {activeTab == 3 && (
+              <p className="text-lightGray mt-5">Coming soon!</p>
+            )}
+            {activeTab == 4 && (
+              <p className="text-lightGray mt-5">Coming soon!</p>
             )}
 
             {activeTab === 5 && <TeamsScreen teams={eventTeams} />}

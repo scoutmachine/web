@@ -4,7 +4,7 @@ import { FaTimes } from "react-icons/fa";
 export const AlliancesScreen = (props: any) => {
   return (
     <div className="flex flex-wrap items-center justify-center">
-      <table className="w-full mt-5 text-sm text-left bg-gray-600 border-2 border-gray-500">
+      <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
         <thead className="text-xs text-white uppercase">
           <tr>
             <th scope="col" className="px-6 py-3">
@@ -29,7 +29,7 @@ export const AlliancesScreen = (props: any) => {
             return (
               <tr
                 key={key}
-                className="text-lightGray bg-gray-700 border-2 border-gray-500 hover:bg-gray-600"
+                className="text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]"
               >
                 <td className="px-6 py-4 font-bold">{alliance.name}</td>
 
@@ -60,7 +60,7 @@ export const AlliancesScreen = (props: any) => {
                   </Link>
                 </td>
                 <td className="px-6 py-4">
-                  {alliance.picks.length > 3 ? (
+                  {alliance.picks[3] ? (
                     <Link
                       href={`/teams/${alliance.picks[3].slice(3)}`}
                       legacyBehavior
