@@ -30,7 +30,7 @@ import { Search } from "./Search";
 
 const Social = (props: any) => {
   return (
-    <span className="flex cursor-pointer flex-col items-center rounded-md p-1 text-white hover:bg-gray-200 bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
+    <span className="flex cursor-pointer flex-col items-center rounded-md p-1 text-white bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
       {props.icon}
     </span>
   );
@@ -225,6 +225,7 @@ export const Navbar = (props: {
               setIsStarFilled={setIsStarFilled}
               isStarFilled={isStarFilled}
               session={session}
+              refresh={props.refresh}
             />
 
             {session ? (

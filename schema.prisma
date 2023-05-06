@@ -71,6 +71,7 @@ model FavouritedTeam {
   city        String?
   state_prov  String?
   country     String?
+  rookie_year Int
   User        User?   @relation(fields: [userId], references: [id])
   userId      String?
 }

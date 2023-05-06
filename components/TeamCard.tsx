@@ -37,6 +37,7 @@ export const TeamCard = (props: any) => {
     state_prov: props.team.state_prov,
     country: props.team.country,
     website: props.team.website,
+    rookie_year: props.team.rookie_year,
   };
 
   return (

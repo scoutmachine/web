@@ -4,7 +4,7 @@ import router from "next/router";
 import { FaSearch, FaStar } from "react-icons/fa";
 
 export const Search = (props: any) => (
-    <div className="relative">
+  <div className="relative">
     <input
       className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
       type="text"
@@ -18,7 +18,9 @@ export const Search = (props: any) => (
 
     <div
       className={`absolute top-10 w-full overflow-x-hidden ${
-        props.teams && props.filteredOptions.length > 4 && "h-64 overflow-y-auto"
+        props.teams &&
+        props.filteredOptions.length > 4 &&
+        "h-64 overflow-y-auto"
       } ${props.searchTerm && "z-50 border border-[#2A2A2A]"} rounded-lg`}
     >
       {props.teams && props.filteredOptions.length > 0 ? (
@@ -39,9 +41,7 @@ export const Search = (props: any) => (
                 props.searchTerm.length === 0 && "hidden"
               }`}
               onClick={() =>
-                props.setSearchTerm(
-                  `${team.nickname} - ${team.team_number}`
-                )
+                props.setSearchTerm(`${team.nickname} - ${team.team_number}`)
               }
             >
               <Link
@@ -50,9 +50,7 @@ export const Search = (props: any) => (
                 legacyBehavior
               >
                 <a onClick={() => props.setSearchTerm("")}>
-                  <span className="font-medium">
-                    {team.team_number} |
-                  </span>{" "}
+                  <span className="font-medium">{team.team_number} |</span>{" "}
                   {team.nickname}{" "}
                 </a>
               </Link>
@@ -80,11 +78,9 @@ export const Search = (props: any) => (
         })
       ) : (
         <div className="bg-card">
-          <p className="text-lightGray px-2 py-2 text-sm">
-            No results found.
-          </p>
+          <p className="text-lightGray px-2 py-2 text-sm">No results found.</p>
         </div>
       )}
     </div>
   </div>
-)
+);

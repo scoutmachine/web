@@ -40,6 +40,7 @@ export default async function getTeams(
             state_prov: body.state_prov,
             country: body.country,
             website: body.website ?? "",
+            rookie_year: body.rookie_year,
           },
         });
 
