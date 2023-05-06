@@ -22,10 +22,10 @@ export const Search = (props: any) => {
 
       <div
         className={`absolute top-10 w-full overflow-x-hidden ${
-          props.teams &&
-          props.filteredOptions.length > 4 &&
-          "h-64 overflow-y-auto"
-        } ${props.searchTerm && "z-50 border border-[#2A2A2A]"} rounded-lg`}
+          props.teams && props.filteredOptions.length > 4 && "overflow-y-auto"
+        } ${props.searchTerm && props.filteredOptions.length > 4 && "h-64"} ${
+          props.searchTerm && "z-50 border border-[#2A2A2A]"
+        } rounded-lg`}
       >
         {props.teams && props.filteredOptions.length > 0 ? (
           props.filteredOptions.map((team: any, key: number) => {
