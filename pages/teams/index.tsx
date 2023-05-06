@@ -100,10 +100,17 @@ export default function TeamsPage() {
 
   useEffect(() => {
     const fetchTeams = async () => {
-      const { teams, avatars } = await fetchTeamsData(startIndex, endIndex);
-      setTeams((prevTeams: any) => [...prevTeams, ...teams]);
-      setAvatars(avatars);
-      setIsLoading(false);
+      setIsLoading(true);
+      try {
+        const { teams, avatars } = await fetchTeamsData(startIndex, endIndex);
+        setTeams((prevTeams: any) => [...prevTeams, ...teams]);
+        setAvatars(avatars);
+      } catch (error) {
+        setIsLoading(true);
+        log("error", "Failed to fetch teams");
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchTeams();
