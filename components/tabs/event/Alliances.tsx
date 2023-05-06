@@ -3,7 +3,7 @@ import { FaTimes } from "react-icons/fa";
 
 export const AlliancesScreen = (props: any) => {
   return (
-    <div className="flex flex-wrap items-center justify-center">
+    <div className="relative overflow-x-auto">
       <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
         <thead className="text-xs text-white uppercase">
           <tr>
