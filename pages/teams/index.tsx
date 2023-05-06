@@ -230,6 +230,8 @@ export default function TeamsPage() {
             </div>
           </Header>
 
+          {isLoading && <p className="text-lightGray mt-5">Loading teams...</p>}
+
           <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
             <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {teams.map((team: any, key: number) => {
