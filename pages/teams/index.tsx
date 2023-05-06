@@ -88,8 +88,7 @@ export default function TeamsPage() {
       const scrollPosition = window.innerHeight + window.pageYOffset;
       const contentHeight = document.documentElement.scrollHeight;
 
-      if (scrollPosition > contentHeight * 0.8 && !isLoading) {
-        setIsLoading(true);
+      if (scrollPosition > contentHeight * 0.8) {
         setStartIndex(endIndex + 1);
         setEndIndex(endIndex + itemsPerPage);
       }
@@ -97,7 +96,7 @@ export default function TeamsPage() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading, startIndex, endIndex]);
+  }, [startIndex, endIndex]);
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -107,14 +106,12 @@ export default function TeamsPage() {
       setIsLoading(false);
     };
 
-    setIsLoading(true);
     fetchTeams();
   }, [startIndex, endIndex]);
 
   const changeSearch = async (event: { target: { value: string } }) => {
     const searchTerm = event.target.value;
     setQuery(searchTerm);
-    setIsLoading(true);
     setStartIndex(0);
     setEndIndex(itemsPerPage);
 
@@ -125,12 +122,10 @@ export default function TeamsPage() {
     );
     setTeams(teams);
     setAvatars(avatars);
-    setIsLoading(false);
   };
 
   useEffect(() => {
     const filterByNumber = async () => {
-      setIsLoading(true);
       const { teams, avatars } = await fetchTeamsData(
         startIndex,
         endIndex,
@@ -139,7 +134,6 @@ export default function TeamsPage() {
       );
       setTeams(teams);
       setAvatars(avatars);
-      setIsLoading(false);
     };
 
     if (teamNumberRange) {
