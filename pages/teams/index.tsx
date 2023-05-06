@@ -4,21 +4,25 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
-import { FaSearch } from "react-icons/fa";
+import { FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { Loading } from "@/components/Loading";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
+import { teamNumberInRange } from "@/util/team";
+import { FilterNumber } from "@/components/FilterNumber";
 
 async function fetchTeamsData(
   startIndex: number,
   endIndex: number,
+  teamNumberRange: string = "",
   searchTerm: string = ""
 ) {
   const teamsData = getStorage(`teams_${CURR_YEAR}`);
   const teamAvatarsData = getStorage(`cached_avatars_${CURR_YEAR}`);
   const sortedTeams = teamsData.sort(() => Math.random() - 0.5);
+  const teamsSlice = sortedTeams.slice(startIndex, endIndex);
 
   if (teamsData && teamAvatarsData) {
     const filteredTeams = teamsData.filter((team: any) =>
@@ -30,13 +34,16 @@ async function fetchTeamsData(
     return {
       teams: searchTerm
         ? filteredTeams.slice(startIndex, endIndex)
+        : teamNumberRange
+        ? teamsData.filter((team: any) =>
+            teamNumberInRange(team.team_number, teamNumberRange)
+          )
         : sortedTeams.slice(0, 50),
       avatars: teamAvatarsData,
     };
   }
 
   const teamAvatars: any = {};
-  const teamsSlice = sortedTeams.slice(startIndex, endIndex);
   const start = performance.now();
 
   await Promise.all(
@@ -54,11 +61,14 @@ async function fetchTeamsData(
   );
 
   log("warning", `Fetched avatars in ${formatTime(performance.now() - start)}`);
-
   setStorage(`cached_avatars_${CURR_YEAR}`, teamAvatars);
 
   return {
-    teams: teamsSlice,
+    teams: teamNumberRange
+      ? teamsSlice.filter((team: any) =>
+          teamNumberInRange(team.team_number, teamNumberRange)
+        )
+      : teamsSlice,
     avatars: teamAvatars,
   };
 }
@@ -70,6 +80,7 @@ export default function TeamsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(50);
+  const [teamNumberRange, setTeamNumberRange] = useState("");
   const itemsPerPage = 50;
 
   useEffect(() => {
@@ -117,6 +128,25 @@ export default function TeamsPage() {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    const filterByNumber = async () => {
+      setIsLoading(true);
+      const { teams, avatars } = await fetchTeamsData(
+        startIndex,
+        endIndex,
+        teamNumberRange,
+        query
+      );
+      setTeams(teams);
+      setAvatars(avatars);
+      setIsLoading(false);
+    };
+
+    if (teamNumberRange) {
+      filterByNumber();
+    }
+  }, [endIndex, query, startIndex, teamNumberRange]);
+
   if (!teams && !avatars) return <Loading />;
 
   return (
@@ -145,9 +175,68 @@ export default function TeamsPage() {
                 <FaSearch className="text-sm text-lightGray" />
               </span>
             </div>
+
+            <div className="mt-3 gap-2 flex flex-wrap">
+              <FilterNumber
+                name={<FaHome />}
+                reload
+                range=""
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="999s"
+                range="1-999"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="1000s"
+                range="1000-2000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="2000s"
+                range="2000-3000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="3000s"
+                range="3000-4000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="4000s"
+                range="4000-5000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="5000s"
+                range="5000-6000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="6000s"
+                range="6000-7000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="7000s"
+                range="7000-8000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="8000s"
+                range="8000-0000"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+              <FilterNumber
+                name="9000s"
+                range="9000-9999"
+                setTeamNumberRange={setTeamNumberRange}
+              />
+            </div>
           </Header>
 
-          <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
+          <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
             <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {teams.map((team: any, key: number) => {
                 return <TeamCard key={key} team={team} avatars={avatars} />;
