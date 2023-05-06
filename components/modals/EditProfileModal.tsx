@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
 import { FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
+import Image from "next/image";
+import { DragEvent } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -27,17 +29,30 @@ const Input = (props: any) => {
   );
 };
 
-const ModalHeader = () => (
-  <>
-    <h1 className="font-semibold text-xl">Edit Profile</h1>
-  </>
-);
+const ModalHeader = (props: { avatar: string }) => {
+  return (
+    <div className="flex">
+      <Image
+        src={props.avatar}
+        height="25"
+        width="30"
+        className="rounded-full mr-2"
+        alt="Avatar"
+      />
+      <h1 className="font-semibold text-xl">Edit your profile</h1>
+    </div>
+  );
+};
 
-const ModalBody = ({ setOpen }: any) => {
+const ModalBody = ({ setOpen, avatar }: any) => {
   const { data: session } = useSession();
   const [displayName, setDisplayName] = useState(session?.user?.name);
-  const [avatar, setAvatar] = useState(session?.user?.image);
+  const [avatarURL, setAvatarURL] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
+
+  useEffect(() => {
+    setAvatarURL(avatar);
+  }, [avatar]);
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");
@@ -61,14 +76,14 @@ const ModalBody = ({ setOpen }: any) => {
   };
 
   const updateAvatar = async () => {
-    if (avatar?.length === 0) {
+    if (avatarURL?.length === 0) {
       setErrorMessage("Avatar URL left blank");
-    } else if (avatar === session?.user?.image) {
+    } else if (avatarURL === session?.user?.image) {
       setErrorMessage("That already is your avatar!");
     } else {
       await fetch(`${API_URL}/api/@me/update`, {
         method: "POST",
-        body: JSON.stringify({ image: avatar }),
+        body: JSON.stringify({ image: avatarURL }),
       });
 
       reloadSession();
@@ -77,19 +92,13 @@ const ModalBody = ({ setOpen }: any) => {
   };
 
   return (
-    <div className="mt-2">
-      <p
-        className={`text-sm text-gray-500 mt-[-5px] ${
-          errorMessage ? "mb-1" : "mb-5"
-        }`}
-      >
-        Update your account information
-      </p>
-
+    <div className="mt-5">
       {errorMessage && (
-        <p className="text-red-500 text-xs mb-5">
-          <b>ERROR:</b> {errorMessage}
-        </p>
+        <div className="border border-[#2A2A2A] bg-card rounded-lg px-2 py-2 mt-[-5px] mb-5">
+          <p className="text-red-500 text-xs">
+            <b>ERROR:</b> {errorMessage}
+          </p>
+        </div>
       )}
 
       <div className="flex flex-col space-y-4">
@@ -124,9 +133,9 @@ const ModalBody = ({ setOpen }: any) => {
           <p className="uppercase text-xs text-lightGray mb-2">Avatar</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={avatar}
+              placeholder={avatarURL}
               icon={FaUserCircle}
-              state={setAvatar}
+              state={setAvatarURL}
             />
             <button
               onClick={() => updateAvatar()}
@@ -142,12 +151,45 @@ const ModalBody = ({ setOpen }: any) => {
 };
 
 export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
+  const { data: session } = useSession();
+  const [imageURL, setImageURL] = useState(session?.user?.image);
+
+  const handleFileInput = (event: any) => {
+    const imageURL = URL.createObjectURL(event.target.files[0]);
+    setImageURL(imageURL);
+  };
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    const items = event.dataTransfer.items;
+    if (items) {
+      for (let item of items) {
+        if (item.kind === "file") {
+          const file = item.getAsFile();
+          handleFileInput({ target: { files: [file] } });
+          break;
+        }
+      }
+    } else {
+      const data = event.dataTransfer.getData("text/html");
+      const doc = new DOMParser().parseFromString(data, "text/html");
+      const images = doc.getElementsByTagName("img");
+      if (images.length > 0) {
+        setImageURL(images[0].src);
+      }
+    }
+  };
+
   return (
-    <Modal
-      header={<ModalHeader />}
-      body={<ModalBody setOpen={setOpen} />}
-      isOpen={isOpen}
-      setOpen={setOpen}
-    />
+    <div onDrop={handleDrop} onDragOver={(event) => event.preventDefault()}>
+      <Modal
+        header={<ModalHeader avatar={imageURL as string} />}
+        body={<ModalBody setOpen={setOpen} avatar={imageURL as string} />}
+        isOpen={isOpen}
+        setOpen={setOpen}
+        onClose={() => setImageURL(session?.user?.image)}
+      />
+    </div>
   );
 };

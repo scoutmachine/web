@@ -4,19 +4,23 @@ import { Dispatch, Fragment, SetStateAction } from "react";
 type Props = {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  onClose?: () => void;
   header: JSX.Element;
   body: JSX.Element;
   footer?: JSX.Element;
 };
 
-export const Modal = ({ isOpen, setOpen, header, body, footer }: Props) => {
+export const Modal = ({ isOpen, setOpen, header, body, footer, onClose }: Props) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
-          onClose={() => setOpen(false)}
+          onClose={() => {
+            setOpen(false)
+            onClose && onClose()
+          }}
         >
           <Transition.Child
             as={Fragment}
