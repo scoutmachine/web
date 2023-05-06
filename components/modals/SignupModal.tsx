@@ -36,7 +36,7 @@ const ModalBody = () => (
   </div>
 );
 
-const ModalFooter = ({ setOpen }: any) => (
+const ModalFooter = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => (
   <>
     <div className="flex flex-col md:flex-row justify-center items-center gap-2">
       <div className="mt-4">
@@ -69,7 +69,7 @@ const ModalFooter = ({ setOpen }: any) => (
       </div>
     </div>
     <p
-      onClick={() => setOpen(false)}
+      onClick={() => props.setOpen(false)}
       className="text-xs italic text-lightGray hover:text-primary mt-2 cursor-pointer text-center"
     >
       I want to go back

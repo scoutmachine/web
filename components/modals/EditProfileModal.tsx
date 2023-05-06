@@ -5,13 +5,20 @@ import { API_URL } from "@/lib/constants";
 import { FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { DragEvent } from "react";
+import { IconType } from "react-icons";
 
 type Props = {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const Input = (props: any) => {
+const Input = (props: {
+  className?: string;
+  disabled?: boolean;
+  placeholder: string;
+  state?: (e: string) => void;
+  icon: IconType;
+}) => {
   return (
     <div className="relative w-full">
       <input
@@ -20,7 +27,7 @@ const Input = (props: any) => {
         disabled={props.disabled ?? false}
         defaultValue={props.placeholder}
         spellCheck={false}
-        onChange={(e) => props.state(e.target.value)}
+        onChange={(e) => props.state?.(e.target.value)}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon className="text-sm text-lightGray" />
@@ -44,15 +51,20 @@ const ModalHeader = (props: { avatar: string }) => {
   );
 };
 
-const ModalBody = ({ setOpen, avatar }: any) => {
+const ModalBody = (props: {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  avatar: string;
+}) => {
   const { data: session } = useSession();
-  const [displayName, setDisplayName] = useState(session?.user?.name);
+  const [displayName, setDisplayName] = useState<string>(
+    session?.user?.name as string
+  );
   const [avatarURL, setAvatarURL] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
 
   useEffect(() => {
-    setAvatarURL(avatar);
-  }, [avatar]);
+    setAvatarURL(props.avatar);
+  }, [props.avatar]);
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");
@@ -71,7 +83,7 @@ const ModalBody = ({ setOpen, avatar }: any) => {
       });
 
       reloadSession();
-      setOpen(false);
+      props.setOpen(false);
     }
   };
 
@@ -87,7 +99,7 @@ const ModalBody = ({ setOpen, avatar }: any) => {
       });
 
       reloadSession();
-      setOpen(false);
+      props.setOpen(false);
     }
   };
 
@@ -105,7 +117,7 @@ const ModalBody = ({ setOpen, avatar }: any) => {
         <div>
           <p className="uppercase text-xs text-lightGray mb-2">Email</p>
           <Input
-            placeholder={session?.user?.email}
+            placeholder={session?.user?.email as string}
             icon={FaEnvelope}
             className="cursor-not-allowed"
             disabled
@@ -133,7 +145,7 @@ const ModalBody = ({ setOpen, avatar }: any) => {
           <p className="uppercase text-xs text-lightGray mb-2">Avatar</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={avatarURL}
+              placeholder={avatarURL as string}
               icon={FaUserCircle}
               state={setAvatarURL}
             />
@@ -154,9 +166,12 @@ export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
   const { data: session } = useSession();
   const [imageURL, setImageURL] = useState(session?.user?.image);
 
-  const handleFileInput = (event: any) => {
-    const imageURL = URL.createObjectURL(event.target.files[0]);
-    setImageURL(imageURL);
+  const handleFileInput = (files: File[]) => {
+    const file = files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setImageURL(imageURL);
+    }
   };
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -166,9 +181,11 @@ export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
     if (items) {
       for (let item of items) {
         if (item.kind === "file") {
-          const file = item.getAsFile();
-          handleFileInput({ target: { files: [file] } });
-          break;
+          const file = item.getAsFile() as File;
+          if (file) {
+            handleFileInput([file]);
+            break;
+          }
         }
       }
     } else {

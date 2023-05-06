@@ -1,7 +1,7 @@
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   FaMedal,
   FaRobot,
@@ -27,8 +27,9 @@ import { EditProfileModal } from "../modals/EditProfileModal";
 import { SignoutModal } from "../modals/SignoutModal";
 import { getFavourites } from "@/util/favourites";
 import { Search } from "./Search";
+import { Team } from "@/types/Team";
 
-const Social = (props: any) => {
+const Social = (props: { icon: ReactNode }) => {
   return (
     <span className="flex cursor-pointer flex-col items-center rounded-md p-1 text-white bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
       {props.icon}
@@ -102,7 +103,7 @@ export const Navbar = (props: {
 
   const filteredOptions =
     teams &&
-    teams.filter((team: any) =>
+    teams.filter((team: Team) =>
       (team.nickname + team.team_number)
         .toLowerCase()
         .includes(searchTerm.toLowerCase())

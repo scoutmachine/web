@@ -28,7 +28,7 @@ const ModalHeader = () => (
   </>
 );
 
-const ModalBody = ({ setOpen }: any) => {
+const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   return (
     <div className="mt-2">
       <p className="text-sm text-gray-500 mt-[-5px] text-center mb-2">
@@ -55,7 +55,7 @@ const ModalBody = ({ setOpen }: any) => {
           <button
             type="button"
             className="flex outline-none rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
-            onClick={() => setOpen(false)}
+            onClick={() => props.setOpen(false)}
           >
             No thanks
           </button>

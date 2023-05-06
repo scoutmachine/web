@@ -1,6 +1,11 @@
-import { isValidElement } from "react";
+import { ReactNode, isValidElement } from "react";
 
-export const Header = (props: any) => {
+export const Header = (props: {
+  title: ReactNode | string;
+  desc: ReactNode | string;
+  className?: string;
+  children?: ReactNode;
+}) => {
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full">
       <div className="border border-[#2a2a2a] bg-[#191919] mt-10 rounded-lg px-10 py-10">
@@ -9,9 +14,7 @@ export const Header = (props: any) => {
         >
           {props.title}{" "}
           <span
-            className={`text-white ${
-              isValidElement(props.title) && "ml-4"
-            }`}
+            className={`text-white ${isValidElement(props.title) && "ml-4"}`}
           >
             / Scout Machine
           </span>

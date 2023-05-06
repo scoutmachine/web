@@ -1,7 +1,10 @@
-export const Social = (props: any) => {
+import { IconType } from "react-icons";
+
+export const Social = (props: { className: string, name: string, icon?: IconType}) => {
   return (
     <p className={`flex ${props.className} hover:text-primary`}>
-      <props.icon className="text-2xl mr-1" /> {props.name}
+      {props.icon && <props.icon className="text-2xl mr-1" />}
+      {props.name}
     </p>
   );
 };

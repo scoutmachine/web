@@ -1,8 +1,13 @@
 import router from "next/router";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
-export const FilterNumber = (props: any) => {
-  const [buttonClicked, setButtonClicked] = useState(false);
+export const FilterNumber = (props: {
+  range: string;
+  reload?: boolean;
+  name: ReactNode | string;
+  setTeamNumberRange: (range: string) => void;
+}) => {
+  const [buttonClicked, setButtonClicked] = useState("");
 
   return (
     <button

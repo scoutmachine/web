@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import Tippy from "@tippyjs/react";
 import Image from "next/image";
+import { Team } from "@/types/Team";
+import { FavouritedTeam } from "@prisma/client";
 
-export const Tooltip = (props: any) => {
+export const Tooltip = (props: {
+  content?: ReactNode;
+  team: Team | FavouritedTeam;
+  avatar?: string;
+  children: ReactNode;
+}) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseEnter = () => {
@@ -11,6 +18,10 @@ export const Tooltip = (props: any) => {
 
   const handleMouseLeave = () => {
     setIsHovering(false);
+  };
+
+  const isTeam = (obj: Team | FavouritedTeam): obj is Team => {
+    return (obj as Team).school_name !== undefined;
   };
 
   return (
@@ -35,7 +46,10 @@ export const Tooltip = (props: any) => {
               </div>
               <p className="text-center text-white">
                 <span className="font-bold">Team {props.team.team_number}</span>{" "}
-                is {props.team.school_name && `from ${props.team.school_name}`}{" "}
+                is{" "}
+                {isTeam(props.team) &&
+                  props.team.school_name &&
+                  `from ${props.team.school_name}`}{" "}
                 located in {props.team.city}, {props.team.state_prov},{" "}
                 {props.team.country} competing with{" "}
                 <span className="italic">FIRST</span> since{" "}

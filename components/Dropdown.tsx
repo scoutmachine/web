@@ -1,4 +1,10 @@
-export const Dropdown = (props: any) => {
+import { ReactNode } from "react";
+
+export const Dropdown = (props: {
+  item: ReactNode;
+  state: boolean;
+  children: ReactNode;
+}) => {
   return (
     <div className={`relative inline-block dropdown`}>
       {props.item}
