@@ -164,7 +164,7 @@ export default function TeamPage() {
 
       <Navbar />
 
-      <div className="flex flex-wrap items-center justify-center pl-8 pr-8 md:pl-0 md:pr-0">
+      <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-8 md:pr-8 md:pl-0 md:pr-0">
         <TeamScreen
           team={teamData.teamData}
           socials={teamData.teamSocials}
@@ -250,7 +250,7 @@ export default function TeamPage() {
                     </div>
                   ) : (
                     <p className="px-2 text-lightGray">
-                      Looks like {teamData.team_number} hasn&apos;t competed,
+                      Looks like {teamData.teamData.team_number} hasn&apos;t competed,
                       yet.
                     </p>
                   )}
@@ -284,7 +284,7 @@ export default function TeamPage() {
                     return (
                       <div
                         key={key}
-                        className="border border-[#2A2A2A] bg-card mt-5 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
+                        className="border border-[#2A2A2A] bg-card mt-5 flex-wrap md:w-full rounded-lg px-8 py-5"
                       >
                         <div className="flex justify-between">
                           <div>

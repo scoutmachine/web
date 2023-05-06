@@ -53,7 +53,7 @@ export default function GameDayPage() {
         desc="Watch all your favourite teams compete for the trophy - in one place."
       />
 
-      <div className="pl-8 pr-8 max-w-screen-3xl w-full">
+      <div className="pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl w-full">
         <h1 className="mt-10 mb-5 font-extrabold text-2xl">
           Official Event Streams
         </h1>

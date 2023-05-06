@@ -30,7 +30,7 @@ export const AboutTab = (props: any) => {
   ).length;
 
   return (
-    <div className="flex grid grid-cols-4 gap-4 mt-5">
+    <div className="flex grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-5">
       <Card
         title="Seasons Completed:"
         desc={props.team.yearsParticipated.length}
