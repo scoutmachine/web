@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaHome, FaSearch } from "react-icons/fa";
@@ -47,7 +47,7 @@ async function fetchTeamsData(
   const start = performance.now();
 
   await Promise.all(
-    teamsSlice.map(async (team: any) => {
+    sortedTeams.slice(0, 50).map(async (team: any) => {
       const avatar = await fetch(
         `${API_URL}/api/team/avatar?team=${team.team_number}`
       ).then((res) => res.json());
@@ -83,6 +83,8 @@ export default function TeamsPage() {
   const [teamNumberRange, setTeamNumberRange] = useState("");
   const itemsPerPage = 50;
 
+  const loadingScreenShown = useRef(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.innerHeight + window.pageYOffset;
@@ -113,8 +115,14 @@ export default function TeamsPage() {
       }
     };
 
-    fetchTeams();
-  });
+    if (!loadingScreenShown.current) {
+      fetchTeams().then(() => {
+        loadingScreenShown.current = true;
+      });
+    } else {
+      fetchTeams();
+    }
+  }, [startIndex, endIndex]);
 
   const changeSearch = async (event: { target: { value: string } }) => {
     const searchTerm = event.target.value;
@@ -148,7 +156,10 @@ export default function TeamsPage() {
     }
   }, [endIndex, query, startIndex, teamNumberRange]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading && !loadingScreenShown.current) {
+    loadingScreenShown.current = true;
+    return <Loading />;
+  }
 
   return (
     <>
