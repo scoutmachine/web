@@ -66,7 +66,7 @@ async function fetchTeamsData() {
     `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
   );
 
-  setStorage(`teams_${CURR_YEAR}`, teams);
+  setStorage(`teams_${CURR_YEAR}`, teams, 60 * 60 * 24 * 7 * 4); // 4 weeks (28 days)
   return teams;
 }
 
@@ -87,7 +87,6 @@ export const Navbar = (props: {
   const { data: session, status } = useSession();
 
   const [favourites, setFavourites] = useState<any>();
-  const [isStarFilled, setIsStarFilled] = useState(false);
 
   useEffect(() => {
     getFavourites(setFavourites);
@@ -222,8 +221,6 @@ export const Navbar = (props: {
               favourites={favourites}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
-              setIsStarFilled={setIsStarFilled}
-              isStarFilled={isStarFilled}
               session={session}
               refresh={props.refresh}
             />

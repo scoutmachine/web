@@ -16,6 +16,7 @@ import {
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
   const [favourites, setFavourites] = useState<any>();
+  const [error, setError] = useState(false);
   const isFavourited = favourites?.some(
     (team: any) => team.team_number === props.team.team_number
   );
@@ -45,20 +46,38 @@ export const TeamCard = (props: any) => {
       <div className="relative px-5 py-8 h-32 border border-[#2A2A2A] bg-card hover:border-gray-600 rounded-lg">
         <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
           <a className="cursor-pointer">
-            <Image
-              src={
-                props.avatars[props.team.team_number]
-                  ? `data:image/jpeg;base64,${
-                      props.avatars[props.team.team_number]
-                    }`
-                  : "/first-icon.svg"
-              }
-              height="40"
-              width="40"
-              alt={`Team ${props.team.team_number} Avatar`}
-              priority={true}
-              className="rounded-lg mb-2 absolute top-5 right-3"
-            />
+            {!error ? (
+              <Image
+                src={
+                  props.avatars[props.team.team_number]
+                    ? `data:image/jpeg;base64,${
+                        props.avatars[props.team.team_number]
+                      }`
+                    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                        props.team.website?.startsWith("https")
+                          ? props.team.website
+                          : `https://${props.team.website?.slice(7)}`
+                      }/&size=64`
+                }
+                onError={() => {
+                  setError(true);
+                }}
+                height="40"
+                width="40"
+                alt={`Team ${props.team.team_number} Avatar`}
+                priority={true}
+                className="rounded-lg mb-2 absolute top-5 right-3"
+              />
+            ) : (
+              <Image
+                className="rounded-lg mb-2 absolute top-5 right-3"
+                height="40"
+                width="40"
+                alt={`Team ${props.team.team_number} Avatar`}
+                priority={true}
+                src="/first-icon.svg"
+              />
+            )}
 
             <h1 className="flex-wrap flex mt-[-15px] text-gray-200 font-extrabold text-lg">
               {props.team.nickname.length > 20

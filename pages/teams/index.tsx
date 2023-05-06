@@ -1,268 +1,170 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import { API_URL } from "@/lib/constants";
-import { GetServerSideProps } from "next";
-import { useDebounce } from "use-debounce";
+import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
-import { FaHome, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import Head from "next/head";
+import { getStorage, setStorage } from "@/util/localStorage";
+import { Loading } from "@/components/Loading";
+import { formatTime } from "@/util/time";
+import { log } from "@/util/log";
 
-export default function TeamsPage({ initial, avatars }: any) {
-  const [allTeams, setAllTeams] = useState(initial);
-  const [query, setQuery] = useState("");
-  const [filterByNumber, setFilterByNumber] = useState<any>(0);
-  const [value] = useDebounce(query, 500);
-  const [isClient, setIsClient] = useState(false);
-  const [page, setPage] = useState(0);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [location, setLocation] = useState<any>({});
+async function fetchTeamsData(
+  startIndex: number,
+  endIndex: number,
+  searchTerm: string = ""
+) {
+  const teamsData = getStorage(`teams_${CURR_YEAR}`);
+  const teamAvatarsData = getStorage(`cached_avatars_${CURR_YEAR}`);
 
-  const FilterNumber = (props: any) => {
-    return (
-      <button
-        onClick={() => setFilterByNumber(props.name.slice(0, -1))}
-        className={`${
-          filterByNumber === props.name.slice(0, -1)
-            ? "bg-[#191919]"
-            : "bg-card hover:bg-[#191919]"
-        } px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A]`}
-      >
-        {props.name}
-      </button>
-    );
-  };
-
-  useEffect(() => {
-    setIsClient(true);
-
-    const filterTeams = async () => {
-      setIsSearching(true);
-
-      const filteredTeams = await fetch(
-        `${API_URL}/api/team/query?q=${value}`
-      ).then((res) => res.json());
-
-      setIsSearching(false);
-      return filteredTeams.teams;
-    };
-
-    const filterTeamsByNumber = async () => {
-      setIsSearching(true);
-
-      const filteredTeams = await fetch(
-        `${API_URL}/api/team/query?f=${filterByNumber}`
-      ).then((res) => res.json());
-
-      setIsSearching(false);
-      return filteredTeams.teams;
-    };
-
-    const runFilters = async () => {
-      if (value) {
-        setAllTeams(await filterTeams());
-      } else if (filterByNumber !== 0) {
-        setAllTeams(await filterTeamsByNumber());
-      } else {
-        setAllTeams(initial.sort(() => Math.random() - 0.5));
-      }
-    };
-
-    runFilters();
-  }, [filterByNumber, initial, query, value]);
-
-  useEffect(() => {
-    const loadMore = async () => {
-      setIsLoadingMore(true);
-      const nextPage = page + 1;
-      const response = await fetch(
-        `${API_URL}/api/team/teams?page=${nextPage}`
+  if (teamsData && teamAvatarsData) {
+    const filteredTeams = teamsData.filter((team: any) => {
+      return (
+        team.team_number?.toString().includes(searchTerm) ||
+        team.nickname
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        team.location
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
       );
-      const newTeams = await response
-        .json()
-        .then((teams) => teams.slice(0, 50));
-      setAllTeams([...allTeams, ...newTeams]);
-      setPage(nextPage);
+    });
 
-      const getTeamAvatars = newTeams.map(async (team: any) => {
-        const data = await fetch(
-          `${API_URL}/api/team/avatar?team=${team.team_number}`
-        ).then((res) => res.json());
-
-        try {
-          avatars[team.team_number] = data.avatar;
-        } catch (e) {
-          console.error(e);
-        }
-      });
-
-      await Promise.all(getTeamAvatars);
-      setIsLoadingMore(false);
+    return {
+      teams: searchTerm
+        ? filteredTeams.slice(startIndex, endIndex)
+        : teamsData.sort(() => Math.random() - 0.5).slice(0, 50),
+      avatars: teamAvatarsData,
     };
+  }
 
+  const teamAvatars: any = {};
+  const teamsSlice = teamsData.slice(startIndex, endIndex);
+  const start = performance.now();
+
+  await Promise.all(
+    teamsSlice.map(async (team: any) => {
+      const avatar = await fetch(
+        `${API_URL}/api/team/avatar?team=${team.team_number}`
+      ).then((res) => res.json());
+
+      try {
+        teamAvatars[team.team_number] = avatar.avatar;
+      } catch {
+        teamAvatars[team.team_number] = null;
+      }
+    })
+  );
+
+  log("warning", `Fetched avatars in ${formatTime(performance.now() - start)}`);
+
+  setStorage(`cached_avatars_${CURR_YEAR}`, teamAvatars);
+
+  return {
+    teams: teamsSlice,
+    avatars: teamAvatars,
+  };
+}
+
+export default function TeamsPage() {
+  const [allTeams, setAllTeams] = useState<any>([]);
+  const [query, setQuery] = useState("");
+  const [avatars, setAvatars] = useState<any>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(50);
+  const itemsPerPage = 50;
+
+  useEffect(() => {
     const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        !isLoadingMore
-      ) {
-        loadMore();
+      const scrollPosition = window.innerHeight + window.pageYOffset;
+      const contentHeight = document.documentElement.scrollHeight;
+
+      if (scrollPosition > contentHeight * 0.8 && !isLoading) {
+        setIsLoading(true);
+        setStartIndex(endIndex + 1);
+        setEndIndex(endIndex + itemsPerPage);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [allTeams, isLoadingMore, page, avatars]);
-
-  const changeSearch = (event: { target: { value: string } }) => {
-    setQuery(event.target.value);
-  };
+  }, [isLoading, startIndex, endIndex]);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
+    const fetchTeams = async () => {
+      const { teams, avatars } = await fetchTeamsData(startIndex, endIndex);
+      setAllTeams((prevTeams: any) => [...prevTeams, ...teams]);
+      setAvatars(avatars);
+      setIsLoading(false);
+    };
 
-        fetch(
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setLocation({
-              city: data.city,
-            });
-          });
-      });
-    }
-  }, []);
+    setIsLoading(true);
+    fetchTeams();
+  }, [startIndex, endIndex]);
 
-  const filterByLocation = async () => {
-    setIsSearching(true);
+  const changeSearch = async (event: { target: { value: string } }) => {
+    const searchTerm = event.target.value;
+    setQuery(searchTerm);
+    setIsLoading(true);
+    setStartIndex(0);
+    setEndIndex(itemsPerPage);
 
-    const filteredTeams = await fetch(
-      `${API_URL}/api/team/query?q=${location.city}`
-    ).then((res) => res.json());
-
-    setIsSearching(false);
-    setAllTeams(filteredTeams.teams);
+    const { teams, avatars } = await fetchTeamsData(
+      0,
+      itemsPerPage,
+      searchTerm
+    );
+    setAllTeams(teams);
+    setAvatars(avatars);
+    setIsLoading(false);
   };
+
+  if (!allTeams) return <Loading />;
 
   return (
     <>
-      {isClient && (
-        <>
-          <Head>
-            <title>Teams | Scout Machine</title>
-          </Head>
-          <Navbar active="Teams" />
+      <>
+        <Head>
+          <title>Teams | Scout Machine</title>
+        </Head>
+        <Navbar active="Teams" />
 
-          <div className="flex flex-col">
-            <Header
-              title="Teams"
-              desc="Unleash the excitement of FRC with a new way to discover teams"
-            >
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search teams (team #, location, name)..."
-                  value={query}
-                  onChange={changeSearch}
-                  spellCheck="false"
-                  className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
-                />
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
-                  <FaSearch className="text-sm text-lightGray" />
-                </span>
-              </div>
-
-              <div className="mt-3 gap-2 flex flex-wrap">
-                <button
-                  onClick={() => {
-                    setFilterByNumber(0);
-                    setAllTeams(initial);
-                  }}
-                  className={`${
-                    filterByNumber === 0 ? "bg-[#191919]" : "bg-card"
-                  } px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:bg-[#191919]`}
-                >
-                  <FaHome />
-                </button>
-                <button
-                  onClick={() => {
-                    setFilterByNumber("01");
-                    filterByLocation();
-                  }}
-                  className={`${
-                    filterByNumber === "01" ? "bg-[#191919]" : "bg-card"
-                  } px-3 py-1 text-lightGray text-sm flex rounded-lg border border-[#2A2A2A] hover:bg-[#191919]`}
-                >
-                  <FaSearch className="text-[15px] mr-2 mt-[2px]" /> Search
-                  Nearby
-                </button>
-                <FilterNumber name="999s" />
-                <FilterNumber name="1000s" />
-                <FilterNumber name="2000s" />
-                <FilterNumber name="3000s" />
-                <FilterNumber name="4000s" />
-                <FilterNumber name="5000s" />
-                <FilterNumber name="6000s" />
-                <FilterNumber name="7000s" />
-                <FilterNumber name="8000s" />
-                <FilterNumber name="9000s" />
-              </div>
-            </Header>
-
-            <h1 className="text-lightGray pl-8 mt-5 mb-3 text-md">
-              showing <span className="font-bold">{allTeams.length}</span> teams
-              / 9999
-            </h1>
-
-            {allTeams.length === 0 && (
-              <div className="text-lightGray text-sm pl-8">
-                <span>
-                  No teams found with &quot;<strong>{query}</strong>&quot;
-                </span>
-              </div>
-            )}
-
-            <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
-              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {Array.isArray(allTeams) &&
-                  allTeams.map((team: any, key: number) => {
-                    return <TeamCard key={key} team={team} avatars={avatars} />;
-                  })}
-              </div>
-            </div>
-
-            {!query && isLoadingMore && (
-              <span className="text-lightGray mt-5 pl-8">
-                Hang tight! Loading more teams...
+        <div className="flex flex-col">
+          <Header
+            title="Teams"
+            desc="Unleash the excitement of FRC with a new way to discover teams"
+          >
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search teams (team #, location, name)..."
+                value={query}
+                onChange={changeSearch}
+                spellCheck="false"
+                className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
+                <FaSearch className="text-sm text-lightGray" />
               </span>
-            )}
-          </div>
+            </div>
+          </Header>
 
-          <Footer />
-        </>
-      )}
+          <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
+            <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {allTeams.map((team: any, key: number) => {
+                return <TeamCard key={key} team={team} avatars={avatars} />;
+              })}
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </>
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=604800, stale-while-revalidate=604800"
-  );
-
-  const { teams, avatars } = await fetch(`${API_URL}/api/getTeams`).then(
-    (res) => res.json()
-  );
-
-  return {
-    props: {
-      initial: teams,
-      avatars,
-    },
-  };
-};
