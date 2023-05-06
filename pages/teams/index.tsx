@@ -64,7 +64,7 @@ async function fetchTeamsData(
 }
 
 export default function TeamsPage() {
-  const [allTeams, setAllTeams] = useState<any>([]);
+  const [teams, setTeams] = useState<any>([]);
   const [query, setQuery] = useState("");
   const [avatars, setAvatars] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +91,7 @@ export default function TeamsPage() {
   useEffect(() => {
     const fetchTeams = async () => {
       const { teams, avatars } = await fetchTeamsData(startIndex, endIndex);
-      setAllTeams((prevTeams: any) => [...prevTeams, ...teams]);
+      setTeams((prevTeams: any) => [...prevTeams, ...teams]);
       setAvatars(avatars);
       setIsLoading(false);
     };
@@ -112,12 +112,12 @@ export default function TeamsPage() {
       itemsPerPage,
       searchTerm
     );
-    setAllTeams(teams);
+    setTeams(teams);
     setAvatars(avatars);
     setIsLoading(false);
   };
 
-  if (!allTeams) return <Loading />;
+  if (!teams && !avatars) return <Loading />;
 
   return (
     <>
@@ -149,7 +149,7 @@ export default function TeamsPage() {
 
           <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
             <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {allTeams.map((team: any, key: number) => {
+              {teams.map((team: any, key: number) => {
                 return <TeamCard key={key} team={team} avatars={avatars} />;
               })}
             </div>
