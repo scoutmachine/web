@@ -1,7 +1,7 @@
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { EventData } from "@/components/EventData";
 import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { TabButton } from "@/components/TabButton";
 import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesScreen } from "@/components/tabs/event/Alliances";

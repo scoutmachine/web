@@ -1,6 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { HOFTeams } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";

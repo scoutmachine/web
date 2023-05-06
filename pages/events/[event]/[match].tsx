@@ -1,5 +1,5 @@
 import { Loading } from "@/components/Loading";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { log } from "@/util/log";

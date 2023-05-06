@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FaTwitch } from "react-icons/fa";
 import { convertDate, isLive } from "@/util/date";
 import Link from "next/link";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { TeamScreen } from "@/components/screens/TeamScreen";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";

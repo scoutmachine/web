@@ -1,5 +1,5 @@
 import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { SignedOutScreen } from "@/components/screens/landing/SignedOut";

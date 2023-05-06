@@ -4,7 +4,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
   FaMedal,
-  FaSearch,
   FaRobot,
   FaHammer,
   FaGithub,
@@ -16,23 +15,20 @@ import {
   FaBolt,
   FaTwitch,
   FaBars,
-  FaStar,
 } from "react-icons/fa";
-import { Loading } from "./Loading";
+import { Loading } from "../Loading";
 import { getStorage, setStorage } from "@/util/localStorage";
 import { formatTime } from "@/util/time";
 import { log } from "@/util/log";
 import { useSession } from "next-auth/react";
-import { Dropdown } from "./Dropdown";
-import { SignupModal } from "./modals/SignupModal";
-import { EditProfileModal } from "./modals/EditProfileModal";
-import { SignoutModal } from "./modals/SignoutModal";
+import { Dropdown } from "../Dropdown";
+import { SignupModal } from "../modals/SignupModal";
+import { EditProfileModal } from "../modals/EditProfileModal";
+import { SignoutModal } from "../modals/SignoutModal";
 import {
-  favouriteTeam,
   getFavourites,
-  unfavouriteTeam,
 } from "@/util/favourites";
-import router from "next/router";
+import { Search } from "./Search";
 
 const Social = (props: any) => {
   return (
@@ -218,89 +214,17 @@ export const Navbar = (props: {
               );
             })}
 
-            <div className="relative">
-              <input
-                className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
-                type="text"
-                placeholder="Search teams..."
-                onChange={(e) => setSearchTerm(e.target.value)}
-                spellCheck={false}
-              />
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <FaSearch className="text-sm text-lightGray" />
-              </span>
+            <Search
+              teams={teams}
+              filteredOptions={filteredOptions}
+              favourites={favourites}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              setIsStarFilled={setIsStarFilled}
+              isStarFilled={isStarFilled}
+              session={session}
+            />
 
-              <div
-                className={`absolute top-10 w-full overflow-x-hidden ${
-                  teams && filteredOptions.length > 4 && "h-64 overflow-y-auto"
-                } ${searchTerm && "z-50 border border-[#2A2A2A]"} rounded-lg`}
-              >
-                {teams && filteredOptions.length > 0 ? (
-                  filteredOptions.map((team: any, key: number) => {
-                    const isFavourited = favourites?.some(
-                      (favouritedTeam: any) =>
-                        favouritedTeam.team_number === team.team_number
-                    );
-                    const favouritedTeam = favourites?.filter(
-                      (favouritedTeam: any) =>
-                        favouritedTeam.team_number === team.team_number
-                    );
-
-                    return (
-                      <div
-                        key={key}
-                        className={`bg-card text-lightGray py-1 px-3 cursor-pointer ${
-                          searchTerm.length === 0 && "hidden"
-                        }`}
-                        onClick={() =>
-                          setSearchTerm(
-                            `${team.nickname} - ${team.team_number}`
-                          )
-                        }
-                      >
-                        <Link
-                          key={key}
-                          href={`/teams/${team.team_number}`}
-                          legacyBehavior
-                        >
-                          <a onClick={() => setSearchTerm("")}>
-                            <span className="font-medium">
-                              {team.team_number} |
-                            </span>{" "}
-                            {team.nickname}{" "}
-                          </a>
-                        </Link>
-
-                        {session && (
-                          <FaStar
-                            onClick={() => {
-                              if (isFavourited) {
-                                unfavouriteTeam(favouritedTeam);
-                              } else {
-                                setIsStarFilled(!isStarFilled);
-                                favouriteTeam(team);
-                                props.refresh && router.push(router.pathname);
-                              }
-                            }}
-                            className={`inline-block mb-1 ml-1 ${
-                              isFavourited || isStarFilled
-                                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px]"
-                                : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="bg-card">
-                    <p className="text-lightGray px-2 py-2 text-sm">
-                      No results found.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
             {session ? (
               <Dropdown
                 state={profileDropdown}

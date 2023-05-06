@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Loading } from "@/components/Loading";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { TeamCard } from "@/components/TeamCard";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/util/localStorage";

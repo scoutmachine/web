@@ -1,5 +1,5 @@
 import { Footer } from "@/components/Footer";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useDebounce } from "use-debounce";
