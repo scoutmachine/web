@@ -41,7 +41,7 @@ export const Modal = ({ isOpen, setOpen, header, body, footer }: Props) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl border border-gray-300 bg-[#f0f0f0] p-6 transition-all dark:border-[#2A2A2A] dark:bg-[#191919]">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl border border-gray-300 bg-[#f0f0f0] p-6 transition-all border-[#2A2A2A] bg-[#191919]">
                   {header}
                   {body}
                   {footer}

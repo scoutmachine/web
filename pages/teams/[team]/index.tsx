@@ -173,7 +173,7 @@ export default function TeamPage() {
         />
 
         <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
-          <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-5">
+          <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-5">
             <div className="flex flex-wrap gap-4">
               <TabButton
                 active={activeTab}
@@ -188,13 +188,13 @@ export default function TeamPage() {
                 onClick={() => setActiveTab(2)}
               >
                 Awards{" "}
-                <span className="border dark:border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
+                <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
                   {teamData.teamAwards.length}
                 </span>
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
-                  className={`dark:bg-card border dark:border-[#2A2A2A] w-[300px] text-white  ${
+                  className={`bg-card border border-[#2A2A2A] w-[300px] text-white  ${
                     isDropdownOpen
                       ? "rounded-t-lg border-2 border-b-gray-500 border-transparent"
                       : "rounded-lg"
@@ -228,7 +228,7 @@ export default function TeamPage() {
                   </svg>
                 </div>
                 <div
-                  className={`absolute right-0 left-0 dark:bg-card border dark:border-[#2A2A2A] text-white rounded-b-lg px-3 py-4 ${
+                  className={`absolute right-0 left-0 bg-card border border-[#2A2A2A] text-white rounded-b-lg px-3 py-4 ${
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
@@ -237,7 +237,7 @@ export default function TeamPage() {
                       {teamData.yearsParticipated.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className="cursor-pointer text-lightGray hover:text-white dark:bg-card border dark:border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          className="cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={() => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
@@ -284,7 +284,7 @@ export default function TeamPage() {
                     return (
                       <div
                         key={key}
-                        className="border dark:border-[#2A2A2A] dark:bg-card mt-5 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
+                        className="border border-[#2A2A2A] bg-card mt-5 flex-wrap md:w-full w-[300px] rounded-lg px-8 py-5"
                       >
                         <div className="flex justify-between">
                           <div>

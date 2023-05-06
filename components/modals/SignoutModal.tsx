@@ -35,7 +35,7 @@ const ModalBody = ({ setOpen }: any) => {
         Are you sure you want to sign out of your current session?
       </p>
 
-      <div className="border dark:border-[#2A2A2A] dark:bg-card rounded-lg px-1 py-2">
+      <div className="border border-[#2A2A2A] bg-card rounded-lg px-1 py-2">
         <p className="text-xs text-center text-lightGray">
           {navigator.userAgent}
         </p>

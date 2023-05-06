@@ -13,7 +13,7 @@ const Input = (props: any) => {
   return (
     <div className="relative w-full">
       <input
-        className={`${props.className} w-full border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
+        className={`${props.className} w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
         type="text"
         disabled={props.disabled ?? false}
         defaultValue={props.placeholder}
@@ -113,7 +113,7 @@ const ModalBody = ({ setOpen }: any) => {
             />
             <button
               onClick={() => updateDisplay()}
-              className="border dark:border-[#2A2A2A] dark:bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+              className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
             >
               Update
             </button>
@@ -130,7 +130,7 @@ const ModalBody = ({ setOpen }: any) => {
             />
             <button
               onClick={() => updateAvatar()}
-              className="border dark:border-[#2A2A2A] dark:bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+              className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
             >
               Update
             </button>

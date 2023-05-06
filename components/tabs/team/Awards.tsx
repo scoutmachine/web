@@ -92,7 +92,7 @@ export const AwardsTab = (props: any) => {
                       award.year
                     }/${award.event_key.slice(4)}`}
                     target="_blank"
-                    className="rounded-lg px-5 py-5 border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600"
+                    className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
                   >
                     <div className="flex">
                       {award.name.includes("Winner") && (

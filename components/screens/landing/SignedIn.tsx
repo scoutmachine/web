@@ -25,7 +25,7 @@ export const SignedInScreen = (props: {
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
           <p className="flex text-lightGray font-bold text-md">
             <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED
-            <span className="border dark:border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+            <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.favourites.length}{" "}
               {props.favourites.length === 1 ? "team" : "teams"}
             </span>
@@ -51,7 +51,7 @@ export const SignedInScreen = (props: {
 
           <p className="flex text-lightGray font-bold text-md mt-8 md:mt-16">
             <FaTags className="text-[22px] mr-2 text-lightGray" /> Marketplace
-            <span className="border dark:border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+            <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               0 posts
             </span>
           </p>

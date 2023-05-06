@@ -16,7 +16,7 @@ export const TeamScreen = (props: any) => {
 
   return (
     <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
-      <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
+      <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
         <div className="md:flex">
           {!error ? (
             <Image
@@ -97,7 +97,7 @@ export const TeamScreen = (props: any) => {
           {props.socials && <Socials socials={props.socials} />}
         </div>
 
-        <div className="dark:bg-card border dark:border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
+        <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
           {isHOF && (
             <Link href="/fame" legacyBehavior>
               <a>

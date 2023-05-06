@@ -23,7 +23,7 @@ const newText = [
 
 const EventList = (props: any) => {
   return (
-    <tr className="text-lightGray border dark:border-[#2A2A2A] dark:bg-card hover:bg-[#191919]">
+    <tr className="text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]">
       <td className="px-6 py-4">
         {props.match.videos && props.match.videos.length > 0 ? (
           <a
@@ -167,13 +167,13 @@ export const EventData = (props: any) => {
       {isClient && (
         <div className="relative overflow-x-auto">
           {props.isTeam && (
-            <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] text-lightGray mt-5 px-5 py-3 rounded-lg border-2 border-gray-500">
+            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray mt-5 px-5 py-3 rounded-lg border-2 border-gray-500">
               <span className="text-green-400">Win</span> /{" "}
               <span className="text-red-400">Loss</span> /{" "}
               <span className="text-lightGray">Unknown</span>
             </div>
           )}
-          <table className="w-full mt-5 text-sm text-left bg-[#191919] border dark:border-[#2A2A2A]">
+          <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
             <thead className="text-xs text-white uppercase">
               <tr>
                 <th scope="col" className="px-6 py-3">

@@ -2,7 +2,7 @@ import { getStorage } from "@/util/localStorage";
 
 const Card = (props: any) => {
   return (
-    <div className="border dark:border-[#2A2A2A] dark:bg-card px-5 py-5 rounded-lg flex">
+    <div className="border border-[#2A2A2A] bg-card px-5 py-5 rounded-lg flex">
       <h1 className="font-bold mr-2">{props.title}</h1>
       <p className="text-lightGray">{props.desc}</p>
     </div>

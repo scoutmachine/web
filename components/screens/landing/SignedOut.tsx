@@ -6,7 +6,7 @@ const Card = (props: any) => {
     <div
       className={`${props.className} flex mt-5 ${
         props.withHeight && "h-[33vh]"
-      } flex-col rounded-lg border border-gray-300 py-10 px-8 dark:border-[#2A2A2A] dark:bg-[#191919] max-w-screen-3xl`}
+      } flex-col rounded-lg border border-gray-300 py-10 px-8 border-[#2A2A2A] bg-[#191919] max-w-screen-3xl`}
     >
       {props.children}
     </div>
@@ -15,7 +15,7 @@ const Card = (props: any) => {
 
 const Feature = (props: any) => {
   return (
-    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 px-1 border dark:border-[#2A2A2A] text-center flex items-center justify-center">
+    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 px-1 border border-[#2A2A2A] text-center flex items-center justify-center">
       {props.name}
     </div>
   );

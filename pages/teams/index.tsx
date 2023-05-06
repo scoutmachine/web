@@ -27,8 +27,8 @@ export default function TeamsPage({ initial, avatars }: any) {
         className={`${
           filterByNumber === props.name.slice(0, -1)
             ? "bg-[#191919]"
-            : "dark:bg-card hover:dark:bg-[#191919]"
-        } px-3 py-1 text-lightGray text-sm rounded-lg border dark:border-[#2A2A2A]`}
+            : "bg-card hover:bg-[#191919]"
+        } px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A]`}
       >
         {props.name}
       </button>
@@ -169,7 +169,7 @@ export default function TeamsPage({ initial, avatars }: any) {
                   value={query}
                   onChange={changeSearch}
                   spellCheck="false"
-                  className="border dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
+                  className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
                 />
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
                   <FaSearch className="text-sm text-lightGray" />
@@ -183,8 +183,8 @@ export default function TeamsPage({ initial, avatars }: any) {
                     setAllTeams(initial);
                   }}
                   className={`${
-                    filterByNumber === 0 ? "bg-[#191919]" : "dark:bg-card"
-                  } px-3 py-1 text-lightGray text-sm rounded-lg border dark:border-[#2A2A2A] hover:dark:bg-[#191919]`}
+                    filterByNumber === 0 ? "bg-[#191919]" : "bg-card"
+                  } px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:bg-[#191919]`}
                 >
                   <FaHome />
                 </button>
@@ -194,8 +194,8 @@ export default function TeamsPage({ initial, avatars }: any) {
                     filterByLocation();
                   }}
                   className={`${
-                    filterByNumber === "01" ? "bg-[#191919]" : "dark:bg-card"
-                  } px-3 py-1 text-lightGray text-sm flex rounded-lg border dark:border-[#2A2A2A] hover:dark:bg-[#191919]`}
+                    filterByNumber === "01" ? "bg-[#191919]" : "bg-card"
+                  } px-3 py-1 text-lightGray text-sm flex rounded-lg border border-[#2A2A2A] hover:bg-[#191919]`}
                 >
                   <FaSearch className="text-[15px] mr-2 mt-[2px]" /> Search
                   Nearby

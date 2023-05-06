@@ -13,7 +13,7 @@ const Event = (props: any) => {
           } ${
             props.event.event_type_string === "Offseason" &&
             "md:w-full w-[430px]"
-          } border dark:border-[#2A2A2A] dark:bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative`}
+          } border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative`}
         >
           <h1 className="font-bold text-xl text-white">
             {props.event.name.length > 42
