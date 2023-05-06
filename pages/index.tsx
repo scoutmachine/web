@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { SignedOutScreen } from "@/components/screens/landing/SignedOut";
 import { SignedInScreen } from "@/components/screens/landing/SignedIn";
 import { Loading } from "@/components/Loading";
-import { db } from "@/lib/db";
+import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
