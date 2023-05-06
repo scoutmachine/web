@@ -20,12 +20,12 @@ export interface Team {
 }
 
 interface FavouritedTeam {
-    id: number;
-    team_number: number;
-    website: string;
-    nickname: string;
-    city: string;
-    state_prov: string;
-    country: string;
-    rookie_year: string;
-  }
+  id: number;
+  team_number: number;
+  website: string;
+  nickname: string;
+  city: string;
+  state_prov: string;
+  country: string;
+  rookie_year: string;
+}

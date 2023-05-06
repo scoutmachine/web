@@ -124,7 +124,14 @@ export default function RookiesPage() {
         <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-10">
           {Array.isArray(rookieTeams) &&
             rookieTeams.map((team: any, key: number) => {
-              return <TeamCard key={key} team={team} avatars={avatars} showFavLoading />;
+              return (
+                <TeamCard
+                  key={key}
+                  team={team}
+                  avatars={avatars}
+                  showFavLoading
+                />
+              );
             })}
         </div>
       </div>

@@ -10,7 +10,14 @@ type Props = {
   footer?: JSX.Element;
 };
 
-export const Modal = ({ isOpen, setOpen, header, body, footer, onClose }: Props) => {
+export const Modal = ({
+  isOpen,
+  setOpen,
+  header,
+  body,
+  footer,
+  onClose,
+}: Props) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -18,8 +25,8 @@ export const Modal = ({ isOpen, setOpen, header, body, footer, onClose }: Props)
           as="div"
           className="relative z-10"
           onClose={() => {
-            setOpen(false)
-            onClose && onClose()
+            setOpen(false);
+            onClose && onClose();
           }}
         >
           <Transition.Child

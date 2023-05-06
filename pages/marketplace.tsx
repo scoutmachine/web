@@ -30,7 +30,7 @@ export default function MarketplacePage({
           desc="Have FRC parts you don't use anymore? Looking to sell or buy?"
         />
 
-        <MarketplaceScreen  />
+        <MarketplaceScreen />
 
         <Footer />
       </>
