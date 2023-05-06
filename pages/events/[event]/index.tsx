@@ -35,7 +35,7 @@ export default function EventsPage({
 
       <Navbar />
 
-      <div className="flex flex-wrap items-center justify-center mt-10 pr-8 pl-8">
+      <div className="flex flex-wrap items-center justify-center mt-10 pl-4 pr-4 md:pr-8 md:pl-8">
         <EventHeader event={eventInfo} teams={eventTeams} />
 
         <div className="flex justify-center">

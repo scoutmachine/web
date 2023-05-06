@@ -2,7 +2,7 @@ import { isValidElement } from "react";
 
 export const Header = (props: any) => {
   return (
-    <div className="pr-8 pl-8 max-w-screen-3xl w-full">
+    <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full">
       <div className="border dark:border-[#2a2a2a] dark:bg-[#191919] mt-10 rounded-lg px-10 py-10">
         <h1
           className={`${props.className} text-primary md:text-5xl text-3xl font-black mb-2`}

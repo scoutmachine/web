@@ -121,7 +121,7 @@ export default function RookiesPage() {
         }
       />
 
-      <div className="w-full mx-auto pr-8 pl-8">
+      <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
         <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-10">
           {Array.isArray(rookieTeams) &&
             rookieTeams.map((team: any, key: number) => {

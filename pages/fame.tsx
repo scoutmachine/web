@@ -42,7 +42,7 @@ export default function HOFPage() {
         }
       />
 
-      <div className="pr-8 pl-8 max-w-screen-3xl">
+      <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl">
         <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-10 gap-3 mt-10">
           {HOFTeams.map((team: any, key: number) => {
             return (

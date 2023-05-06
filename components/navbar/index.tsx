@@ -25,9 +25,7 @@ import { Dropdown } from "../Dropdown";
 import { SignupModal } from "../modals/SignupModal";
 import { EditProfileModal } from "../modals/EditProfileModal";
 import { SignoutModal } from "../modals/SignoutModal";
-import {
-  getFavourites,
-} from "@/util/favourites";
+import { getFavourites } from "@/util/favourites";
 import { Search } from "./Search";
 
 const Social = (props: any) => {
@@ -130,7 +128,11 @@ export const Navbar = (props: {
 
   return (
     <>
-      <div className={`sticky top-0 pl-8 pr-8 ${isScrolled && "z-50"}`}>
+      <div
+        className={`sticky top-0 pl-4 pr-4 md:pr-8 md:pl-8 ${
+          isScrolled && "z-50"
+        }`}
+      >
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"

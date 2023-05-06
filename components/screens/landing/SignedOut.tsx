@@ -23,7 +23,7 @@ const Feature = (props: any) => {
 
 export const SignedOutScreen = () => {
   return (
-    <div className="pr-8 pl-8 mt-5">
+    <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
         <Card className="relative h-48 sm:h-auto">
           <Image

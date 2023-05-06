@@ -226,8 +226,8 @@ export default function TeamsPage({ initial, avatars }: any) {
               </div>
             )}
 
-            <div className="w-full mx-auto pr-8 pl-8">
-              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
+              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {Array.isArray(allTeams) &&
                   allTeams.map((team: any, key: number) => {
                     return <TeamCard key={key} team={team} avatars={avatars} />;
