@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-import { db } from "@/lib/db";
+import db from "@/lib/db";
 
 export default async function getTeams(
   req: NextApiRequest,
