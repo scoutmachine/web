@@ -40,6 +40,7 @@ model User {
   email         String?          @unique
   emailVerified DateTime?
   image         String?
+  teamNumber    Int
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
@@ -55,11 +56,13 @@ model VerificationToken {
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
   content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
+  price     Int
+  media     String[]
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
 
