@@ -12,6 +12,7 @@ enum PostType {
   sensor
   gear
   stock
+  other
 }
 
 model Account {
