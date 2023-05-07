@@ -7,6 +7,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum PostType {
+  controller
+  sensor
+  gear
+  stock
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -60,6 +67,7 @@ model Post {
   title     String
   content   String?
   price     Int
+  type PostType
   media     String[]
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
