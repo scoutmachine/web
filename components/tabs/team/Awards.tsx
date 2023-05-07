@@ -6,7 +6,9 @@ import Image from "next/image";
 export const AwardsTab = (props: any) => {
   const filteredAwards = props.team.teamAwards.filter(
     (award: any) =>
-      award.name.includes("Winner") || award.name.includes("Impact Award")
+      award.name.includes("Winner") ||
+      award.name.includes("Impact Award") ||
+      award.name.includes("Chairman's Award")
   );
 
   return (
@@ -78,7 +80,8 @@ export const AwardsTab = (props: any) => {
               .filter(
                 (award: any) =>
                   !award.name.includes("Winner") &&
-                  !award.name.includes("Impact Award")
+                  !award.name.includes("Impact Award") &&
+                  !award.name.includes("Chairman's Award")
               )
               .sort(
                 (teamAwardA: any, teamAwardB: any) =>
