@@ -47,10 +47,7 @@ const links = [
   { title: "Marketplace", href: "/marketplace", icon: <FaTags /> },
 ];
 
-export const Navbar = (props: {
-  active?: string;
-  refresh?: boolean;
-}) => {
+export const Navbar = (props: { active?: string; refresh?: boolean }) => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
