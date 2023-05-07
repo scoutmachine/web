@@ -169,7 +169,8 @@ export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
   const handleFileInput = (files: File[]) => {
     const file = files[0];
     if (file) {
-      const imageURL = URL.createObjectURL(file);
+      const blob = new Blob([file], { type: file.type });
+      const imageURL = URL.createObjectURL(blob);
       setImageURL(imageURL);
     }
   };
