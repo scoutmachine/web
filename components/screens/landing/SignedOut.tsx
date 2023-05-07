@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { CURR_YEAR } from "@/lib/constants";
 import Image from "next/image";
-import { FaGithub, FaDiscord, FaCoffee, FaUser } from "react-icons/fa";
+import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
 
 const Card = (props: any) => {
   return (
@@ -27,7 +27,7 @@ export const SignedOutScreen = (props: { contributors: any }) => {
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
-        <Card className="relative h-48 sm:h-auto">
+        <Card className="relative h-48 sm:h-auto" withHeight>
           <Image
             src="/smLogoGray.png"
             height="60"
@@ -42,22 +42,21 @@ export const SignedOutScreen = (props: { contributors: any }) => {
           </p>
 
           <div className="flex flex-wrap -space-x-1 overflow-hidden absolute bottom-10">
-            {props.contributors
-              .map((contributor: any, key: number) => {
-                return (
-                  <a
-                    key={contributor.id}
-                    href={contributor.html_url}
-                    target="_blank"
-                  >
-                    <img
-                      src={contributor.avatar_url}
-                      alt={contributor.login}
-                      className="inline-block h-8 w-8 rounded-full ring-2 ring-card"
-                    />
-                  </a>
-                );
-              })}
+            {props.contributors.map((contributor: any, key: number) => {
+              return (
+                <a
+                  key={contributor.id}
+                  href={contributor.html_url}
+                  target="_blank"
+                >
+                  <img
+                    src={contributor.avatar_url}
+                    alt={contributor.login}
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-card"
+                  />
+                </a>
+              );
+            })}
           </div>
         </Card>
 
