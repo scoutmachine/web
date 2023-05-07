@@ -8,7 +8,7 @@ import { Social } from "../Social";
 import { CURR_YEAR } from "@/lib/constants";
 
 export const TeamScreen = (props: any) => {
-  const [error, setError] = useState(props.team.website ? false : true);
+  const [error, setError] = useState(false);
   const isHOF = findTeam(String(props.team.team_number));
   const currentDistrict = props.district
     ? props.district[props.district.length - 1]
