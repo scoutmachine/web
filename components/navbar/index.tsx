@@ -73,7 +73,6 @@ async function fetchTeamsData() {
 
 export const Navbar = (props: {
   active?: string;
-  dontScroll?: boolean;
   refresh?: boolean;
 }) => {
   const [teams, setTeams] = useState<any>();

@@ -22,16 +22,14 @@ export default function LandingPage({ user, avatars }: any) {
         <Head>
           <title>Scout Machine</title>
         </Head>
-        <Navbar dontScroll refresh />
+
+        <Navbar refresh />
         <SignedInScreen
           session={session}
           favourites={user.favourited}
           avatars={avatars}
         />
-
-        <div className="md:absolute bottom-0 right-0 left-0">
-          <Footer />
-        </div>
+        <Footer />
       </>
     );
   } else {
@@ -41,12 +39,9 @@ export default function LandingPage({ user, avatars }: any) {
           <title>Scout Machine</title>
         </Head>
 
-        <Navbar dontScroll />
+        <Navbar />
         <SignedOutScreen />
-
-        <div className="md:absolute bottom-0 right-0 left-0">
-          <Footer />
-        </div>
+        <Footer />
       </>
     );
   }
