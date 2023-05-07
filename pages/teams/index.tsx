@@ -12,6 +12,7 @@ import { formatTime } from "@/utils/time";
 import { log } from "@/utils/log";
 import { teamNumberInRange } from "@/utils/team";
 import { FilterNumber } from "@/components/FilterNumber";
+import { fetchTeamsData as fetchTeams } from "@/utils/team";
 
 async function fetchTeamsData(
   startIndex: number,
@@ -19,6 +20,8 @@ async function fetchTeamsData(
   teamNumberRange: string = "",
   searchTerm: string = ""
 ) {
+  await fetchTeams();
+
   const teamsData = getStorage(`teams_${CURR_YEAR}`);
   const teamAvatarsData = getStorage(`cached_avatars_${CURR_YEAR}`);
   const sortedTeams = teamsData.sort(() => Math.random() - 0.5);

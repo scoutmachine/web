@@ -10,10 +10,10 @@ export const setStorage = (key: string, value: string, ttl?: number) => {
 
   try {
     localStorage.setItem(key, JSON.stringify(item));
-  } catch (e) {
+  } catch (e: any) {
     log("error", `Failed while setting localStorage Item: [${e}]`);
 
-    if (e == "QUOTA_EXCEEDED_ERR") {
+    if (e.name === "QuotaExceededError") {
       localStorage.clear();
     }
   }
