@@ -1,29 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import { Card } from "@/components/misc/Card";
+import { FAQ } from "@/components/misc/FAQ";
+import { Feature } from "@/components/misc/Feature";
 import { CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
 
-const Card = (props: any) => {
-  return (
-    <div
-      className={`${props.className} flex mt-5 ${
-        props.withHeight && "h-[33vh]"
-      } flex-col rounded-lg py-10 px-8 border border-[#2A2A2A] bg-[#191919] max-w-screen-3xl`}
-    >
-      {props.children}
-    </div>
-  );
-};
-
-const Feature = (props: any) => {
-  return (
-    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 px-4 border border-[#2A2A2A] text-center flex items-center justify-center">
-      {props.name}
-    </div>
-  );
-};
 
 async function getContributors() {
   const contributors = getStorage("contributors");
@@ -93,7 +77,7 @@ export const SignedOutScreen = () => {
         </Card>
 
         <Card>
-          <h1 className="text-lightGray text-sm md:text-xl">
+          <h1 className="text-lightGray text-xl">
             Scout Machine is the all-in-one tool your FRC team needs to find the
             data you want, when you want. From accessing important data points
             to viewing match histories and tracking performance metrics -
@@ -105,7 +89,7 @@ export const SignedOutScreen = () => {
           </h1>
         </Card>
         <Card>
-          <h1 className="font-meidum text-sm md:text-xl text-lightGray">
+          <h1 className="font-meidum text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
             <a
               href="https://github.com/gryphonmachine/machine"
@@ -113,7 +97,7 @@ export const SignedOutScreen = () => {
               className="text-white"
             >
               <span className="inline-block align-top	ml-1">
-                <FaGithub className="text-xl md:text-3xl" />
+                <FaGithub className="text-3xl" />
               </span>{" "}
               Github.
             </a>
@@ -126,7 +110,7 @@ export const SignedOutScreen = () => {
               className="text-violet-400"
             >
               <span className="inline-block align-top">
-                <FaDiscord className="text-xl md:text-3xl" />
+                <FaDiscord className="text-3xl" />
               </span>{" "}
               Discord
             </a>
@@ -140,37 +124,50 @@ export const SignedOutScreen = () => {
               className="text-primary"
             >
               <span className="inline-block align-top">
-                <FaCoffee className="text-xl md:text-3xl" />
+                <FaCoffee className="text-3xl" />
               </span>{" "}
               Buy us a Coffee
             </a>
           </h1>
         </Card>
       </div>
-      <Card>
-        <h1 className="text-2xl text-lightGray font-bold mb-5 italic">
-          What are you waiting for?
-        </h1>
-        <div className="gap-3 flex flex-wrap">
-          <Feature name="simple & modern design" />
-          <Feature name="user accounts" />
-          <Feature name="favourite teams" />
-          <Feature name="discover teams" />
-          <Feature name={`all ${CURR_YEAR} events`} />
-          <Feature name="event pages" />
-          <Feature name="team pages" />
-          <Feature name="event pages" />
-          <Feature name="match pages" />
-          <Feature name="team awards" />
-          <Feature name="hall of fame teams" />
-          <Feature name={`${CURR_YEAR} rookie teams`} />
-          <Feature name="game day" />
-          <Feature name="marketplace (buy & sell)" />
-          <Feature name="custom search (+ nearby)" />
-          <Feature name="free, no paywall" />
-          <Feature name="open source" />
-        </div>
-      </Card>
+      <div className="flex flex-col md:grid grid-cols-2 gap-x-5">
+        <Card>
+          <h1 className="text-2xl text-white font-bold mb-5">
+            All the features you could ever want...
+          </h1>
+          <div className="gap-3 flex flex-wrap">
+            <Feature name="simple & modern design" />
+            <Feature name="user accounts" />
+            <Feature name="favourite teams" />
+            <Feature name="discover teams" />
+            <Feature name={`all ${CURR_YEAR} events`} />
+            <Feature name="event pages" />
+            <Feature name="team pages" />
+            <Feature name="event pages" />
+            <Feature name="match pages" />
+            <Feature name="team awards" />
+            <Feature name="hall of fame teams" />
+            <Feature name={`${CURR_YEAR} rookie teams`} />
+            <Feature name="game day" />
+            <Feature name="marketplace (buy & sell)" />
+            <Feature name="custom search (+ nearby)" />
+            <Feature name="100% free, no paywall" />
+            <Feature name="open source" />
+          </div>
+        </Card>
+        <Card>
+          <h1 className="text-2xl text-white font-bold mb-5">
+            Frequently Asked Questions
+          </h1>
+          <FAQ question="What is Scout Machine?" answer="Coming Soon" />
+          <FAQ
+            question="Scout Machine vs Statbotics & The Blue Alliance"
+            answer="Coming Soon"
+          />
+          <FAQ question="How can I help?" answer="Coming Soon" />
+        </Card>
+      </div>
     </div>
   );
 };
