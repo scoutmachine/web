@@ -1,10 +1,45 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { fetchTBA } from "@/lib/fetchTBA";
+import { fetchFIRST } from "@/lib/fetchFIRST";
 
 export default async function getTeams(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { team } = req.query;
-  return await fetchTBA(res, `team/frc${team}/awards`);
+  const { team, year } = req.query;
+  const currentYear = new Date().getFullYear();
+  const startYear = parseInt(year as string);
+
+  const years = Array.from(
+    { length: currentYear - startYear + 1 },
+    (_, i) => startYear + i
+  );
+
+  const awards = await Promise.all(
+    years.map(async (year) => {
+      try {
+        const response = await fetchFIRST(`/awards/team/${team}`, year);
+        return {
+          year: year.toString(),
+          data: response.data,
+        };
+      } catch {
+        return null;
+      }
+    })
+  );
+
+  const data = awards
+    .filter((award) => award)
+    .reduce((acc, curr) => {
+      return acc.concat(
+        curr?.data.Awards.map((award: any) => {
+          return {
+            year: curr.year,
+            ...award,
+          };
+        })
+      );
+    }, []);
+
+  res.status(200).send(data);
 }

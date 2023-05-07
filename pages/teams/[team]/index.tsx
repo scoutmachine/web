@@ -29,33 +29,31 @@ async function fetchTeamData(team: string) {
   const start = performance.now();
 
   const fetchInfo = async () => {
-    const [
-      getTeam,
-      teamAvatar,
-      teamSocials,
-      teamAwards,
-      yearsParticipated,
-      teamDistrict,
-    ] = await Promise.all([
-      await fetch(`${API_URL}/api/team?team=${team}`, {
+    const [getTeam, teamAvatar, teamSocials, yearsParticipated, teamDistrict] =
+      await Promise.all([
+        await fetch(`${API_URL}/api/team?team=${team}`, {
+          next: { revalidate: 60 },
+        }),
+        await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
+          next: { revalidate: 60 },
+        }),
+        await fetch(`${API_URL}/api/team/socials?team=${team}`, {
+          next: { revalidate: 60 },
+        }),
+        await fetch(`${API_URL}/api/team/years?team=${team}`, {
+          next: { revalidate: 60 },
+        }),
+        await fetch(`${API_URL}/api/team/districts?team=${team}`, {
+          next: { revalidate: 60 },
+        }),
+      ]).then((responses) => Promise.all(responses.map((res) => res.json())));
+
+    const teamAwards = await fetch(
+      `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
+      {
         next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/socials?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/awards?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/years?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/districts?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-    ]).then((responses) => Promise.all(responses.map((res) => res.json())));
+      }
+    ).then((res) => res.json());
 
     log(
       "warning",
