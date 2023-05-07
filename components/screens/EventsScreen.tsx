@@ -51,6 +51,10 @@ export const EventsScreen = (props: any) => {
   return (
     <>
       {renderEventsSection(
+        (event: any) => event.event_type_string === "Offseason",
+        "Offseason"
+      )}
+      {renderEventsSection(
         (event: any) => event.event_type_string === "Preseason",
         "Preseason"
       )}
@@ -65,11 +69,6 @@ export const EventsScreen = (props: any) => {
       {renderEventsSection(
         (event: any) => event.event_type_string === "Championship Division",
         "FIRST Championship - Houston, TX"
-      )}
-
-      {renderEventsSection(
-        (event: any) => event.event_type_string === "Offseason",
-        "Offseason"
       )}
     </>
   );
