@@ -217,6 +217,10 @@ export const EventData = (props: any) => {
                   (match: any) =>
                     match.comp_level === "sf" || match.comp_level === "qf"
                 )
+                .sort(
+                  (matchA: any, matchB: any) =>
+                    parseInt(matchB.set_number) - parseInt(matchA.set_number)
+                )
                 .map((match: any, key: number) => {
                   return (
                     <EventList
