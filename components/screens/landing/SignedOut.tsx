@@ -52,7 +52,7 @@ export const SignedOutScreen = (props: { contributors: any }) => {
                   <img
                     src={contributor.avatar_url}
                     alt={contributor.login}
-                    className="inline-block h-8 w-8 rounded-full ring-2 ring-card"
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-card hover:opacity-90"
                   />
                 </a>
               );
