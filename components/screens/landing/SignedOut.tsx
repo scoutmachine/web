@@ -166,8 +166,7 @@ export const SignedOutScreen = () => {
           <Feature name={`${CURR_YEAR} rookie teams`} />
           <Feature name="game day" />
           <Feature name="marketplace (buy & sell)" />
-          <Feature name="search (by location, team name, team number)" />
-          <Feature name="search nearby" />
+          <Feature name="custom search (+ nearby)" />
           <Feature name="free, no paywall" />
           <Feature name="open source" />
         </div>
