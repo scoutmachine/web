@@ -1,9 +1,9 @@
 import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { getStorage, setStorage } from "@/util/localStorage";
-import { log } from "@/util/log";
-import { formatTime } from "@/util/time";
+import { getStorage, setStorage } from "@/utils/localStorage";
+import { log } from "@/utils/log";
+import { formatTime } from "@/utils/time";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";

@@ -6,11 +6,11 @@ import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
-import { getStorage, setStorage } from "@/util/localStorage";
+import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "@/components/Loading";
-import { formatTime } from "@/util/time";
-import { log } from "@/util/log";
-import { teamNumberInRange } from "@/util/team";
+import { formatTime } from "@/utils/time";
+import { log } from "@/utils/log";
+import { teamNumberInRange } from "@/utils/team";
 import { FilterNumber } from "@/components/FilterNumber";
 
 async function fetchTeamsData(

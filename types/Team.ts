@@ -19,7 +19,7 @@ export interface Team {
   website: string | null;
 }
 
-interface FavouritedTeam {
+export interface FavouritedTeam {
   id: number;
   team_number: number;
   website: string;

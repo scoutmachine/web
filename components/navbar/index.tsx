@@ -17,15 +17,15 @@ import {
   FaBars,
 } from "react-icons/fa";
 import { Loading } from "../Loading";
-import { getStorage, setStorage } from "@/util/localStorage";
-import { formatTime } from "@/util/time";
-import { log } from "@/util/log";
+import { getStorage, setStorage } from "@/utils/localStorage";
+import { formatTime } from "@/utils/time";
+import { log } from "@/utils/log";
 import { useSession } from "next-auth/react";
 import { Dropdown } from "../Dropdown";
 import { SignupModal } from "../modals/SignupModal";
 import { EditProfileModal } from "../modals/EditProfileModal";
 import { SignoutModal } from "../modals/SignoutModal";
-import { getFavourites } from "@/util/favourites";
+import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
 

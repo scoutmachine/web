@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FaAward, FaLink } from "react-icons/fa";
 import { Socials } from "../tabs/team/Socials";
 import { useState } from "react";
-import { findTeam } from "@/util/team";
+import { findTeam } from "@/utils/team";
 import Link from "next/link";
 import { Social } from "../Social";
 import { CURR_YEAR } from "@/lib/constants";

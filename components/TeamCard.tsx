@@ -9,24 +9,17 @@ import {
   favouriteTeam,
   getFavourites,
   unfavouriteTeam,
-} from "@/util/favourites";
-import { Team } from "@/types/Team";
-import { FavouritedTeam } from "@prisma/client";
+} from "@/utils/favourites";
 
-export const TeamCard = (props: {
-  team: Team;
-  avatars: [];
-  showFavLoading?: boolean;
-}) => {
+export const TeamCard = (props: any) => {
   const { data: session } = useSession();
   const [favourites, setFavourites] = useState<any>();
   const [error, setError] = useState(false);
   const isFavourited = favourites?.some(
-    (team: FavouritedTeam) =>
-      String(team.team_number) === props.team.team_number
+    (team: any) => team.team_number === props.team.team_number
   );
   const favouritedTeam = favourites?.filter(
-    (team: Team) => team.team_number === props.team.team_number
+    (team: any) => team.team_number === props.team.team_number
   );
   const [isStarFilled, setIsStarFilled] = useState(false);
 
@@ -47,19 +40,16 @@ export const TeamCard = (props: {
   };
 
   return (
-    <Tooltip
-      team={props.team}
-      avatar={props.avatars[Number(props.team.team_number)]}
-    >
+    <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
       <div className="relative px-5 py-8 h-32 border border-[#2A2A2A] bg-card hover:border-gray-600 rounded-lg">
         <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
           <a className="cursor-pointer">
             {!error ? (
               <Image
                 src={
-                  props.avatars[Number(props.team.team_number)]
+                  props.avatars[props.team.team_number]
                     ? `data:image/jpeg;base64,${
-                        props.avatars[Number(props.team.team_number)]
+                        props.avatars[props.team.team_number]
                       }`
                     : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
                         props.team.website?.startsWith("https")

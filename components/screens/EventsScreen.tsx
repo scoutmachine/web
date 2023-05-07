@@ -1,5 +1,5 @@
 import { CURR_YEAR } from "@/lib/constants";
-import { convertDate } from "@/util/date";
+import { convertDate } from "@/utils/date";
 import Link from "next/link";
 
 const Event = (props: any) => {

@@ -1,4 +1,4 @@
-import { getStorage } from "@/util/localStorage";
+import { getStorage } from "@/utils/localStorage";
 
 const Card = (props: any) => {
   return (

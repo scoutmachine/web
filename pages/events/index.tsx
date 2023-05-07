@@ -4,9 +4,9 @@ import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/navbar";
 import { EventsScreen } from "@/components/screens/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { getStorage, setStorage } from "@/util/localStorage";
-import { formatTime } from "@/util/time";
-import { log } from "@/util/log";
+import { getStorage, setStorage } from "@/utils/localStorage";
+import { formatTime } from "@/utils/time";
+import { log } from "@/utils/log";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 

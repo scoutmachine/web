@@ -1,4 +1,4 @@
-import { convertDate } from "@/util/date";
+import { convertDate } from "@/utils/date";
 import { FaLink } from "react-icons/fa";
 import { Social } from "../Social";
 
