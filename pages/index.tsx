@@ -10,42 +10,11 @@ import { GetServerSideProps } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { API_URL } from "@/lib/constants";
-import { setStorage, getStorage } from "@/utils/localStorage";
-import { useState, useEffect } from "react";
-
-async function getContributors() {
-  const contributors = getStorage("contributors");
-
-  if (contributors) return contributors;
-
-  const fetchContributors = await fetch(
-    "https://api.github.com/repos/gryphonmachine/machine/contributors?per_page=100"
-  )
-    .then((response) => response.json())
-    .then((contributors) =>
-      contributors
-        .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
-        .slice(0, 10)
-    );
-
-  setStorage("contributors", fetchContributors);
-  return fetchContributors;
-}
 
 export default function LandingPage({ user, avatars }: any) {
   const { data: session, status } = useSession();
-  const [contributors, setContributors] = useState([]);
 
-  useEffect(() => {
-    const fetchContributors = async () => {
-      const allContributors = await getContributors();
-      setContributors(allContributors);
-    };
-
-    fetchContributors();
-  });
-
-  if (status === "loading" || !contributors) return <Loading />;
+  if (status === "loading") return <Loading />;
 
   if (session) {
     return (
@@ -71,7 +40,7 @@ export default function LandingPage({ user, avatars }: any) {
         </Head>
 
         <Navbar />
-        <SignedOutScreen contributors={contributors} />
+        <SignedOutScreen />
         <Footer />
       </>
     );

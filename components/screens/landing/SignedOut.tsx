@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { CURR_YEAR } from "@/lib/constants";
+import { getStorage, setStorage } from "@/utils/localStorage";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
 
 const Card = (props: any) => {
@@ -23,7 +25,37 @@ const Feature = (props: any) => {
   );
 };
 
-export const SignedOutScreen = (props: { contributors: any }) => {
+async function getContributors() {
+  const contributors = getStorage("contributors");
+
+  if (contributors) return contributors;
+
+  const fetchContributors = await fetch(
+    "https://api.github.com/repos/gryphonmachine/machine/contributors?per_page=100"
+  )
+    .then((response) => response.json())
+    .then((contributors) =>
+      contributors
+        .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
+        .slice(0, 10)
+    );
+
+  setStorage("contributors", fetchContributors);
+  return fetchContributors;
+}
+
+export const SignedOutScreen = () => {
+  const [contributors, setContributors] = useState([]);
+
+  useEffect(() => {
+    const fetchContributors = async () => {
+      const allContributors = await getContributors();
+      setContributors(allContributors);
+    };
+
+    fetchContributors();
+  });
+
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
@@ -42,7 +74,7 @@ export const SignedOutScreen = (props: { contributors: any }) => {
           </p>
 
           <div className="flex flex-wrap -space-x-1 overflow-hidden absolute bottom-10">
-            {props.contributors.map((contributor: any, key: number) => {
+            {contributors.map((contributor: any, key: number) => {
               return (
                 <a
                   key={contributor.id}
