@@ -8,7 +8,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
 
-
 async function getContributors() {
   const contributors = getStorage("contributors");
 
@@ -82,14 +81,14 @@ export const SignedOutScreen = () => {
             data you want, when you want. From accessing important data points
             to viewing match histories and tracking performance metrics -
             it&apos;s all in one place. <br /> <br />{" "}
-            <span className="text-white italic">
-              Say goodbye to time-consuming data analysis and hello to{" "}
-              <span className="text-primary">Scout Machine</span>.
-            </span>
+            <span className="text-white">
+              Say goodbye to time-consuming data analysis and hello to
+            </span>{" "}
+            <span className="text-primary">Scout Machine</span>.
           </h1>
         </Card>
         <Card>
-          <h1 className="font-meidum text-xl text-lightGray">
+          <h1 className="text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
             <a
               href="https://github.com/gryphonmachine/machine"
