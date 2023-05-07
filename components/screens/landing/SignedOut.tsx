@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+import { CURR_YEAR } from "@/lib/constants";
 import Image from "next/image";
-import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
+import { FaGithub, FaDiscord, FaCoffee, FaUser } from "react-icons/fa";
 
 const Card = (props: any) => {
   return (
@@ -15,13 +17,13 @@ const Card = (props: any) => {
 
 const Feature = (props: any) => {
   return (
-    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 px-1 border border-[#2A2A2A] text-center flex items-center justify-center">
+    <div className="rounded-full bg-card hover:border-gray-600 select-none cursor-auto text-sm text-lightGray py-2 px-4 border border-[#2A2A2A] text-center flex items-center justify-center">
       {props.name}
     </div>
   );
 };
 
-export const SignedOutScreen = () => {
+export const SignedOutScreen = (props: { contributors: any }) => {
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
@@ -38,6 +40,25 @@ export const SignedOutScreen = () => {
           <p className="text-white pr-6 md:pr-0 font-semibold text-2xl md:text-4xl">
             Smarter FRC data insights
           </p>
+
+          <div className="flex flex-wrap -space-x-1 overflow-hidden absolute bottom-10">
+            {props.contributors
+              .map((contributor: any, key: number) => {
+                return (
+                  <a
+                    key={contributor.id}
+                    href={contributor.html_url}
+                    target="_blank"
+                  >
+                    <img
+                      src={contributor.avatar_url}
+                      alt={contributor.login}
+                      className="inline-block h-8 w-8 rounded-full ring-2 ring-card"
+                    />
+                  </a>
+                );
+              })}
+          </div>
         </Card>
 
         <Card>
@@ -99,19 +120,25 @@ export const SignedOutScreen = () => {
         <h1 className="text-2xl text-lightGray font-bold mb-5 italic">
           What are you waiting for?
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-8 gap-3">
-          <Feature name="simple design" />
+        <div className="gap-3 flex flex-wrap">
+          <Feature name="simple & modern design" />
+          <Feature name="user accounts" />
+          <Feature name="favourite teams" />
           <Feature name="discover teams" />
-          <Feature name="view events" />
+          <Feature name={`all ${CURR_YEAR} events`} />
+          <Feature name="event pages" />
           <Feature name="team pages" />
           <Feature name="event pages" />
           <Feature name="match pages" />
-          <Feature name="custom search" />
           <Feature name="team awards" />
-          <Feature name="hall of fame" />
-          <Feature name="rookie teams" />
+          <Feature name="hall of fame teams" />
+          <Feature name={`${CURR_YEAR} rookie teams`} />
           <Feature name="game day" />
-          <Feature name="marketplace" />
+          <Feature name="marketplace (buy & sell)" />
+          <Feature name="search (by location, team name, team number)" />
+          <Feature name="search nearby" />
+          <Feature name="free, no paywall" />
+          <Feature name="open source" />
         </div>
       </Card>
     </div>
