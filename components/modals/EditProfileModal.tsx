@@ -67,7 +67,7 @@ const ModalBody = (props: {
   useEffect(() => {
     const fetchTeamNumber = async () => {
       const data = await fetch(`${API_URL}/api/@me`).then((res) => res.json());
-      setTeamNumber(data.teamNumber);
+      setTeamNumber(data.teamNumber ?? "Unknown Team");
     };
 
     fetchTeamNumber();
@@ -103,8 +103,6 @@ const ModalBody = (props: {
       await fetchUpdate(data);
     }
   };
-
-  if (!teamNumber) return <Loading />;
 
   return (
     <div className="mt-5">
@@ -165,7 +163,7 @@ const ModalBody = (props: {
           <p className="uppercase text-xs text-lightGray mb-2">Team Number</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={teamNumber ? (teamNumber as string) : "Unknown Team"}
+              placeholder={teamNumber as string}
               icon={FaBolt}
               state={setTeamNumber}
             />
