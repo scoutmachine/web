@@ -187,7 +187,7 @@ const ModalBody = (props: {
               await deleteAccount();
               router.reload();
             }}
-            className="bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600"
+            className="bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600 text-sm font-bold"
           >
             Delete Account
           </button>

@@ -6,12 +6,17 @@ const Event = (props: any) => {
   return (
     <Link href={`/events/${props.event.key}`} legacyBehavior>
       <a>
-        <div className={`border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}>
+        <div
+          className={`border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}
+        >
           <h1 className="font-bold text-xl text-white text-left">
-            {props.event.name.length > 42 ? `${props.event.name.slice(0, 42)}...` : props.event.name}
+            {props.event.name.length > 42
+              ? `${props.event.name.slice(0, 42)}...`
+              : props.event.name}
           </h1>
           <p className="text-lightGray">
-            {convertDate(props.event.start_date)} - {convertDate(props.event.end_date)}, {CURR_YEAR}
+            {convertDate(props.event.start_date)} -{" "}
+            {convertDate(props.event.end_date)}, {CURR_YEAR}
           </p>
           <p className="text-lightGray absolute bottom-3 left-5 md:text-left text-left">
             {props.event.city}, {props.event.state_prov}, {props.event.country}
@@ -25,9 +30,13 @@ const Event = (props: any) => {
 export const EventsScreen = (props: any) => {
   const renderEventsSection = (filterCondition: any, title: string) => (
     <div className="text-left">
-      <h1 className="pl-8 text-lightGray mt-10 mb-5 text-2xl">
-        <span className="font-bold text-white">{title} Events</span> (
-        {props.events.filter(filterCondition).length})
+      <h1 className="pl-8 text-lightGray mt-10 mb-5">
+        <span className="font-bold text-white text-2xl">{title}</span>
+
+        <span className="border border-[#2A2A2A] text-lightGray text-xl px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+          {props.events.filter(filterCondition).length}{" "}
+          {props.events.filter(filterCondition).length > 1 ? "events" : "event"}
+        </span>
       </h1>
       <div className="pr-4 pl-4 md:pl-8 md:pr-8 grid sm:grid-cols-2 md:grid-cols-4 gap-3">
         {props.events.filter(filterCondition).map((event: any, key: number) => {
