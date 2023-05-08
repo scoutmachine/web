@@ -61,12 +61,13 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
       price: price,
     };
 
-    const processPost = await fetch(`${API_URL}/api/@me/post`, {
+    await fetch(`${API_URL}/api/@me/post`, {
       method: "POST",
       body: JSON.stringify(data),
-    }).then((res) => res.json());
-
-    router.push(`/marketplace/${processPost.id}`);
+    }).then(async (res) => {
+      const data = await res.json();
+      router.push(`/marketplace/${data.id}`);
+    });
   };
 
   const reloadSession = () => {
