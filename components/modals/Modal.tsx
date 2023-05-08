@@ -5,9 +5,10 @@ type Props = {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   onClose?: () => void;
-  header: JSX.Element;
+  header?: JSX.Element;
   body: JSX.Element;
   footer?: JSX.Element;
+  noClose?: boolean;
 };
 
 export const Modal = ({
@@ -17,6 +18,7 @@ export const Modal = ({
   body,
   footer,
   onClose,
+  noClose,
 }: Props) => {
   return (
     <>
@@ -25,7 +27,7 @@ export const Modal = ({
           as="div"
           className="relative z-10"
           onClose={() => {
-            setOpen(false);
+            !noClose && setOpen(false);
             onClose && onClose();
           }}
         >
@@ -52,7 +54,11 @@ export const Modal = ({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl p-6 transition-all border border-[#2A2A2A] bg-[#191919]">
+                <Dialog.Panel
+                  className={`w-full ${
+                    noClose ? "max-w-xl" : "max-w-md"
+                  } transform overflow-hidden rounded-2xl p-6 transition-all border border-[#2A2A2A] bg-[#191919]`}
+                >
                   {header}
                   {body}
                   {footer}

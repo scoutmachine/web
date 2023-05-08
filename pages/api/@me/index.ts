@@ -11,12 +11,25 @@ export default async function getTeams(
 
   if (!session) res.status(400).send("You are not logged in!");
 
-  const me = await db.user.findUnique({
-    where: {
-      // @ts-ignore
-      id: session.user?.id,
-    },
-  });
+  if (req.method === "GET") {
+    const me = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user?.id,
+      },
+    });
 
-  res.status(200).send(me);
+    res.status(200).send(me);
+  }
+
+  if (req.method === "DELETE") {
+    await db.user.delete({
+      where: {
+        // @ts-ignore
+        id: session.user?.id,
+      },
+    });
+
+    res.status(200).send("Deleted account successfully");
+  }
 }

@@ -3,11 +3,13 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import db from "@/lib/db";
-import { API_URL } from "@/lib/constants";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXT_PUBLIC_SECRET,
+  pages: {
+    newUser: "/onboarding",
+  },
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,

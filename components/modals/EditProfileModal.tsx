@@ -7,6 +7,7 @@ import Image from "next/image";
 import { DragEvent } from "react";
 import { IconType } from "react-icons";
 import { Loading } from "../Loading";
+import router, { Router } from "next/router";
 
 type Props = {
   isOpen: boolean;
@@ -104,6 +105,12 @@ const ModalBody = (props: {
     }
   };
 
+  const deleteAccount = async () => {
+    await fetch(`${API_URL}/api/@me`, {
+      method: "DELETE",
+    });
+  };
+
   return (
     <div className="mt-5">
       {errorMessage && (
@@ -174,6 +181,16 @@ const ModalBody = (props: {
               Update
             </button>
           </div>
+
+          <button
+            onClick={async () => {
+              await deleteAccount();
+              router.reload();
+            }}
+            className="bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600"
+          >
+            Delete Account
+          </button>
         </div>
       </div>
     </div>

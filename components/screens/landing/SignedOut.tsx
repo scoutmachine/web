@@ -160,8 +160,13 @@ export const SignedOutScreen = () => {
             Frequently Asked Questions
           </h1>
           <FAQ question="What is Scout Machine?" answer="Coming Soon" />
+          <FAQ question="Who created this?" answer="Coming Soon" />
           <FAQ
-            question="Scout Machine vs Statbotics & The Blue Alliance"
+            question="I found a bug. How do I report it?"
+            answer="Coming Soon"
+          />
+          <FAQ
+            question="I want a feature to be added. How do I suggest it?"
             answer="Coming Soon"
           />
           <FAQ question="How can I help?" answer="Coming Soon" />
