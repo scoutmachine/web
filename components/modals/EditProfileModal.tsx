@@ -162,7 +162,7 @@ const ModalBody = (props: {
           <p className="uppercase text-xs text-lightGray mb-2">Team Number</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={teamNumber as string}
+              placeholder={teamNumber as string ?? "Unknown Team"}
               icon={FaBolt}
               state={setTeamNumber}
             />
