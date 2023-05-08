@@ -67,14 +67,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await db.post.findMany({
     where: {},
     include: {
-      author: {
-        select: {
-          image: true,
-          name: true,
-          email: true,
-          teamNumber: true,
-        },
-      },
+      author: true,
     },
   });
   return { props: { posts: JSON.parse(JSON.stringify(posts)) } };

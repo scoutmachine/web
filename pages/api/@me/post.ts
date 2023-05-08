@@ -28,4 +28,18 @@ export default async function getTeams(
 
     res.status(200).send(post);
   }
+
+  if (req.method === "DELETE") {
+    const { id } = req.query;
+
+    await db.post.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    res.status(200).send("Successfully deleted post");
+  }
+
+  res.status(400).send("Method not allowed");
 }
