@@ -64,19 +64,6 @@ a:hover {
   }
 }
 
-.animate-fade-in {
-  animation: fade-in .5s ease-out forwards
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0
-  }
-  to {
-    opacity: 1
-  }
-}
-
 ::-webkit-scrollbar {
   width: 2px;
 }
