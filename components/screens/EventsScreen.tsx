@@ -29,7 +29,7 @@ export const EventsScreen = (props: any) => {
         <span className="font-bold text-white">{title} Events</span> (
         {props.events.filter(filterCondition).length})
       </h1>
-      <div className="pr-4 pl-4 md:pl-8 md:pr-8 flex items-center justify-center flex-col grid sm:grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="pr-4 pl-4 md:pl-8 md:pr-8 grid sm:grid-cols-2 md:grid-cols-4 gap-3">
         {props.events.filter(filterCondition).map((event: any, key: number) => {
           return <Event key={key} event={event} />;
         })}
