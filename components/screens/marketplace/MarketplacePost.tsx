@@ -7,16 +7,14 @@ export const MarketplacePost = (props: any) => {
       <div>
         <div className="border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 rounded-lg relative">
           <img
-            className="rounded-lg mb-4 object-contain h-[350px] w-[350px]"
-            src={
-              props.marketplacePost.media[0] ?? "https://picsum.photos/400/250"
-            }
+            className="rounded-lg mb-4 object-contain md:h-[350px] md:w-[350px]"
+            src={props.marketplacePost.media[0] ?? "/smLogo.png"}
             alt=""
           />
           <h1 className="font-bold text-xl text-white">
             {props.marketplacePost.title}
           </h1>
-          <p className="text-lightGray break-words">
+          <p className="text-lightGray break-words mb-3">
             {props.marketplacePost.content}
           </p>
 
@@ -30,12 +28,17 @@ export const MarketplacePost = (props: any) => {
               <h1 className="text-sm font-semibold text-white">
                 {props.marketplacePost.author?.name}
               </h1>
-              <Link href={`/teams/6070`}>
-                <p className="text-sm text-lightGray">
-                  {props.marketplacePost.author?.teamNumber
-                    ? `Team ${props.marketplacePost.author?.teamNumber}`
-                    : "Unknown Team"}
-                </p>
+              <Link
+                href={`/teams/${props.marketplacePost.author.teamNumber}`}
+                legacyBehavior
+              >
+                <a>
+                  <p className="text-sm text-lightGray">
+                    {props.marketplacePost.author?.teamNumber
+                      ? `Team ${props.marketplacePost.author?.teamNumber}`
+                      : "Unknown Team"}
+                  </p>
+                </a>
               </Link>
             </div>
           </div>

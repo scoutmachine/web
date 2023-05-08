@@ -8,13 +8,11 @@ export default function MarketplacePostPage({ post }: any) {
   return (
     <>
       <Head>
-        <title>Post Title| Marketplace | Scout Machine</title>
+        <title>{post.title} | Marketplace / Scout Machine</title>
       </Head>
 
-      <Navbar active="Marketplace" />
-
+      <Navbar />
       <MarketplacePage marketplacePost={post} />
-
       <Footer />
     </>
   );

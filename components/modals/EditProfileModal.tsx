@@ -6,6 +6,7 @@ import { FaBolt, FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { DragEvent } from "react";
 import { IconType } from "react-icons";
+import { Loading } from "../Loading";
 
 type Props = {
   isOpen: boolean;
@@ -103,6 +104,8 @@ const ModalBody = (props: {
     }
   };
 
+  if (!teamNumber) return <Loading />;
+
   return (
     <div className="mt-5">
       {errorMessage && (
@@ -162,7 +165,7 @@ const ModalBody = (props: {
           <p className="uppercase text-xs text-lightGray mb-2">Team Number</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={teamNumber as string ?? "Unknown Team"}
+              placeholder={teamNumber ? (teamNumber as string) : "Unknown Team"}
               icon={FaBolt}
               state={setTeamNumber}
             />
