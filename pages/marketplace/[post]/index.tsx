@@ -1,26 +1,38 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import { MarketplacePost } from "@/components/screens/MarketplacePost";
+import { MarketplacePage } from "@/components/screens/marketplace/MarketplacePage";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 
-export default function MarketplacePostPage({
-  marketplacePost,
-}: {
-  marketplacePost: any;
-}) {
-  {
-    return (
-      <>
-        <Head>
-          <title>Post Title| Marketplace | Scout Machine</title>
-        </Head>
+export default function MarketplacePostPage({ post }: any) {
+  return (
+    <>
+      <Head>
+        <title>Post Title| Marketplace | Scout Machine</title>
+      </Head>
 
-        <Navbar active="Marketplace" />
+      <Navbar active="Marketplace" />
 
-        <MarketplacePost marketplacePost={marketplacePost} />
+      <MarketplacePage marketplacePost={post} />
 
-        <Footer />
-      </>
-    );
-  }
+      <Footer />
+    </>
+  );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { post }: any = context.params;
+
+  const getPostData = await db.post.findUnique({
+    where: {
+      id: Number(post),
+    },
+    include: { author: true },
+  });
+
+  if (getPostData) {
+    return { props: { post: getPostData } };
+  }
+
+  return { props: {} };
+};

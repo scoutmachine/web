@@ -166,36 +166,14 @@ export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
   const { data: session } = useSession();
   const [imageURL, setImageURL] = useState(session?.user?.image);
 
-  const handleFileInput = (files: File[]) => {
-    const file = files[0];
-    if (file) {
-      const blob = new Blob([file], { type: file.type });
-      const imageURL = URL.createObjectURL(blob);
-      setImageURL(imageURL);
-    }
-  };
-
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    const items = event.dataTransfer.items;
-    if (items) {
-      for (let item of items) {
-        if (item.kind === "file") {
-          const file = item.getAsFile() as File;
-          if (file) {
-            handleFileInput([file]);
-            break;
-          }
-        }
-      }
-    } else {
-      const data = event.dataTransfer.getData("text/html");
-      const doc = new DOMParser().parseFromString(data, "text/html");
-      const images = doc.getElementsByTagName("img");
-      if (images.length > 0) {
-        setImageURL(images[0].src);
-      }
+    const data = event.dataTransfer.getData("text/html");
+    const doc = new DOMParser().parseFromString(data, "text/html");
+    const images = doc.getElementsByTagName("img");
+    if (images.length > 0) {
+      setImageURL(images[0].src);
     }
   };
 

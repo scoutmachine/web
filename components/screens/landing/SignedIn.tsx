@@ -1,10 +1,12 @@
 import { Session } from "next-auth";
 import { TeamCard } from "../../TeamCard";
 import { FaStar, FaTags } from "react-icons/fa";
+import { MarketplacePost } from "../marketplace/MarketplacePost";
 
 export const SignedInScreen = (props: {
   session: Session;
   favourites: any;
+  posts: any;
   avatars: any;
 }) => {
   return (
@@ -52,12 +54,25 @@ export const SignedInScreen = (props: {
           <p className="flex text-lightGray font-bold text-md mt-8 md:mt-16">
             <FaTags className="text-[22px] mr-2 text-lightGray" /> Marketplace
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
-              0 posts
+              {props.posts.length} {props.posts.length === 1 ? "post" : "posts"}
             </span>
           </p>
-          <span className="text-lightGray text-sm font-medium">
-            Looks like you have no activity on marketplace, yet.
-          </span>
+          {props.posts.length > 0 ? (
+            <div className="flex flex-wrap gap-3 mt-3">
+              {props.posts.map((post: any) => {
+                return (
+                  <MarketplacePost
+                  key={post.id}
+                  marketplacePost={post}
+                />
+                );
+              })}
+            </div>
+          ) : (
+            <span className="text-lightGray text-sm font-medium">
+              Looks like you have no activity on marketplace, yet.
+            </span>
+          )}
         </div>
       </div>
     </>

@@ -27,6 +27,7 @@ export default function LandingPage({ user, avatars }: any) {
         <SignedInScreen
           session={session}
           favourites={user.favourited}
+          posts={user.posts}
           avatars={avatars}
         />
         <Footer />
@@ -58,6 +59,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
       include: {
         favourited: true,
+        posts: {
+          include: {
+            author: true,
+          },
+        },
       },
     });
 
