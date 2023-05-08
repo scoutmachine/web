@@ -36,7 +36,7 @@ const ModalBody = () => (
   </div>
 );
 
-const ModalFooter = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => (
+const ModalFooter = () => (
   <>
     <div className="flex flex-col md:flex-row justify-center items-center gap-2">
       <div className="mt-4">
@@ -68,11 +68,8 @@ const ModalFooter = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => (
         </button>
       </div>
     </div>
-    <p
-      onClick={() => props.setOpen(false)}
-      className="text-xs italic text-lightGray hover:text-primary mt-2 cursor-pointer text-center"
-    >
-      I want to go back
+    <p className="text-xs text-lightGray mt-2 text-center">
+      All data collected will be kept private at all times.
     </p>
   </>
 );
@@ -82,7 +79,7 @@ export const SignupModal = ({ isOpen, setOpen }: Props) => {
     <Modal
       header={<ModalHeader />}
       body={<ModalBody />}
-      footer={<ModalFooter setOpen={setOpen} />}
+      footer={<ModalFooter />}
       isOpen={isOpen}
       setOpen={setOpen}
     />
