@@ -3,6 +3,7 @@ import { Navbar } from "@/components/navbar";
 import { MarketplacePage } from "@/components/screens/marketplace/MarketplacePage";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import db from "@/lib/db";
 
 export default function MarketplacePostPage({ post }: any) {
   return (
