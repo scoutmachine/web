@@ -64,10 +64,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
     await fetch(`${API_URL}/api/@me/post`, {
       method: "POST",
       body: JSON.stringify(data),
-    }).then(async (res) => {
-      const data = await res.json();
-      router.push(`/marketplace/${data.id}`);
-    });
+    }).then(() => router.reload());
   };
 
   const reloadSession = () => {
