@@ -195,8 +195,8 @@ export default function TeamPage() {
                   className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
                     isDropdownOpen
                       ? "rounded-t-lg border-2 border-b-[#2A2A2A] border-transparent"
-                      : "rounded-lg"
-                  } px-5 py-2 flex items-center justify-between cursor-pointer`}
+                      : "rounded-lg border-b-[5px] border-[#2A2A2A]"
+                  } px-5 py-2 flex items-center justify-between cursor-pointer active:translate-y-2  active:[box-shadow:0_0px_0_0_#19999,0_0px_0_0_#19999] active:border-b-[0px] transition-all duration-150 [box-shadow:0_10px_0_0_#19999,0_15px_0_0_#19999]`}
                   onClick={toggleDropdown}
                 >
                   <span
