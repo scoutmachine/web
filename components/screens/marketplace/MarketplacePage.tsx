@@ -23,7 +23,7 @@ export const MarketplacePage = (props: any) => {
       <div className="flex flex-wrap">
         <img
           className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-          src={props.marketplacePost.media[0]}
+          src={props.marketplacePost?.media[0]}
           alt=""
         />
         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -56,20 +56,20 @@ export const MarketplacePage = (props: any) => {
             <div className="flex items-center">
               <img
                 className="h-10 w-10 rounded-full object-cover object-center"
-                src={props.marketplacePost.author.image}
+                src={props.marketplacePost.author?.image}
                 alt=""
               />
               <div className="mx-4">
                 <h1 className="text-sm font-semibold text-gray-100">
-                  {props.marketplacePost.author.name}
+                  {props.marketplacePost.author?.name}
                 </h1>
                 <p className="text-sm text-lightGray">
-                  {props.marketplacePost.author.email}
+                  {props.marketplacePost.author?.email}
                 </p>
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <a href={`mailto:${props.marketplacePost.author.email}`}>
+              <a href={`mailto:${props.marketplacePost.author?.email}`}>
                 <button className="text-sm ml-auto flex border border-[#2A2A2A] bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg">
                   Contact Seller
                 </button>
