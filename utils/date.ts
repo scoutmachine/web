@@ -37,11 +37,7 @@ export const isLive = (start: string, end: string) => {
 
   today.setHours(0, 0, 0, 0);
 
-  if (newToday >= start && newToday <= end) {
-    return true;
-  } else {
-    return false;
-  }
+  return newToday >= start && newToday <= end;
 };
 
 export const convertSeconds = (epochSeconds: number): string => {
