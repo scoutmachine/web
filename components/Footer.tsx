@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const Footer = () => {
   return (
@@ -12,6 +13,20 @@ export const Footer = () => {
             </span>
           </a>
         </Link>
+        <div className="flex items-center justify-center">
+          <a
+            href="https://vercel.com/?utm_source=gryphonmachine&utm_campaign=oss"
+            target="_blank"
+          >
+            <Image
+              src="/powered-by-vercel.svg"
+              height="175"
+              width="175"
+              alt="Powered by Vercel"
+              className="mt-2"
+            />
+          </a>
+        </div>
       </div>
     </div>
   );
