@@ -31,7 +31,11 @@ export const MarketplacePost = (props: any) => {
                 {props.marketplacePost.author?.name}
               </h1>
               <Link href={`/teams/6070`}>
-                <p className="text-sm text-lightGray">Team 6070</p>
+                <p className="text-sm text-lightGray">
+                  {props.marketplacePost.author?.teamNumber
+                    ? `Team ${props.marketplacePost.author?.teamNumber}`
+                    : "Unknown Team"}
+                </p>
               </Link>
             </div>
           </div>

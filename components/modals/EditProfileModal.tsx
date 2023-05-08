@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
-import { FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
+import { FaBolt, FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { DragEvent } from "react";
 import { IconType } from "react-icons";
@@ -60,46 +60,46 @@ const ModalBody = (props: {
     session?.user?.name as string
   );
   const [avatarURL, setAvatarURL] = useState<string>();
+  const [teamNumber, setTeamNumber] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
 
   useEffect(() => {
+    const fetchTeamNumber = async () => {
+      const data = await fetch(`${API_URL}/api/@me`).then((res) => res.json());
+      setTeamNumber(data.teamNumber);
+    };
+
+    fetchTeamNumber();
     setAvatarURL(props.avatar);
   }, [props.avatar]);
+
+  const fetchUpdate = async (data: object) => {
+    await fetch(`${API_URL}/api/@me/update`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+
+    reloadSession();
+    props.setOpen(false);
+  };
 
   const reloadSession = () => {
     const event = new Event("visibilitychange");
     document.dispatchEvent(event);
   };
 
-  const updateDisplay = async () => {
-    if (displayName?.length === 0) {
-      setErrorMessage("Display Name left blank");
-    } else if (displayName === session?.user?.name) {
-      setErrorMessage("That already is your name!");
+  const updateField = async (
+    fieldName: string,
+    fieldValue: string | number
+  ) => {
+    const data = { [fieldName]: fieldValue };
+    if (!fieldValue) {
+      setErrorMessage(`${fieldName} left blank`);
+      // @ts-ignore
+    } else if (session?.user[fieldName] === fieldValue) {
+      setErrorMessage(`That already is your ${fieldName}!`);
     } else {
-      await fetch(`${API_URL}/api/@me/update`, {
-        method: "POST",
-        body: JSON.stringify({ name: displayName }),
-      });
-
-      reloadSession();
-      props.setOpen(false);
-    }
-  };
-
-  const updateAvatar = async () => {
-    if (avatarURL?.length === 0) {
-      setErrorMessage("Avatar URL left blank");
-    } else if (avatarURL === session?.user?.image) {
-      setErrorMessage("That already is your avatar!");
-    } else {
-      await fetch(`${API_URL}/api/@me/update`, {
-        method: "POST",
-        body: JSON.stringify({ image: avatarURL }),
-      });
-
-      reloadSession();
-      props.setOpen(false);
+      await fetchUpdate(data);
     }
   };
 
@@ -133,7 +133,7 @@ const ModalBody = (props: {
               state={setDisplayName}
             />
             <button
-              onClick={() => updateDisplay()}
+              onClick={() => updateField("name", displayName)}
               className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
             >
               Update
@@ -150,7 +150,24 @@ const ModalBody = (props: {
               state={setAvatarURL}
             />
             <button
-              onClick={() => updateAvatar()}
+              onClick={() => updateField("image", avatarURL as string)}
+              className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <p className="uppercase text-xs text-lightGray mb-2">Team Number</p>
+          <div className="flex gap-x-2">
+            <Input
+              placeholder={teamNumber as string}
+              icon={FaBolt}
+              state={setTeamNumber}
+            />
+            <button
+              onClick={() => updateField("teamNumber", Number(teamNumber))}
               className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
             >
               Update
