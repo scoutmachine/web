@@ -70,5 +70,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
       author: true,
     },
   });
-  return { props: { posts: JSON.parse(JSON.stringify(posts)) } };
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts.sort(() => Math.random() - 0.5))),
+    },
+  };
 };
