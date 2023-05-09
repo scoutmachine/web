@@ -5,21 +5,14 @@ import { Navbar } from "@/components/navbar";
 import { MarketplaceScreen } from "@/components/screens/MarketplaceScreen";
 import db from "@/lib/db";
 import { GetServerSideProps } from "next";
+import { getServerSession, Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { FaMoneyBill } from "react-icons/fa";
+import { authOptions } from "../api/auth/[...nextauth]";
 
-export default function MarketplacePage({
-  posts,
-}: {
-  posts: (any & {
-    author: {
-      name: string;
-      image: string;
-    };
-  })[];
-}) {
+export default function MarketplacePage({ posts, user }: any) {
   const { data: session } = useSession();
   const [showCreateListingModal, setShowCreateListingModal] = useState(false);
 
@@ -51,7 +44,7 @@ export default function MarketplacePage({
         }
       />
 
-      <MarketplaceScreen marketplacePosts={posts} />
+      <MarketplaceScreen marketplacePosts={posts} user={user} />
 
       <Footer />
 
@@ -63,16 +56,27 @@ export default function MarketplacePage({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = (await getServerSession(req, res, authOptions)) as Session;
+
   const posts = await db.post.findMany({
     where: {},
     include: {
       author: true,
     },
   });
+
+  const user = await db.user.findUnique({
+    where: {
+      // @ts-ignore
+      id: session.user?.id,
+    },
+  });
+
   return {
     props: {
       posts: JSON.parse(JSON.stringify(posts.sort(() => Math.random() - 0.5))),
+      user,
     },
   };
 };

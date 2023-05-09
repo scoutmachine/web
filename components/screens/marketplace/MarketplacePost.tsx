@@ -1,13 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { API_URL } from "@/lib/constants";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
 import { FaTrash } from "react-icons/fa";
 
 export const MarketplacePost = (props: any) => {
-  const { data: session } = useSession();
-
   const deletePost = async () => {
     await fetch(`${API_URL}/api/@me/post?id=${props.marketplacePost.id}`, {
       method: "DELETE",
@@ -59,14 +56,13 @@ export const MarketplacePost = (props: any) => {
             )}
           </div>
 
-          {(props.marketplacePost.author.id as string) ===
-            // @ts-ignore
-            (session?.user?.id as string) && (
-            <FaTrash
-              className="absolute bottom-7 right-6 text-red-400 hover:text-red-500 cursor-pointer"
-              onClick={() => deletePost()}
-            />
-          )}
+          {props.user.admin ||
+            (props.marketplacePost.author.id === props.user.id && (
+              <FaTrash
+                className="absolute bottom-7 right-6 text-red-400 hover:text-red-500 cursor-pointer"
+                onClick={() => deletePost()}
+              />
+            ))}
         </div>
       </div>
     </div>

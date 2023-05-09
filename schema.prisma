@@ -49,6 +49,7 @@ model User {
   emailVerified DateTime?
   image         String?
   teamNumber    Int?
+  admin         Boolean          @default(false)
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
@@ -68,7 +69,7 @@ model Post {
   title     String
   content   String?
   price     Int
-  type PostType
+  type      PostType
   media     String[]
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
