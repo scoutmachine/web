@@ -20,9 +20,9 @@ export default function HOFPage() {
         className="flex"
         title={
           <a href="https://www.firsthalloffame.org/" target="_blank">
-            <h1 className="md:flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-white">
-              <FaMedal className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
-              <span className="italic md:mr-3 mr-1">FIRST</span> Hall of Fame
+            <h1 className="flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-white">
+              <FaMedal className="mr-1 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
+              <span className="italic md:mr-3 mr-2">FIRST</span> Hall of Fame
             </h1>
           </a>
         }
@@ -42,8 +42,8 @@ export default function HOFPage() {
         }
       />
 
-      <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl">
-        <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-10 gap-3 mt-10">
+      <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-5">
+        <div className="bg-card border border-[#2A2A2A] py-10 px-10 rounded-lg flex flex-wrap gap-5 justify-center items-center flex">
           {HOFTeams.map((team: any, key: number) => {
             return (
               <div className="banner" key={key}>
