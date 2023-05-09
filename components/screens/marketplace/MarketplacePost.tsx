@@ -5,6 +5,8 @@ import router from "next/router";
 import { FaTrash } from "react-icons/fa";
 
 export const MarketplacePost = (props: any) => {
+  const showTrashIcon =
+    props.user?.admin || props.marketplacePost.author.id === props.user?.id;
   const deletePost = async () => {
     await fetch(`${API_URL}/api/@me/post?id=${props.marketplacePost.id}`, {
       method: "DELETE",
@@ -56,13 +58,12 @@ export const MarketplacePost = (props: any) => {
             )}
           </div>
 
-          {props.user?.admin ||
-            (props.marketplacePost.author.id === props.user.id && (
-              <FaTrash
-                className="absolute bottom-7 right-6 text-red-400 hover:text-red-500 cursor-pointer"
-                onClick={() => deletePost()}
-              />
-            ))}
+          {showTrashIcon && (
+            <FaTrash
+              className="absolute bottom-7 right-6 text-red-400 hover:text-red-500 cursor-pointer"
+              onClick={() => deletePost()}
+            />
+          )}
         </div>
       </div>
     </div>

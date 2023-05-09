@@ -58,13 +58,16 @@ export default function MarketplacePage({ posts, user }: any) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = (await getServerSession(req, res, authOptions)) as Session;
+  let user;
 
-  const user = await db.user.findUnique({
-    where: {
-      // @ts-ignore
-      id: session.user?.id,
-    },
-  });
+  if (session) {
+    user = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user?.id,
+      },
+    });
+  }
 
   const posts = await db.post.findMany({
     where: {},
