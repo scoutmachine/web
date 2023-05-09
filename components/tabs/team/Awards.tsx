@@ -110,7 +110,7 @@ export const AwardsTab = (props: any) => {
         </>
       ) : (
         <ErrorMessage
-          message={` Looks like ${props.team.teamData.team_number} hasn&apos;t received any
+          message={` Looks like ${props.team.teamData.team_number} hasn't received any
         awards, yet.`}
         />
       )}
