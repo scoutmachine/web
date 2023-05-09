@@ -136,6 +136,7 @@ export default function TeamsPage() {
     const { teams, avatars } = await fetchTeamsData(
       0,
       itemsPerPage,
+      "",
       searchTerm
     );
     setTeams(teams);
