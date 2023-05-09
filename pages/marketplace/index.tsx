@@ -59,13 +59,6 @@ export default function MarketplacePage({ posts, user }: any) {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = (await getServerSession(req, res, authOptions)) as Session;
 
-  const posts = await db.post.findMany({
-    where: {},
-    include: {
-      author: true,
-    },
-  });
-
   const user = await db.user.findUnique({
     where: {
       // @ts-ignore
@@ -73,10 +66,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     },
   });
 
+  const posts = await db.post.findMany({
+    where: {},
+    include: {
+      author: true,
+    },
+  });
+
   return {
     props: {
       posts: JSON.parse(JSON.stringify(posts.sort(() => Math.random() - 0.5))),
-      user,
+      user: session ? user : null,
     },
   };
 };

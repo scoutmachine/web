@@ -56,7 +56,7 @@ export const MarketplacePost = (props: any) => {
             )}
           </div>
 
-          {props.user.admin ||
+          {props.user?.admin ||
             (props.marketplacePost.author.id === props.user.id && (
               <FaTrash
                 className="absolute bottom-7 right-6 text-red-400 hover:text-red-500 cursor-pointer"
