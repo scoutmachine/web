@@ -43,7 +43,7 @@ export default function HOFPage() {
       />
 
       <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-5">
-        <div className="bg-card border border-[#2A2A2A] py-10 px-10 rounded-lg flex flex-wrap gap-5 justify-center items-center flex">
+        <div className="bg-card border border-[#2A2A2A] py-5 rounded-lg flex flex-wrap gap-5 justify-center items-center flex">
           {HOFTeams.map((team: any, key: number) => {
             return (
               <div className="banner" key={key}>
