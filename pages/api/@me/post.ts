@@ -20,7 +20,7 @@ export default async function getTeams(
         authorId: session.user?.id,
         title: body.title,
         content: body.content,
-        type: "controller",
+        type: body.type,
         published: false,
         price: Number(body.price),
       },

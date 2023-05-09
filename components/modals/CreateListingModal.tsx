@@ -2,15 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
-import {
-  FaBolt,
-  FaDollarSign,
-  FaFire,
-  FaSignature,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
 import { IconType } from "react-icons";
 import router from "next/router";
+import { ListingType } from "@/types/ListingType";
 
 type Props = {
   isOpen: boolean;
@@ -53,12 +48,16 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [listingType, setListingType] = useState<ListingType>(
+    ListingType.Controller
+  );
 
   const createListing = async () => {
     const data = {
       title: title,
       content: description,
       price: price,
+      type: listingType,
     };
 
     await fetch(`${API_URL}/api/@me/post`, {
@@ -100,6 +99,26 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
               icon={FaBolt}
               state={setDescription}
             />
+          </div>
+        </div>
+        <div>
+          <div>
+            <p className="uppercase text-xs text-lightGray mb-2">
+              Listing Type
+            </p>
+            <div className="flex gap-x-2">
+              <select
+                className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
+                value={listingType}
+                onChange={(e) => setListingType(e.target.value as ListingType)}
+              >
+                {Object.values(ListingType).map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
