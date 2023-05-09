@@ -87,6 +87,7 @@ export const AwardsTab = (props: any) => {
                   !award.name.includes("Impact Award") &&
                   !award.name.includes("Chairman's Award")
               )
+              .reverse()
               .map((award: any, key: number) => {
                 return (
                   <a
