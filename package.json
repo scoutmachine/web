@@ -26,6 +26,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "framer-motion": "^10.12.8",
+    "haversine-distance": "^1.2.1",
     "next": "13.4.1",
     "next-auth": "^4.22.1",
     "postcss": "8.4.23",
