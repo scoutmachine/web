@@ -8,6 +8,7 @@ export const SignedInScreen = (props: {
   favourites: any;
   posts: any;
   avatars: any;
+  user: any;
 }) => {
   return (
     <>
@@ -60,7 +61,13 @@ export const SignedInScreen = (props: {
           {props.posts.length > 0 ? (
             <div className="flex flex-wrap gap-3 mt-3">
               {props.posts.map((post: any) => {
-                return <MarketplacePost key={post.id} marketplacePost={post} />;
+                return (
+                  <MarketplacePost
+                    key={post.id}
+                    marketplacePost={post}
+                    user={props.user}
+                  />
+                );
               })}
             </div>
           ) : (

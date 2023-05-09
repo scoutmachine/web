@@ -29,6 +29,7 @@ export default function LandingPage({ user, avatars }: any) {
           favourites={user.favourited}
           posts={user.posts}
           avatars={avatars}
+          user={user}
         />
         <Footer />
       </>
