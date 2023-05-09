@@ -35,7 +35,7 @@ export const EventsScreen = (props: any) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [nearbyEvents, setNearbyEvents] = useState([]);
   const [showNearbyEvents, setShowNearbyEvents] = useState(false);
-  const [nearbyRange, setNearbyRange] = useState(200);
+  const [nearbyRange, setNearbyRange] = useState<string | number>(200);
   const [invalidNavigation, setInvalidNavigation] = useState(false);
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
@@ -43,6 +43,10 @@ export const EventsScreen = (props: any) => {
   today.setHours(0, 0, 0, 0);
 
   useEffect(() => {
+    if (nearbyRange === "") {
+      setNearbyRange(200);
+    }
+
     navigator.permissions.query({ name: "geolocation" }).then((result) => {
       if (result.state === "granted") {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -55,7 +59,7 @@ export const EventsScreen = (props: any) => {
                   lng: position.coords.longitude,
                 }
               ) / 1000; // convert to km
-            return distance <= nearbyRange; // events within x km range
+            return distance <= Number(nearbyRange); // events within x km range
           });
           setNearbyEvents(nearbyEvents);
         });
