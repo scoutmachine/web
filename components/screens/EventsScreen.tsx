@@ -36,22 +36,32 @@ export const EventsScreen = (props: any) => {
   const [nearbyEvents, setNearbyEvents] = useState([]);
   const [showNearbyEvents, setShowNearbyEvents] = useState(false);
   const [nearbyRange, setNearbyRange] = useState(200);
+  const [invalidNavigation, setInvalidNavigation] = useState(false);
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
 
   today.setHours(0, 0, 0, 0);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const nearbyEvents = props.events.filter((event: any) => {
-        const distance =
-          haversine(
-            { lat: event.lat, lng: event.lng },
-            { lat: position.coords.latitude, lng: position.coords.longitude }
-          ) / 1000; // convert to km
-        return distance <= nearbyRange; // events within x km range
-      });
-      setNearbyEvents(nearbyEvents);
+    navigator.permissions.query({ name: "geolocation" }).then((result) => {
+      if (result.state === "granted") {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const nearbyEvents = props.events.filter((event: any) => {
+            const distance =
+              haversine(
+                { lat: event.lat, lng: event.lng },
+                {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                }
+              ) / 1000; // convert to km
+            return distance <= nearbyRange; // events within x km range
+          });
+          setNearbyEvents(nearbyEvents);
+        });
+      } else {
+        setInvalidNavigation(true);
+      }
     });
   }, [props.events, nearbyRange]);
 
@@ -79,7 +89,14 @@ export const EventsScreen = (props: any) => {
             })
         ) : (
           <p className="text-lightGray whitespace-nowrap">
-            Uh oh, looks like there were no events found.
+            {invalidNavigation ? (
+              <span>
+                Uh oh, looks like you haven&apos;t given us{" "}
+                <b className="text-white">Location Permissions</b>.
+              </span>
+            ) : (
+              "Uh oh, looks like there were no events found."
+            )}
           </p>
         )}
       </div>
