@@ -228,15 +228,17 @@ export const EventsScreen = (props: any) => {
                   weekDropDown ? "block" : "hidden"
                 } z-20`}
               >
-                {[...Array(7)].map((x, i) => (
+                {[...Array(6).keys()].map((x, i) => (
                   <div
                     className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-white text-lightGray"
                     onClick={() => {
-                      if(weekQuery === -1 || i !== weekQuery) setWeekQuery(i);
-                      else if (weekQuery === i) setWeekQuery(-1);
+                      if (weekQuery === -1 || x !== weekQuery) setWeekQuery(x);
+                      else if (weekQuery === x) setWeekQuery(-1);
                     }}
                   >
-                    <h1>Week {i}</h1>
+                    <h1 className={weekQuery === x ? "font-bold text-white" : ""}>
+                      Week {x+1}
+                    </h1>
                   </div>
                 ))}
               </div>
@@ -248,7 +250,7 @@ export const EventsScreen = (props: any) => {
       {weekQuery !== -1 &&
         renderEventsSection(
           (event: any) => event.week === weekQuery,
-          `Week ${weekQuery} events`
+          `Week ${weekQuery+1} events`
         )}
 
       {searchQuery &&
