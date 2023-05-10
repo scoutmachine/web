@@ -22,9 +22,21 @@ const Event = (props: any) => {
             {convertDate(props.event.start_date)} -{" "}
             {convertDate(props.event.end_date)}, {CURR_YEAR}
           </p>
-          <p className="text-lightGray absolute bottom-3 left-5 md:text-left text-left">
-            {props.event.city}, {props.event.state_prov}, {props.event.country}
-          </p>
+          <h2 className="text-lightGray absolute bottom-3 left-5 md:text-left text-left">
+            📌 {props.event.city}, {props.event.state_prov},{" "}
+            {props.event.country} <br />
+            {!props.invalidNavigation && (
+              <p className="text-sm">
+                <span className="text-gray-400 font-medium">
+                  {String(
+                    Math.trunc(props.eventDistances[props.event.event_code])
+                  ).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  km
+                </span>{" "}
+                away
+              </p>
+            )}
+          </h2>
         </div>
       </a>
     </Link>
@@ -37,6 +49,7 @@ export const EventsScreen = (props: any) => {
   const [showNearbyEvents, setShowNearbyEvents] = useState(false);
   const [nearbyRange, setNearbyRange] = useState<string | number>(200);
   const [invalidNavigation, setInvalidNavigation] = useState(false);
+  const [eventDistances, setEventDistances] = useState({});
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
 
@@ -50,6 +63,8 @@ export const EventsScreen = (props: any) => {
     navigator.permissions.query({ name: "geolocation" }).then((result) => {
       if (result.state === "granted") {
         navigator.geolocation.getCurrentPosition((position) => {
+          const eventDistances: any = {};
+
           const nearbyEvents = props.events.filter((event: any) => {
             const distance =
               haversine(
@@ -59,9 +74,13 @@ export const EventsScreen = (props: any) => {
                   lng: position.coords.longitude,
                 }
               ) / 1000; // convert to km
+
+            eventDistances[event.event_code] = distance;
             return distance <= Number(nearbyRange); // events within x km range
           });
+
           setNearbyEvents(nearbyEvents);
+          setEventDistances(eventDistances);
         });
       } else {
         setInvalidNavigation(true);
@@ -89,7 +108,14 @@ export const EventsScreen = (props: any) => {
           props.events
             .filter(filterCondition)
             .map((event: any, key: number) => {
-              return <Event key={key} event={event} />;
+              return (
+                <Event
+                  key={key}
+                  event={event}
+                  eventDistances={eventDistances}
+                  invalidNavigation={invalidNavigation}
+                />
+              );
             })
         ) : (
           <p className="text-lightGray whitespace-nowrap">
