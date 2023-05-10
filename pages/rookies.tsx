@@ -129,7 +129,6 @@ export default function RookiesPage() {
                   key={key}
                   team={team}
                   avatars={avatars}
-                  showFavLoading
                 />
               );
             })}
