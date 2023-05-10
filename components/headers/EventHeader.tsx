@@ -25,8 +25,8 @@ export const EventHeader = (props: any) => {
                   })`
                 : `${props.event.event_type_string} ${
                     props.teams.length > 0 &&
-                    `(${props.teams.length} team${
-                      props.teams.length > 1 && "s"
+                    `(${props.teams.length} ${
+                      props.teams.length === 1 ? "team" : "teams"
                     })`
                   }`}
             </span>{" "}
