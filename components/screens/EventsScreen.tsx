@@ -47,7 +47,7 @@ export const EventsScreen = (props: any) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [nearbyEvents, setNearbyEvents] = useState([]);
   const [showNearbyEvents, setShowNearbyEvents] = useState(false);
-  const [nearbyRange, setNearbyRange] = useState<string | number>(200);
+  const [nearbyRange, setNearbyRange] = useState<string | number>(350);
   const [invalidNavigation, setInvalidNavigation] = useState(false);
   const [eventDistances, setEventDistances] = useState({});
   const today = new Date();
@@ -57,7 +57,7 @@ export const EventsScreen = (props: any) => {
 
   useEffect(() => {
     if (nearbyRange === "") {
-      setNearbyRange(200);
+      setNearbyRange(350);
     }
 
     navigator.permissions.query({ name: "geolocation" }).then((result) => {
