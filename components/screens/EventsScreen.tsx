@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Search } from "../Search";
 import { ReactNode, useEffect, useState } from "react";
 import haversine from "haversine-distance";
-import { FaCrosshairs } from "react-icons/fa";
+import { FaCrosshairs, FaFire, FaGlobe, FaMapMarkerAlt } from "react-icons/fa";
+import { getGeoData } from "@/utils/geo";
 
 const Event = (props: any) => {
   return (
@@ -51,6 +52,8 @@ export const EventsScreen = (props: any) => {
   const [nearbyRange, setNearbyRange] = useState<string | number>(350);
   const [invalidNavigation, setInvalidNavigation] = useState(false);
   const [eventDistances, setEventDistances] = useState({});
+  const [address, setAddress] = useState("");
+  const [filterByAddress, setFilterByAddress] = useState(false);
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
 
@@ -61,9 +64,16 @@ export const EventsScreen = (props: any) => {
       setNearbyRange(350);
     }
 
-    navigator.permissions.query({ name: "geolocation" }).then((result) => {
-      if (result.state === "granted") {
-        navigator.geolocation.getCurrentPosition((position) => {
+    const fetchGeoData = async () => {
+      const data = await getGeoData(address);
+      return data;
+    };
+
+    if (filterByAddress) {
+      fetchGeoData()
+        .then((data) => {
+          const lat = Number(data?.lat);
+          const lng = Number(data?.lng);
           const eventDistances: any = {};
 
           const nearbyEvents = props.events.filter((event: any) => {
@@ -71,8 +81,8 @@ export const EventsScreen = (props: any) => {
               haversine(
                 { lat: event.lat, lng: event.lng },
                 {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
+                  lat,
+                  lng,
                 }
               ) / 1000; // convert to km
 
@@ -82,12 +92,37 @@ export const EventsScreen = (props: any) => {
 
           setNearbyEvents(nearbyEvents);
           setEventDistances(eventDistances);
-        });
-      } else {
-        setInvalidNavigation(true);
-      }
-    });
-  }, [props.events, nearbyRange]);
+        })
+        .then(() => setFilterByAddress(false));
+    } else if (address === "") {
+      navigator.permissions.query({ name: "geolocation" }).then((result) => {
+        if (result.state === "granted") {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const eventDistances: any = {};
+
+            const nearbyEvents = props.events.filter((event: any) => {
+              const distance =
+                haversine(
+                  { lat: event.lat, lng: event.lng },
+                  {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  }
+                ) / 1000; // convert to km
+
+              eventDistances[event.event_code] = distance;
+              return distance <= Number(nearbyRange); // events within x km range
+            });
+
+            setNearbyEvents(nearbyEvents);
+            setEventDistances(eventDistances);
+          });
+        } else {
+          setInvalidNavigation(true);
+        }
+      });
+    }
+  }, [props.events, nearbyRange, filterByAddress, address]);
 
   const renderEventsSection = (
     filterCondition: any,
@@ -120,14 +155,7 @@ export const EventsScreen = (props: any) => {
             })
         ) : (
           <p className="text-lightGray whitespace-nowrap">
-            {invalidNavigation ? (
-              <span>
-                Uh oh, looks like you haven&apos;t given us{" "}
-                <b className="text-white">Location Permissions</b>.
-              </span>
-            ) : (
-              "Uh oh, looks like there were no events found."
-            )}
+            Uh oh, looks like there were no events found.
           </p>
         )}
       </div>
@@ -136,7 +164,7 @@ export const EventsScreen = (props: any) => {
 
   return (
     <div className="pr-4 pl-4 md:pl-8 md:pr-8 max-w-screen-3xl w-full">
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-x-3">
         <button
           onClick={() => setShowNearbyEvents(!showNearbyEvents)}
           className="flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
@@ -146,10 +174,26 @@ export const EventsScreen = (props: any) => {
         </button>
 
         {showNearbyEvents ? (
-          <Search
-            placeholder="Event Range..."
-            onChange={(e: any) => setNearbyRange(e.target.value)}
-          />
+          <>
+            <Search
+              placeholder="City / Zip Code / Address"
+              onChange={(e: any) => setAddress(e.target.value)}
+              icon={<FaMapMarkerAlt className="text-sm text-lightGray" />}
+            />
+            <Search
+              placeholder="Radius (in km)"
+              onChange={(e: any) => setNearbyRange(e.target.value)}
+              icon={<FaGlobe className="text-sm text-lightGray" />}
+            />
+            {address && (
+              <button
+                onClick={() => setFilterByAddress(true)}
+                className="flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
+              >
+                Search
+              </button>
+            )}
+          </>
         ) : (
           <Search
             placeholder="Search all events..."
