@@ -84,7 +84,7 @@ export default function RookiesPage() {
     }
 
     fetchData();
-  }, [setRookieTeams, setAvatars, fetchRookieTeamsData]);
+  }, [setRookieTeams, setAvatars]);
 
   if (!rookieTeams) return <Loading />;
   return (
@@ -123,13 +123,7 @@ export default function RookiesPage() {
         <div className="flex flex-col w-full gap-3 mt-10 sm:grid sm:grid-cols-2 lg:grid-cols-5">
           {Array.isArray(rookieTeams) &&
             rookieTeams.map((team: any, key: number) => {
-              return (
-                <TeamCard
-                  key={key}
-                  team={team}
-                  avatars={avatars}
-                />
-              );
+              return <TeamCard key={key} team={team} avatars={avatars} />;
             })}
         </div>
       </div>
