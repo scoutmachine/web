@@ -4,7 +4,13 @@ import Link from "next/link";
 import { Search } from "../Search";
 import { ReactNode, useEffect, useState } from "react";
 import haversine from "haversine-distance";
-import { FaCrosshairs, FaFire, FaGlobe, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaCrosshairs,
+  FaFire,
+  FaGlobe,
+  FaMapMarkerAlt,
+  FaArrowUp,
+} from "react-icons/fa";
 import { getGeoData } from "@/utils/geo";
 
 const Event = (props: any) => {
@@ -12,9 +18,9 @@ const Event = (props: any) => {
     <Link href={`/events/${props.event.key}`} legacyBehavior>
       <a>
         <div
-          className={`border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}
+          className={`hover:cursor-pointer border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}
         >
-          <h1 className="font-bold text-xl text-white text-left">
+          <h1 className="text-xl font-bold text-left text-white">
             {props.event.name.length > 49
               ? `${props.event.name.slice(0, 49)}...`
               : props.event.name}
@@ -23,13 +29,13 @@ const Event = (props: any) => {
             {convertDate(props.event.start_date)} -{" "}
             {convertDate(props.event.end_date)}, {CURR_YEAR}
           </p>
-          <h2 className="text-lightGray absolute bottom-3 left-5 md:text-left text-left">
+          <h2 className="absolute text-left text-lightGray bottom-3 left-5 md:text-left">
             📌 {props.event.city}, {props.event.state_prov},{" "}
             {props.event.country} <br />
             {!props.invalidNavigation &&
               !isNaN(props.eventDistances[props.event.event_code]) && (
                 <p className="text-sm">
-                  <span className="text-gray-400 font-medium">
+                  <span className="font-medium text-gray-400">
                     {String(
                       Math.trunc(props.eventDistances[props.event.event_code])
                     ).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -54,6 +60,8 @@ export const EventsScreen = (props: any) => {
   const [eventDistances, setEventDistances] = useState({});
   const [address, setAddress] = useState("");
   const [filterByAddress, setFilterByAddress] = useState(false);
+  const [weekDropDown, setWeekDropDown] = useState(false);
+  const [weekQuery, setWeekQuery] = useState<number>(-1);
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
 
@@ -128,9 +136,9 @@ export const EventsScreen = (props: any) => {
     filterCondition: any,
     title: string | ReactNode
   ) => (
-    <div className="max-w-screen-3xl w-full">
-      <h1 className="text-lightGray mt-10 mb-5 flex">
-        <h1 className="font-bold text-white text-2xl">{title}</h1>
+    <div className="w-full max-w-screen-3xl">
+      <h1 className="flex mt-10 mb-5 text-lightGray">
+        <h1 className="text-2xl font-bold text-white">{title}</h1>
 
         <span className="border border-[#2A2A2A] text-lightGray text-xl px-2 mt-[-1px] ml-1 rounded-full font-semibold">
           {props.events.filter(filterCondition).length}{" "}
@@ -139,7 +147,7 @@ export const EventsScreen = (props: any) => {
             : "events"}
         </span>
       </h1>
-      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
         {props.events.filter(filterCondition).length > 0 ? (
           props.events
             .filter(filterCondition)
@@ -163,13 +171,13 @@ export const EventsScreen = (props: any) => {
   );
 
   return (
-    <div className="pr-4 pl-4 md:pl-8 md:pr-8 max-w-screen-3xl w-full">
+    <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">
         <button
           onClick={() => setShowNearbyEvents(!showNearbyEvents)}
-          className="flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
+          className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
         >
-          {!showNearbyEvents && <FaCrosshairs className="text-lg mr-2" />}{" "}
+          {!showNearbyEvents && <FaCrosshairs className="mr-2 text-lg" />}{" "}
           {showNearbyEvents ? "Show All Events" : "Search Nearby"}
         </button>
 
@@ -195,12 +203,53 @@ export const EventsScreen = (props: any) => {
             )}
           </>
         ) : (
-          <Search
-            placeholder="Search all events..."
-            onChange={(e: any) => setSearchQuery(e.target.value)}
-          />
+          <div className="flex items-center ">
+            <Search
+              placeholder="Search all events..."
+              onChange={(e: any) => setSearchQuery(e.target.value)}
+            />
+            <div className="relative ml-3">
+              {" "}
+              <div
+                className={`flex items-center text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-4 py-2 z-20 select-none hover:cursor-pointer ${
+                  weekDropDown ? "rounded-b-none" : ""
+                }`}
+                onClick={() => setWeekDropDown(!weekDropDown)}
+              >
+                <h1 className="mr-2">Week #</h1>
+                <FaArrowUp
+                  className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
+                    weekDropDown ? "-rotate-180 text-white" : ""
+                  }`}
+                />
+              </div>
+              <div
+                className={`absolute flex flex-col items-center justify-center duration-150 right-0 left-0 border border-[#2A2A2A] bg-card text-white rounded-b-lg px-4 py-2 ${
+                  weekDropDown ? "block" : "hidden"
+                } z-20`}
+              >
+                {[...Array(7)].map((x, i) => (
+                  <div
+                    className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-white text-lightGray"
+                    onClick={() => {
+                      if(weekQuery === -1 || i !== weekQuery) setWeekQuery(i);
+                      else if (weekQuery === i) setWeekQuery(-1);
+                    }}
+                  >
+                    <h1>Week {i}</h1>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </div>
+
+      {weekQuery !== -1 &&
+        renderEventsSection(
+          (event: any) => event.week === weekQuery,
+          `Week ${weekQuery} events`
+        )}
 
       {searchQuery &&
         renderEventsSection(
@@ -231,7 +280,7 @@ export const EventsScreen = (props: any) => {
           </p>
         )}
 
-      {!showNearbyEvents && !searchQuery && (
+      {weekQuery === -1 && !showNearbyEvents && !searchQuery && (
         <div>
           {renderEventsSection(
             (event: any) => newToday <= event.end_date,

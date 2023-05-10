@@ -84,10 +84,9 @@ export default function RookiesPage() {
     }
 
     fetchData();
-  }, []);
+  }, [setRookieTeams, setAvatars, fetchRookieTeamsData]);
 
   if (!rookieTeams) return <Loading />;
-
   return (
     <>
       <Head>
@@ -99,9 +98,9 @@ export default function RookiesPage() {
       <Header
         className="flex"
         title={
-          <p className="md:flex text-3xl md:text-5xl font-black text-primary mb-2">
+          <p className="mb-2 text-3xl font-black md:flex md:text-5xl text-primary">
             <FaBolt className="mr-3 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />
-            <span className="italic md:mr-3 mr-1">FIRST</span> Rookie Teams
+            <span className="mr-1 italic md:mr-3">FIRST</span> Rookie Teams
           </p>
         }
         desc={
@@ -120,8 +119,8 @@ export default function RookiesPage() {
         }
       />
 
-      <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8">
-        <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-10">
+      <div className="w-full pl-4 pr-4 mx-auto md:pr-8 md:pl-8">
+        <div className="flex flex-col w-full gap-3 mt-10 sm:grid sm:grid-cols-2 lg:grid-cols-5">
           {Array.isArray(rookieTeams) &&
             rookieTeams.map((team: any, key: number) => {
               return (
@@ -129,7 +128,6 @@ export default function RookiesPage() {
                   key={key}
                   team={team}
                   avatars={avatars}
-                  showFavLoading
                 />
               );
             })}
