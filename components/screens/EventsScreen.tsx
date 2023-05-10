@@ -61,7 +61,14 @@ export const EventsScreen = (props: any) => {
   const [address, setAddress] = useState("");
   const [filterByAddress, setFilterByAddress] = useState(false);
   const [weekDropDown, setWeekDropDown] = useState(false);
-  const [weekQuery, setWeekQuery] = useState<number>(-1);
+  const [weekQuery, setWeekQuery] = useState<any>();
+  const weeks = [...Array(7).keys()];
+  const additionalWeeks = ["Preseason", "Offseason"];
+  const weeksArray = [
+    ...additionalWeeks,
+    ...weeks.slice(1).map((week) => week - 1),
+  ];
+
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
 
@@ -170,15 +177,21 @@ export const EventsScreen = (props: any) => {
     </div>
   );
 
+  console.log(weekQuery);
   return (
     <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">
         <button
-          onClick={() => setShowNearbyEvents(!showNearbyEvents)}
+          onClick={() =>
+            weekQuery
+              ? setShowNearbyEvents(false)
+              : setShowNearbyEvents(!showNearbyEvents)
+          }
           className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
         >
-          {!showNearbyEvents && <FaCrosshairs className="mr-2 text-lg" />}{" "}
-          {showNearbyEvents ? "Show All Events" : "Search Nearby"}
+          {!showNearbyEvents ||
+            (!weekQuery && <FaCrosshairs className="mr-2 text-lg" />)}{" "}
+          {showNearbyEvents || weekQuery ? "Show All Events" : "Search Nearby"}
         </button>
 
         {showNearbyEvents ? (
@@ -228,16 +241,24 @@ export const EventsScreen = (props: any) => {
                   weekDropDown ? "block" : "hidden"
                 } z-20`}
               >
-                {[...Array(6).keys()].map((x, i) => (
+                {weeksArray.map((week, i) => (
                   <div
+                    key={i}
                     className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-white text-lightGray"
-                    onClick={() => {
-                      if (weekQuery === -1 || x !== weekQuery) setWeekQuery(x);
-                      else if (weekQuery === x) setWeekQuery(-1);
-                    }}
+                    onClick={() =>
+                      setWeekQuery(
+                        typeof week === "number" && week !== 6 ? week + 1 : week
+                      )
+                    }
                   >
-                    <h1 className={weekQuery === x ? "font-bold text-white" : ""}>
-                      Week {x+1}
+                    <h1
+                      className={
+                        weekQuery === Number(week) + 1
+                          ? "font-bold text-white"
+                          : ""
+                      }
+                    >
+                      {typeof week === "number" ? `Week ${week + 1}` : week}
                     </h1>
                   </div>
                 ))}
@@ -247,10 +268,13 @@ export const EventsScreen = (props: any) => {
         )}
       </div>
 
-      {weekQuery !== -1 &&
+      {weekQuery &&
         renderEventsSection(
-          (event: any) => event.week === weekQuery,
-          `Week ${weekQuery+1} events`
+          (event: any) =>
+            typeof weekQuery === "number"
+              ? event.week === weekQuery
+              : event.event_type_string === weekQuery,
+          `${typeof weekQuery === "number" ? `Week ${weekQuery}` : weekQuery}`
         )}
 
       {searchQuery &&
@@ -282,7 +306,7 @@ export const EventsScreen = (props: any) => {
           </p>
         )}
 
-      {weekQuery === -1 && !showNearbyEvents && !searchQuery && (
+      {!weekQuery && !showNearbyEvents && !searchQuery && (
         <div>
           {renderEventsSection(
             (event: any) => newToday <= event.end_date,
