@@ -25,17 +25,18 @@ const Event = (props: any) => {
           <h2 className="text-lightGray absolute bottom-3 left-5 md:text-left text-left">
             📌 {props.event.city}, {props.event.state_prov},{" "}
             {props.event.country} <br />
-            {!props.invalidNavigation && (
-              <p className="text-sm">
-                <span className="text-gray-400 font-medium">
-                  {String(
-                    Math.trunc(props.eventDistances[props.event.event_code])
-                  ).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  km
-                </span>{" "}
-                away
-              </p>
-            )}
+            {!props.invalidNavigation &&
+              !isNaN(props.eventDistances[props.event.event_code]) && (
+                <p className="text-sm">
+                  <span className="text-gray-400 font-medium">
+                    {String(
+                      Math.trunc(props.eventDistances[props.event.event_code])
+                    ).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    km
+                  </span>{" "}
+                  away
+                </p>
+              )}
           </h2>
         </div>
       </a>
@@ -164,9 +165,8 @@ export const EventsScreen = (props: any) => {
               event.name +
               event.location_name +
               event.city +
-              event.district?.abbreviation +
-              event.event_code +
-              event.week
+              event.country +
+              event.district?.abbreviation
             )
               .toLowerCase()
               .includes(searchQuery.toLowerCase()),
