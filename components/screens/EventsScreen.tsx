@@ -63,10 +63,10 @@ export const EventsScreen = (props: any) => {
   const [weekDropDown, setWeekDropDown] = useState(false);
   const [weekQuery, setWeekQuery] = useState<any>();
   const weeks = [...Array(7).keys()];
-  const additionalWeeks = ["Preseason", "Offseason"];
   const weeksArray = [
-    ...additionalWeeks,
+    "Preseason",
     ...weeks.slice(1).map((week) => week - 1),
+    "Offseason",
   ];
 
   const today = new Date();
@@ -182,11 +182,14 @@ export const EventsScreen = (props: any) => {
     <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">
         <button
-          onClick={() =>
-            weekQuery
-              ? setShowNearbyEvents(false)
-              : setShowNearbyEvents(!showNearbyEvents)
-          }
+          onClick={() => {
+            if (weekQuery) {
+              setShowNearbyEvents(false);
+              setWeekQuery("");
+            } else {
+              setShowNearbyEvents(!showNearbyEvents);
+            }
+          }}
           className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
         >
           {!showNearbyEvents ||
@@ -237,7 +240,7 @@ export const EventsScreen = (props: any) => {
                 />
               </div>
               <div
-                className={`absolute flex flex-col items-center justify-center duration-150 right-0 left-0 border border-[#2A2A2A] bg-card text-white rounded-b-lg px-4 py-2 ${
+                className={`absolute select-none flex flex-col items-center justify-center duration-150 right-0 left-0 border border-[#2A2A2A] bg-card text-white rounded-b-lg px-4 py-2 ${
                   weekDropDown ? "block" : "hidden"
                 } z-20`}
               >
@@ -258,7 +261,11 @@ export const EventsScreen = (props: any) => {
                           : ""
                       }
                     >
-                      {typeof week === "number" ? `Week ${week + 1}` : week}
+                      {typeof week === "number"
+                        ? `Week ${week + 1}`
+                        : week === "Preseason"
+                        ? "Week 0"
+                        : week}
                     </h1>
                   </div>
                 ))}
@@ -272,7 +279,7 @@ export const EventsScreen = (props: any) => {
         renderEventsSection(
           (event: any) =>
             typeof weekQuery === "number"
-              ? event.week === weekQuery
+              ? event.week === weekQuery - 1
               : event.event_type_string === weekQuery,
           `${typeof weekQuery === "number" ? `Week ${weekQuery}` : weekQuery}`
         )}
