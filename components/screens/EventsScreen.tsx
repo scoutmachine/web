@@ -66,6 +66,7 @@ export const EventsScreen = (props: any) => {
   const weeksArray = [
     "Preseason",
     ...weeks.slice(1).map((week) => week - 1),
+    "Championship Division",
     "Offseason",
   ];
 
@@ -192,8 +193,9 @@ export const EventsScreen = (props: any) => {
           }}
           className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
         >
-          {!showNearbyEvents ||
-            (!weekQuery && <FaCrosshairs className="mr-2 text-lg" />)}{" "}
+          {!showNearbyEvents && !weekQuery && (
+            <FaCrosshairs className="mr-2 text-lg" />
+          )}{" "}
           {showNearbyEvents || weekQuery ? "Show All Events" : "Search Nearby"}
         </button>
 
@@ -227,12 +229,12 @@ export const EventsScreen = (props: any) => {
             <div className="relative ml-3">
               {" "}
               <div
-                className={`flex items-center text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-4 py-2 z-20 select-none hover:cursor-pointer ${
-                  weekDropDown ? "rounded-b-none" : ""
+                className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${
+                  weekDropDown && "rounded-b-none"
                 }`}
                 onClick={() => setWeekDropDown(!weekDropDown)}
               >
-                <h1 className="mr-2">Week #</h1>
+                <h1 className="mr-2">Sort by Week</h1>
                 <FaArrowUp
                   className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
                     weekDropDown ? "-rotate-180 text-white" : ""
@@ -255,17 +257,13 @@ export const EventsScreen = (props: any) => {
                     }
                   >
                     <h1
-                      className={
+                      className={`text-center ${
                         weekQuery === Number(week) + 1
                           ? "font-bold text-white"
                           : ""
-                      }
+                      }`}
                     >
-                      {typeof week === "number"
-                        ? `Week ${week + 1}`
-                        : week === "Preseason"
-                        ? "Week 0"
-                        : week}
+                      {typeof week === "number" ? `Week ${week + 1}` : week}
                     </h1>
                   </div>
                 ))}
