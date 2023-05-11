@@ -49,8 +49,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [price, setPrice] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [listingType, setListingType] = useState<ListingType>(
-    ListingType.Controller
-  );
+    ListingType.Controller);
 
   const createListing = async () => {
     const data = {

@@ -13,7 +13,7 @@ export const Search = (props: any) => {
         className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
         type="text"
         placeholder="Search teams..."
-        onChange={(e) => props.setSearchTerm(e.target.value)}
+        onChange={(e) => props.setSearchTerm(e.target.value.trim())}
         spellCheck={false}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
