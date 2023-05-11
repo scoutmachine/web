@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Loading } from "@/components/Loading";
@@ -21,6 +22,7 @@ async function fetchInsightsData() {
 
 export default function InsightsPage() {
   const [insights, setInsights] = useState<any>();
+  const [avatars, setAvatars] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +33,35 @@ export default function InsightsPage() {
     fetchData();
   }, []);
 
-  if (!insights) return <Loading />;
+  useEffect(() => {
+    if (insights) {
+      const fetchAvatars = async () => {
+        const teamAvatars: any = {};
+
+        await Promise.all(
+          insights.top.map(async (team: any) => {
+            const data = await fetch(
+              `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+            ).then((res) => res.json());
+
+            try {
+              teamAvatars[team.teamNumber] = data.avatar;
+            } catch {
+              teamAvatars[team.teamNumber] = null;
+            }
+          })
+        );
+
+        setAvatars(teamAvatars);
+      };
+
+      fetchAvatars();
+    }
+  }, [insights]);
+
+  if (!insights || !avatars) return <Loading />;
+
+  console.log(avatars[118]);
 
   return (
     <>
@@ -55,19 +85,24 @@ export default function InsightsPage() {
                 key={key}
                 className="rounded-lg bg-card py-10 px-10 hover:border-gray-600"
               >
-                <Link href={`/teams/${team.teamNumber}`}>
+                <Link href={`/teams/${team.teamNumber}`} className="flex mb-1">
+                  <img
+                    src={`data:image/jpeg;base64,${avatars[team.teamNumber]}`}
+                    alt={`${team.teamNumber} Avatar`}
+                    className="rounded-full h-8 w-8 mr-2"
+                  />
                   <h1 className="text-2xl font-bold">Team {team.teamNumber}</h1>
                 </Link>
                 <p className="text-lightGray">
-                  <span className="text-white">#1</span> in the{" "}
+                  #1 in the{" "}
                   <span className="text-white">
                     {team.districtCode} District
                   </span>{" "}
-                  scoring a total of{" "}
-                  <span className="text-white">{team.totalPoints}</span> Ranking
-                  Points. <br /> <br />
-                  Within their 2 events, they&apos;ve scored a total of{" "}
-                  {team.event1Points + team.event2Points} points. In{" "}
+                  scoring a total of {team.totalPoints} Ranking Points. <br />{" "}
+                  <br />
+                  {team.teamNumber} has scored a total of{" "}
+                  {team.event1Points + team.event2Points} points at their 2
+                  competitions. In{" "}
                   <Link
                     href={`/events/2023${team.event1Code.toLowerCase()}`}
                     className="text-white"
