@@ -1,7 +1,8 @@
-import { API_URL, CURR_YEAR, HOFTeams } from "@/lib/constants";
+import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "./localStorage";
 import { log } from "./log";
 import { formatTime } from "./time";
+import { HOFTeams } from "@/lib/lists/hallOfFame";
 
 export const findTeam = (teamName: string): any => {
   for (const team of HOFTeams) {
