@@ -4,7 +4,6 @@ import { Header } from "@/components/Header";
 import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { getStorage, setStorage } from "@/utils/localStorage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -34,6 +33,8 @@ export default function InsightsPage({ insights }: any) {
 
     fetchAvatars();
   }, [insights]);
+
+  if (!avatars) return <Loading />;
 
   return (
     <>
