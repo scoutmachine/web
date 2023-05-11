@@ -1,25 +1,11 @@
-import { CURR_YEAR } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 import { NextApiRequest, NextApiResponse } from "next";
+import { districts } from "@/lib/lists/districts";
 
 export default async function getTeamsAndAvatars(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const districts = [
-    "CHS",
-    "FIM",
-    "FIT",
-    "FIN",
-    "ISR",
-    "FMA",
-    "FNC",
-    "NE",
-    "ONT",
-    "PNW",
-    "PCH",
-  ];
-
   const topTeams: any = [];
 
   await Promise.all(
@@ -31,5 +17,5 @@ export default async function getTeamsAndAvatars(
     })
   );
 
-  res.status(200).json({ top: topTeams });
+  res.status(200).json({ top: topTeams.sort() });
 }

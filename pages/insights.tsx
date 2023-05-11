@@ -8,60 +8,32 @@ import { getStorage, setStorage } from "@/utils/localStorage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-async function fetchInsightsData() {
-  const insightsData = getStorage(`insights_${CURR_YEAR}`);
-  if (insightsData) return insightsData;
-
-  const fetchInsights = await fetch(`${API_URL}/api/insights`).then((res) =>
-    res.json()
-  );
-
-  setStorage(`insights_${CURR_YEAR}`, fetchInsights);
-  return insightsData;
-}
-
-export default function InsightsPage() {
-  const [insights, setInsights] = useState<any>();
-  const [avatars, setAvatars] = useState();
+export default function InsightsPage({ insights }: any) {
+  const [avatars, setAvatars] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchInsightsData();
-      setInsights(data);
+    const fetchAvatars = async () => {
+      const teamAvatars: any = {};
+
+      await Promise.all(
+        insights.top.map(async (team: any) => {
+          const data = await fetch(
+            `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+          ).then((res) => res.json());
+
+          try {
+            teamAvatars[team.teamNumber] = data.avatar;
+          } catch {
+            teamAvatars[team.teamNumber] = null;
+          }
+        })
+      );
+
+      setAvatars(teamAvatars);
     };
 
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (insights) {
-      const fetchAvatars = async () => {
-        const teamAvatars: any = {};
-
-        await Promise.all(
-          insights.top.map(async (team: any) => {
-            const data = await fetch(
-              `${API_URL}/api/team/avatar?team=${team.teamNumber}`
-            ).then((res) => res.json());
-
-            try {
-              teamAvatars[team.teamNumber] = data.avatar;
-            } catch {
-              teamAvatars[team.teamNumber] = null;
-            }
-          })
-        );
-
-        setAvatars(teamAvatars);
-      };
-
-      fetchAvatars();
-    }
+    fetchAvatars();
   }, [insights]);
-
-  if (!insights || !avatars) return <Loading />;
-
-  console.log(avatars[118]);
 
   return (
     <>
@@ -127,4 +99,12 @@ export default function InsightsPage() {
       <Footer />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const insightsData = await fetch(`${API_URL}/api/insights`).then((res) =>
+    res.json()
+  );
+
+  return { props: { insights: insightsData } };
 }

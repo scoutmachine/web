@@ -1,11 +1,11 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Navbar } from "@/components/navbar";
-import { HOFTeams } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa";
 import Head from "next/head";
+import { HOFTeams } from "@/lib/lists/hallOfFame";
 
 export default function HOFPage() {
   return (
