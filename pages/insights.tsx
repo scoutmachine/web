@@ -83,7 +83,7 @@ export default function InsightsPage() {
             return (
               <div
                 key={key}
-                className="rounded-lg bg-card py-10 px-10 hover:border-gray-600"
+                className="rounded-lg bg-card py-10 px-10 border border-[#2A2A2A] hover:border-gray-600"
               >
                 <Link href={`/teams/${team.teamNumber}`} className="flex mb-1">
                   <img
@@ -95,9 +95,9 @@ export default function InsightsPage() {
                 </Link>
                 <p className="text-lightGray">
                   #1 in the{" "}
-                  <span className="text-white">
+                  <Link href="/districts" className="text-white">
                     {team.districtCode} District
-                  </span>{" "}
+                  </Link>{" "}
                   scoring a total of {team.totalPoints} Ranking Points. <br />{" "}
                   <br />
                   {team.teamNumber} has scored a total of{" "}
