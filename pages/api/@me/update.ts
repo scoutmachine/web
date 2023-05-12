@@ -3,7 +3,7 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import db from "@/lib/db";
 
-export default async function getTeams(
+export default async function UpdateUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

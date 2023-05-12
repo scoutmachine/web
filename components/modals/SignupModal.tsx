@@ -1,5 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { signIn } from "next-auth/react";

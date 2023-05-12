@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
 import { CURR_YEAR } from "@/lib/constants";
 
-export default async function getTeams(
+export default async function getAllEvents(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

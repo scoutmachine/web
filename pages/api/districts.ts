@@ -1,7 +1,7 @@
 import { fetchFIRST } from "@/lib/fetchFIRST";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function getTeamsAndAvatars(
+export default async function getDistricts(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

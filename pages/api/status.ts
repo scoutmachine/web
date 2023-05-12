@@ -2,7 +2,7 @@ import { CURR_YEAR } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function getTeamsAndAvatars(
+export default async function getStatus(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

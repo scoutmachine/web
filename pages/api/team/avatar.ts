@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
-import { CURR_YEAR } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
-export default async function getTeams(
+export default async function getTeamAvatar(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

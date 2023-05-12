@@ -1,5 +1,5 @@
 import { ListingType } from "@/types/ListingType";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MarketplacePost } from "./marketplace/MarketplacePost";
 
 export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
@@ -30,7 +30,9 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
           onChange={(event) => setListingType(event.target.value)}
           className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm"
         >
-          <option key="filterBy" value="filterBy">filter by</option>
+          <option key="filterBy" value="filterBy">
+            filter by
+          </option>
           {Object.values(ListingType).map((value) => {
             return (
               <option key={value} value={value}>
@@ -40,7 +42,8 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
           })}
         </select>
         <p>
-          {filteredMarketplacePosts.length} {filteredMarketplacePosts.length == 1 ? "posts" : "post"} 
+          {filteredMarketplacePosts.length}{" "}
+          {filteredMarketplacePosts.length == 1 ? "posts" : "post"}
         </p>
       </div>
       {mounted && (

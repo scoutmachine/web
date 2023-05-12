@@ -366,7 +366,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
       include: {
         favourited: true,
-      }
+      },
     });
 
     return { props: { user } };

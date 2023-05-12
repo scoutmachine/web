@@ -1,5 +1,3 @@
-import { getStorage } from "@/utils/localStorage";
-
 const Card = (props: any) => {
   return (
     <div className="border border-[#2A2A2A] bg-card px-5 py-5 rounded-lg flex">

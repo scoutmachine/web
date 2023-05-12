@@ -1,4 +1,3 @@
-import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
 import Image from "next/image";
 import React, { ReactNode, useEffect, useState } from "react";
@@ -13,14 +12,10 @@ import {
   FaUserCircle,
   FaTags,
   FaBolt,
-  FaTwitch,
   FaBars,
   FaChartLine,
 } from "react-icons/fa";
 import { Loading } from "../Loading";
-import { getStorage, setStorage } from "@/utils/localStorage";
-import { formatTime } from "@/utils/time";
-import { log } from "@/utils/log";
 import { useSession } from "next-auth/react";
 import { Dropdown } from "../Dropdown";
 import { SignupModal } from "../modals/SignupModal";

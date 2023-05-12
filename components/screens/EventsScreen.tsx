@@ -6,7 +6,6 @@ import { ReactNode, useEffect, useState } from "react";
 import haversine from "haversine-distance";
 import {
   FaCrosshairs,
-  FaFire,
   FaGlobe,
   FaMapMarkerAlt,
   FaArrowUp,

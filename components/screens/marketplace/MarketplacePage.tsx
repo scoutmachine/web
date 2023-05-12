@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-
 import { FaMoneyBill } from "react-icons/fa";
 
 export const MarketplacePage = (props: any) => {

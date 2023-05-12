@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { API_URL } from "@/lib/constants";
 import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
@@ -62,11 +62,6 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
       method: "POST",
       body: JSON.stringify(data),
     }).then(() => router.reload());
-  };
-
-  const reloadSession = () => {
-    const event = new Event("visibilitychange");
-    document.dispatchEvent(event);
   };
 
   return (

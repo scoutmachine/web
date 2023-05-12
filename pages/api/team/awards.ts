@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
-export default async function getTeams(
+export default async function getTeamAwards(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

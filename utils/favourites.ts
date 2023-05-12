@@ -17,7 +17,10 @@ export const favouriteTeam = async (data: any) => {
   });
 };
 
-export const unfavouriteTeam = async (favouritedTeam: any, noReload?: boolean) => {
+export const unfavouriteTeam = async (
+  favouritedTeam: any,
+  noReload?: boolean
+) => {
   await fetch(`${API_URL}/api/@me/favourites?id=${favouritedTeam[0].id}`, {
     method: "DELETE",
   });
