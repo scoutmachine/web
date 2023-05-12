@@ -110,9 +110,9 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
                 value={listingType}
                 onChange={(e) => setListingType(e.target.value as ListingType)}
               >
-                {Object.values(ListingType).map((value) => (
-                  <option key={value} value={value}>
-                    {value}
+                {Object.entries(ListingType).map((type) => (
+                  <option key={type[0]} value={type[1]}>
+                    {type[1]}
                   </option>
                 ))}
               </select>
