@@ -17,10 +17,10 @@ export const favouriteTeam = async (data: any) => {
   });
 };
 
-export const unfavouriteTeam = async (favouritedTeam: any) => {
+export const unfavouriteTeam = async (favouritedTeam: any, noReload?: boolean) => {
   await fetch(`${API_URL}/api/@me/favourites?id=${favouritedTeam[0].id}`, {
     method: "DELETE",
   });
 
-  router.push(router.pathname);
+  if (!noReload) router.push(router.pathname);
 };

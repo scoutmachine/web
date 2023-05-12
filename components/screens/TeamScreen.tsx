@@ -1,11 +1,13 @@
 import Image from "next/image";
-import { FaAward, FaLink } from "react-icons/fa";
+import { FaAward, FaHeart, FaLink, FaPlus, FaStar } from "react-icons/fa";
 import { Socials } from "../tabs/team/Socials";
 import { useState } from "react";
 import { findTeam } from "@/utils/team";
 import Link from "next/link";
 import { Social } from "../Social";
 import { CURR_YEAR } from "@/lib/constants";
+import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
+import router from "next/router";
 
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
@@ -13,10 +15,20 @@ export const TeamScreen = (props: any) => {
   const currentDistrict = props.district
     ? props.district[props.district.length - 1]
     : null;
+  const [isStarFilled, setIsStarFilled] = useState(false);
+
+  const isFavourited = props.user.favourited?.some(
+    (favouritedTeam: any) =>
+      favouritedTeam.team_number === props.team.team_number
+  );
+  const favouritedTeam = props.user.favourited?.filter(
+    (favouritedTeam: any) =>
+      favouritedTeam.team_number === props.team.team_number
+  );
 
   return (
     <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
-      <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
+      <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10 relative">
         <div className="md:flex">
           {!error ? (
             <Image
@@ -95,6 +107,35 @@ export const TeamScreen = (props: any) => {
             </a>
           )}
           {props.socials && <Socials socials={props.socials} />}
+          <div className="flex justify-end md:absolute md:top-10 md:right-10 flex-col">
+            {props.user.teamNumber === props.team.team_number && (
+              <div className="flex gap-3">
+                <button className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1">
+                  <FaHeart className="mr-2" />
+                  <span>Add Social</span>
+                </button>
+
+                <button
+                  className="text-primary text-sm hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
+                  onClick={() => {
+                    if (isFavourited) {
+                      unfavouriteTeam(favouritedTeam, true);
+                      setIsStarFilled(false);
+                    } else {
+                      setIsStarFilled(true);
+                      favouriteTeam(props.team);
+                    }
+                  }}
+                >
+                  <FaStar className="mr-2" />
+                  <span>
+                    {isStarFilled || isFavourited ? "Unfavourite" : "Favourite"}{" "}
+                    {props.team.team_number}
+                  </span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">

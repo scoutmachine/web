@@ -18,6 +18,9 @@ import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { Session, getServerSession } from "next-auth";
+import { GetServerSideProps } from "next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
@@ -79,7 +82,7 @@ async function fetchTeamData(team: string) {
   return await fetchInfo();
 }
 
-export default function TeamPage() {
+export default function TeamPage({ user }: any) {
   const router = useRouter();
   const { team } = router.query;
   const [teamData, setTeamData] = useState<any>();
@@ -168,6 +171,7 @@ export default function TeamPage() {
           socials={teamData.teamSocials}
           avatar={teamData.teamAvatar}
           district={teamData.teamDistrict}
+          user={user}
         />
 
         <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
@@ -350,3 +354,23 @@ export default function TeamPage() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = (await getServerSession(req, res, authOptions)) as Session;
+
+  if (session) {
+    const user = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user.id,
+      },
+      include: {
+        favourited: true,
+      }
+    });
+
+    return { props: { user } };
+  }
+
+  return { props: {} };
+};
