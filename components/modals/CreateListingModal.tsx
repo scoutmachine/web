@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Modal } from "./Modal";
-import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
 import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
 import { IconType } from "react-icons";
@@ -43,7 +42,6 @@ const ModalHeader = () => {
 };
 
 const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
-  const { data: session } = useSession();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
