@@ -15,6 +15,7 @@ import {
   FaBolt,
   FaTwitch,
   FaBars,
+  FaChartLine,
 } from "react-icons/fa";
 import { Loading } from "../Loading";
 import { getStorage, setStorage } from "@/utils/localStorage";
@@ -43,7 +44,7 @@ const links = [
   { title: "Events", href: "/events", icon: <FaHammer /> },
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
   { title: "Rookie Teams", href: "/rookies", icon: <FaBolt /> },
-  { title: "Game Day", href: "/gameday", icon: <FaTwitch /> },
+  { title: "Insights", href: "/insights", icon: <FaChartLine /> },
   { title: "Marketplace", href: "/marketplace", icon: <FaTags /> },
 ];
 

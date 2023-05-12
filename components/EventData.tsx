@@ -46,14 +46,14 @@ const EventList = (props: any) => {
         >
           <a>
             <span
-              className={`font-bold ${
+              className={` hover:text-primary ${
                 props.didWeWin() === "win" && props.isTeam && "text-green-400"
               } ${
                 props.didWeWin() === "lose" && props.isTeam && "text-red-400"
               } ${
-                props.didWeWin() === "unknown" &&
-                props.isTeam &&
-                "text-lightGray"
+                props.didWeWin() === "unknown" && props.isTeam
+                  ? "text-lightGray"
+                  : "text-white"
               }`}
             >
               {props.search_array(newText, props.match.comp_level)}{" "}
@@ -80,35 +80,61 @@ const EventList = (props: any) => {
           </span>
         </td>
       )}
-      <td className="px-6 py-4">
+      <td
+        className={`px-6 py-4 ${
+          props.match.winning_alliance === "red"
+            ? "text-green-400"
+            : "text-lightGray"
+        }`}
+      >
         <span className="font-bold">
           {props.match.score_breakdown
             ? props.match.score_breakdown.red.totalPoints
             : "?"}{" "}
         </span>
-        <span className="text-lightGray font-regular">
+        <span className="font-regular">
           (
           {props.match.alliances.red.team_keys.includes("frc0")
             ? "TBD"
-            : props.match.alliances.red.team_keys
-                .map((team: any) => team.substring(3))
-                .join(", ")}
+            : props.match.alliances.red.team_keys.map(
+                (team: any, i: number) => (
+                  <>
+                    {i > 0 && ", "}
+                    <Link href={`/teams/${team.substring(3)}`}>
+                      {team.substring(3)}
+                    </Link>
+                  </>
+                )
+              )}
           )
         </span>
       </td>
-      <td className="px-6 py-4">
+      <td
+        className={`px-6 py-4 ${
+          props.match.winning_alliance === "blue"
+            ? "text-green-400"
+            : "text-lightGray"
+        }`}
+      >
         <span className="font-bold">
           {props.match.score_breakdown
             ? props.match.score_breakdown.blue.totalPoints
             : "?"}{" "}
         </span>
-        <span className="text-lightGray font-regular">
+        <span className="font-regular">
           (
           {props.match.alliances.blue.team_keys.includes("frc0")
             ? "TBD"
-            : props.match.alliances.blue.team_keys
-                .map((team: any) => team.substring(3))
-                .join(", ")}
+            : props.match.alliances.blue.team_keys.map(
+                (team: any, i: number) => (
+                  <>
+                    {i > 0 && ", "}
+                    <Link href={`/teams/${team.substring(3)}`}>
+                      {team.substring(3)}
+                    </Link>
+                  </>
+                )
+              )}
           )
         </span>
       </td>
@@ -177,10 +203,10 @@ export const EventData = (props: any) => {
             <thead className="text-xs text-white uppercase">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  VIDEO
+                  Video
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  #
+                  Match #
                 </th>
                 {props.isTeam && (
                   <th scope="col" className="px-6 py-3">
