@@ -118,11 +118,15 @@ const EventList = (props: any) => {
             : "text-lightGray"
         }`}
       >
-        <span className="font-bold">
+        <p className="text-white font-bold">
           {props.match.score_breakdown
             ? props.match.score_breakdown.red.totalPoints
             : "?"}{" "}
-        </span>
+          {props.match.score_breakdown.red.totalPoints === 0 && (
+            <div className="bg-red-400 h-3 w-2 inline-block"></div>
+          )}
+        </p>
+        
         <span className="font-regular">
           (
           {props.match.alliances.red.team_keys.includes("frc0")
@@ -135,7 +139,7 @@ const EventList = (props: any) => {
                       <span
                         className={`hover:text-primary ${
                           team.substring(3) === props.team &&
-                          "text-white font-bold"
+                          "text-white font-semibold"
                         }`}
                       >
                         {team.match(/\d+/)}
@@ -154,11 +158,12 @@ const EventList = (props: any) => {
             : "text-lightGray"
         }`}
       >
-        <span className="font-bold">
+        <span className="text-white font-bold">
           {props.match.score_breakdown
             ? props.match.score_breakdown.blue.totalPoints
             : "?"}{" "}
-        </span>
+        </span>{" "}
+        <br />
         <span className="font-regular">
           (
           {props.match.alliances.blue.team_keys.includes("frc0")
@@ -171,7 +176,7 @@ const EventList = (props: any) => {
                       <span
                         className={`hover:text-primary ${
                           team.substring(3) === props.team &&
-                          "text-white font-bold"
+                          "text-white font-semibold"
                         }`}
                       >
                         {team.match(/\d+/)}

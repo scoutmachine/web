@@ -134,8 +134,8 @@ export const TeamScreen = (props: any) => {
                     <FaStar
                       className={`mr-2 ${
                         isFavourited || isStarFilled
-                          ? "fill-primary group-hover:fill-transparent group-hover:stroke-primary group-hover:stroke-[40px] transition duration-300 popStar"
-                          : "fill-transparent stroke-primary stroke-[40px] group-hover:fill-primary transition duration-300 popStar"
+                          ? "fill-primary group-hover:fill-transparent group-hover:stroke-primary group-hover:stroke-[40px] transition duration-300 group-hover:transform group-hover:scale-[1.2]"
+                          : "fill-transparent stroke-primary stroke-[40px] group-hover:fill-primary transition duration-300 group-hover:transform group-hover:scale-[1.2]"
                       }`}
                     />
                     <span>

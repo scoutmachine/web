@@ -21,7 +21,7 @@ export const AwardsTab = (props: any) => {
             <AnimatePresence>
               {filteredAwards
                 .reverse()
-                .slice(0, props.showAll ? props.team.teamAwards.length : 14)
+                .slice(0, props.showAll ? props.team.teamAwards.length : 20)
                 .map((award: any, key: number) => {
                   return (
                     <motion.div
@@ -51,7 +51,7 @@ export const AwardsTab = (props: any) => {
                           </span>{" "}
                           <br />
                           <span className="italic font-black group-hover:text-primary">
-                            {award.name}
+                            {award.name.replace("District", "")}
                           </span>
                         </div>
                       </Link>
@@ -62,12 +62,12 @@ export const AwardsTab = (props: any) => {
                 })}
             </AnimatePresence>
           </div>
-          {filteredAwards.length > 14 && (
+          {filteredAwards.length > 20 && (
             <h1 className="text-lightGray italic font-semibold text-sm mb-5">
               {props.showAll
                 ? ""
                 : `(${
-                    filteredAwards.length - 14
+                    filteredAwards.length - 20
                   } more events won that aren't shown -`}{" "}
               <span
                 onClick={() => props.setShowAll(!props.showAll)}
