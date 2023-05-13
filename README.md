@@ -1,5 +1,3 @@
 # Scout Machine
 
-##### Sponsored By
-
-<img src="/public/powered-by-vercel.svg" height="30">
+<img src="/public/powered-by-vercel.svg" height="50">

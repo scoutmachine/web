@@ -11,6 +11,7 @@ export const Tooltip = (props: {
   children: ReactNode;
 }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -31,18 +32,36 @@ export const Tooltip = (props: {
           props.content ?? (
             <>
               <div className="flex items-center justify-center">
-                <Image
-                  className="rounded-lg mr-5 w-6 mb-2"
-                  alt={`Team ${props.team.team_number} Avatar`}
-                  height="25"
-                  width="25"
-                  priority={true}
-                  src={
-                    props.avatar
-                      ? `data:image/jpeg;base64,${props.avatar}`
-                      : "/first-icon.svg"
-                  }
-                />
+                {!error ? (
+                  <Image
+                    className="rounded-lg mr-5 w-6 mb-2"
+                    alt={`Team ${props.team.team_number} Avatar`}
+                    height="25"
+                    width="25"
+                    priority={true}
+                    src={
+                      props.avatar
+                        ? `data:image/jpeg;base64,${props.avatar}`
+                        : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                            props.team.website?.startsWith("https")
+                              ? props.team.website
+                              : `https://${props.team.website?.slice(7)}`
+                          }/&size=64`
+                    }
+                    onError={() => {
+                      setError(true);
+                    }}
+                  />
+                ) : (
+                  <Image
+                    className="rounded-lg mr-5 w-6 mb-2"
+                    height="40"
+                    width="40"
+                    alt={`Team ${props.team.team_number} Avatar`}
+                    priority={true}
+                    src="/first-icon.svg"
+                  />
+                )}
               </div>
               <p className="text-center text-white">
                 <span className="font-bold">Team {props.team.team_number}</span>{" "}
