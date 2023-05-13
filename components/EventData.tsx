@@ -92,22 +92,7 @@ const EventList = (props: any) => {
               }`}
             >
               {props.findAlliances().alliance}
-            </span>{" "}
-            {props.isTeam && epa && totalPoints && (
-              <p>
-                ({Number(epa).toFixed(1)} EPA{" "}
-                <span className="text-white">
-                  {totalPoints - epa > 0
-                    ? `+${(totalPoints - epa).toFixed(1)}pts`
-                    : `${(totalPoints - epa).toFixed(1)}pts`}
-                  )
-                  <br />
-                  <span className="uppercase text-xs text-lightGray">
-                    {totalPoints - epa > 0 ? "Outperformed" : "Underperformed"}
-                  </span>
-                </span>
-              </p>
-            )}
+            </span>
           </span>
         </td>
       )}
@@ -118,13 +103,29 @@ const EventList = (props: any) => {
             : "text-lightGray"
         }`}
       >
-        <p className="text-white font-bold">
+        <p className="text-white font-bold mb-1">
           {props.match.score_breakdown
             ? props.match?.score_breakdown?.red?.totalPoints
             : "?"}{" "}
           {props.match?.score_breakdown?.red?.totalPoints === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
           )}
+          <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
+            {json.redEPA} EPA
+          </span>{" "}
+          <br />
+          <p className="text-xs text-lightGray mt-1">
+            {totalPoints - json.redEPA > 0 ? (
+              <span className="text-green-400">
+                +{(totalPoints - json.redEPA).toFixed(1)}pts
+              </span>
+            ) : (
+              <span className="text-red-400">
+                {(totalPoints - json.redEPA).toFixed(1)}pts
+              </span>
+            )}{" "}
+            • {totalPoints - epa > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+          </p>
         </p>
 
         <span className="font-regular">
@@ -147,6 +148,10 @@ const EventList = (props: any) => {
                             props.match.alliances.red.dq_team_keys.includes(
                               team
                             ) && "line-through text-red-400 hover:text-primary"
+                          } ${
+                            props.match?.alliances?.red?.surrogate_team_keys.includes(
+                              team
+                            ) && "underline decoration-dotted"
                           }`}
                         >
                           {team.match(/\d+/)}
@@ -171,12 +176,31 @@ const EventList = (props: any) => {
             : "text-lightGray"
         }`}
       >
-        <span className="text-white font-bold">
+        <p className="text-white font-bold mb-1">
           {props.match.score_breakdown
-            ? props.match.score_breakdown.blue.totalPoints
+            ? props.match?.score_breakdown?.blue?.totalPoints
             : "?"}{" "}
-        </span>{" "}
-        <br />
+          {props.match?.score_breakdown?.blue?.totalPoints === 0 && (
+            <div className="bg-red-400 h-3 w-2 inline-block"></div>
+          )}
+          <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
+            {json.blueEPA} EPA
+          </span>{" "}
+          <br />
+          <p className="text-xs text-lightGray mt-1">
+            {totalPoints - json.blueEPA > 0 ? (
+              <span className="text-green-400">
+                +{(totalPoints - json.blueEPA).toFixed(1)}pts
+              </span>
+            ) : (
+              <span className="text-red-400">
+                {(totalPoints - json.blueEPA).toFixed(1)}pts
+              </span>
+            )}{" "}
+            • {totalPoints - epa > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+          </p>
+        </p>
+
         <span className="font-regular">
           (
           {props.match.alliances.blue.team_keys.includes("frc0")
@@ -196,7 +220,11 @@ const EventList = (props: any) => {
                           className={`${
                             props.match?.alliances?.blue?.dq_team_keys.includes(
                               team
-                            ) && "line-through text-red-400"
+                            ) && "line-through text-red-400 hover:text-primary"
+                          } ${
+                            props.match?.alliances?.blue?.surrogate_team_keys.includes(
+                              team
+                            ) && "underline decoration-dotted"
                           }`}
                         >
                           {team.match(/\d+/)}
@@ -292,9 +320,9 @@ export const EventData = (props: any) => {
     <>
       {isClient && (
         <div className="relative overflow-x-auto">
-          {props.isTeam && (
-            <div className="flex flex-col md:flex-row gap-3 w-full mt-3 md:mt-5">
-              {props.playlists[props.event.event_code].length > 0 && (
+          <div className="flex flex-col md:flex-row gap-3 w-full mt-3 md:mt-5">
+            {props.isTeam &&
+              props.playlists[props.event.event_code].length > 0 && (
                 <div className="border border-[#2a2a2a] bg-[#191919] text-red-500 px-5 py-3 rounded-lg">
                   <a
                     href={`https://youtube.com/watch_videos?video_ids=${props.playlists[
@@ -307,19 +335,21 @@ export const EventData = (props: any) => {
                   </a>
                 </div>
               )}
-              <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray px-5 py-3 rounded-lg">
-                <span className="text-green-400">Win</span> /{" "}
-                <span className="text-red-400">Loss</span> /{" "}
-                <span className="text-lightGray">Unknown</span> /{" "}
-                <span className="text-red-400 line-through">Disqualified</span>{" "}
-                /{" "}
-                <span className="text-red-400">
-                  <div className="bg-red-400 h-3 w-2 inline-block ml-1"></div>{" "}
-                  Red Card
-                </span>
-              </div>
+            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray px-5 py-3 rounded-lg">
+              <span className="text-green-400">Win</span> /{" "}
+              <span className="text-red-400">Loss</span> /{" "}
+              <span className="text-lightGray">Unknown</span> /{" "}
+              <span className="text-red-400 line-through">Disqualified</span> /{" "}
+              <span className="text-red-400">
+                <div className="bg-red-400 h-3 w-2 inline-block ml-1"></div> Red
+                Card
+              </span>{" "}
+              /{" "}
+              <span className="text-lightGray underline decoration-dotted">
+                Surrogate Team
+              </span>
             </div>
-          )}
+          </div>
 
           <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
             <thead className="text-xs text-white uppercase">
