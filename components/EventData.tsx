@@ -100,8 +100,12 @@ const EventList = (props: any) => {
                   {totalPoints - epa > 0
                     ? `+${(totalPoints - epa).toFixed(1)}pts`
                     : `${(totalPoints - epa).toFixed(1)}pts`}
+                  )
+                  <br />
+                  <span className="uppercase text-xs text-lightGray">
+                    {totalPoints - epa > 0 ? "Outperformed" : "Underperformed"}
+                  </span>
                 </span>
-                )
               </p>
             )}
           </span>
@@ -128,7 +132,14 @@ const EventList = (props: any) => {
                   <>
                     {i > 0 && ", "}
                     <Link href={`/teams/${team.substring(3)}`}>
-                      {team.substring(3)}
+                      <span
+                        className={`hover:text-primary ${
+                          team.substring(3) === props.team &&
+                          "text-white font-bold"
+                        }`}
+                      >
+                        {team.substring(3)}
+                      </span>
                     </Link>
                   </>
                 )
@@ -157,7 +168,14 @@ const EventList = (props: any) => {
                   <>
                     {i > 0 && ", "}
                     <Link href={`/teams/${team.substring(3)}`}>
-                      {team.substring(3)}
+                      <span
+                        className={`hover:text-primary ${
+                          team.substring(3) === props.team &&
+                          "text-white font-bold"
+                        }`}
+                      >
+                        {team.substring(3)}
+                      </span>
                     </Link>
                   </>
                 )
@@ -286,6 +304,7 @@ export const EventData = (props: any) => {
                       key={key}
                       isTeam={props.isTeam}
                       epas={matchEPAs}
+                      team={props.team}
                     />
                   );
                 })}
@@ -309,6 +328,7 @@ export const EventData = (props: any) => {
                       key={key}
                       isTeam={props.isTeam}
                       epas={matchEPAs}
+                      team={props.team}
                     />
                   );
                 })}
@@ -330,6 +350,7 @@ export const EventData = (props: any) => {
                       key={key}
                       isTeam={props.isTeam}
                       epas={matchEPAs}
+                      team={props.team}
                     />
                   );
                 })}

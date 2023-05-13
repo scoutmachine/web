@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Social } from "../Social";
 import { CURR_YEAR } from "@/lib/constants";
 import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
+import { useSession } from "next-auth/react";
 
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
@@ -15,6 +16,7 @@ export const TeamScreen = (props: any) => {
     ? props.district[props.district.length - 1]
     : null;
   const [isStarFilled, setIsStarFilled] = useState(false);
+  const { data: session } = useSession();
 
   const isFavourited = props.user?.favourited?.some(
     (favouritedTeam: any) =>
@@ -108,15 +110,17 @@ export const TeamScreen = (props: any) => {
             )}
             {props.socials && <Socials socials={props.socials} />}
             <div className="flex justify-end md:absolute md:top-0 md:right-0 flex-col">
-              {props.user?.teamNumber === props.team.team_number && (
-                <div className="flex gap-3">
+              <div className="flex gap-3">
+                {props.user?.teamNumber === props.team.team_number && (
                   <button className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1">
                     <FaHeart className="mr-2" />
                     <span>Add Social</span>
                   </button>
+                )}
 
+                {session && (
                   <button
-                    className="text-primary text-sm hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
+                    className="group text-primary text-sm transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
                     onClick={() => {
                       if (isFavourited) {
                         unfavouriteTeam(favouritedTeam, true);
@@ -127,7 +131,13 @@ export const TeamScreen = (props: any) => {
                       }
                     }}
                   >
-                    <FaStar className="mr-2" />
+                    <FaStar
+                      className={`mr-2 ${
+                        isFavourited || isStarFilled
+                          ? "fill-primary group-hover:fill-transparent group-hover:stroke-primary group-hover:stroke-[40px] transition duration-300 popStar"
+                          : "fill-transparent stroke-primary stroke-[40px] group-hover:fill-primary transition duration-300 popStar"
+                      }`}
+                    />
                     <span>
                       {isStarFilled || isFavourited
                         ? "Unfavourite"
@@ -135,8 +145,8 @@ export const TeamScreen = (props: any) => {
                       {props.team.team_number}
                     </span>
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
