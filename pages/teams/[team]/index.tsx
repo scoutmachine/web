@@ -253,7 +253,7 @@ export default function TeamPage({ user }: any) {
             </div>
 
             {loading && ![1, 2].includes(activeTab) && (
-              <p className="text-gray-400 mt-5">Loading...</p>
+              <p className="text-gray-400 mt-5">Loading {activeTab} Season...</p>
             )}
 
             {activeTab === 1 && <AboutTab team={teamData} />}
@@ -341,6 +341,7 @@ export default function TeamPage({ user }: any) {
                             data={matchData[event.event_code]}
                             team={team}
                             isTeam={true}
+                            setLoading={setLoading}
                           />
                         )}
                       </div>

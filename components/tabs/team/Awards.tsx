@@ -44,15 +44,16 @@ export const AwardsTab = (props: any) => {
                         href={`/events/${
                           award.year
                         }${award.eventCode.toLowerCase()}`}
-                        legacyBehavior
                       >
-                        <a>
-                          <div className="award-name mt-5 mb-3">
-                            <span className="italic font-black text-white hover:text-primary">
-                              {award.name}
-                            </span>
-                          </div>
-                        </a>
+                        <div className="award-name mt-3 mb-3 group text-white">
+                          <span className="text-xs group-hover:text-primary">
+                            {award.eventCode}
+                          </span>{" "}
+                          <br />
+                          <span className="italic font-black group-hover:text-primary">
+                            {award.name}
+                          </span>
+                        </div>
                       </Link>
 
                       <div className="award-event">{award.year}</div>

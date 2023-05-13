@@ -2,7 +2,7 @@ import { CURR_YEAR } from "@/lib/constants";
 import { convertDate } from "@/utils/date";
 import Link from "next/link";
 import { Search } from "../Search";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import haversine from "haversine-distance";
 import {
   FaCrosshairs,
@@ -71,8 +71,9 @@ export const EventsScreen = (props: any) => {
 
   const today = new Date();
   const newToday = today.toISOString().split("T")[0];
-
   today.setHours(0, 0, 0, 0);
+
+  const weekDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (nearbyRange === "") {
@@ -139,6 +140,20 @@ export const EventsScreen = (props: any) => {
     }
   }, [props.events, nearbyRange, filterByAddress, address]);
 
+  useEffect(() => {
+    const closeWeekDropdown = (event: MouseEvent) => {
+      if (
+        weekDropdownRef.current &&
+        !weekDropdownRef.current.contains(event.target as Node)
+      ) {
+        setWeekDropDown(false);
+      }
+    };
+
+    if (weekDropDown) document.addEventListener("click", closeWeekDropdown);
+    return () => document.removeEventListener("click", closeWeekDropdown);
+  }, [weekDropDown]);
+
   const renderEventsSection = (
     filterCondition: any,
     title: string | ReactNode
@@ -177,7 +192,6 @@ export const EventsScreen = (props: any) => {
     </div>
   );
 
-  console.log(weekQuery);
   return (
     <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">
@@ -225,7 +239,7 @@ export const EventsScreen = (props: any) => {
               placeholder="Search all events..."
               onChange={(e: any) => setSearchQuery(e.target.value)}
             />
-            <div className="relative ml-3">
+            <div className="relative ml-3" ref={weekDropdownRef}>
               {" "}
               <div
                 className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${

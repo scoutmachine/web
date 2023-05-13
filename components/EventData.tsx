@@ -35,8 +35,8 @@ const EventList = (props: any) => {
     props.findAlliances().alliance === "Red" ? json.redEPA : json.blueEPA;
   const totalPoints =
     props.findAlliances().alliance === "Red"
-      ? props.match.score_breakdown.red.totalPoints
-      : props.match.score_breakdown.blue.totalPoints;
+      ? props.match?.score_breakdown?.red?.totalPoints
+      : props.match?.score_breakdown?.blue?.totalPoints;
 
   return (
     <tr className="text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]">
@@ -93,7 +93,7 @@ const EventList = (props: any) => {
             >
               {props.findAlliances().alliance}
             </span>{" "}
-            {props.isTeam && (
+            {props.isTeam && epa && totalPoints && (
               <p>
                 ({Number(epa).toFixed(1)} EPA{" "}
                 <span className="text-white">
@@ -232,6 +232,12 @@ export const EventData = (props: any) => {
       return "lose";
     }
   };
+
+  if (!matchEPAs) {
+    props.setLoading(true);
+  } else {
+    props.setLoading(false);
+  }
 
   return (
     <>
