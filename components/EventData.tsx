@@ -120,13 +120,13 @@ const EventList = (props: any) => {
       >
         <p className="text-white font-bold">
           {props.match.score_breakdown
-            ? props.match.score_breakdown.red.totalPoints
+            ? props.match?.score_breakdown?.red?.totalPoints
             : "?"}{" "}
-          {props.match.score_breakdown.red.totalPoints === 0 && (
+          {props.match?.score_breakdown?.red?.totalPoints === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
           )}
         </p>
-        
+
         <span className="font-regular">
           (
           {props.match.alliances.red.team_keys.includes("frc0")
@@ -142,7 +142,20 @@ const EventList = (props: any) => {
                           "text-white font-semibold"
                         }`}
                       >
-                        {team.match(/\d+/)}
+                        <span
+                          className={`${
+                            props.match.alliances.red.dq_team_keys.includes(
+                              team
+                            ) && "line-through text-red-400 hover:text-primary"
+                          }`}
+                        >
+                          {team.match(/\d+/)}
+                        </span>
+                        {props.match?.alliances?.red?.dq_team_keys?.includes(
+                          team
+                        ) && (
+                          <div className="bg-red-400 h-3 w-2 inline-block ml-1"></div>
+                        )}
                       </span>
                     </Link>
                   </>
@@ -179,7 +192,20 @@ const EventList = (props: any) => {
                           "text-white font-semibold"
                         }`}
                       >
-                        {team.match(/\d+/)}
+                        <span
+                          className={`${
+                            props.match?.alliances?.blue?.dq_team_keys.includes(
+                              team
+                            ) && "line-through text-red-400"
+                          }`}
+                        >
+                          {team.match(/\d+/)}
+                        </span>
+                        {props.match.alliances.blue.dq_team_keys.includes(
+                          team
+                        ) && (
+                          <div className="bg-red-400 h-3 w-2 inline-block ml-1"></div>
+                        )}
                       </span>
                     </Link>
                   </>
@@ -267,12 +293,34 @@ export const EventData = (props: any) => {
       {isClient && (
         <div className="relative overflow-x-auto">
           {props.isTeam && (
-            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray mt-5 px-5 py-3 rounded-lg">
-              <span className="text-green-400">Win</span> /{" "}
-              <span className="text-red-400">Loss</span> /{" "}
-              <span className="text-lightGray">Unknown</span>
+            <div className="flex flex-col md:flex-row gap-3 w-full mt-3 md:mt-5">
+              {props.playlists[props.event.event_code].length > 0 && (
+                <div className="border border-[#2a2a2a] bg-[#191919] text-red-500 px-5 py-3 rounded-lg">
+                  <a
+                    href={`https://youtube.com/watch_videos?video_ids=${props.playlists[
+                      props.event.event_code
+                    ].join(",")}&title=${props.event.name}`}
+                    target="_blank"
+                  >
+                    <FaYoutube className="mr-1 inline-block text-xl mb-[3px]" />{" "}
+                    Watch All Matches
+                  </a>
+                </div>
+              )}
+              <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray px-5 py-3 rounded-lg">
+                <span className="text-green-400">Win</span> /{" "}
+                <span className="text-red-400">Loss</span> /{" "}
+                <span className="text-lightGray">Unknown</span> /{" "}
+                <span className="text-red-400 line-through">Disqualified</span>{" "}
+                /{" "}
+                <span className="text-red-400">
+                  <div className="bg-red-400 h-3 w-2 inline-block ml-1"></div>{" "}
+                  Red Card
+                </span>
+              </div>
             </div>
           )}
+
           <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
             <thead className="text-xs text-white uppercase">
               <tr>

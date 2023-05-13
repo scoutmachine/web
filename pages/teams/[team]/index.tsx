@@ -253,7 +253,9 @@ export default function TeamPage({ user }: any) {
             </div>
 
             {loading && ![1, 2].includes(activeTab) && (
-              <p className="text-gray-400 mt-5">Loading {activeTab} Season...</p>
+              <p className="text-gray-400 mt-5">
+                Loading {activeTab} Season...
+              </p>
             )}
 
             {activeTab === 1 && <AboutTab team={teamData} />}
@@ -275,6 +277,26 @@ export default function TeamPage({ user }: any) {
                     return bTimestamp - aTimestamp;
                   })
                   .map((event: any, key: number) => {
+                    const playlists: any = {};
+
+                    eventData.forEach((event: any) => {
+                      const eventCode = event.event_code;
+
+                      matchData[eventCode].forEach((match: any) => {
+                        if (!playlists[eventCode]) {
+                          playlists[eventCode] = [];
+                        }
+                        if (match.videos) {
+                          match.videos
+                            .filter((video: any) => video.type === "youtube")
+                            .forEach((video: any) => {
+                              if (video.key)
+                                playlists[eventCode].push(video.key);
+                            });
+                        }
+                      });
+                    });
+
                     return (
                       <div
                         key={key}
@@ -342,6 +364,8 @@ export default function TeamPage({ user }: any) {
                             team={team}
                             isTeam={true}
                             setLoading={setLoading}
+                            event={event}
+                            playlists={playlists}
                           />
                         )}
                       </div>
