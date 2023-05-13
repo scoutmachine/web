@@ -21,6 +21,7 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 import { Session, getServerSession } from "next-auth";
 import { GetServerSideProps } from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import db from "@/lib/db";
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
