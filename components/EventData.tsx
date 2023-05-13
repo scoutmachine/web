@@ -124,7 +124,7 @@ const EventList = (props: any) => {
                 {(totalPoints - json.redEPA).toFixed(1)}pts
               </span>
             )}{" "}
-            • {totalPoints - epa > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            • {totalPoints - json.redEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
           </p>
         </p>
 
@@ -197,7 +197,7 @@ const EventList = (props: any) => {
                 {(totalPoints - json.blueEPA).toFixed(1)}pts
               </span>
             )}{" "}
-            • {totalPoints - epa > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            • {totalPoints - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
           </p>
         </p>
 
