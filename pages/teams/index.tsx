@@ -4,7 +4,7 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { useState, useEffect, useRef } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
-import { FaHome, FaSearch } from "react-icons/fa";
+import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "@/components/Loading";
@@ -13,6 +13,7 @@ import { log } from "@/utils/log";
 import { teamNumberInRange } from "@/utils/team";
 import { FilterNumber } from "@/components/FilterNumber";
 import { fetchTeamsData as fetchTeams } from "@/utils/team";
+import exportFromJSON from "export-from-json";
 
 async function fetchTeamsData(
   startIndex: number,
@@ -249,6 +250,22 @@ export default function TeamsPage() {
                 range="9000-9999"
                 setTeamNumberRange={setTeamNumberRange}
               />
+            </div>
+
+            <div>
+              <button
+                className="mt-2 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-white transition-all duration-150"
+                onClick={() => {
+                  exportFromJSON({
+                    data: getStorage(`teams_${CURR_YEAR}`),
+                    fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
+                    exportType: exportFromJSON.types.csv,
+                  });
+                }}
+              >
+                <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" />{" "}
+                Export Data (CSV)
+              </button>
             </div>
           </Header>
 

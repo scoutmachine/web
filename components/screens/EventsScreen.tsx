@@ -9,8 +9,11 @@ import {
   FaGlobe,
   FaMapMarkerAlt,
   FaArrowUp,
+  FaFileCsv,
 } from "react-icons/fa";
 import { getGeoData } from "@/utils/geo";
+import exportFromJSON from "export-from-json";
+import { getStorage } from "@/utils/localStorage";
 
 const Event = (props: any) => {
   return (
@@ -284,6 +287,20 @@ export const EventsScreen = (props: any) => {
             </div>
           </div>
         )}
+
+        <button
+          className="mt-5 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-white transition-all duration-150"
+          onClick={() => {
+            exportFromJSON({
+              data: getStorage(`events_${CURR_YEAR}`),
+              fileName: `Events__ScoutMachine_${CURR_YEAR}`,
+              exportType: exportFromJSON.types.csv,
+            });
+          }}
+        >
+          <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" /> Export
+          Data (CSV)
+        </button>
       </div>
 
       {weekQuery &&
