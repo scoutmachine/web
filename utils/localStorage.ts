@@ -21,10 +21,7 @@ export const setStorage = (key: string, value: string, ttl?: number) => {
 
 export const getStorage = (key: string) => {
   const item = localStorage.getItem(key);
-
-  if (!item) {
-    return null;
-  }
+  if (!item) return null;
 
   const data = JSON.parse(item);
   const now = new Date();

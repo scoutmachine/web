@@ -1,6 +1,8 @@
+import { API_URL } from "@/lib/constants";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaYoutube, FaTimes } from "react-icons/fa";
+import { Loading } from "./Loading";
 
 const newText = [
   {
@@ -22,6 +24,20 @@ const newText = [
 ];
 
 const EventList = (props: any) => {
+  if (!props.epas) return <Loading />;
+
+  const json =
+    props.epas && props.epas[props.match.key]
+      ? JSON.parse(JSON.stringify(props.epas[props.match.key]))
+      : "";
+
+  const epa =
+    props.findAlliances().alliance === "Red" ? json.redEPA : json.blueEPA;
+  const totalPoints =
+    props.findAlliances().alliance === "Red"
+      ? props.match.score_breakdown.red.totalPoints
+      : props.match.score_breakdown.blue.totalPoints;
+
   return (
     <tr className="text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]">
       <td className="px-6 py-4">
@@ -77,6 +93,17 @@ const EventList = (props: any) => {
             >
               {props.findAlliances().alliance}
             </span>{" "}
+            {props.isTeam && (
+              <p>
+                ({Number(epa).toFixed(1)} EPA{" "}
+                <span className="text-white">
+                  {totalPoints - epa > 0
+                    ? `+${(totalPoints - epa).toFixed(1)}pts`
+                    : `${(totalPoints - epa).toFixed(1)}pts`}
+                </span>
+                )
+              </p>
+            )}
           </span>
         </td>
       )}
@@ -144,6 +171,7 @@ const EventList = (props: any) => {
 
 export const EventData = (props: any) => {
   const [isClient, setIsClient] = useState(false);
+  const [matchEPAs, setMatchEPAs] = useState([]);
 
   function search_array(array: any, valuetofind: any) {
     for (let i = 0; i < array.length; i++) {
@@ -155,7 +183,24 @@ export const EventData = (props: any) => {
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+
+    const fetchEPAs = async () => {
+      const matches: any = {};
+
+      await Promise.all(
+        props.data.map(async (match: any) => {
+          const data = await fetch(
+            `${API_URL}/api/match/epa?match=${match.key}`
+          ).then((res) => res.json());
+          matches[match.key] = data;
+        })
+      );
+
+      setMatchEPAs(matches);
+    };
+
+    fetchEPAs();
+  }, [props.data]);
 
   const findAlliances = (match: any) => {
     if (match.alliances.blue.team_keys.includes(`frc${props.team}`)) {
@@ -234,6 +279,7 @@ export const EventData = (props: any) => {
                       search_array={search_array}
                       key={key}
                       isTeam={props.isTeam}
+                      epas={matchEPAs}
                     />
                   );
                 })}
@@ -256,6 +302,7 @@ export const EventData = (props: any) => {
                       search_array={search_array}
                       key={key}
                       isTeam={props.isTeam}
+                      epas={matchEPAs}
                     />
                   );
                 })}
@@ -276,6 +323,7 @@ export const EventData = (props: any) => {
                       search_array={search_array}
                       key={key}
                       isTeam={props.isTeam}
+                      epas={matchEPAs}
                     />
                   );
                 })}
