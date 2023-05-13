@@ -16,11 +16,11 @@ export const TeamScreen = (props: any) => {
     : null;
   const [isStarFilled, setIsStarFilled] = useState(false);
 
-  const isFavourited = props.user.favourited?.some(
+  const isFavourited = props.user?.favourited?.some(
     (favouritedTeam: any) =>
       favouritedTeam.team_number === props.team.team_number
   );
-  const favouritedTeam = props.user.favourited?.filter(
+  const favouritedTeam = props.user?.favourited?.filter(
     (favouritedTeam: any) =>
       favouritedTeam.team_number === props.team.team_number
   );
@@ -108,7 +108,7 @@ export const TeamScreen = (props: any) => {
             )}
             {props.socials && <Socials socials={props.socials} />}
             <div className="flex justify-end md:absolute md:top-0 md:right-0 flex-col">
-              {props.user.teamNumber === props.team.team_number && (
+              {props.user?.teamNumber === props.team.team_number && (
                 <div className="flex gap-3">
                   <button className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1">
                     <FaHeart className="mr-2" />
