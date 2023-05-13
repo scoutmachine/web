@@ -14,6 +14,7 @@ import { teamNumberInRange } from "@/utils/team";
 import { FilterNumber } from "@/components/FilterNumber";
 import { fetchTeamsData as fetchTeams } from "@/utils/team";
 import exportFromJSON from "export-from-json";
+import Link from "next/link";
 
 async function fetchTeamsData(
   startIndex: number,
@@ -78,6 +79,9 @@ async function fetchTeamsData(
 }
 
 export default function TeamsPage() {
+  const [isClient, setIsClient] = useState(false);
+  const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
+  const [time, setTime] = useState<any>();
   const [teams, setTeams] = useState<any>([]);
   const [query, setQuery] = useState("");
   const [avatars, setAvatars] = useState<any>();
@@ -90,6 +94,7 @@ export default function TeamsPage() {
   const loadingScreenShown = useRef(false);
 
   useEffect(() => {
+    setIsClient(true);
     const handleScroll = () => {
       const scrollPosition = window.innerHeight + window.pageYOffset;
       const contentHeight = document.documentElement.scrollHeight;
@@ -161,6 +166,25 @@ export default function TeamsPage() {
     }
   }, [endIndex, query, startIndex, teamNumberRange]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const interval = setInterval(() => {
+        const time = new Date().toLocaleTimeString("en-GB", {
+          hour: "numeric",
+          minute: "2-digit",
+        });
+        setTime(time);
+        setTeamExistsByTime(
+          getStorage(`teams_${CURR_YEAR}`).filter(
+            (team: any) => team.team_number === Number(time.replace(":", ""))
+          )[0]
+        );
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, []);
+
   if (isLoading && !loadingScreenShown.current) {
     loadingScreenShown.current = true;
     return <Loading />;
@@ -168,118 +192,131 @@ export default function TeamsPage() {
 
   return (
     <>
-      <>
-        <Head>
-          <title>Teams | Scout Machine</title>
-        </Head>
-        <Navbar active="Teams" />
+      {isClient && (
+        <>
+          <Head>
+            <title>Teams | Scout Machine</title>
+          </Head>
+          <Navbar active="Teams" />
 
-        <div className="flex flex-col">
-          <Header
-            title="Teams"
-            desc="Unleash the excitement of FRC with a new way to discover teams"
-          >
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search teams (team #, location, name)..."
-                value={query}
-                onChange={changeSearch}
-                spellCheck="false"
-                className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
-              />
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
-                <FaSearch className="text-sm text-lightGray" />
-              </span>
-            </div>
+          <div className="flex flex-col">
+            <Header
+              title="Teams"
+              desc="Unleash the excitement of FRC with a new way to discover teams"
+            >
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search teams (team #, location, name)..."
+                  value={query}
+                  onChange={changeSearch}
+                  spellCheck="false"
+                  className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
+                />
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
+                  <FaSearch className="text-sm text-lightGray" />
+                </span>
+              </div>
+              <div className="mt-3 gap-2 flex flex-wrap">
+                <FilterNumber
+                  name={<FaHome />}
+                  reload
+                  range=""
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="999s"
+                  range="1-999"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="1000s"
+                  range="1000-2000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="2000s"
+                  range="2000-3000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="3000s"
+                  range="3000-4000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="4000s"
+                  range="4000-5000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="5000s"
+                  range="5000-6000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="6000s"
+                  range="6000-7000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="7000s"
+                  range="7000-8000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="8000s"
+                  range="8000-0000"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+                <FilterNumber
+                  name="9000s"
+                  range="9000-9999"
+                  setTeamNumberRange={setTeamNumberRange}
+                />
+              </div>
+              <div>
+                <button
+                  className="mt-2 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-white transition-all duration-150"
+                  onClick={() => {
+                    exportFromJSON({
+                      data: getStorage(`teams_${CURR_YEAR}`),
+                      fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
+                      exportType: exportFromJSON.types.csv,
+                    });
+                  }}
+                >
+                  <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" />{" "}
+                  Export Data (CSV)
+                </button>
+              </div>{" "}
+              <br />
+              {teamExistsByTime && (
+                <div>
+                  <b className="text-primary">Looks like the time is {time}.</b>{" "}
+                  <Link
+                    className="hover:text-primary"
+                    href={`/teams/${teamExistsByTime.team_number}`}
+                  >
+                    Perhaps check out {teamExistsByTime.team_number} |{" "}
+                    {teamExistsByTime.nickname}?
+                  </Link>
+                </div>
+              )}
+            </Header>
 
-            <div className="mt-3 gap-2 flex flex-wrap">
-              <FilterNumber
-                name={<FaHome />}
-                reload
-                range=""
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="999s"
-                range="1-999"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="1000s"
-                range="1000-2000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="2000s"
-                range="2000-3000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="3000s"
-                range="3000-4000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="4000s"
-                range="4000-5000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="5000s"
-                range="5000-6000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="6000s"
-                range="6000-7000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="7000s"
-                range="7000-8000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="8000s"
-                range="8000-0000"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-              <FilterNumber
-                name="9000s"
-                range="9000-9999"
-                setTeamNumberRange={setTeamNumberRange}
-              />
-            </div>
-
-            <div>
-              <button
-                className="mt-2 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-white transition-all duration-150"
-                onClick={() => {
-                  exportFromJSON({
-                    data: getStorage(`teams_${CURR_YEAR}`),
-                    fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
-                    exportType: exportFromJSON.types.csv,
-                  });
-                }}
-              >
-                <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" />{" "}
-                Export Data (CSV)
-              </button>
-            </div>
-          </Header>
-
-          <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
-            <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {teams.map((team: any, key: number) => {
-                return <TeamCard key={key} team={team} avatars={avatars} />;
-              })}
+            <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
+              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {teams.map((team: any, key: number) => {
+                  return <TeamCard key={key} team={team} avatars={avatars} />;
+                })}
+              </div>
             </div>
           </div>
-        </div>
 
-        <Footer />
-      </>
+          <Footer />
+        </>
+      )}
     </>
   );
 }
