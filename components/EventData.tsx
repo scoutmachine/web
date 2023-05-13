@@ -138,7 +138,7 @@ const EventList = (props: any) => {
                           "text-white font-bold"
                         }`}
                       >
-                        {team.substring(3)}
+                        {team.match(/\d+/)}
                       </span>
                     </Link>
                   </>
@@ -174,7 +174,7 @@ const EventList = (props: any) => {
                           "text-white font-bold"
                         }`}
                       >
-                        {team.substring(3)}
+                        {team.match(/\d+/)}
                       </span>
                     </Link>
                   </>
