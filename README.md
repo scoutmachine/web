@@ -4,6 +4,9 @@
 
 <img src="/public/powered-by-vercel.svg" height="40">
 
+[![CodeQL](https://github.com/gryphonmachine/machine/actions/workflows/codeql.yml/badge.svg)](https://github.com/Autumn-Ou/machine/actions/workflows/codeql.yml)
+[![Lint Code Base](https://github.com/gryphonmachine/machine/actions/workflows/super-linter.yml/badge.svg)](https://github.com/Autumn-Ou/machine/actions/workflows/super-linter.yml)
+
 ## About Scout Machine
 Scout Machine is an all-in-one tool for FRC scouting, match data, statistics, upcoming events, and even a marketplace
 for FRC related goods under development.
