@@ -135,17 +135,16 @@ export const SignedOutScreen = () => {
             <Feature name="simple & modern design" />
             <Feature name="user accounts" />
             <Feature name="favourite teams" />
-            <Feature name="discover teams" />
-            <Feature name={`all ${CURR_YEAR} events`} />
-            <Feature name="event pages" />
-            <Feature name="team pages" />
-            <Feature name="event pages" />
+            <Feature name="discover teams" href="/teams" />
+            <Feature name={`all ${CURR_YEAR} events`} href="/events" />
+            <Feature name="event pages" href="/events/2023cmptx" />
+            <Feature name="team pages" href="/teams/6070"/>
             <Feature name="match pages" />
-            <Feature name="team awards" />
-            <Feature name="hall of fame teams" />
-            <Feature name={`${CURR_YEAR} rookie teams`} />
-            <Feature name="game day" />
-            <Feature name="marketplace (buy & sell)" />
+            <Feature name="team awards" href="/teams/6070"/>
+            <Feature name="hall of fame teams" href="/fame" />
+            <Feature name={`${CURR_YEAR} rookie teams`} href="/rookies" />
+            <Feature name="game day" href="/gameday" />
+            <Feature name="marketplace (buy & sell)" href="/marketplace" />
             <Feature name="custom search (+ nearby)" />
             <Feature name="100% free, no paywall" />
             <Feature name="open source" />

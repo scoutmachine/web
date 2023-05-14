@@ -1,4 +1,6 @@
-# Scout Machine
+<p align="center">
+  <img src="./public/smBanner.png" alt="Pindrop" />
+</p>
 
 <img src="/public/powered-by-vercel.svg" height="40">
 
