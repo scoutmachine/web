@@ -32,12 +32,10 @@ const EventList = (props: any) => {
       ? JSON.parse(JSON.stringify(props.epas[props.match.key]))
       : "";
 
-  const epa =
-    props.findAlliances().alliance === "Red" ? json.redEPA : json.blueEPA;
   const totalPoints =
     props.findAlliances().alliance === "Red"
-      ? props.match?.score_breakdown?.red?.totalPoints
-      : props.match?.score_breakdown?.blue?.totalPoints;
+      ? props.match.alliances.red.score
+      : props.match.alliances.blue.score;
 
   return (
     <tr className="text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]">
@@ -78,10 +76,12 @@ const EventList = (props: any) => {
                 ? `${props.match.set_number} (Match ${props.match.match_number})`
                 : props.match.match_number}{" "}
               <br />
-              <span className="text-lightGray text-sm font-medium">
-                {epochSecondsToTime(props.match.time)} •{" "}
-                {formatEpochSecondsToDate(props.match.time)}
-              </span>
+              {props.match.time && (
+                <span className="text-lightGray text-sm font-medium">
+                  {epochSecondsToTime(props.match.time)} •{" "}
+                  {formatEpochSecondsToDate(props.match.time)}
+                </span>
+              )}
             </span>{" "}
           </a>
         </Link>
@@ -110,10 +110,8 @@ const EventList = (props: any) => {
         }`}
       >
         <p className="text-white font-bold mb-1">
-          {props.match.score_breakdown
-            ? props.match?.score_breakdown?.red?.totalPoints
-            : "?"}{" "}
-          {props.match?.score_breakdown?.red?.totalPoints === 0 && (
+          {props.match.alliances.red.score ?? "?"}{" "}
+          {props.match.alliances.red.score === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
           )}
           <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
@@ -131,7 +129,9 @@ const EventList = (props: any) => {
               </span>
             )}{" "}
             •{" "}
-            {totalPoints - json.redEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            {totalPoints && json.redEPA && totalPoints - json.redEPA > 0
+              ? "OUTPERFORMED"
+              : "UNDERPERFORMED"}
           </p>
         </p>
 
@@ -184,10 +184,8 @@ const EventList = (props: any) => {
         }`}
       >
         <p className="text-white font-bold mb-1">
-          {props.match.score_breakdown
-            ? props.match?.score_breakdown?.blue?.totalPoints
-            : "?"}{" "}
-          {props.match?.score_breakdown?.blue?.totalPoints === 0 && (
+          {props.match.alliances.blue.score ?? "?"}{" "}
+          {props.match.alliances.blue.score === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
           )}
           <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
