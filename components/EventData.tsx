@@ -319,9 +319,9 @@ export const EventData = (props: any) => {
   };
 
   if (!matchEPAs) {
-    props.isTeam && props.setLoading(true);
+    props.setLoading(true);
   } else {
-    props.isTeam && props.setLoading(false);
+    props.setLoading(false);
   }
 
   return (

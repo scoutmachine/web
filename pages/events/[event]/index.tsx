@@ -10,6 +10,7 @@ import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import Head from "next/head";
+import { Loading } from "@/components/Loading";
 
 export default function EventsPage({
   matches,
@@ -20,10 +21,13 @@ export default function EventsPage({
   eventAwards,
 }: any) {
   const [activeTab, setActiveTab] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex);
   };
+
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -84,7 +88,11 @@ export default function EventsPage({
 
             {activeTab === 1 &&
               (matches.length > 0 ? (
-                <EventData data={matches} isTeam={false} />
+                <EventData
+                  data={matches}
+                  isTeam={false}
+                  setLoading={setLoading}
+                />
               ) : (
                 <ErrorMessage message="Looks like there's no data available for this event!" />
               ))}
