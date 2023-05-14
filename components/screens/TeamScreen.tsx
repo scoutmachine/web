@@ -109,16 +109,14 @@ export const TeamScreen = (props: any) => {
               </a>
             )}
             {props.socials && <Socials socials={props.socials} />}
-            <div className="flex justify-end md:absolute md:top-0 md:right-0 flex-col">
-              <div className="flex gap-3">
-                {props.user?.teamNumber === props.team.team_number && (
+            {session && (
+              <div className="flex justify-end md:absolute md:top-0 md:right-0 flex-col">
+                <div className="flex gap-3">
                   <button className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1">
                     <FaHeart className="mr-2" />
                     <span>Add Social</span>
                   </button>
-                )}
 
-                {session && (
                   <button
                     className="group text-primary text-sm transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
                     onClick={() => {
@@ -145,9 +143,9 @@ export const TeamScreen = (props: any) => {
                       {props.team.team_number}
                     </span>
                   </button>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
