@@ -1,9 +1,12 @@
 # How To Contribute
+
 ## 1: Fork the repository
 Create a fork of the repository to your own GitHub account. This will allow you to make changes to the repository 
 without requiring privileges in the source repository. [Create a Fork](https://github.com/gryphonmachine/machine/fork).
+
 ## 2: Clone the repository
 Clone your fork to begin development on your local machine.
+
 ## 3: Tool Setup
 ### 3.1: Install Node.js
 Node.js is required to run the development tools. You can download the latest version of Node.js from 
