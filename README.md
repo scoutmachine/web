@@ -1,6 +1,6 @@
 # Scout Machine
 
-<img src="/public/powered-by-vercel.svg" height="20">
+<img src="/public/powered-by-vercel.svg" height="40">
 
 ## About Scout Machine
 Scout Machine is an all-in-one tool for FRC scouting, match data, statistics, upcoming events, and even a marketplace
