@@ -14,7 +14,7 @@ async function getContributors() {
   if (contributors) return contributors;
 
   const fetchContributors = await fetch(
-    "https://api.github.com/repos/gryphonmachine/machine/contributors?per_page=100"
+    GITHUB_URL+"/contributors?per_page=100"
   )
     .then((response) => response.json())
     .then((contributors) =>
@@ -91,7 +91,7 @@ export const SignedOutScreen = () => {
           <h1 className="text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
             <a
-              href="https://github.com/gryphonmachine/machine"
+              href={`${GITHUB_URL}`}
               target="_blank"
               className="text-white"
             >
@@ -145,9 +145,9 @@ export const SignedOutScreen = () => {
             <Feature name={`${CURR_YEAR} rookie teams`} href="/rookies" />
             <Feature name="game day" href="/gameday" />
             <Feature name="marketplace (buy & sell)" href="/marketplace" />
-            <Feature name="custom search (+ nearby)" />
-            <Feature name="100% free, no paywall" />
-            <Feature name="open source" />
+            <Feature name="custom search (+ nearby)" href="/events" />
+            <Feature name="100% free, no paywall" href={BMAC_URL}/>
+            <Feature name="open source" href={GITHUB_URL}/>
           </div>
         </Card>
         <Card>
@@ -160,11 +160,11 @@ export const SignedOutScreen = () => {
           />
           <FAQ
             question="I found a bug. How do I report it?"
-            answer="Go to https://github.com/gryphonmachine/machine/issues and click get started on the bug report template."
+            answer={`Go to ${GITHUB_URL}/issues and click get started on the bug report template.`}
           />
           <FAQ
             question="I want a feature to be added. How do I suggest it?"
-            answer="Go to https://github.com/gryphonmachine/machine/issues and click get started on the feature request template."
+            answer={`Go to ${GITHUB_URL}/issues and click get started on the feature request template.`}
           />
           <FAQ
             question="How can I help?"
