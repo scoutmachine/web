@@ -159,17 +159,17 @@ export const SignedOutScreen = () => {
           <h1 className="text-2xl text-white font-bold mb-5">
             Frequently Asked Questions
           </h1>
-          <FAQ question="What is Scout Machine?" answer="Coming Soon" />
-          <FAQ question="Who created this?" answer="Coming Soon" />
+          <FAQ question="What is Scout Machine?" answer="Scout Machine is the all-in-one tool your FRC team needs. Providing key scouting and match data, along with a unique market for FRC goods." />
+          <FAQ question="Who created this?" answer="Come see for yourself at https://github.com/gryphonmachine/machine" />
           <FAQ
             question="I found a bug. How do I report it?"
-            answer="Coming Soon"
+            answer="Go to https://github.com/gryphonmachine/machine/issues and click get started on the bug report template."
           />
           <FAQ
             question="I want a feature to be added. How do I suggest it?"
-            answer="Coming Soon"
+            answer="Go to https://github.com/gryphonmachine/machine/issues and click get started on the feature request template."
           />
-          <FAQ question="How can I help?" answer="Coming Soon" />
+          <FAQ question="How can I help?" answer="Go to https://github.com/gryphonmachine/machine, fork the repository, and PR your contributions." />
         </Card>
       </div>
     </div>
