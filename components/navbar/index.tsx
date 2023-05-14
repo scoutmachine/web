@@ -105,7 +105,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
-          } bg-card border border-[#2A2A2A] bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between`}
+          } bg-card border border-[#2A2A2A] bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between`}
         >
           <div className="flex relative space-x-1">
             <Link href="/" legacyBehavior>
@@ -132,19 +132,19 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
             </a>
 
             <div
-              className={`absolute right-0 md:hidden block border border-[#2A2A2A] ${
+              className={`absolute right-0 2xl:hidden block border border-[#2A2A2A] ${
                 showLinks ? `bg-[#1F1F1F]` : "bg-card"
               } rounded-lg py-2 px-[13px]`}
             >
               <FaBars
-                className="md:hidden text-white text-xl"
+                className="2xl:hidden text-white text-xl"
                 onClick={() => setShowLinks(!showLinks)}
               />
             </div>
           </div>
 
           <div
-            className={`md:flex md:items-center md:gap-6 ${
+            className={`2xl:flex 2xl:items-center 2xl:gap-6 ${
               showLinks ? "mt-5 grid grid-cols-2" : "hidden"
             }`}
           >
@@ -183,7 +183,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                 item={
                   <Image
                     src={session.user?.image as string}
-                    className="rounded-full cursor-pointer ml-4"
+                    className="rounded-full cursor-pointer ml-4 mt-3 md:mt-0"
                     width={30}
                     height={30}
                     alt={`${session.user?.name} Avatar`}
@@ -219,7 +219,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="text-sm border border-[#2A2A2A] bg-card hover:border-gray-600 px-3 py-[6px] text-lightGray font-medium rounded-lg md:ml-[-10px] ml-4"
+                className="md:mt-0 mt-3 text-sm border border-[#2A2A2A] bg-card hover:border-gray-600 px-3 py-[6px] text-lightGray font-medium rounded-lg md:ml-[-10px] ml-4"
               >
                 <FaUserCircle className="text-lg mr-1 inline-block" /> Sign{" "}
                 {localStorage.getItem("signUpState") ?? "up"}
