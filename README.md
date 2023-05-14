@@ -1,4 +1,11 @@
-# Scout Machine
+<p align="center">
+  <img src="./public/smBanner.png" alt="Pindrop" />
+</p>
+<h1 align="center">Scout Machine</h1>
+<h3 align="center">
+Smarter FRC data insights
+<h3>
+<h1></h1>
 
 <img src="/public/powered-by-vercel.svg" height="40">
 
