@@ -130,15 +130,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .then((res) => res.json())
     .catch(() => null);
 
-  const eventRankings = await fetch(
-    `${API_URL}/api/events/rankings?event=${event}`
-  )
-    .then((res) => res.json())
-    .catch(() => null);
+  // const eventRankings = await fetch(
+  //   `${API_URL}/api/events/rankings?event=${event}`
+  // )
+  //   .then((res) => res.json())
+  //   .catch(() => null);
 
-  const eventAwards = await fetch(
-    `${API_URL}/api/events/awards?event=${event}`
-  ).then((res) => res.json());
+  // const eventAwards = await fetch(
+  //   `${API_URL}/api/events/awards?event=${event}`
+  // ).then((res) => res.json());
 
   return {
     props: {
@@ -146,8 +146,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       eventInfo,
       eventTeams,
       eventAlliances,
-      eventRankings,
-      eventAwards,
+      // eventRankings,
+      // eventAwards,
     },
   };
 };

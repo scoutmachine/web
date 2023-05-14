@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaYoutube, FaTimes } from "react-icons/fa";
 import { Loading } from "./Loading";
+import { epochSecondsToTime, formatEpochSecondsToDate } from "@/utils/time";
 
 const newText = [
   {
@@ -75,7 +76,12 @@ const EventList = (props: any) => {
               {props.search_array(newText, props.match.comp_level)}{" "}
               {props.match.comp_level !== "qm"
                 ? `${props.match.set_number} (Match ${props.match.match_number})`
-                : props.match.match_number}
+                : props.match.match_number}{" "}
+              <br />
+              <span className="text-lightGray text-sm font-medium">
+                {epochSecondsToTime(props.match.time)} •{" "}
+                {formatEpochSecondsToDate(props.match.time)}
+              </span>
             </span>{" "}
           </a>
         </Link>
@@ -124,7 +130,8 @@ const EventList = (props: any) => {
                 {(totalPoints - json.redEPA).toFixed(1)}pts
               </span>
             )}{" "}
-            • {totalPoints - json.redEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            •{" "}
+            {totalPoints - json.redEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
           </p>
         </p>
 
@@ -197,7 +204,8 @@ const EventList = (props: any) => {
                 {(totalPoints - json.blueEPA).toFixed(1)}pts
               </span>
             )}{" "}
-            • {totalPoints - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            •{" "}
+            {totalPoints - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
           </p>
         </p>
 
