@@ -8,7 +8,7 @@ export const Search = (props: any) => {
   const [isStarFilled, setIsStarFilled] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative md:mr-8 2xl:mr-0 mt-3 md:mt-0">
       <input
         className="border border-[#2A2A2A] w-full bg-card placeholder-lightGray outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
         type="text"
