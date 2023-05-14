@@ -14,7 +14,7 @@ async function getContributors() {
   if (contributors) return contributors;
 
   const fetchContributors = await fetch(
-    GITHUB_URL+"/contributors?per_page=100"
+    `${GITHUB_URL}/contributors?per_page=100`
   )
     .then((response) => response.json())
     .then((contributors) =>
@@ -91,7 +91,7 @@ export const SignedOutScreen = () => {
           <h1 className="text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
             <a
-              href={`${GITHUB_URL}`}
+              href={GITHUB_URL}
               target="_blank"
               className="text-white"
             >
