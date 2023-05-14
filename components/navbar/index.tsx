@@ -25,6 +25,7 @@ import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
 import { fetchTeamsData } from "@/utils/team";
+import { GITHUB_URL, DISCORD_URL, BMAC_URL } from "@/lib/constants";
 
 const Social = (props: { icon: ReactNode }) => {
   return (
@@ -118,15 +119,15 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               </a>
             </Link>
 
-            <a href="https://github.com/gryphonmachine/machine" target="_blank">
+            <a href={GITHUB_URL} target="_blank">
               <Social icon={<FaGithub />} />
             </a>
 
-            <a href="https://discord.gg/yYtc8gpsXK" target="_blank">
+            <a href={DISCORD_URL} target="_blank">
               <Social icon={<FaDiscord />} />
             </a>
 
-            <a href="https://www.buymeacoffee.com/scoutmachine" target="_blank">
+            <a href={BMAC_URL} target="_blank">
               <Social icon={<FaCoffee />} />
             </a>
 
@@ -147,25 +148,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               showLinks ? "mt-5 grid grid-cols-2" : "hidden"
             }`}
           >
-            {links.slice(0, numLinksPerColumn).map((link, key) => {
-              return (
-                <Link href={link.href} key={key} legacyBehavior>
-                  <a
-                    className={`block md:inline-block text-[0.9rem] ${
-                      props.active === link.title
-                        ? "text-primary"
-                        : "text-lightGray"
-                    } font-medium mb-2 md:mb-0`}
-                  >
-                    <div className="flex items-center">
-                      <span className="text-lg mr-2">{link.icon}</span>
-                      <span>{link.title}</span>
-                    </div>
-                  </a>
-                </Link>
-              );
-            })}
-            {links.slice(numLinksPerColumn).map((link, key) => {
+            {links.map((link, key) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
                   <a
@@ -200,7 +183,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                 item={
                   <Image
                     src={session.user?.image as string}
-                    className="rounded-full cursor-pointer"
+                    className="rounded-full cursor-pointer ml-4"
                     width={30}
                     height={30}
                     alt={`${session.user?.name} Avatar`}
@@ -211,32 +194,34 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               >
                 <div className="py-2 gap-y-2 flex flex-col items-center">
                   <p
-                    className="flex text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
+                    className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
                     onClick={() => {
                       setShowEditProfileModal(true);
                       setProfileDropdown(false);
                     }}
                   >
-                    <FaUserCircle className="text-lg mr-2" /> Edit Profile
+                    <FaUserCircle className="text-lg mr-1 inline-block" /> Edit
+                    Profile
                   </p>
 
                   <p
-                    className="flex text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
+                    className="text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
                     onClick={() => {
                       setShowSignoutModal(true);
                       setProfileDropdown(false);
                     }}
                   >
-                    <FaSignOutAlt className="text-lg mr-2" /> Sign Out
+                    <FaSignOutAlt className="text-lg mr-1 inline-block" /> Sign
+                    Out
                   </p>
                 </div>
               </Dropdown>
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="text-sm flex border border-[#2A2A2A] bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg ml-[-10px]"
+                className="text-sm border border-[#2A2A2A] bg-card hover:border-gray-600 px-3 py-[6px] text-lightGray font-medium rounded-lg md:ml-[-10px] ml-4"
               >
-                <FaUserCircle className="text-lg mr-2" /> Sign{" "}
+                <FaUserCircle className="text-lg mr-1 inline-block" /> Sign{" "}
                 {localStorage.getItem("signUpState") ?? "up"}
               </button>
             )}

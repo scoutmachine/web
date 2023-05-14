@@ -167,7 +167,7 @@ export default function TeamsPage() {
   }, [endIndex, query, startIndex, teamNumberRange]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && getStorage(`teams_${CURR_YEAR}`)) {
       const interval = setInterval(() => {
         const time = new Date().toLocaleTimeString("en-GB", {
           hour: "numeric",
@@ -185,8 +185,7 @@ export default function TeamsPage() {
     }
   }, []);
 
-  if (isLoading && !loadingScreenShown.current) {
-    loadingScreenShown.current = true;
+  if (!teams && !avatars) {
     return <Loading />;
   }
 

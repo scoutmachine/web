@@ -10,7 +10,7 @@ export const Search = (props: any) => {
   return (
     <div className="relative">
       <input
-        className="border border-[#2A2A2A] bg-card placeholder-lightGray outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
+        className="border border-[#2A2A2A] w-full bg-card placeholder-lightGray outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
         type="text"
         placeholder="Search teams..."
         onChange={(e) => props.setSearchTerm(e.target.value.trim())}
