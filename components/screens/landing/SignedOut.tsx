@@ -2,7 +2,7 @@
 import { Card } from "@/components/misc/Card";
 import { FAQ } from "@/components/misc/FAQ";
 import { Feature } from "@/components/misc/Feature";
-import { CURR_YEAR } from "@/lib/constants";
+import { BMAC_URL, CURR_YEAR, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -103,11 +103,7 @@ export const SignedOutScreen = () => {
             <br /> <br />
             If you have any questions, feature requests, bug reports, or you
             just want to see some sneak peeks of updates, join our{" "}
-            <a
-              href="https://discord.gg/yYtc8gpsXK"
-              target="_blank"
-              className="text-violet-400"
-            >
+            <a href={DISCORD_URL} target="_blank" className="text-violet-400">
               <span className="inline-block align-top">
                 <FaDiscord className="text-3xl" />
               </span>{" "}
@@ -118,9 +114,9 @@ export const SignedOutScreen = () => {
             <br />
             Loving the site & want to support us? <br />{" "}
             <a
-              href="https://www.buymeacoffee.com/scoutmachine"
+              href={BMAC_URL}
               target="_blank"
-              className="text-primary"
+              className="text-primary hover:text-white"
             >
               <span className="inline-block align-top">
                 <FaCoffee className="text-3xl" />
@@ -159,8 +155,10 @@ export const SignedOutScreen = () => {
           <h1 className="text-2xl text-white font-bold mb-5">
             Frequently Asked Questions
           </h1>
-          <FAQ question="What is Scout Machine?" answer="Scout Machine is the all-in-one tool your FRC team needs. Providing key scouting and match data, along with a unique market for FRC goods." />
-          <FAQ question="Who created this?" answer="Come see for yourself at https://github.com/gryphonmachine/machine" />
+          <FAQ
+            question="What is Scout Machine?"
+            answer="Scout Machine is the all-in-one tool your FRC team needs. Providing key scouting and match data, along with a unique market for FRC goods."
+          />
           <FAQ
             question="I found a bug. How do I report it?"
             answer="Go to https://github.com/gryphonmachine/machine/issues and click get started on the bug report template."
@@ -169,7 +167,38 @@ export const SignedOutScreen = () => {
             question="I want a feature to be added. How do I suggest it?"
             answer="Go to https://github.com/gryphonmachine/machine/issues and click get started on the feature request template."
           />
-          <FAQ question="How can I help?" answer="Go to https://github.com/gryphonmachine/machine, fork the repository, and PR your contributions." />
+          <FAQ
+            question="How can I help?"
+            answer={
+              <div>
+                <p className="font-medium mb-[-2px]">
+                  Financially via{" "}
+                  <a
+                    className="text-primary hover:text-white"
+                    href={BMAC_URL}
+                    target="_blank"
+                  >
+                    Buy Me a Coffee
+                  </a>
+                </p>
+                <span className="text-sm">
+                  All donations will go directly towards helping improve the
+                  site (hosting, databases, etc).
+                </span>
+
+                <p className="font-medium mt-4 mb-[-2px]">
+                  Contributing Code via{" "}
+                  <a className="text-white" href={GITHUB_URL} target="_blank">
+                    Github
+                  </a>
+                </p>
+                <span className="text-sm">
+                  We welcome all new contributors! There&apos;s a lot to get
+                  done & we need your help.
+                </span>
+              </div>
+            }
+          />
         </Card>
       </div>
     </div>
