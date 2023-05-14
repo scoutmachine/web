@@ -41,7 +41,7 @@ GITHUB_CLIENT_SECRET=
 ```
 
 ## 4: Launch the Development Instance
-Run yarn install to install the development tools and dependencies. Then run yarn dev to launch the development 
+Run `yarn install` to install the development tools and dependencies. Then run `yarn dev` to launch the development 
 instance. The development instance will be available at [localhost:3000](http://localhost:3000/).
 
 ## 5: Make Changes & PR
