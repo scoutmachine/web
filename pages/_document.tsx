@@ -14,8 +14,8 @@ export default function Document() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Scout Machine" />
         <meta name="twitter:description" content="Smarter FRC data insights" />
-        {/* <meta name="twitter:image" content="/meta-img.png" /> */}
-        {/* <meta name="og:image" content="/meta-img.png" /> */}
+        <meta name="twitter:image" content="/smBanner.png" />
+        <meta name="og:image" content="/smBanner.png" />
         <meta name="theme-color" content="#FBBB04" />
         <link rel="shortcut icon" href="/smLogo.png" />
       </Head>
