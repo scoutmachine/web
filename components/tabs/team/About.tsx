@@ -11,20 +11,9 @@ const Card = (props: any) => {
 };
 
 export const AboutTab = (props: any) => {
-  // const events = getStorage(`team_${props.team.teamData.team_number}_events`);
-
-  // const firstChampionship = events.filter((event: any) => {
-  //   return event.event_type_string === "Championship Division";
-  // });
-
-  const calcAvg = (data1: number, data2: number) => {
-    return Math.round(data1 / data2);
-  };
-
-  const avgAwards = calcAvg(
-    props.team.teamAwards.length,
-    props.team.yearsParticipated.length
-  );
+  const avgAwards = (
+    props.team.teamAwards.length / props.team.yearsParticipated.length
+  ).toFixed(1);
 
   const eventsWon = props.team.teamAwards.filter((award: any) =>
     award.name.includes("Winner")
