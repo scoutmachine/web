@@ -9,7 +9,8 @@
     "lint": "next lint && prettier --write .",
     "generate": "prisma generate",
     "push": "prisma db push",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "semantic-commit": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",
@@ -42,6 +43,20 @@
     "use-debounce": "^9.0.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "husky": "^8.0.3",
     "prettier": "^2.8.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint",
+      "git add"
+    ]
   }
 }

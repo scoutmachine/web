@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "prepare-commit-msg": "exec < /dev/tty && yarn semantic-commit"
+  }
+}
