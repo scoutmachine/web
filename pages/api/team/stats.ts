@@ -43,6 +43,7 @@ export default async function getTeamDistrict(
     }
 
     res.status(200).json({
+      total: teamRanking.length,
       team: teamRanking.find((rank: any) => rank.teamNumber === Number(team)),
     });
   }

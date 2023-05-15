@@ -22,6 +22,10 @@ export const AboutTab = (props: any) => {
   ).length;
 
   const district = props.team.teamDistrict.team;
+  const districtPercentage = Math.trunc(
+    (100 * district.rank) / props.team.teamDistrict.total
+  );
+  const roundedPercentage = Math.round(districtPercentage / 10) * 10;
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
@@ -32,41 +36,61 @@ export const AboutTab = (props: any) => {
         <p className="text-lightGray">{props.team.teamData.team_number}</p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
-          <FaGlobe className="mr-1 inline-block" /> District Rank
-        </h1>
-        <p className="text-lightGray">
-          {district ? (
-            <>
-              <b
-                className={`${district.rank === 1 && "text-primary"} ${
-                  district.rank === 2 && "text-[#C0C0C0]"
-                } ${district.rank === 3 && "text-[#CD7F32]"}`}
-              >
-                #{district.rank} in{" "}
-                {searchDistrict(districtCodeToName, district.districtCode)} (
-                {district.districtCode})
-              </b>{" "}
-              ({district.totalPoints} ranking points) <br />{" "}
-              {district.teamNumber} scored {district.event1Points}pts at{" "}
-              <Link
-                className="text-white hover:text-primary"
-                href={`/events/${CURR_YEAR}${district.event1Code.toLowerCase()}`}
-              >
-                {district.event1Code}
-              </Link>{" "}
-              & {district.event2Points}pts at{" "}
-              <Link
-                className="text-white hover:text-primary"
-                href={`/events/${CURR_YEAR}${district.event2Code.toLowerCase()}`}
-              >
-                {district.event2Code}
-              </Link>{" "}
-            </>
-          ) : (
-            "N/A"
+        <div className="relative">
+          {roundedPercentage >= 0 && roundedPercentage < 50 && (
+            <span
+              className={`top-0 right-0 absolute text-green-800 bg-green-400 py-1 px-2 rounded-lg text-xs`}
+            >
+              top {districtPercentage === 0 ? 1 : roundedPercentage}%
+            </span>
           )}
-        </p>
+          <h1 className="text-white font-semibold">
+            <FaGlobe className="mr-1 inline-block" /> District Rank
+          </h1>
+          <p className="text-lightGray">
+            {district ? (
+              <>
+                <b
+                  className={`${district.rank === 1 && "text-primary"} ${
+                    district.rank === 2 && "text-[#C0C0C0]"
+                  } ${district.rank === 3 && "text-[#CD7F32]"}`}
+                >
+                  #{district.rank} in{" "}
+                  {searchDistrict(districtCodeToName, district.districtCode)} (
+                  {district.districtCode}, {props.team.teamDistrict.total}{" "}
+                  teams)
+                </b>{" "}
+                <br />
+                {district.teamNumber} scored {district.totalPoints} ranking
+                points{" "}
+                {district?.event1Code && (
+                  <span>
+                    & {district?.event1Points}pts at{" "}
+                    <Link
+                      className="text-white hover:text-primary"
+                      href={`/events/${CURR_YEAR}${district?.event1Code?.toLowerCase()}`}
+                    >
+                      {district?.event1Code}
+                    </Link>{" "}
+                  </span>
+                )}
+                {district?.event2Code && (
+                  <span>
+                    & {district?.event2Points}pts at{" "}
+                    <Link
+                      className="text-white hover:text-primary"
+                      href={`/events/${CURR_YEAR}${district?.event2Code?.toLowerCase()}`}
+                    >
+                      {district?.event2Code}
+                    </Link>
+                  </span>
+                )}
+              </>
+            ) : (
+              "N/A"
+            )}
+          </p>
+        </div>
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
