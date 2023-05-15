@@ -6,7 +6,7 @@ import { FaAward, FaBolt, FaGlobe, FaRocket, FaTrophy } from "react-icons/fa";
 
 const Card = (props: any) => {
   return (
-    <div className="px-5 py-5 rounded-lg border border-[#2A2A2A] bg-card">
+    <div className="px-5 py-5 rounded-lg border border-[#2A2A2A] hover:border-gray-600 bg-card">
       {props.children}
     </div>
   );
@@ -21,9 +21,9 @@ export const AboutTab = (props: any) => {
     award.name.includes("Winner")
   ).length;
 
-  const district = props.team.teamDistrict.team;
+  const district = props.team.teamDistrict?.team;
   const districtPercentage = Math.trunc(
-    (100 * district.rank) / props.team.teamDistrict.total
+    (100 * district?.rank) / props.team.teamDistrict.total
   );
   const roundedPercentage = Math.round(districtPercentage / 10) * 10;
 
@@ -31,9 +31,24 @@ export const AboutTab = (props: any) => {
     <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
       <Card>
         <h1 className="text-white font-semibold">
-          <FaRocket className="mr-1 inline-block" /> Team Number
+          <FaRocket className="mr-1 inline-block" /> General Info
         </h1>
-        <p className="text-lightGray">{props.team.teamData.team_number}</p>
+        <p className="text-lightGray">{props.team.teamData.team_number} | {props.team.teamData.nickname}</p>
+
+        {district && (
+          <>
+            <p className="text-lightGray text-sm mt-2">
+              <b>Qualified for District Championship:</b>{" "}
+              {props.team.teamDistrict.team.qualifiedDistrictCmp ? "Yes" : "No"}
+            </p>
+            <p className="text-lightGray text-sm">
+              <b>
+                Qualified for <i>FIRST</i> Championship:
+              </b>{" "}
+              {props.team.teamDistrict.team.qualifiedFirstCmp ? "Yes" : "No"}
+            </p>
+          </>
+        )}
       </Card>
       <Card>
         <div className="relative">
