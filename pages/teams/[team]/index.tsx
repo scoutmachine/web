@@ -104,7 +104,7 @@ export default function TeamPage({ user, teamMembers }: any) {
   const [showAll, setShowAll] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
-  
+
   useEffect(() => {
     if (!router.isReady) return;
 
