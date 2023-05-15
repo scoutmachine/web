@@ -1,4 +1,6 @@
+import { searchDistrict } from "@/components/screens/TeamScreen";
 import { CURR_YEAR } from "@/lib/constants";
+import { districtCodeToName } from "@/lib/lists/districts";
 import Link from "next/link";
 import { FaAward, FaBolt, FaGlobe, FaRocket, FaTrophy } from "react-icons/fa";
 
@@ -37,7 +39,9 @@ export const AboutTab = (props: any) => {
           {district ? (
             <>
               <b>
-                #{district.rank} in {district.districtCode}
+                #{district.rank} in{" "}
+                {searchDistrict(districtCodeToName, district.districtCode)} (
+                {district.districtCode})
               </b>{" "}
               ({district.totalPoints} ranking points) <br />{" "}
               {district.teamNumber} scored {district.event1Points}pts at{" "}

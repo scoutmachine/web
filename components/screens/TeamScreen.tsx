@@ -8,6 +8,15 @@ import { Social } from "../Social";
 import { CURR_YEAR } from "@/lib/constants";
 import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
 import { useSession } from "next-auth/react";
+import { districtCodeToName } from "@/lib/lists/districts";
+
+export function searchDistrict(array: any, valuetofind: any) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].code === valuetofind) {
+      return array[i].name;
+    }
+  }
+}
 
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
@@ -130,7 +139,10 @@ export const TeamScreen = (props: any) => {
                 href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.districtCode}`}
                 target="_blank"
               >
-                {currentDistrict.districtCode}{" "}
+                {searchDistrict(
+                  districtCodeToName,
+                  currentDistrict.districtCode
+                )}{" "}
               </a>
             )}
             <span className="text-lightGray">
