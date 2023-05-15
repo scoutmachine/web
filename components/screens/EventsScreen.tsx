@@ -62,8 +62,10 @@ export const EventsScreen = (props: any) => {
   const [eventDistances, setEventDistances] = useState({});
   const [address, setAddress] = useState("");
   const [filterByAddress, setFilterByAddress] = useState(false);
+  const [seasonDropDown, setSeasonDropDown] = useState<boolean>(false);
   const [weekDropDown, setWeekDropDown] = useState(false);
   const [weekQuery, setWeekQuery] = useState<any>();
+  const seasons = [...Array(CURR_YEAR - 1997 + 1).keys()].map((x) => x + 1997);
   const weeks = [...Array(7).keys()];
   const weeksArray = [
     "Preseason",
@@ -284,6 +286,38 @@ export const EventsScreen = (props: any) => {
                     </h1>
                   </div>
                 ))}
+              </div>
+            </div>
+            <div className="relative ml-3">
+              <div
+                className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${
+                  seasonDropDown && "rounded-b-none"
+                }`}
+                onClick={() => setSeasonDropDown(!seasonDropDown)}
+              >
+                Season
+                <FaArrowUp
+                  className={`ml-2 transform text-lightGray group-hover:text-white transition-all duration-150 ${
+                    seasonDropDown ? "-rotate-180 text-white" : ""
+                  }`}
+                />
+              </div>
+              <div
+                className={`absolute select-none flex flex-col items-center justify-center duration-150  border border-[#2A2A2A] bg-card text-white rounded-b-lg px-4 py-2 ${
+                  seasonDropDown ? "block" : "hidden"
+                } z-20`}
+              >
+                <div className="grid grid-cols-2 gap-1">
+                  {seasons.map((szn, i) => (
+                    <div
+                      key={i}
+                      className="text-center transition-all flex items-center justfiy-center duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-2 rounded-lg"
+                      onClick={() => props.setYear(szn)}
+                    >
+                      {szn}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
