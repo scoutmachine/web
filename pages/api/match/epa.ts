@@ -5,6 +5,9 @@ export default async function getMatchEPA(
   res: NextApiResponse
 ) {
   const { match } = req.query;
+
+  if (!match) res.status(400).send("No match code provided");
+
   const data = await fetch(`https://api.statbotics.io/v2/match/${match}`).then(
     (res) => res.json()
   );
