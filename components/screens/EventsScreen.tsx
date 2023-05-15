@@ -14,6 +14,7 @@ import {
 import { getGeoData } from "@/utils/geo";
 import exportFromJSON from "export-from-json";
 import { getStorage } from "@/utils/localStorage";
+import { Loading } from "../Loading";
 
 const Event = (props: any) => {
   return (
@@ -198,6 +199,14 @@ export const EventsScreen = (props: any) => {
     </div>
   );
 
+  if (props.events.length === 0) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">
@@ -312,7 +321,10 @@ export const EventsScreen = (props: any) => {
                     <div
                       key={i}
                       className="text-center transition-all flex items-center justfiy-center duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-2 rounded-lg"
-                      onClick={() => props.setYear(szn)}
+                      onClick={() => {
+                        props.setYear(szn);
+                        props.setEvents([]);
+                      }}
                     >
                       {szn}
                     </div>
