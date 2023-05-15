@@ -195,6 +195,20 @@ export default function TeamPage({ user }: any) {
                   {teamData.teamAwards.length}
                 </span>
               </TabButton>
+              <TabButton
+                active={activeTab}
+                tab={3}
+                onClick={() => setActiveTab(3)}
+              >
+                Events
+              </TabButton>
+              <TabButton
+                active={activeTab}
+                tab={4}
+                onClick={() => setActiveTab(4)}
+              >
+                Media
+              </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
                   className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
@@ -252,7 +266,7 @@ export default function TeamPage({ user }: any) {
               </div>
             </div>
 
-            {loading && ![1, 2].includes(activeTab) && (
+            {loading && ![1, 2, 3, 4].includes(activeTab) && (
               <p className="text-gray-400 mt-5">
                 Loading {activeTab} Season...
               </p>
@@ -266,6 +280,14 @@ export default function TeamPage({ user }: any) {
                 showAll={showAll}
                 setShowAll={setShowAll}
               />
+            )}
+
+            {activeTab == 3 && (
+              <p className="text-lightGray mt-5">Coming soon!</p>
+            )}
+
+            {activeTab == 4 && (
+              <p className="text-lightGray mt-5">Coming soon!</p>
             )}
 
             <div className="flex flex-col gap-5">
