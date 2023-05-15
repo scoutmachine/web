@@ -5,12 +5,14 @@ import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
 import { IconType } from "react-icons";
 import router from "next/router";
 import { ListingType } from "@/types/ListingType";
+import { codes } from "currency-codes";
 
 type Props = {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
+const currencyOptions = ["USD", ""];
 const Input = (props: {
   className?: string;
   placeholder: string;
@@ -49,6 +51,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [listingType, setListingType] = useState<ListingType>(
     ListingType.controller
   );
+  const [currencyType, setCurrencyType] = useState("USD");
 
   const createListing = async () => {
     const data = {
@@ -56,6 +59,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
       content: description,
       price: price,
       type: listingType,
+      currencyType: currencyType,
     };
 
     await fetch(`${API_URL}/api/@me/post`, {
@@ -103,7 +107,8 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
               <select
                 className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
                 value={listingType}
-                onChange={(e) => {setListingType(e.target.value as ListingType) 
+                onChange={(e) => {
+                  setListingType(e.target.value as ListingType);
                 }}
               >
                 {Object.entries(ListingType).map((type) => (
@@ -120,6 +125,23 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
           <p className="uppercase text-xs text-lightGray mb-2">Listing Price</p>
           <div className="flex gap-x-2">
             <Input placeholder="Price" icon={FaDollarSign} state={setPrice} />
+          </div>
+        </div>
+
+        <div>
+          <p className="uppercase text-xs text-lightGray mb-2">Currency Type</p>
+          <div className="flex gap-x-2">
+            <select
+              className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
+              value={currencyType}
+              onChange={(e) => setCurrencyType(e.target.value)}
+            >
+              {codes().map((currency) => (
+                <option key={currency} value={currency}>
+                  {currency}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 

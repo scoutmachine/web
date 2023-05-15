@@ -76,6 +76,7 @@ model Post {
   content   String?
   price     Int
   type      PostType
+  currencyType String?
   media     String[]
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])

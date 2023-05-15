@@ -21,6 +21,7 @@ export default async function marketplaceAPI(
         title: body.title,
         content: body.content,
         type: body.type,
+        currencyType: body.currencyType as string,
         published: false,
         price: Number(body.price),
       },

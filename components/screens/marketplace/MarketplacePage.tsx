@@ -39,7 +39,11 @@ export const MarketplacePage = (props: any) => {
               style={{ backgroundColor: partTypeColour() }}
               className="px-2 py-1 text-white font-medium uppercase rounded-md text-xs"
             >
-              {ListingType[props.marketplacePost.type as keyof typeof ListingType]}
+              {
+                ListingType[
+                  props.marketplacePost.type as keyof typeof ListingType
+                ]
+              }
             </span>
           </div>
           <p className="text-lightGray break-words">
@@ -47,8 +51,11 @@ export const MarketplacePage = (props: any) => {
           </p>
 
           <p className="flex bg-card border border-[#2a2a2a] rounded-lg py-2 px-4 text-xl text-lightGray mt-16">
-            <FaMoneyBill className="mr-2 text-3xl" /> $
-            {props.marketplacePost.price}
+            <FaMoneyBill className="mr-2 text-3xl" />
+            {props.marketplacePost.price}{" "}
+            {props.marketplacePost.currencyType != null
+              ? props.marketplacePost.currencyType
+              : "Invalid Currency Type"}
           </p>
 
           <div className="flex mt-6 items-center pb-5 border-b-2 border-[#2a2a2a] mb-5"></div>
