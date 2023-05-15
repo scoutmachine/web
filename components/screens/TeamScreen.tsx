@@ -13,7 +13,7 @@ export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
   const isHOF = findTeam(String(props.team.team_number));
   const currentDistrict = props.district
-    ? props.district[props.district.length - 1]
+    ? props.district.team
     : null;
   const [isStarFilled, setIsStarFilled] = useState(false);
   const { data: session } = useSession();
@@ -164,15 +164,15 @@ export const TeamScreen = (props: any) => {
             <span className="font-bold"> District: </span>
             {currentDistrict && (
               <a
-                href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.abbreviation}`}
+                href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.districtCode}`}
                 target="_blank"
               >
-                {currentDistrict.display_name}{" "}
+                {currentDistrict.districtCode}{" "}
               </a>
             )}
             <span className="text-lightGray">
               {currentDistrict
-                ? `(${currentDistrict.abbreviation.toUpperCase()}) `
+                ? `(${currentDistrict.districtCode}) `
                 : "N/A"}
             </span>
           </p>

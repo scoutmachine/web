@@ -48,7 +48,6 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
-  const numLinksPerColumn = Math.ceil(links.length / 2);
   const [isScrolled, setIsScrolled] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
@@ -145,7 +144,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
 
           <div
             className={`2xl:flex 2xl:items-center 2xl:gap-6 ${
-              showLinks ? "mt-5 grid grid-cols-2" : "hidden"
+              showLinks ? "mt-5 2xl:mt-0 grid grid-cols-2" : "hidden"
             }`}
           >
             {links.map((link, key) => {
