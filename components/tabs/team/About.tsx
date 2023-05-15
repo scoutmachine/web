@@ -38,7 +38,11 @@ export const AboutTab = (props: any) => {
         <p className="text-lightGray">
           {district ? (
             <>
-              <b>
+              <b
+                className={`${district.rank === 1 && "text-primary"} ${
+                  district.rank === 2 && "text-[#C0C0C0]"
+                } ${district.rank === 3 && "text-[#CD7F32]"}`}
+              >
                 #{district.rank} in{" "}
                 {searchDistrict(districtCodeToName, district.districtCode)} (
                 {district.districtCode})
