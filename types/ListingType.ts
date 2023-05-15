@@ -1,7 +1,13 @@
 export enum ListingType {
-  Controller = "controller",
-  Sensor = "sensor",
-  Gear = "gear",
-  Stock = "stock",
-  Other = "other",
+  controller = "controller",
+  motorController = "motor controller",
+  motor = "motor",
+  coprocessor = "coprocessor",
+  wheel = "wheel",
+  gearsAndGearboxes = "gears & gearboxes",
+  beltsAndChains = "belts & chains",
+  bearingsAndHexShafts = "bearings & hex shafts",
+  bumperMaterial = "bumper material",
+  sensor = "sensor",
+  other = "other",
 }

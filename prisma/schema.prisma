@@ -9,9 +9,15 @@ generator client {
 
 enum PostType {
   controller
+  motorController
+  motor
+  coprocessor
+  wheel
+  gearsAndGearboxes
+  beltsAndChains
+  bearingsAndHexShafts
+  bumperMaterial
   sensor
-  gear
-  stock
   other
 }
 

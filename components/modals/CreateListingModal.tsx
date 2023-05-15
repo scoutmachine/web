@@ -47,7 +47,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [price, setPrice] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [listingType, setListingType] = useState<ListingType>(
-    ListingType.Controller
+    ListingType.controller
   );
 
   const createListing = async () => {
@@ -103,10 +103,11 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
               <select
                 className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
                 value={listingType}
-                onChange={(e) => setListingType(e.target.value as ListingType)}
+                onChange={(e) => {setListingType(e.target.value as ListingType) 
+                }}
               >
                 {Object.entries(ListingType).map((type) => (
-                  <option key={type[0]} value={type[1]}>
+                  <option key={type[1]} value={type[0]}>
                     {type[1]}
                   </option>
                 ))}

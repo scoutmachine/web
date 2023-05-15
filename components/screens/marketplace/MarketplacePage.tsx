@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { ListingType } from "@/types/ListingType";
 import { FaMoneyBill } from "react-icons/fa";
 
 export const MarketplacePage = (props: any) => {
@@ -38,7 +39,7 @@ export const MarketplacePage = (props: any) => {
               style={{ backgroundColor: partTypeColour() }}
               className="px-2 py-1 text-white font-medium uppercase rounded-md text-xs"
             >
-              {props.marketplacePost.type}
+              {ListingType[props.marketplacePost.type as keyof typeof ListingType]}
             </span>
           </div>
           <p className="text-lightGray break-words">
