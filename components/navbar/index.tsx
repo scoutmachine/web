@@ -118,15 +118,24 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               </a>
             </Link>
 
-            <a href={GITHUB_URL} target="_blank">
+            <a
+                href={GITHUB_URL} target="_blank"
+                rel="noopener noreferrer"
+            >
               <Social icon={<FaGithub />} />
             </a>
 
-            <a href={DISCORD_URL} target="_blank">
+            <a
+                href={DISCORD_URL} target="_blank"
+                rel="noopener noreferrer"
+            >
               <Social icon={<FaDiscord />} />
             </a>
 
-            <a href={BMAC_URL} target="_blank">
+            <a
+                href={BMAC_URL} target="_blank"
+                rel="noopener noreferrer"
+            >
               <Social icon={<FaCoffee />} />
             </a>
 

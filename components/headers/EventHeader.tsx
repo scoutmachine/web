@@ -35,7 +35,10 @@ export const EventHeader = (props: any) => {
           </span>
           <br />{" "}
           {props.event.location_name && (
-            <a href={props.event.gmaps_url} target="_blank">
+            <a
+                href={props.event.gmaps_url} target="_blank"
+                rel="noopener noreferrer"
+            >
               {props.event.location_name},
             </a>
           )}{" "}
@@ -45,13 +48,17 @@ export const EventHeader = (props: any) => {
           )}
           <a
             href={`https://frc-events.firstinspires.org/${props.event.year}/${props.event.event_code}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             FIRST Inspires
           </a>
         </p>
         {props.event.website && props.event.website !== "N/A" && (
-          <a href={props.event.website} target="_blank">
+          <a
+              href={props.event.website} target="_blank"
+              rel="noopener noreferrer"
+          >
             <Social
               icon={FaLink}
               name={props.event.website.replace(".html", "")}
