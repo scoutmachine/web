@@ -81,6 +81,7 @@ database dashboard. The database URL should be in the following format:
 ```text
 postgres://username:password@host:port/database
 ```
+**Note**: Be sure to run the `npx prisma db push` command afterward, to synchronize your Prisma schema with your database schema.  
 
 ## 2: GitHub Actions
 

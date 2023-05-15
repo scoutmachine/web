@@ -39,6 +39,7 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 ```
+**Note**: If you include a `DATABASE_URL`, be sure to run the `npx prisma db push` command, to synchronize your Prisma schema with your database schema.  
 
 ## 4: Launch the Development Instance
 Run `yarn install` to install the development tools and dependencies. Then run `yarn dev` to launch the development 
