@@ -87,7 +87,7 @@ postgres://username:password@host:port/database
 ## 2: GitHub Actions
 
 GitHub Actions are used to automate the build and deployment process. The GitHub Actions are located in the
-[.github/workflows](.github/workflows) directory. The GitHub Actions are configured to run on every push to the main
+[.github/workflows](./.github/workflows) directory. The GitHub Actions are configured to run on every push to the main
 branch. The GitHub Actions are configured to run the following jobs:
 
 - Linting the code for formatting issues including Markdown files
@@ -99,7 +99,7 @@ branch. The GitHub Actions are configured to run the following jobs:
 
 GitHub Actions are used to run security checks on the code. The security checks are run on every push to the main
 and generate a report of any vulnerabilities. The security checks are run using the following GitHub Action:
-[codeql.yml](.github/workflows/codeql.yml)
+[codeql.yml](./.github/workflows/codeql.yml)
 
 ### 3.2: Dependabot Package Vulnerabilities
 
@@ -110,7 +110,7 @@ vulnerabilities every 24 hours and will generate a PR to bump the version of any
 ### 3.3: Reporting Vulnerabilities
 
 Vulnerabilities are also reported by users through GitHub issues. If you find a vulnerability, please
-[create a security report](https://github.com/gryphonmachine/machine/issues/new/choose) or join the
+[create a security report](../../../issues/new/choose) or join the
 [Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) and privately message a developer. Please do not openly
 post a security vulnerability as this may put other users at risk. You can expect a response within 24 hours of
 reporting a security vulnerability, and it will be made a top priority to fix the vulnerability as soon as possible.
