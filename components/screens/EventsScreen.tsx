@@ -71,7 +71,7 @@ export const EventsScreen = (props: any) => {
   const weeksArray = [
     "Preseason",
     ...weeks.slice(1).map((week) => week - 1),
-    "Championship Division",
+    "Championship",
     "Offseason",
   ];
 
@@ -165,37 +165,40 @@ export const EventsScreen = (props: any) => {
     title: string | ReactNode
   ) => (
     <div className="w-full max-w-screen-3xl">
-      <h1 className="flex mt-10 mb-5 text-lightGray">
-        <h1 className="text-2xl font-bold text-white">{title}</h1>
-
-        <span className="border border-[#2A2A2A] text-lightGray text-xl px-2 mt-[-1px] ml-1 rounded-full font-semibold">
-          {props.events.filter(filterCondition).length}{" "}
-          {props.events.filter(filterCondition).length === 1
-            ? "event"
-            : "events"}
-        </span>
-      </h1>
-      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
-        {props.events.filter(filterCondition).length > 0 ? (
-          props.events
-            .filter(filterCondition)
-            .map((event: any, key: number) => {
-              return (
-                <Event
-                  key={key}
-                  event={event}
-                  eventDistances={eventDistances}
-                  invalidNavigation={invalidNavigation}
-                  year={props.year}
-                />
-              );
-            })
-        ) : (
-          <p className="text-lightGray whitespace-nowrap">
-            Uh oh, looks like there were no events found.
-          </p>
-        )}
-      </div>
+      {props.events.some(filterCondition) && (
+        <>
+          <h1 className="flex mt-10 mb-5 text-lightGray">
+            <p className="text-2xl font-bold text-white">{title}</p>
+            <span className="border border-[#2A2A2A] text-lightGray text-xl px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+              {props.events.filter(filterCondition).length}{" "}
+              {props.events.filter(filterCondition).length === 1
+                ? "event"
+                : "events"}
+            </span>
+          </h1>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+            {props.events.filter(filterCondition).length > 0 ? (
+              props.events
+                .filter(filterCondition)
+                .map((event: any, key: number) => {
+                  return (
+                    <Event
+                      key={key}
+                      event={event}
+                      eventDistances={eventDistances}
+                      invalidNavigation={invalidNavigation}
+                      year={props.year}
+                    />
+                  );
+                })
+            ) : (
+              <p className="text-lightGray whitespace-nowrap">
+                Uh oh, looks like there were no events found.
+              </p>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 
@@ -355,7 +358,11 @@ export const EventsScreen = (props: any) => {
           (event: any) =>
             typeof weekQuery === "number"
               ? event.week === weekQuery - 1
-              : event.event_type_string === weekQuery,
+              : event.event_type_string === weekQuery
+              ? weekQuery === "Championship"
+              : ["Championship Division", "Championship Finals"].includes(
+                  event.event_type_string
+                ),
           `${typeof weekQuery === "number" ? `Week ${weekQuery}` : weekQuery}`
         )}
 
@@ -407,8 +414,11 @@ export const EventsScreen = (props: any) => {
           {renderEventsSection((event: any) => event.week === 5, "Week 6")}
 
           {renderEventsSection(
-            (event: any) => event.event_type_string === "Championship Division",
-            "FIRST Championship - Houston, TX"
+            (event: any) =>
+              ["Championship Division", "Championship Finals"].includes(
+                event.event_type_string
+              ),
+            "FIRST Championship"
           )}
           {renderEventsSection(
             (event: any) => event.event_type_string === "Offseason",
