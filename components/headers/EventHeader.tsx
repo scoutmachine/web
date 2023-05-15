@@ -19,17 +19,19 @@ export const EventHeader = (props: any) => {
           <span className="mb-[-22px] flex">
             {formattedDate}{" "}
             <span className="border border-[#2A2A2A] text-lightGray rounded-full py-[3.5px] ml-1 px-2 text-xs font-semibold">
-              {props.event.week !== null
-                ? `Week ${props.event.week + 1} (${props.teams.length} team${
-                    props.teams.length > 1 && "s"
-                  })`
-                : `${props.event.event_type_string} ${
-                    props.teams.length > 0 &&
-                    `(${props.teams.length} ${
-                      props.teams.length === 1 ? "team" : "teams"
+              {props.event.event_type_string !== "Offseason"
+                ? props.event.week !== null
+                  ? `Week ${props.event.week + 1} (${props.teams.length} team${
+                      props.teams.length > 1 && "s"
                     })`
-                  }`}
-            </span>{" "}
+                  : `${props.event.event_type_string} ${
+                      props.teams.length > 0 &&
+                      `(${props.teams.length} ${
+                        props.teams.length === 1 ? "team" : "teams"
+                      })`
+                    }`
+                : "Offseason"}
+            </span>
           </span>
           <br />{" "}
           {props.event.location_name && (
