@@ -10,7 +10,8 @@ export const AwardsTab = (props: any) => {
       award.name.includes("Winner") ||
       award.name.includes("Winners") ||
       award.name.includes("Impact Award") ||
-      award.name.includes("Chairman's Award")
+      award.name.includes("Chairman's Award") ||
+      award.name.includes("Woodie Flowers")
   );
 
   return (
@@ -86,7 +87,8 @@ export const AwardsTab = (props: any) => {
                   !award.name.includes("Winner") &&
                   !award.name.includes("Winners") &&
                   !award.name.includes("Impact Award") &&
-                  !award.name.includes("Chairman's Award")
+                  !award.name.includes("Chairman's Award") &&
+                  !award.name.includes("Woodie Flowers")
               )
               .reverse()
               .map((award: any, key: number) => {
@@ -97,12 +99,7 @@ export const AwardsTab = (props: any) => {
                     target="_blank"
                     className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
                   >
-                    <div className="flex">
-                      {award.name.includes("Winner") && (
-                        <FaMedal className="text-xl mr-2 text-[#ecc729]" />
-                      )}
-                      <h1 className="font-bold text-white">{award.name}</h1>
-                    </div>
+                    <h1 className="font-bold text-white">{award.name}</h1>
                     <p className="text-lightGray">{award.year}</p>
                   </a>
                 );
