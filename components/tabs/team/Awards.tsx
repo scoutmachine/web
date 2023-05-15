@@ -95,6 +95,7 @@ export const AwardsTab = (props: any) => {
                   <a
                     key={key}
                     href={`https://frc-events.firstinspires.org/${award.year}/${award.eventCode}`}
+                    rel="noopener noreferrer"
                     target="_blank"
                     className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
                   >

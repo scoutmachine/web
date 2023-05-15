@@ -3,7 +3,7 @@
 ## 1: Fork the repository
 
 Create a fork of the repository to your own GitHub account. This will allow you to make changes to the repository
-without requiring privileges in the source repository. [Create a Fork](https://github.com/gryphonmachine/machine/fork).
+without requiring privileges in the source repository. [Create a Fork](../../fork).
 
 ## 2: Clone the repository
 
@@ -69,4 +69,4 @@ available.
 ## 6: Advanced Development
 
 For setup of the full local instance and more development information, see the
-[Advanced Development](docs/advanced-development.md) guide.
+[Advanced Development](./docs/advanced-development.md) guide.

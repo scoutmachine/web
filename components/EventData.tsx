@@ -43,6 +43,7 @@ const EventList = (props: any) => {
         {props.match.videos && props.match.videos.length > 0 ? (
           <a
             href={`https://www.youtube.com/watch?v=${props.match.videos[0].key}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <FaYoutube className="text-2xl text-red-400 hover:text-white" />
@@ -332,6 +333,7 @@ export const EventData = (props: any) => {
                     href={`https://youtube.com/watch_videos?video_ids=${props.playlists[
                       props.event.event_code
                     ].join(",")}&title=${props.event.name}`}
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
                     <FaYoutube className="mr-1 inline-block text-xl mb-[3px]" />{" "}

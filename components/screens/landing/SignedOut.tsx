@@ -62,6 +62,7 @@ export const SignedOutScreen = () => {
                 <a
                   key={contributor.id}
                   href={contributor.html_url}
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   <img
@@ -90,7 +91,11 @@ export const SignedOutScreen = () => {
         <Card>
           <h1 className="text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
-            <a href={GITHUB_URL} target="_blank" className="text-white">
+            <a
+                href={GITHUB_URL} target="_blank"
+                rel="noopener noreferrer"
+                className="text-white"
+            >
               <span className="inline-block align-top	ml-1">
                 <FaGithub className="text-3xl" />
               </span>{" "}
@@ -99,7 +104,12 @@ export const SignedOutScreen = () => {
             <br /> <br />
             If you have any questions, feature requests, bug reports, or you
             just want to see some sneak peeks of updates, join our{" "}
-            <a href={DISCORD_URL} target="_blank" className="text-violet-400">
+            <a
+                href={DISCORD_URL}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="text-violet-400"
+            >
               <span className="inline-block align-top">
                 <FaDiscord className="text-3xl" />
               </span>{" "}
@@ -111,6 +121,7 @@ export const SignedOutScreen = () => {
             Loving the site & want to support us? <br />{" "}
             <a
               href={BMAC_URL}
+              rel="noopener noreferrer"
               target="_blank"
               className="text-primary hover:text-white"
             >
@@ -171,6 +182,7 @@ export const SignedOutScreen = () => {
                   <a
                     className="text-primary hover:text-white"
                     href={BMAC_URL}
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
                     Buy Me a Coffee
@@ -183,7 +195,10 @@ export const SignedOutScreen = () => {
 
                 <p className="font-medium mt-4 mb-[-2px]">
                   Contributing Code via{" "}
-                  <a className="text-white" href={GITHUB_URL} target="_blank">
+                  <a
+                      className="text-white" href={GITHUB_URL} target="_blank"
+                      rel="noopener noreferrer"
+                  >
                     Github
                   </a>
                 </p>

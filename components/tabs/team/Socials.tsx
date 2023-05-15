@@ -15,6 +15,7 @@ export const Socials = (props: any) => {
           <a
             key={key}
             href={`https://facebook.com/${social.foreign_key}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Social
@@ -29,6 +30,7 @@ export const Socials = (props: any) => {
           <a
             key={key}
             href={`https://github.com/${social.foreign_key}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Social
@@ -43,6 +45,7 @@ export const Socials = (props: any) => {
           <a
             key={key}
             href={`https://instagram.com/${social.foreign_key}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Social
@@ -57,6 +60,7 @@ export const Socials = (props: any) => {
           <a
             key={key}
             href={`https://twitter.com/${social.foreign_key}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Social
@@ -71,6 +75,7 @@ export const Socials = (props: any) => {
           <a
             key={key}
             href={`https://youtube.com/${social.foreign_key}`}
+            rel="noopener noreferrer"
             target="_blank"
           >
             <Social
