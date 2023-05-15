@@ -90,11 +90,7 @@ export const SignedOutScreen = () => {
         <Card>
           <h1 className="text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              className="text-white"
-            >
+            <a href={GITHUB_URL} target="_blank" className="text-white">
               <span className="inline-block align-top	ml-1">
                 <FaGithub className="text-3xl" />
               </span>{" "}
@@ -138,16 +134,16 @@ export const SignedOutScreen = () => {
             <Feature name="discover teams" href="/teams" />
             <Feature name={`all ${CURR_YEAR} events`} href="/events" />
             <Feature name="event pages" href="/events/2023cmptx" />
-            <Feature name="team pages" href="/teams/6070"/>
+            <Feature name="team pages" href="/teams/6070" />
             <Feature name="match pages" />
-            <Feature name="team awards" href="/teams/6070"/>
+            <Feature name="team awards" href="/teams/6070" />
             <Feature name="hall of fame teams" href="/fame" />
             <Feature name={`${CURR_YEAR} rookie teams`} href="/rookies" />
             <Feature name="game day" href="/gameday" />
             <Feature name="marketplace (buy & sell)" href="/marketplace" />
             <Feature name="custom search (+ nearby)" href="/events" />
-            <Feature name="100% free, no paywall" href={BMAC_URL}/>
-            <Feature name="open source" href={GITHUB_URL}/>
+            <Feature name="100% free, no paywall" href={BMAC_URL} />
+            <Feature name="open source" href={GITHUB_URL} />
           </div>
         </Card>
         <Card>

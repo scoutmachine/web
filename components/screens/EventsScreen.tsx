@@ -2,7 +2,7 @@ import { CURR_YEAR } from "@/lib/constants";
 import { convertDate } from "@/utils/date";
 import Link from "next/link";
 import { Search } from "../Search";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import haversine from "haversine-distance";
 import {
   FaCrosshairs,
@@ -29,7 +29,7 @@ const Event = (props: any) => {
           </h1>
           <p className="text-lightGray">
             {convertDate(props.event.start_date)} -{" "}
-            {convertDate(props.event.end_date)}, {CURR_YEAR}
+            {convertDate(props.event.end_date)}, {props.year}
           </p>
           <h2 className="absolute text-left text-lightGray bottom-3 left-5 md:text-left">
             📌 {props.event.city}, {props.event.state_prov},{" "}
@@ -183,6 +183,7 @@ export const EventsScreen = (props: any) => {
                   event={event}
                   eventDistances={eventDistances}
                   invalidNavigation={invalidNavigation}
+                  year={props.year}
                 />
               );
             })

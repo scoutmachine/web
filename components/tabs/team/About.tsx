@@ -33,7 +33,9 @@ export const AboutTab = (props: any) => {
         <h1 className="text-white font-semibold">
           <FaRocket className="mr-1 inline-block" /> General Info
         </h1>
-        <p className="text-lightGray">{props.team.teamData.team_number} | {props.team.teamData.nickname}</p>
+        <p className="text-lightGray">
+          {props.team.teamData.team_number} | {props.team.teamData.nickname}
+        </p>
 
         {district && (
           <>
