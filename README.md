@@ -4,8 +4,8 @@
 
 <img src="/public/powered-by-vercel.svg" height="40">
 
-[![CodeQL](https://github.com/gryphonmachine/machine/actions/workflows/codeql.yml/badge.svg)](https://github.com/gryphonmachine/machine/actions/workflows/codeql.yml)
-[![Lint Code Base](https://github.com/gryphonmachine/machine/actions/workflows/super-linter.yml/badge.svg)](https://github.com/gryphonmachine/machine/actions/workflows/super-linter.yml)
+[![CodeQL](https://github.com/scoutmachine/web/actions/workflows/codeql.yml/badge.svg)](https://github.com/scoutmachine/web/actions/workflows/codeql.yml)
+[![Lint Code Base](https://github.com/scoutmachine/web/actions/workflows/super-linter.yml/badge.svg)](https://github.com/scoutmachine/web/actions/workflows/super-linter.yml)
 
 ## About Scout Machine
 
@@ -33,11 +33,11 @@ running and improving Scout Machine.
 
 ### Requesting Features
 
-To request a new feature either [create a feature request](https://github.com/gryphonmachine/machine/issues/new/choose)
+To request a new feature either [create a feature request](../../issues/new/choose)
 or join the [Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) and request the feature in the
 #feature-requests channel.
 
 ### Reporting Bugs
 
-To report a bug either [create a bug report](https://github.com/gryphonmachine/machine/issues/new/choose) or join the
+To report a bug either [create a bug report](../../issues/new/choose) or join the
 [Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) and report the bug in the #bug-reports channel.
