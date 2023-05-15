@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { FaMedal } from "react-icons/fa";
 import Image from "next/image";
 import { ErrorMessage } from "@/components/ErrorMessage";
 

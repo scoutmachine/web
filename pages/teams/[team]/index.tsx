@@ -22,6 +22,15 @@ import { Session, getServerSession } from "next-auth";
 import { GetServerSideProps } from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
+import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
+
+const SubInfo = (props: any) => {
+  return (
+    <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
+      {props.children}
+    </span>
+  );
+};
 
 async function fetchTeamData(team: string) {
   const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
@@ -83,7 +92,7 @@ async function fetchTeamData(team: string) {
   return await fetchInfo();
 }
 
-export default function TeamPage({ user }: any) {
+export default function TeamPage({ user, teamMembers }: any) {
   const router = useRouter();
   const { team } = router.query;
   const [teamData, setTeamData] = useState<any>();
@@ -190,24 +199,14 @@ export default function TeamPage({ user }: any) {
                 tab={2}
                 onClick={() => setActiveTab(2)}
               >
-                Awards{" "}
-                <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
-                  {teamData.teamAwards.length}
-                </span>
+                Awards <SubInfo>{teamData.teamAwards.length}</SubInfo>
               </TabButton>
               <TabButton
                 active={activeTab}
                 tab={3}
                 onClick={() => setActiveTab(3)}
               >
-                Events
-              </TabButton>
-              <TabButton
-                active={activeTab}
-                tab={4}
-                onClick={() => setActiveTab(4)}
-              >
-                Media
+                Team Members <SubInfo>{teamMembers.length}</SubInfo>
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
@@ -266,7 +265,7 @@ export default function TeamPage({ user }: any) {
               </div>
             </div>
 
-            {loading && ![1, 2, 3, 4].includes(activeTab) && (
+            {loading && ![1, 2, 3].includes(activeTab) && (
               <p className="text-gray-400 mt-5">
                 Loading {activeTab} Season...
               </p>
@@ -282,13 +281,7 @@ export default function TeamPage({ user }: any) {
               />
             )}
 
-            {activeTab == 3 && (
-              <p className="text-lightGray mt-5">Coming soon!</p>
-            )}
-
-            {activeTab == 4 && (
-              <p className="text-lightGray mt-5">Coming soon!</p>
-            )}
+            {activeTab === 3 && <TeamMembersTab members={teamMembers} />}
 
             <div className="flex flex-col gap-5">
               {year.includes(activeTab) &&
@@ -403,8 +396,13 @@ export default function TeamPage({ user }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = (await getServerSession(req, res, authOptions)) as Session;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = (await getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  )) as Session;
+  const { team }: any = context.params;
 
   if (session) {
     const user = await db.user.findUnique({
@@ -417,7 +415,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
     });
 
-    return { props: { user } };
+    const teamMembers = await db.user.findMany({
+      where: {
+        teamNumber: Number(team),
+      },
+    });
+
+    return { props: { user, teamMembers } };
   }
 
   return { props: {} };
