@@ -44,6 +44,7 @@ export default function DistrictsPage() {
               <a
                 key={key}
                 href={`https://frc-events.firstinspires.org/2023/district/${district.code}`}
+                rel="noopener noreferrer"
                 target="_blank"
                 className="w-full"
               >

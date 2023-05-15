@@ -331,7 +331,10 @@ export default function TeamPage({ user, teamMembers }: any) {
                                 </h1>
                               </a>
                             </Link>
-                            <a href={event.gmaps_url} target="_blank">
+                            <a
+                                href={event.gmaps_url} target="_blank"
+                                rel="noopener noreferrer"
+                            >
                               <p className="text-lightGray hover:text-white">
                                 {event.location_name &&
                                   `${event.location_name}, ${event.city}, ${event.country}`}
@@ -347,6 +350,7 @@ export default function TeamPage({ user, teamMembers }: any) {
                                 event.webcasts.length > 0 && (
                                   <a
                                     href={`https://twitch.tv/${event.webcasts[0].channel}`}
+                                    rel="noopener noreferrer"
                                     target="_blank"
                                   >
                                     <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
@@ -362,6 +366,7 @@ export default function TeamPage({ user, teamMembers }: any) {
                               event.webcasts.length > 0 && (
                                 <a
                                   href={`https://twitch.tv/${event.webcasts[0].channel}`}
+                                  rel="noopener noreferrer"
                                   target="_blank"
                                 >
                                   <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">

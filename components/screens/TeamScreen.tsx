@@ -92,6 +92,7 @@ export const TeamScreen = (props: any) => {
               • Joined <span>{props.team.rookie_year}</span> •{" "}
               <a
                 href={`https://frc-events.firstinspires.org/team/${props.team.team_number}`}
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 FIRST Inspires
@@ -102,7 +103,10 @@ export const TeamScreen = (props: any) => {
 
         <div className="flex flex-wrap gap-3 md:gap-5 mt-3">
           {props.team.website && (
-            <a href={props.team.website} target="_blank">
+            <a
+                href={props.team.website} target="_blank"
+                rel="noopener noreferrer"
+            >
               <Social
                 icon={FaLink}
                 name={
@@ -137,6 +141,7 @@ export const TeamScreen = (props: any) => {
             {currentDistrict && (
               <a
                 href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.districtCode}`}
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 {searchDistrict(
