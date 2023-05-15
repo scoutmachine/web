@@ -66,7 +66,7 @@ OAuth Apps page.
 The NextAuth URL is used to redirect users to the correct URL after signing in. The NextAuth URL should be in the
 following format:
 
-```
+```text
 http://localhost:3000/api/auth
 ```
 
@@ -78,7 +78,7 @@ The database URL is used to connect to the database. You can get a database URL 
 [PostgreSQL](https://www.postgresql.org/). Once you have created a database, you can find your database URL on the
 database dashboard. The database URL should be in the following format:
 
-```
+```text
 postgres://username:password@host:port/database
 ```
 
@@ -88,7 +88,7 @@ GitHub Actions are used to automate the build and deployment process. The GitHub
 [.github/workflows](.github/workflows) directory. The GitHub Actions are configured to run on every push to the main
 branch. The GitHub Actions are configured to run the following jobs:
 
-- Linting the code for formatting issues including markdown files
+- Linting the code for formatting issues including Markdown files
 - Running security checks and reporting any vulnerabilities
 
 ## 3: Security Vulnerabilities
