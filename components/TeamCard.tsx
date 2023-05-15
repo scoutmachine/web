@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Tooltip } from "./Toolip";
+import { Tooltip } from "./Tooltip";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
