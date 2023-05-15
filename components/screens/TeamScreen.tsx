@@ -142,39 +142,41 @@ export const TeamScreen = (props: any) => {
             {props.team.name}
           </p>
 
-          <div className="flex mt-3">
-            <div className="flex gap-3">
-              <button className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1">
-                <FaPlus className="mr-2" />
-                <span>Add Social</span>
-              </button>
+          {session && (
+            <div className="flex mt-3">
+              <div className="flex gap-3">
+                <button className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1">
+                  <FaPlus className="mr-2" />
+                  <span>Add Social</span>
+                </button>
 
-              <button
-                className="group text-primary text-sm transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
-                onClick={() => {
-                  if (isFavourited) {
-                    unfavouriteTeam(favouritedTeam, true);
-                    setIsStarFilled(false);
-                  } else {
-                    setIsStarFilled(true);
-                    favouriteTeam(props.team);
-                  }
-                }}
-              >
-                <FaStar
-                  className={`mr-2 ${
-                    isFavourited || isStarFilled
-                      ? "fill-primary group-hover:fill-transparent group-hover:stroke-primary group-hover:stroke-[40px] transition duration-300 group-hover:transform group-hover:scale-[1.2]"
-                      : "fill-transparent stroke-primary stroke-[40px] group-hover:fill-primary transition duration-300 group-hover:transform group-hover:scale-[1.2]"
-                  }`}
-                />
-                <span>
-                  {isStarFilled || isFavourited ? "Unfavourite" : "Favourite"}{" "}
-                  {props.team.team_number}
-                </span>
-              </button>
+                <button
+                  className="group text-primary text-sm transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
+                  onClick={() => {
+                    if (isFavourited) {
+                      unfavouriteTeam(favouritedTeam, true);
+                      setIsStarFilled(false);
+                    } else {
+                      setIsStarFilled(true);
+                      favouriteTeam(props.team);
+                    }
+                  }}
+                >
+                  <FaStar
+                    className={`mr-2 ${
+                      isFavourited || isStarFilled
+                        ? "fill-primary group-hover:fill-transparent group-hover:stroke-primary group-hover:stroke-[40px] transition duration-300 group-hover:transform group-hover:scale-[1.2]"
+                        : "fill-transparent stroke-primary stroke-[40px] group-hover:fill-primary transition duration-300 group-hover:transform group-hover:scale-[1.2]"
+                    }`}
+                  />
+                  <span>
+                    {isStarFilled || isFavourited ? "Unfavourite" : "Favourite"}{" "}
+                    {props.team.team_number}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
