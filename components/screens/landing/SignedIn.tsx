@@ -2,6 +2,8 @@ import { Session } from "next-auth";
 import { TeamCard } from "../../TeamCard";
 import { FaStar, FaTags } from "react-icons/fa";
 import { MarketplacePost } from "../marketplace/MarketplacePost";
+import { useEffect, useState } from "react";
+import { formatEpochSecondsToDate } from "@/utils/time";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -10,6 +12,30 @@ export const SignedInScreen = (props: {
   avatars: any;
   user: any;
 }) => {
+  const [timeLeft, setTimeLeft] = useState<any>({});
+  const kickoffTime = 1704542400;
+
+  function calculateTimeLeft(distance: any) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const weeks = Math.floor(days / 7);
+    const remainingDays = days % 7;
+    return { weeks, days: remainingDays, hours, minutes, seconds };
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = kickoffTime * 1000 - now;
+      setTimeLeft(calculateTimeLeft(distance));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [kickoffTime]);
+
   return (
     <>
       <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full">
@@ -23,6 +49,17 @@ export const SignedInScreen = (props: {
           <p className="text-lightGray font-medium">
             {props.session.user?.email}
           </p>
+
+          <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
+            <p className="text-lightGray">
+              <b className="text-white">
+                Ready for Kickoff on {formatEpochSecondsToDate(kickoffTime)}?
+              </b>
+              <br />
+              {timeLeft.weeks} weeks, {timeLeft.days} days, {timeLeft.hours}{" "}
+              hours, {timeLeft.minutes} mins, & {timeLeft.seconds} secs
+            </p>
+          </div>
         </div>
 
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">

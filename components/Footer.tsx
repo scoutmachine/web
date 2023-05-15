@@ -20,8 +20,8 @@ export const Footer = () => {
           >
             <Image
               src="/powered-by-vercel.svg"
-              height="175"
-              width="175"
+              height="150"
+              width="150"
               alt="Powered by Vercel"
               className="mt-2"
             />
