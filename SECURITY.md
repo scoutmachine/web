@@ -8,8 +8,8 @@ maintaining a fork of Scout Machine it is recommended that you keep up to date w
 ## Reporting a Vulnerability
 
 To report a security vulnerability either
-[create a security report](https://github.com/gryphonmachine/machine/issues/new/choose) or join the
-[Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) and privately message a developer.
+[create a security report](https://github.com/scoutmachine/web/issues/new/choose) or join the
+[Scout Machine Discord](https://discord.com/invite/yYtc8gpsXK) and privately message a developer.
 
 Please do not openly post a security vulnerability as this may put other users at risk.
 

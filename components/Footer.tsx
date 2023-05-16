@@ -15,7 +15,7 @@ export const Footer = () => {
         </Link>
         <div className="flex items-center justify-center">
           <a
-            href="https://vercel.com/?utm_source=gryphonmachine&utm_campaign=oss"
+            href="https://vercel.com/?utm_source=scoutmachine&utm_campaign=oss"
             target="_blank"
           >
             <Image
