@@ -38,7 +38,7 @@ export const MarketplacePost = (props: any) => {
         });
       }
     });
-  }, [distance]);
+  }, [distance, props.marketplacePost.latitude, props.marketplacePost.longitude]);
 
   return (
     <div>

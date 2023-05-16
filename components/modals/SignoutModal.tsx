@@ -35,13 +35,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         Are you sure you want to sign out of your current session?
       </p>
 
-      <div className="border border-[#2A2A2A] bg-card rounded-lg px-1 py-2">
-        <p className="text-xs text-center text-lightGray">
-          {navigator.userAgent}
-        </p>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-center items-center gap-2">
+      <div className="flex flex-row justify-center items-center gap-2">
         <div className="mt-4">
           <button
             type="button"

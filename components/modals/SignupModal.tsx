@@ -37,7 +37,7 @@ const ModalBody = () => (
 
 const ModalFooter = () => (
   <>
-    <div className="flex flex-col md:flex-row justify-center items-center gap-2">
+    <div className="flex flex-row justify-center items-center gap-2">
       <div className="mt-4">
         <button
           type="button"

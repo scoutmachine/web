@@ -423,14 +423,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     });
 
-    const teamMembers = await db.user.findMany({
-      where: {
-        teamNumber: Number(team),
-      },
-    });
-
-    return { props: { user, teamMembers } };
+    return { props: { user } };
   }
 
-  return { props: {} };
+  const teamMembers = await db.user.findMany({
+    where: {
+      teamNumber: Number(team),
+    },
+  });
+
+  return { props: { teamMembers } };
 };
