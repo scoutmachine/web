@@ -27,7 +27,7 @@ export const MarketplacePage = (props: any) => {
           alt=""
         />
         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-          <h2 className="text-sm text-gray-300">MISSISSAUGA, ON</h2>
+          <h2 className="text-sm text-gray-300 uppercase">{props.marketplacePost.location}</h2>
           <h1
             className="text-white text-3xl font-bold mb-2"
             style={{ cursor: "auto" }}
