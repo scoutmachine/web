@@ -14,7 +14,7 @@ async function getContributors() {
   if (contributors) return contributors;
 
   const fetchContributors = await fetch(
-    `${GITHUB_URL}/contributors?per_page=100`
+    `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
   )
     .then((response) => response.json())
     .then((contributors) =>
@@ -26,6 +26,27 @@ async function getContributors() {
   setStorage("contributors", fetchContributors);
   return fetchContributors;
 }
+
+const IssueTemplate = (props: any) => {
+  return (
+    <div className="space-y-2">
+      <li>
+        Go to{" "}
+        <a className="text-white" href={`${GITHUB_URL}/issues`} target="_blank">
+          {GITHUB_URL}/issues
+        </a>
+      </li>
+      <li>
+        Click <span className="bg-card rounded-lg py-1 px-2">New Issue</span>
+      </li>
+      <li>
+        Select the{" "}
+        <span className="bg-card rounded-lg py-1 px-2">{props.template}</span>{" "}
+        template, fill it out, then submit!
+      </li>
+    </div>
+  );
+};
 
 export const SignedOutScreen = () => {
   const [contributors, setContributors] = useState([]);
@@ -92,9 +113,10 @@ export const SignedOutScreen = () => {
           <h1 className="text-xl text-lightGray">
             We&apos;re 100% open-source on{" "}
             <a
-                href={GITHUB_URL} target="_blank"
-                rel="noopener noreferrer"
-                className="text-white"
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white"
             >
               <span className="inline-block align-top	ml-1">
                 <FaGithub className="text-3xl" />
@@ -105,10 +127,10 @@ export const SignedOutScreen = () => {
             If you have any questions, feature requests, bug reports, or you
             just want to see some sneak peeks of updates, join our{" "}
             <a
-                href={DISCORD_URL}
-                rel="noopener noreferrer"
-                target="_blank"
-                className="text-violet-400"
+              href={DISCORD_URL}
+              rel="noopener noreferrer"
+              target="_blank"
+              className="text-violet-400"
             >
               <span className="inline-block align-top">
                 <FaDiscord className="text-3xl" />
@@ -167,11 +189,11 @@ export const SignedOutScreen = () => {
           />
           <FAQ
             question="I found a bug. How do I report it?"
-            answer={`Go to ${GITHUB_URL}/issues and click get started on the bug report template.`}
+            answer={<IssueTemplate template="Bug Report" />}
           />
           <FAQ
             question="I want a feature to be added. How do I suggest it?"
-            answer={`Go to ${GITHUB_URL}/issues and click get started on the feature request template.`}
+            answer={<IssueTemplate template="Feature Request" />}
           />
           <FAQ
             question="How can I help?"
@@ -196,8 +218,10 @@ export const SignedOutScreen = () => {
                 <p className="font-medium mt-4 mb-[-2px]">
                   Contributing Code via{" "}
                   <a
-                      className="text-white" href={GITHUB_URL} target="_blank"
-                      rel="noopener noreferrer"
+                    className="text-white"
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Github
                   </a>
