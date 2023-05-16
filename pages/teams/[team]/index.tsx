@@ -332,8 +332,9 @@ export default function TeamPage({ user, teamMembers }: any) {
                               </a>
                             </Link>
                             <a
-                                href={event.gmaps_url} target="_blank"
-                                rel="noopener noreferrer"
+                              href={event.gmaps_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
                               <p className="text-lightGray hover:text-white">
                                 {event.location_name &&

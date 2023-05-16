@@ -20,6 +20,7 @@ Steps to reproduce the issue if possible:
 Add screenshots to help explain the issue.
 
 **Browser**
+
 - OS: [e.g. Windows 11]
 - Browser: [e.g. Chrome, Safari]
 

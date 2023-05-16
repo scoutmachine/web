@@ -6,13 +6,18 @@ import { IconType } from "react-icons";
 import router from "next/router";
 import { ListingType } from "@/types/ListingType";
 import { codes } from "currency-codes";
+import * as yup from "yup";
 
 type Props = {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const currencyOptions = ["USD", ""];
+const validationSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  price: yup.string().required("Price is required"),
+});
+
 const Input = (props: {
   className?: string;
   placeholder: string;
@@ -54,18 +59,28 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [currencyType, setCurrencyType] = useState("USD");
 
   const createListing = async () => {
-    const data = {
-      title: title,
-      content: description,
-      price: price,
-      type: listingType,
-      currencyType: currencyType,
-    };
+    try {
+      await validationSchema.validate({
+        title,
+        description,
+        price,
+      });
 
-    await fetch(`${API_URL}/api/@me/post`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    }).then(() => router.reload());
+      const data = {
+        title: title,
+        content: description,
+        price: price,
+        type: listingType,
+        currencyType: currencyType,
+      };
+
+      await fetch(`${API_URL}/api/@me/post`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      }).then(() => router.reload());
+    } catch (error) {
+      setErrorMessage((error as Error).message);
+    }
   };
 
   return (

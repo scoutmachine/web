@@ -104,8 +104,9 @@ export const TeamScreen = (props: any) => {
         <div className="flex flex-wrap gap-3 md:gap-5 mt-3">
           {props.team.website && (
             <a
-                href={props.team.website} target="_blank"
-                rel="noopener noreferrer"
+              href={props.team.website}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Social
                 icon={FaLink}

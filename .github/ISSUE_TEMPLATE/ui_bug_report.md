@@ -20,6 +20,7 @@ Steps to reproduce the behavior the UI issue:
 Add screenshots here to show the UI issue as best as possible.
 
 **Browser**
+
 - OS: [e.g. Windows 11]
 - Browser: [e.g. Chrome, Safari]
 

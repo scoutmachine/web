@@ -20,6 +20,7 @@ Steps to reproduce the error if possible:
 Add screenshots here to show the error message best as possible.
 
 **Browser**
+
 - OS: [e.g. Windows 11]
 - Browser: [e.g. Chrome, Safari]
 

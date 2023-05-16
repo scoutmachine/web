@@ -15,7 +15,9 @@ export const FAQ = (props: {
         className="flex items-center justify-between cursor-pointer text-lightGray hover:text-white transition-all duration-150"
         onClick={toggleOpen}
       >
-        <h3 className={`${open && 'text-white'} text-lg font-medium`}>{props.question}</h3>
+        <h3 className={`${open && "text-white"} text-lg font-medium`}>
+          {props.question}
+        </h3>
         <FaArrowUp
           className={`text-md transform transition-transform ${
             open ? "rotate-180 text-white" : ""

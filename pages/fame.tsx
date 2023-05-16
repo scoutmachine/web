@@ -19,7 +19,11 @@ export default function HOFPage() {
       <Header
         className="flex"
         title={
-          <a href="https://www.firsthalloffame.org/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.firsthalloffame.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <h1 className="flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-white">
               <FaMedal className="mr-1 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
               <span className="italic md:mr-3 mr-2">FIRST</span> Hall of Fame

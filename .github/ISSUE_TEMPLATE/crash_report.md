@@ -20,6 +20,7 @@ Steps to reproduce the crash if possible:
 Add screenshots here to show any relevant information.
 
 **Browser**
+
 - OS: [e.g. Windows 11]
 - Browser: [e.g. Chrome, Safari]
 

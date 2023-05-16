@@ -36,8 +36,9 @@ export const EventHeader = (props: any) => {
           <br />{" "}
           {props.event.location_name && (
             <a
-                href={props.event.gmaps_url} target="_blank"
-                rel="noopener noreferrer"
+              href={props.event.gmaps_url}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {props.event.location_name},
             </a>
@@ -56,8 +57,9 @@ export const EventHeader = (props: any) => {
         </p>
         {props.event.website && props.event.website !== "N/A" && (
           <a
-              href={props.event.website} target="_blank"
-              rel="noopener noreferrer"
+            href={props.event.website}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <Social
               icon={FaLink}
