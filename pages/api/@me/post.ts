@@ -24,6 +24,7 @@ export default async function marketplaceAPI(
         currencyType: body.currencyType as string,
         published: false,
         price: Number(body.price),
+        location: body.location,
       },
     });
 

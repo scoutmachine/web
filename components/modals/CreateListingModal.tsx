@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { API_URL } from "@/lib/constants";
-import { FaBolt, FaDollarSign, FaFire, } from "react-icons/fa";
+import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { IconType } from "react-icons";
 import router from "next/router";
 import { ListingType } from "@/types/ListingType";
 import { codes } from "currency-codes";
 import * as yup from "yup";
-import GoogleAutocomplete from 'react-google-autocomplete'
+import GoogleAutocomplete from "react-google-autocomplete";
 
 type Props = {
   isOpen: boolean;
@@ -25,7 +25,8 @@ const Input = (props: {
   placeholder: string;
   state?: (e: string) => void;
   icon: IconType;
-  isLocation?: boolean; }) => {
+  isLocation?: boolean;
+}) => {
   const { isLocation } = props;
 
   if (isLocation) {
@@ -62,7 +63,6 @@ const Input = (props: {
   );
 };
 
-
 const ModalHeader = () => {
   return (
     <h1 className="font-semibold text-xl">
@@ -96,6 +96,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         price: price,
         type: listingType,
         currencyType: currencyType,
+        location: location,
       };
 
       await fetch(`${API_URL}/api/@me/post`, {
@@ -184,19 +185,18 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
           </div>
         </div>
         <div>
-        <div>
-  <p className="uppercase text-xs text-lightGray mb-2">Location</p>
-  <div className="flex gap-x-2">
-    <Input
-      placeholder="Location"
-      icon={MdLocationOn}       
-      state={setLocation}
-      isLocation 
-    />
-  </div>
-</div>
-
-</div>
+          <div>
+            <p className="uppercase text-xs text-lightGray mb-2">Location</p>
+            <div className="flex gap-x-2">
+              <Input
+                placeholder="Location"
+                icon={MdLocationOn}
+                state={setLocation}
+                isLocation
+              />
+            </div>
+          </div>
+        </div>
         <button
           className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
           onClick={() => createListing()}
