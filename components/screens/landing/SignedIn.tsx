@@ -52,15 +52,24 @@ export const SignedInScreen = (props: {
             {props.session.user?.email}
           </p>
 
-          <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
-            <p className="text-lightGray">
-              <b className="text-white">
-                Ready for Kickoff on {formatEpochSecondsToDate(kickoffTime)}?
-              </b>
-              <br />
-              {timeLeft.weeks} weeks, {timeLeft.days} days, {timeLeft.hours}{" "}
-              hours, {timeLeft.minutes} mins, & {timeLeft.seconds} secs
-            </p>
+          <div className="flex flex-col md:grid md:grid-cols-2 md:gap-3">
+            <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
+              <p className="text-lightGray">
+                <b className="text-white">
+                  Ready for Kickoff on {formatEpochSecondsToDate(kickoffTime)}?
+                </b>
+                <br />
+                {timeLeft.weeks} weeks, {timeLeft.days} days, {timeLeft.hours}{" "}
+                hours, {timeLeft.minutes} mins, & {timeLeft.seconds} secs
+              </p>
+            </div>
+            <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
+              <p className="text-lightGray">
+                <b className="text-white">Current Season</b>
+                <br />
+                2023 CHARGED UP
+              </p>
+            </div>
           </div>
         </div>
 

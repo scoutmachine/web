@@ -27,10 +27,7 @@ export const teamNumberInRange = (
 
 export async function fetchTeamsData() {
   const teamsData = getStorage(`teams_${CURR_YEAR}`);
-
-  if (teamsData) {
-    return teamsData;
-  }
+  if (teamsData) return teamsData;
 
   const start = performance.now();
   const getTeams = async (pageNum: string) =>

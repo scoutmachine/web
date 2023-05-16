@@ -11,6 +11,20 @@ import {
   unfavouriteTeam,
 } from "@/utils/favourites";
 
+const PlaceholderTeamCard = () => {
+  return (
+    <div className="relative px-5 py-8 h-32 border border-[#2A2A2A] bg-card hover:border-gray-600 rounded-lg">
+      <div className="animate-pulse flex space-x-4">
+        <div className="rounded-full bg-[#2A2A2A] h-10 w-10 absolute top-5 right-3"></div>
+        <div className="flex-1 space-y-4 py-1">
+          <div className="h-2 bg-[#2A2A2A] rounded w-5/6"></div>
+          <div className="h-2 bg-[#2A2A2A] rounded w-5/6"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
   const [favourites, setFavourites] = useState<any>();
@@ -27,8 +41,6 @@ export const TeamCard = (props: any) => {
     getFavourites(setFavourites);
   }, []);
 
-  if (!isFavourited && props.showFavLoading) return <Loading />;
-
   const data = {
     team_number: props.team.team_number,
     nickname: props.team.nickname,
@@ -38,6 +50,8 @@ export const TeamCard = (props: any) => {
     website: props.team.website,
     rookie_year: props.team.rookie_year,
   };
+
+  if (!isFavourited && props.showFavLoading) return <PlaceholderTeamCard />;
 
   return (
     <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
