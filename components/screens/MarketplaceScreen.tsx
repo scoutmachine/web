@@ -43,7 +43,7 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
         </select>
         <p>
           {filteredMarketplacePosts.length}{" "}
-          {filteredMarketplacePosts.length == 1 ? "posts" : "post"}
+          {filteredMarketplacePosts.length == 1 ? "post" : "posts"}
         </p>
       </div>
       {mounted && (
