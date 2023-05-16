@@ -25,28 +25,7 @@ const Input = (props: {
   placeholder: string;
   state?: (e: string) => void;
   icon: IconType;
-  isLocation?: boolean;
 }) => {
-  const { isLocation } = props;
-
-  if (isLocation) {
-    return (
-      <div className="relative w-full">
-        <GoogleAutocomplete
-          className={`${props.className} w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
-          placeholder={props.placeholder}
-          apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY}
-          onPlaceSelected={(place) => {
-            props.state?.(place.formatted_address);
-          }}
-        />
-        <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-          <props.icon className="text-sm text-lightGray" />
-        </span>
-      </div>
-    );
-  }
-
   return (
     <div className="relative w-full">
       <input
@@ -80,7 +59,11 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
     ListingType.controller
   );
   const [currencyType, setCurrencyType] = useState("USD");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState({
+    formattedAddress: "",
+    latitude: 0,
+    longitude: 0,
+  });
 
   const createListing = async () => {
     try {
@@ -96,7 +79,9 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         price: price,
         type: listingType,
         currencyType: currencyType,
-        location: location,
+        formattedAddress: location.formattedAddress,
+        latitude: location.latitude,
+        longitude: location.longitude,
       };
 
       await fetch(`${API_URL}/api/@me/post`, {
@@ -188,12 +173,25 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
           <div>
             <p className="uppercase text-xs text-lightGray mb-2">Location</p>
             <div className="flex gap-x-2">
-              <Input
-                placeholder="Location"
-                icon={MdLocationOn}
-                state={setLocation}
-                isLocation
-              />
+              <div className="relative w-full">
+                <GoogleAutocomplete
+                  className={`w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
+                  placeholder={"Location"}
+                  apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY}
+                  onPlaceSelected={(place) => {
+                    const location = {
+                      formattedAddress: place.formatted_address,
+                      latitude: place.geometry.location.lat(),
+                      longitude: place.geometry.location.lng(),
+                    };
+
+                    setLocation(location);
+                  }}
+                />
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <MdLocationOn className="text-sm text-lightGray" />
+                </span>
+              </div>
             </div>
           </div>
         </div>

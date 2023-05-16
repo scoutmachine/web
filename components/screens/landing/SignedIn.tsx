@@ -91,7 +91,10 @@ export const SignedInScreen = (props: {
             </span>
           )}
 
-          <p onClick={() => router.push("/marketplace")} className="flex mt-8 font-bold text-lightGray text-md md:mt-16 hover:cursor-pointer">
+          <p
+            onClick={() => router.push("/marketplace")}
+            className="flex mt-8 font-bold text-lightGray text-md md:mt-16 hover:cursor-pointer"
+          >
             <FaTags className="text-[22px] mr-2 text-lightGray" /> Marketplace
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.posts.length} {props.posts.length === 1 ? "post" : "posts"}

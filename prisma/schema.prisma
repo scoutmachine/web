@@ -71,17 +71,19 @@ model VerificationToken {
 }
 
 model Post {
-  id           Int      @id @default(autoincrement())
-  title        String
-  content      String?
-  price        Int
-  type         PostType
-  currencyType String?
-  location     String?
-  media        String[]
-  published    Boolean  @default(false)
-  author       User     @relation(fields: [authorId], references: [id])
-  authorId     String
+  id               Int      @id @default(autoincrement())
+  title            String
+  content          String?
+  price            Int
+  type             PostType
+  currencyType     String?
+  formattedAddress String?
+  latitude         Float?
+  longitude        Float?
+  media            String[]
+  published        Boolean  @default(false)
+  author           User     @relation(fields: [authorId], references: [id])
+  authorId         String
 }
 
 model FavouritedTeam {
