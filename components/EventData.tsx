@@ -372,10 +372,10 @@ export const EventData = (props: any) => {
                   </th>
                 )}
                 <th scope="col" className="px-6 py-3 text-red-400">
-                  Red Score
+                  Red Alliance
                 </th>
                 <th scope="col" className="px-6 py-3 text-sky-400">
-                  Blue Score
+                  Blue Alliance
                 </th>
               </tr>
             </thead>

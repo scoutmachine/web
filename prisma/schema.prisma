@@ -49,17 +49,18 @@ model Session {
 }
 
 model User {
-  id            String           @id @default(cuid())
-  name          String?
-  email         String?          @unique
-  emailVerified DateTime?
-  image         String?
-  teamNumber    Int?
-  admin         Boolean          @default(false)
-  accounts      Account[]
-  sessions      Session[]
-  posts         Post[]
-  favourited    FavouritedTeam[]
+  id               String            @id @default(cuid())
+  name             String?
+  email            String?           @unique
+  emailVerified    DateTime?
+  image            String?
+  teamNumber       Int?
+  admin            Boolean           @default(false)
+  accounts         Account[]
+  sessions         Session[]
+  posts            Post[]
+  favouritedTeams  FavouritedTeam[]
+  favouritedEvents FavouritedEvent[]
 }
 
 model VerificationToken {
@@ -97,4 +98,18 @@ model FavouritedTeam {
   rookie_year Int
   User        User?   @relation(fields: [userId], references: [id])
   userId      String?
+}
+
+model FavouritedEvent {
+  id               Int     @id @default(autoincrement())
+  name             String
+  address          String
+  state_prov       String
+  city             String
+  country          String
+  first_event_code String
+  start_date       String
+  end_date         String
+  User             User?   @relation(fields: [userId], references: [id])
+  userId           String?
 }

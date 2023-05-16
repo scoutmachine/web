@@ -20,7 +20,7 @@ export default async function getUserFavourites(
           id: session?.user?.id,
         },
         include: {
-          favourited: true,
+          favouritedTeams: true,
         },
       });
 

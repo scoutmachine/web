@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         id: session.user.id,
       },
       include: {
-        favourited: true,
+        favouritedTeams: true,
         posts: {
           include: {
             author: true,
@@ -70,9 +70,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
     const teamAvatars: any = {};
 
-    if (user?.favourited) {
+    if (user?.favouritedTeams) {
       await Promise.all(
-        user.favourited.map(async (team: any) => {
+        user.favouritedTeams.map(async (team: any) => {
           const data = await fetch(
             `${API_URL}/api/team/avatar?team=${team.team_number}`
           ).then((res) => res.json());
