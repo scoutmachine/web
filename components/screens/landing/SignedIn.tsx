@@ -4,6 +4,7 @@ import { FaStar, FaTags } from "react-icons/fa";
 import { MarketplacePost } from "../marketplace/MarketplacePost";
 import { useEffect, useState } from "react";
 import { formatEpochSecondsToDate } from "@/utils/time";
+import { useRouter } from "next/router";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -14,6 +15,7 @@ export const SignedInScreen = (props: {
 }) => {
   const [timeLeft, setTimeLeft] = useState<any>({});
   const kickoffTime = 1704542400;
+  const router = useRouter();
 
   function calculateTimeLeft(distance: any) {
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -89,7 +91,7 @@ export const SignedInScreen = (props: {
             </span>
           )}
 
-          <p className="flex mt-8 font-bold text-lightGray text-md md:mt-16">
+          <p onClick={() => router.push("/marketplace")} className="flex mt-8 font-bold text-lightGray text-md md:mt-16 hover:cursor-pointer">
             <FaTags className="text-[22px] mr-2 text-lightGray" /> Marketplace
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.posts.length} {props.posts.length === 1 ? "post" : "posts"}
