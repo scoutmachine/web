@@ -2488,6 +2488,11 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==
 
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+
 lodash.isfunction@^3.0.9:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.9.tgz#06de25df4db327ac931981d1bdb067e5af68d051"
@@ -3153,7 +3158,7 @@ prisma@^4.14.0:
   dependencies:
     "@prisma/engines" "4.14.0"
 
-prop-types@^15.8.1:
+prop-types@^15.5.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -3226,6 +3231,14 @@ react-dropzone@^14.2.3:
     attr-accept "^2.2.2"
     file-selector "^0.6.0"
     prop-types "^15.8.1"
+
+react-google-autocomplete@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/react-google-autocomplete/-/react-google-autocomplete-2.7.3.tgz#96c59748f61c283de998176bcfcebb324d826c2a"
+  integrity sha512-Nm+7/VDe7/NDWb8p/a39is7ktNqt5bNqAOoQv2Ev/XkuEvjsRk08VAPFmXUH03xKuM8IUuDrk2Lwfge44YEj6Q==
+  dependencies:
+    lodash.debounce "^4.0.8"
+    prop-types "^15.5.0"
 
 react-icons@^4.8.0:
   version "4.8.0"

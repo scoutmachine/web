@@ -1,12 +1,14 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { API_URL } from "@/lib/constants";
-import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
+import { FaBolt, FaDollarSign, FaFire, } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
 import { IconType } from "react-icons";
 import router from "next/router";
 import { ListingType } from "@/types/ListingType";
 import { codes } from "currency-codes";
 import * as yup from "yup";
+import GoogleAutocomplete from 'react-google-autocomplete'
 
 type Props = {
   isOpen: boolean;
@@ -23,7 +25,27 @@ const Input = (props: {
   placeholder: string;
   state?: (e: string) => void;
   icon: IconType;
-}) => {
+  isLocation?: boolean; }) => {
+  const { isLocation } = props;
+
+  if (isLocation) {
+    return (
+      <div className="relative w-full">
+        <GoogleAutocomplete
+          className={`${props.className} w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
+          placeholder={props.placeholder}
+          apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY}
+          onPlaceSelected={(place) => {
+            props.state?.(place.formatted_address);
+          }}
+        />
+        <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+          <props.icon className="text-sm text-lightGray" />
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full">
       <input
@@ -39,6 +61,7 @@ const Input = (props: {
     </div>
   );
 };
+
 
 const ModalHeader = () => {
   return (
@@ -57,6 +80,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
     ListingType.controller
   );
   const [currencyType, setCurrencyType] = useState("USD");
+  const [location, setLocation] = useState("");
 
   const createListing = async () => {
     try {
@@ -159,7 +183,20 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
             </select>
           </div>
         </div>
+        <div>
+        <div>
+  <p className="uppercase text-xs text-lightGray mb-2">Location</p>
+  <div className="flex gap-x-2">
+    <Input
+      placeholder="Location"
+      icon={MdLocationOn}       
+      state={setLocation}
+      isLocation 
+    />
+  </div>
+</div>
 
+</div>
         <button
           className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
           onClick={() => createListing()}
