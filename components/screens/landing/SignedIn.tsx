@@ -38,15 +38,15 @@ export const SignedInScreen = (props: {
 
   return (
     <>
-      <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full">
+      <div className="w-full pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl">
         <div className="border border-[#2a2a2a] bg-[#191919] mt-10 rounded-lg px-10 py-10">
-          <h1 className="flex flex-wrap font-bold text-5xl">
+          <h1 className="flex flex-wrap text-5xl font-bold">
             Welcome back,{" "}
             <span className="text-primary md:ml-2">
               {props.session.user?.name}!
             </span>
           </h1>
-          <p className="text-lightGray font-medium">
+          <p className="font-medium text-lightGray">
             {props.session.user?.email}
           </p>
 
@@ -63,7 +63,7 @@ export const SignedInScreen = (props: {
         </div>
 
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
-          <p className="flex text-lightGray font-bold text-md">
+          <p className="flex font-bold text-lightGray text-md">
             <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.favourites.length}{" "}
@@ -71,7 +71,7 @@ export const SignedInScreen = (props: {
             </span>
           </p>
           {props.favourites.length > 0 ? (
-            <div className="mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4 flex flex-col gap-3">
+            <div className="flex flex-col gap-3 mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4">
               {props.favourites.map((team: any, key: number) => {
                 return (
                   <TeamCard
@@ -84,12 +84,12 @@ export const SignedInScreen = (props: {
               })}
             </div>
           ) : (
-            <span className="text-lightGray text-sm font-medium">
+            <span className="text-sm font-medium text-lightGray">
               Looks like you have not favourited any teams, yet.
             </span>
           )}
 
-          <p className="flex text-lightGray font-bold text-md mt-8 md:mt-16">
+          <p className="flex mt-8 font-bold text-lightGray text-md md:mt-16">
             <FaTags className="text-[22px] mr-2 text-lightGray" /> Marketplace
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.posts.length} {props.posts.length === 1 ? "post" : "posts"}
@@ -108,7 +108,7 @@ export const SignedInScreen = (props: {
               })}
             </div>
           ) : (
-            <span className="text-lightGray text-sm font-medium">
+            <span className="text-sm font-medium text-lightGray">
               Looks like you have no activity on marketplace, yet.
             </span>
           )}
