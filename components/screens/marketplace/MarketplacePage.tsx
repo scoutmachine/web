@@ -76,7 +76,7 @@ export const MarketplacePage = (props: any) => {
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <a href={`mailto:${props.marketplacePost.author?.email}`}>
+              <a href={`mailto:${props.marketplacePost.author?.email}`} rel="noopener noreferrer">
                 <button className="text-sm ml-auto flex border border-[#2A2A2A] bg-card hover:border-gray-600 py-1 px-4 text-lightGray font-medium rounded-lg">
                   Contact Seller
                 </button>

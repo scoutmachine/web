@@ -33,10 +33,10 @@ const IssueTemplate = (props: any) => {
       <li>
         Go to{" "}
         <a
-            className="text-white"
-            href={`${GITHUB_URL}/issues`}
-            rel="noopener noreferrer"
-            target="_blank"
+          className="text-white"
+          href={`${GITHUB_URL}/issues`}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           {GITHUB_URL}/issues
         </a>
@@ -201,7 +201,13 @@ export const SignedOutScreen = () => {
             answer={<IssueTemplate template="Feature Request" />}
           />
           <FAQ
-            question="How can I help?"
+            question="I found a security vulnerability. How do I report it?"
+            answer={
+              <IssueTemplate template="Report a security vulnerability" />
+            }
+          />
+          <FAQ
+            question="I love Scout Machine! How can I help?"
             answer={
               <div>
                 <p className="font-medium mb-[-2px]">
