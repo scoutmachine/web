@@ -32,7 +32,12 @@ const IssueTemplate = (props: any) => {
     <div className="space-y-2">
       <li>
         Go to{" "}
-        <a className="text-white" href={`${GITHUB_URL}/issues`} target="_blank">
+        <a
+            className="text-white"
+            href={`${GITHUB_URL}/issues`}
+            rel="noopener noreferrer"
+            target="_blank"
+        >
           {GITHUB_URL}/issues
         </a>
       </li>
