@@ -24,39 +24,40 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
   }, []);
 
   return (
-    <div className="text-left mt-10">
-      <div className="pl-4 pr-4 pb-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full flex justify-between">
-        <select
-          onChange={(event) => setListingType(event.target.value)}
-          className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm"
-        >
-          <option key="filterBy" value="filterBy">
-            filter by
-          </option>
-          {Object.values(ListingType).map((value) => {
-            return (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            );
-          })}
-        </select>
-        <p>
-          {filteredMarketplacePosts.length}{" "}
-          {filteredMarketplacePosts.length == 1 ? "posts" : "post"}
-        </p>
-      </div>
-      {mounted && (
-        <div className="pr-4 pl-4 md:pl-8 md:pr-8 flex items-center justify-center flex-col grid sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {filteredMarketplacePosts.map((marketplacePost: any, index: any) => (
-            <MarketplacePost
-              key={index}
-              marketplacePost={marketplacePost}
-              user={user}
-            />
-          ))}
+    <>
+      <div className="text-left mt-10">
+        <div className="pl-4 pr-4 pb-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full flex">
+          <p className="mr-2 text-lightGray">
+            {filteredMarketplacePosts.length}{" "}
+            {filteredMarketplacePosts.length === 1 ? "post" : "posts"}
+          </p>
+          <select
+            onChange={(event) => setListingType(event.target.value)}
+            className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm"
+          >
+            <option key="filterBy" value="filterBy">
+              filter by
+            </option>
+            {Object.values(ListingType).map((value) => {
+              return (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              );
+            })}
+          </select>
         </div>
-      )}
-    </div>
+      </div>
+
+      <div className="pl-4 pr-4 md:pl-8 md:pr-8 gap-3 space-y-3 columns-1 md:columns-3 lg:columns-5">
+        {filteredMarketplacePosts.map((marketplacePost: any, index: any) => (
+          <MarketplacePost
+            key={index}
+            marketplacePost={marketplacePost}
+            user={user}
+          />
+        ))}
+      </div>
+    </>
   );
 };

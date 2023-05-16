@@ -17,13 +17,15 @@ export const MarketplacePost = (props: any) => {
 
   return (
     <div>
-      <div className="relative border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 rounded-lg relative">
+      <div className="overflow-hidden relative border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 rounded-lg">
         <Link href={`/marketplace/${props.marketplacePost.id}`}>
-          <img
-            className="rounded-lg mb-4 object-contain md:h-[350px] md:w-[350px]"
-            src={props.marketplacePost.media[0] ?? "/smLogo.png"}
-            alt={`${props.marketplacePost.title} Media Image`}
-          />
+          {props.marketplacePost.media.length > 0 && (
+            <img
+              className="rounded-lg mb-4 object-contain md:h-[350px] md:w-[350px]"
+              src={props.marketplacePost.media[0]}
+              alt={`${props.marketplacePost.title} Media Image`}
+            />
+          )}
           <h1 className="font-bold text-xl text-white">
             {props.marketplacePost.title}
           </h1>
