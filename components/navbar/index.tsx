@@ -106,13 +106,13 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
           } bg-card border border-[#2A2A2A] bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between`}
         >
-          <div className="flex relative space-x-1">
+          <div className="relative flex space-x-1">
             <Link href="/" legacyBehavior>
               <a>
-                <h1 className="font-extrabold text-white text-2xl mr-2 hidden md:block">
+                <h1 className="hidden mr-2 text-2xl font-extrabold text-white md:block">
                   sm
                 </h1>
-                <h1 className="font-black text-white text-2xl mr-2 md:hidden">
+                <h1 className="mr-2 text-2xl font-black text-white md:hidden">
                   sm
                 </h1>
               </a>
@@ -145,7 +145,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               } rounded-lg py-2 px-[13px]`}
             >
               <FaBars
-                className="2xl:hidden text-white text-xl"
+                className="text-xl text-white 2xl:hidden"
                 onClick={() => setShowLinks(!showLinks)}
               />
             </div>
@@ -167,7 +167,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                     } font-medium mb-2 md:mb-0`}
                   >
                     <div className="flex items-center">
-                      <span className="text-lg mr-2">{link.icon}</span>
+                      <span className="mr-2 text-lg">{link.icon}</span>
                       <span>{link.title}</span>
                     </div>
                   </a>
@@ -191,7 +191,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                 item={
                   <Image
                     src={session.user?.image as string}
-                    className="rounded-full cursor-pointer ml-4 mt-3 md:mt-0"
+                    className="mt-3 ml-4 rounded-full cursor-pointer md:mt-0"
                     width={30}
                     height={30}
                     alt={`${session.user?.name} Avatar`}
@@ -200,26 +200,26 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                   />
                 }
               >
-                <div className="py-2 gap-y-2 flex flex-col items-center">
+                <div className="flex flex-col items-center py-2 gap-y-2">
                   <p
-                    className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
+                    className="text-sm cursor-pointer text-lightGray whitespace-nowrap hover:text-primary"
                     onClick={() => {
                       setShowEditProfileModal(true);
                       setProfileDropdown(false);
                     }}
                   >
-                    <FaUserCircle className="text-lg mr-1 inline-block" /> Edit
+                    <FaUserCircle className="inline-block mr-1 text-lg" /> Edit
                     Profile
                   </p>
 
                   <p
-                    className="text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
+                    className="text-sm cursor-pointer text-lightGray hover:text-red-400 whitespace-nowrap hover:text-primary"
                     onClick={() => {
                       setShowSignoutModal(true);
                       setProfileDropdown(false);
                     }}
                   >
-                    <FaSignOutAlt className="text-lg mr-1 inline-block" /> Sign
+                    <FaSignOutAlt className="inline-block mr-1 text-lg" /> Sign
                     Out
                   </p>
                 </div>
@@ -229,7 +229,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                 onClick={() => setShowLoginModal(true)}
                 className="md:mt-0 mt-3 text-sm border border-[#2A2A2A] bg-card hover:border-gray-600 px-3 py-[6px] text-lightGray font-medium rounded-lg md:ml-[-10px] ml-4"
               >
-                <FaUserCircle className="text-lg mr-1 inline-block" /> Sign{" "}
+                <FaUserCircle className="inline-block mr-1 text-lg" /> Sign{" "}
                 {localStorage.getItem("signUpState") ?? "up"}
               </button>
             )}
