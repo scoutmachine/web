@@ -26,7 +26,7 @@ export default function LandingPage({ user, avatars }: any) {
         <Navbar refresh />
         <SignedInScreen
           session={session}
-          favourites={user.favourited}
+          favourites={user.favouritedTeams}
           posts={user.posts}
           avatars={avatars}
           user={user}

@@ -6,7 +6,7 @@ export const getFavourites = async (setFavourites: any) => {
 
   if (data.ok) {
     const JSONdata = await data.json();
-    setFavourites(JSONdata.favourited);
+    setFavourites(JSONdata.favouritedTeams);
   }
 };
 

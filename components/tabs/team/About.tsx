@@ -40,11 +40,11 @@ export const AboutTab = (props: any) => {
         {district && (
           <>
             <p className="text-lightGray text-sm mt-2">
-              <b>Qualified for District Championship:</b>{" "}
+              <b className="text-white">Qualified for District Championship:</b>{" "}
               {props.team.teamDistrict.team.qualifiedDistrictCmp ? "Yes" : "No"}
             </p>
             <p className="text-lightGray text-sm">
-              <b>
+              <b className="text-white">
                 Qualified for <i>FIRST</i> Championship:
               </b>{" "}
               {props.team.teamDistrict.team.qualifiedFirstCmp ? "Yes" : "No"}

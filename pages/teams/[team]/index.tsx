@@ -412,6 +412,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )) as Session;
   const { team }: any = context.params;
 
+  const teamMembers = await db.user.findMany({
+    where: {
+      teamNumber: Number(team),
+    },
+  });
+
   if (session) {
     const user = await db.user.findUnique({
       where: {
@@ -423,14 +429,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     });
 
-    return { props: { user } };
+    return { props: { user, teamMembers } };
   }
-
-  const teamMembers = await db.user.findMany({
-    where: {
-      teamNumber: Number(team),
-    },
-  });
 
   return { props: { teamMembers } };
 };
