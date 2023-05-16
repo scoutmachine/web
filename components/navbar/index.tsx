@@ -118,37 +118,26 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               </a>
             </Link>
 
-            <a
-                href={GITHUB_URL} target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
               <Social icon={<FaGithub />} />
             </a>
 
-            <a
-                href={DISCORD_URL} target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
               <Social icon={<FaDiscord />} />
             </a>
 
-            <a
-                href={BMAC_URL} target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a href={BMAC_URL} target="_blank" rel="noopener noreferrer">
               <Social icon={<FaCoffee />} />
             </a>
 
-            <div
+            <button
               className={`absolute right-0 2xl:hidden block border border-[#2A2A2A] ${
                 showLinks ? `bg-[#1F1F1F]` : "bg-card"
               } rounded-lg py-2 px-[13px]`}
+              onClick={() => setShowLinks(!showLinks)}
             >
-              <FaBars
-                className="2xl:hidden text-white text-xl"
-                onClick={() => setShowLinks(!showLinks)}
-              />
-            </div>
+              <FaBars className="2xl:hidden text-white text-xl" />
+            </button>
           </div>
 
           <div
