@@ -7,9 +7,10 @@
     "build": "yarn generate && yarn push && next build",
     "start": "next start",
     "lint": "next lint && prettier --write .",
-    "generate": "prisma generate",
-    "push": "prisma db push",
-    "studio": "prisma studio",
+    "generate": "npx prisma generate",
+    "format": "npx prisma format",
+    "push": "yarn format && npx prisma db push",
+    "studio": "npx prisma studio",
     "semantic-commit": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "dependencies": {
