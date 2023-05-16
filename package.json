@@ -29,7 +29,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "export-from-json": "^1.7.2",
-    "framer-motion": "^10.12.11",
+    "framer-motion": "^10.12.12",
     "haversine-distance": "^1.2.1",
     "next": "13.4.2",
     "next-auth": "^4.22.1",
