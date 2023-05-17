@@ -92,6 +92,10 @@ const Socials = [
     icon: FaGitlab,
   },
   {
+    name: "YouTube",
+    icon: FaYoutube,
+  },
+  {
     name: "Tiktok",
     icon: FaTiktok,
   },

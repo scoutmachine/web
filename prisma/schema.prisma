@@ -120,10 +120,11 @@ model Team {
 }
 
 model Social {
-  id       Int     @id @default(autoincrement())
-  handle   String
-  type     String
-  verified Boolean @default(false)
-  Team     Team?   @relation(fields: [teamId], references: [id])
-  teamId   Int?
+  id          Int     @id @default(autoincrement())
+  handle      String
+  type        String
+  team_number Int
+  verified    Boolean @default(false)
+  Team        Team?   @relation(fields: [teamId], references: [id])
+  teamId      Int?
 }

@@ -25,5 +25,5 @@ export default async function getTeamAvatar(
   res: NextApiResponse
 ) {
   const { avatar } = await fetchTeamAvatar(req);
-  res.status(200).send(avatar);
+  res.status(200).send({ avatar });
 }
