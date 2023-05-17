@@ -177,7 +177,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
                 <GoogleAutocomplete
                   className={`w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
                   placeholder={"Location"}
-                  apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_PLACES_API_KEY}
+                  apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
                   onPlaceSelected={(place) => {
                     const location = {
                       formattedAddress: place.formatted_address,
