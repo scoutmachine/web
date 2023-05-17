@@ -25,11 +25,11 @@ export const TeamScreen = (props: any) => {
   const [isStarFilled, setIsStarFilled] = useState(false);
   const { data: session } = useSession();
 
-  const isFavourited = props.user?.favourited?.some(
+  const isFavourited = props.user?.favouritedTeams?.some(
     (favouritedTeam: any) =>
       favouritedTeam.team_number === props.team.team_number
   );
-  const favouritedTeam = props.user?.favourited?.filter(
+  const favouritedTeam = props.user?.favouritedTeams?.filter(
     (favouritedTeam: any) =>
       favouritedTeam.team_number === props.team.team_number
   );

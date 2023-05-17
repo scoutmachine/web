@@ -14,6 +14,7 @@ import {
   FaBolt,
   FaBars,
   FaChartLine,
+  FaUndo,
 } from "react-icons/fa";
 import { Loading } from "../Loading";
 import { useSession } from "next-auth/react";
@@ -26,6 +27,7 @@ import { Search } from "./Search";
 import { Team } from "@/types/Team";
 import { fetchTeamsData } from "@/utils/team";
 import { GITHUB_URL, DISCORD_URL, BMAC_URL } from "@/lib/constants";
+import router from "next/router";
 
 const Social = (props: { icon: ReactNode }) => {
   return (
@@ -199,6 +201,16 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
                   >
                     <FaUserCircle className="text-lg mr-1 inline-block" /> Edit
                     Profile
+                  </p>
+
+                  <p
+                    className="text-sm text-lightGray hover:text-primary cursor-pointer whitespace-nowrap hover:text-primary"
+                    onClick={() => {
+                      localStorage.clear();
+                      router.reload();
+                    }}
+                  >
+                    <FaUndo className="text-lg mr-1 inline-block" /> Clear Cache
                   </p>
 
                   <p

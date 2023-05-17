@@ -87,7 +87,8 @@ async function fetchTeamData(team: string) {
 
   setStorage(
     `team_${team}_${CURR_YEAR}`,
-    (await fetchInfo()) as unknown as string
+    (await fetchInfo()) as unknown as string,
+    60 * 60 * 12
   );
   return await fetchInfo();
 }
