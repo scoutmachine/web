@@ -16,7 +16,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@next-auth/prisma-adapter": "^1.0.6",
-    "@prisma/client": "^4.14.0",
+    "@prisma/client": "^4.14.1",
     "@tippyjs/react": "^4.2.6",
     "@types/node": "20.1.5",
     "@types/react": "18.2.6",
