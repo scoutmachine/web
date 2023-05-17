@@ -7,7 +7,7 @@ export const MarketplacePage = (props: any) => {
   const distance = useDistance(
     props.marketplacePost.latitude,
     props.marketplacePost.longitude
-  ); 
+  );
   const partTypeColour = () => {
     switch (props.marketplacePost.type) {
       case "controller":
@@ -33,12 +33,12 @@ export const MarketplacePage = (props: any) => {
         />
         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
           <div className="pb-3">
-          <h2 className="text-sm text-gray-300 uppercase">
-            {props.marketplacePost.formattedAddress}
-          </h2>
-          <h2 className="text-sm text-gray-300">
-          📌 {Math.ceil(distance as number).toLocaleString("en-US")} km away
-          </h2>
+            <h2 className="text-sm text-gray-300 uppercase">
+              {props.marketplacePost.formattedAddress}
+            </h2>
+            <h2 className="text-sm text-gray-300">
+              📌 {Math.ceil(distance as number).toLocaleString("en-US")} km away
+            </h2>
           </div>
           <h1
             className="text-white text-3xl font-bold mb-2"

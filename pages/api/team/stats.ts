@@ -2,11 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { API_URL } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
-export const getTeamDistrict = async (req: NextApiRequest) => {
-  
-}
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function getTeamStats(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { team } = req.query;
   const fetchDistrict = await fetch(
     `${API_URL}/api/team/districts?team=${team}`

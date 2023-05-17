@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
-export const getTeamAvatar = async (req: NextApiRequest) => {
+export const fetchTeamAvatar = async (req: NextApiRequest) => {
   try {
     const { team } = req.query;
     const response = await fetchFIRST(`/avatars?teamNumber=${team}`);
@@ -13,15 +13,17 @@ export const getTeamAvatar = async (req: NextApiRequest) => {
         response.data.teams.length > 0
           ? response.data.teams[0].encodedAvatar
           : null,
-      status: response.status
-    }
-
+      status: response.status,
+    };
   } catch (e) {
-    return { avatar: null, status: 500 }
+    return { avatar: null, status: 500 };
   }
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const avatar = await getTeamAvatar(req);
+export default async function getTeamAvatar(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const avatar = await fetchTeamAvatar(req);
   res.status(avatar.status).json(avatar);
-};
+}

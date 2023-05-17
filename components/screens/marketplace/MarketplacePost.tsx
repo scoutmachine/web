@@ -3,13 +3,14 @@ import { API_URL } from "@/lib/constants";
 import Link from "next/link";
 import router from "next/router";
 import { FaTrash } from "react-icons/fa";
-import {useDistance}  from "@/hooks/useDistance";
+import { useDistance } from "@/hooks/useDistance";
 
 export const MarketplacePost = (props: any) => {
   const distance = useDistance(
     props.marketplacePost.latitude,
     props.marketplacePost.longitude
-  );  const showTrashIcon =
+  );
+  const showTrashIcon =
     props.user?.admin || props.marketplacePost.author.id === props.user?.id;
   const deletePost = async () => {
     await fetch(`${API_URL}/api/@me/post?id=${props.marketplacePost.id}`, {
@@ -23,7 +24,7 @@ export const MarketplacePost = (props: any) => {
     <div>
       <div className="overflow-hidden relative border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 rounded-lg">
         <span className="text-sm text-lightGray bottom-3 left-5 md:text-left">
-        📌 {Math.ceil(distance as number).toLocaleString("en-US")} km away
+          📌 {Math.ceil(distance as number).toLocaleString("en-US")} km away
         </span>
         <Link href={`/marketplace/${props.marketplacePost.id}`}>
           {props.marketplacePost.media.length > 0 && (

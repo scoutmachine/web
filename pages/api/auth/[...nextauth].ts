@@ -39,9 +39,10 @@ export const authOptions: AuthOptions = {
       });
 
       if (userExists) {
-        username = `${user.user.name?.replace(/\s/g, "").toLowerCase()}_${(
-            window.crypto.getRandomValues(new Uint32Array(4))[0]
-        )
+        username = `${user.user.name
+          ?.replace(/\s/g, "")
+          .toLowerCase()}_${window.crypto
+          .getRandomValues(new Uint32Array(4))[0]
           .toString(36)
           .substring(7)}`;
       } else {
