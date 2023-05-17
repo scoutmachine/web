@@ -20,7 +20,7 @@ export default async function getTeamAwards(
         const response = await fetchFIRST(`/awards/team/${team}`, year);
         return {
           year: year.toString(),
-          data: response.data,
+          data: response,
         };
       } catch {
         return null;

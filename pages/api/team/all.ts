@@ -7,10 +7,12 @@ export default async function getAllTeamInfo(
   res: NextApiResponse
 ) {
   const { team } = req.query;
-  return await Promise.all([
-    fetchTBA(res, `team/frc${team}`),
+  const data = await Promise.all([
+    fetchTBA(`team/frc${team}`),
     fetchTeamAvatar(req),
-    fetchTBA(res, `team/frc${team}/social_media`),
-    fetchTBA(res, `team/frc${team}/years_participated`),
+    fetchTBA(`team/frc${team}/social_media`),
+    fetchTBA(`team/frc${team}/years_participated`),
   ]);
+
+  res.status(200).send(data);
 }

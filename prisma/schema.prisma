@@ -113,3 +113,17 @@ model FavouritedEvent {
   User             User?   @relation(fields: [userId], references: [id])
   userId           String?
 }
+
+model Team {
+  id      Int      @id @default(autoincrement())
+  socials Social[]
+}
+
+model Social {
+  id       Int     @id @default(autoincrement())
+  handle   String
+  type     String
+  verified Boolean @default(false)
+  Team     Team?   @relation(fields: [teamId], references: [id])
+  teamId   Int?
+}

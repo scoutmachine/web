@@ -12,8 +12,8 @@ export default async function getInsights(
     districts.map(async (district: any) => {
       const data = await fetchFIRST(
         `/rankings/district?districtCode=${district}`
-      ).then((res) => res.data.districtRanks[0]);
-      topTeams.push(data);
+      );
+      topTeams.push(data.districtRanks[0]);
     })
   );
 

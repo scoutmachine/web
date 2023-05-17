@@ -6,5 +6,7 @@ export default async function getTeamSocials(
   res: NextApiResponse
 ) {
   const { team } = req.query;
-  return await fetchTBA(res, `team/frc${team}/social_media`);
+  const data = await fetchTBA(`team/frc${team}/social_media`);
+
+  res.status(200).json(data);
 }

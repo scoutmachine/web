@@ -6,5 +6,7 @@ export default async function getTeamYearsParticipated(
   res: NextApiResponse
 ) {
   const { team } = req.query;
-  return await fetchTBA(res, `team/frc${team}/years_participated`);
+  const data = await fetchTBA(`team/frc${team}/years_participated`);
+
+  res.status(200).send(data);
 }

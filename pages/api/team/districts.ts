@@ -6,5 +6,7 @@ export default async function getTeamDistrict(
   res: NextApiResponse
 ) {
   const { team } = req.query;
-  return await fetchTBA(res, `team/frc${team}/districts`);
+  const data = await fetchTBA(`team/frc${team}/districts`);
+
+  res.status(200).send(data);
 }

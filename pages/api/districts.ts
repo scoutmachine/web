@@ -5,6 +5,6 @@ export default async function getDistricts(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const districts = await fetchFIRST("/districts").then((res) => res.data);
+  const districts = await fetchFIRST("/districts");
   res.status(200).send(districts);
 }

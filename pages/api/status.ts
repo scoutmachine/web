@@ -6,7 +6,8 @@ export default async function getStatus(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const data = await fetchFIRST().then((response) => response.data);
+  const data = await fetchFIRST();
+
   res.status(200).json({
     season: CURR_YEAR,
     data: {

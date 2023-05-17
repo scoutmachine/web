@@ -20,9 +20,9 @@ export default async function getTeamStats(
     const firstPageData = await fetchFIRST(
       `/rankings/district?districtCode=${teamDistrict}&page=1`
     );
-    teamRanking.push(...firstPageData.data.districtRanks);
+    teamRanking.push(...firstPageData.districtRanks);
 
-    const totalPages = firstPageData.data.pageTotal;
+    const totalPages = firstPageData.pageTotal;
 
     if (totalPages > 1) {
       const remainingPages = Array.from(
@@ -33,7 +33,7 @@ export default async function getTeamStats(
         remainingPages.map((page: any) =>
           fetchFIRST(
             `/rankings/district?districtCode=${teamDistrict}&page=${page}`
-          ).then((res) => res.data)
+          )
         )
       );
 

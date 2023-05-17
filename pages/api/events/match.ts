@@ -6,5 +6,7 @@ export default async function getMatchInfo(
   res: NextApiResponse
 ) {
   const { match } = req.query;
-  return await fetchTBA(res, `match/${match}`);
+  const data = await fetchTBA(`match/${match}`);
+
+  res.status(200).send(data);
 }

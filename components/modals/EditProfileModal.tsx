@@ -6,20 +6,20 @@ import { FaBolt, FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { DragEvent } from "react";
 import { IconType } from "react-icons";
-import { Loading } from "../Loading";
-import router, { Router } from "next/router";
+import router from "next/router";
 
 type Props = {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const Input = (props: {
+export const Input = (props: {
   className?: string;
   disabled?: boolean;
-  placeholder: string;
+  placeholder?: string;
   state?: (e: string) => void;
   icon: IconType;
+  primaryPlaceholder?: any;
 }) => {
   return (
     <div className="relative w-full">
@@ -27,6 +27,7 @@ const Input = (props: {
         className={`${props.className} w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
         type="text"
         disabled={props.disabled ?? false}
+        placeholder={props.primaryPlaceholder}
         defaultValue={props.placeholder}
         spellCheck={false}
         onChange={(e) => props.state?.(e.target.value)}

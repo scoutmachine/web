@@ -6,5 +6,7 @@ export default async function getTeamEvents(
   res: NextApiResponse
 ) {
   const { team } = req.query;
-  return await fetchTBA(res, `team/frc${team}/events`);
+  const data = await fetchTBA(`team/frc${team}/events`);
+
+  res.status(200).send(data);
 }

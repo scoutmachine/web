@@ -6,5 +6,7 @@ export default async function getAllEvents(
   res: NextApiResponse
 ) {
   const { year } = req.query;
-  return await fetchTBA(res, `events/${year}`);
+  const data = await fetchTBA(`events/${year}`);
+
+  res.status(200).send(data);
 }
