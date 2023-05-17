@@ -24,6 +24,18 @@ const newText = [
   },
 ];
 
+const MatchHeader = (props: any) => {
+  return (
+    <tr>
+      <td colSpan={5} className="pt-6 px-4">
+        <h1 className="font-bold bg-card py-5 px-5 rounded-t-lg text-left md:text-center border border-b-transparent border-[#2A2A2A]">
+          {props.title}
+        </h1>
+      </td>
+    </tr>
+  );
+};
+
 const EventList = (props: any) => {
   if (!props.epas) return <Loading />;
 
@@ -88,21 +100,12 @@ const EventList = (props: any) => {
         </Link>
       </th>
 
-      {props.isTeam && (
-        <td className="px-6 py-4">
-          <span className="text-lightGray">
-            <span
-              className={` ${
-                props.findAlliances().alliance === "Red"
-                  ? "text-red-400"
-                  : "text-sky-400"
-              }`}
-            >
-              {props.findAlliances().alliance}
-            </span>
-          </span>
-        </td>
-      )}
+      <td className="px-6 py-4">
+        <span className="text-red-400">{props.match.alliances.red.score}</span>{" "}
+        -{" "}
+        <span className="text-sky-400">{props.match.alliances.blue.score}</span>
+      </td>
+
       <td
         className={`px-6 py-4 ${
           props.match.winning_alliance === "red"
@@ -325,7 +328,7 @@ export const EventData = (props: any) => {
     <>
       {isClient && (
         <div className="relative overflow-x-auto">
-          <div className="flex flex-col md:flex-row gap-3 w-full mt-3 md:mt-5">
+          <div className="flex flex-col md:flex-row gap-3 w-full mt-3 md:mt-5 whitespace-nowrap">
             {props.isTeam &&
               props.playlists[props.event.event_code].length > 0 && (
                 <div className="border border-[#2a2a2a] bg-[#191919] text-red-500 px-5 py-3 rounded-lg">
@@ -341,7 +344,7 @@ export const EventData = (props: any) => {
                   </a>
                 </div>
               )}
-            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray px-5 py-3 rounded-lg">
+            <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray px-5 py-3 rounded-lg w-full">
               <span className="text-green-400">Win</span> /{" "}
               <span className="text-red-400">Loss</span> /{" "}
               <span className="text-lightGray">Unknown</span> /{" "}
@@ -366,11 +369,9 @@ export const EventData = (props: any) => {
                 <th scope="col" className="px-6 py-3">
                   Match #
                 </th>
-                {props.isTeam && (
-                  <th scope="col" className="px-6 py-3">
-                    Alliance
-                  </th>
-                )}
+                <th scope="col" className="px-6 py-3">
+                  Score
+                </th>
                 <th scope="col" className="px-6 py-3 text-red-400">
                   Red Alliance
                 </th>
@@ -380,6 +381,9 @@ export const EventData = (props: any) => {
               </tr>
             </thead>
             <tbody>
+              {props.data?.filter((match: any) => match.comp_level === "f")
+                .length > 0 && <MatchHeader title="Finals" />}
+
               {props.data
                 ?.filter((match: any) => match.comp_level === "f")
                 .reverse()
@@ -397,6 +401,13 @@ export const EventData = (props: any) => {
                     />
                   );
                 })}
+
+              {props.data?.filter(
+                (match: any) =>
+                  match.comp_level === "sf" || match.comp_level === "qf"
+              ).length > 0 && (
+                <MatchHeader title="Semi Finals / Quarter Finals" />
+              )}
 
               {props.data
                 ?.filter(
@@ -421,6 +432,9 @@ export const EventData = (props: any) => {
                     />
                   );
                 })}
+
+              {props.data?.filter((match: any) => match.comp_level === "qm")
+                .length > 0 && <MatchHeader title="Qualification Matches" />}
 
               {props.data
                 ?.filter((match: any) => match.comp_level === "qm")
