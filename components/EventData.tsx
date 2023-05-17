@@ -1,7 +1,7 @@
 import { API_URL } from "@/lib/constants";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FaYoutube, FaTimes } from "react-icons/fa";
+import { FaYoutube, FaTimes, FaTrophy } from "react-icons/fa";
 import { Loading } from "./Loading";
 import { epochSecondsToTime, formatEpochSecondsToDate } from "@/utils/time";
 
@@ -49,6 +49,19 @@ const EventList = (props: any) => {
       ? props.match.alliances.red.score
       : props.match.alliances.blue.score;
 
+  const redScore = Number(props.match.alliances.red.score);
+  const blueScore = Number(props.match.alliances.blue.score);
+
+  const matchWinner = () => {
+    if (redScore > blueScore) {
+      return "Red";
+    } else if (blueScore > redScore) {
+      return "Blue";
+    } else if (blueScore === redScore) {
+      return "Tie";
+    }
+  };
+
   return (
     <tr className="text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]">
       <td className="px-6 py-4">
@@ -74,7 +87,7 @@ const EventList = (props: any) => {
         >
           <a>
             <span
-              className={` hover:text-primary ${
+              className={`hover:text-primary ${
                 props.didWeWin() === "win" && props.isTeam && "text-green-400"
               } ${
                 props.didWeWin() === "lose" && props.isTeam && "text-red-400"
@@ -101,9 +114,15 @@ const EventList = (props: any) => {
       </th>
 
       <td className="px-6 py-4">
+        {matchWinner() === "Red" || matchWinner() === "Tie" ? (
+          <FaTrophy className="mr-1 inline-block text-primary" />
+        ) : null}{" "}
         <span className="text-red-400">{props.match.alliances.red.score}</span>{" "}
         -{" "}
-        <span className="text-sky-400">{props.match.alliances.blue.score}</span>
+        <span className="text-sky-400">{props.match.alliances.blue.score}</span>{" "}
+        {matchWinner() === "Blue" || matchWinner() === "Tie" ? (
+          <FaTrophy className="ml-1 inline-block text-primary" />
+        ) : null}
       </td>
 
       <td
