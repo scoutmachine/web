@@ -40,7 +40,7 @@ export const authOptions: AuthOptions = {
 
       if (userExists) {
         username = `${user.user.name?.replace(/\s/g, "").toLowerCase()}_${(
-          Math.random() + 1
+            window.crypto.getRandomValues(new Uint32Array(1))[0]
         )
           .toString(36)
           .substring(7)}`;
