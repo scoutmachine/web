@@ -1,8 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import { useDistance } from "@/hooks/useDistance";
 import { ListingType } from "@/types/ListingType";
 import { FaMoneyBill } from "react-icons/fa";
 
 export const MarketplacePage = (props: any) => {
+  const distance = useDistance(
+    props.marketplacePost.latitude,
+    props.marketplacePost.longitude
+  ); 
   const partTypeColour = () => {
     switch (props.marketplacePost.type) {
       case "controller":
@@ -17,7 +22,7 @@ export const MarketplacePage = (props: any) => {
         return "#000";
     }
   };
-console.log(props.marketplacePost)
+
   return (
     <div className="pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl w-full py-20">
       <div className="flex flex-wrap">
@@ -27,12 +32,14 @@ console.log(props.marketplacePost)
           alt=""
         />
         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          <div className="pb-3">
           <h2 className="text-sm text-gray-300 uppercase">
             {props.marketplacePost.formattedAddress}
           </h2>
-          <h2 className="text-sm text-gray-300 uppercase">
-          📌 {Math.ceil(props.marketplacePost.distance).toLocaleString("en-US")} km away
+          <h2 className="text-sm text-gray-300">
+          📌 {Math.ceil(distance as number).toLocaleString("en-US")} km away
           </h2>
+          </div>
           <h1
             className="text-white text-3xl font-bold mb-2"
             style={{ cursor: "auto" }}
