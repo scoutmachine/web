@@ -2,13 +2,14 @@
 import { API_URL } from "@/lib/constants";
 import Link from "next/link";
 import router from "next/router";
-import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import haversine from "haversine-distance";
+import { useDistance } from "@/hooks/useDistance";
 
 export const MarketplacePost = (props: any) => {
-  const [distance, setDistance] = useState(NaN);
-  const showTrashIcon =
+  const distance = useDistance(
+    props.marketplacePost.latitude,
+    props.marketplacePost.longitude
+  );  const showTrashIcon =
     props.user?.admin || props.marketplacePost.author.id === props.user?.id;
   const deletePost = async () => {
     await fetch(`${API_URL}/api/@me/post?id=${props.marketplacePost.id}`, {
@@ -18,33 +19,10 @@ export const MarketplacePost = (props: any) => {
     router.reload();
   };
 
-  useEffect(() => {
-    navigator.permissions.query({ name: "geolocation" }).then((result) => {
-      if (result.state === "granted") {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const distance =
-            haversine(
-              {
-                lat: props.marketplacePost.latitude,
-                lng: props.marketplacePost.longitude,
-              },
-              {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              }
-            ) / 1000;
-
-          setDistance(distance);
-        });
-      }
-    });
-  }, [distance, props.marketplacePost.latitude, props.marketplacePost.longitude]);
-
   return (
     <div>
       <div className="overflow-hidden relative border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 rounded-lg">
         <span className="text-sm text-lightGray bottom-3 left-5 md:text-left">
-          📌 {Math.ceil(distance).toLocaleString("en-US")} km away
         </span>
         <Link href={`/marketplace/${props.marketplacePost.id}`}>
           {props.marketplacePost.media.length > 0 && (
