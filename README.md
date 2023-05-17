@@ -41,3 +41,7 @@ or join the [Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) and r
 
 To report a bug either [create a bug report](../../issues/new/choose) or join the
 [Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) and report the bug in the #bug-reports channel.
+
+### Privacy Policy
+
+Find our privacy policy [here](./docs/privacy.md).
