@@ -3,7 +3,7 @@ import { Modal } from "./Modal";
 import Image from "next/image";
 import { Socials } from "@/lib/lists/socials";
 import { API_URL } from "@/lib/constants";
-import { Input } from "./EditProfileModal";
+import { IconType } from "react-icons";
 
 type SocialInput = {
   handle: string;
@@ -16,6 +16,37 @@ type Props = {
   team: any;
   avatar: any;
   socials: any;
+};
+
+export const Input = (props: {
+  className?: string;
+  disabled?: boolean;
+  placeholder?: string;
+  state?: (e: string) => void;
+  icon: IconType;
+  primaryPlaceholder?: any;
+}) => {
+  return (
+    <div className="relative w-full">
+      <input
+        className={`${props.className} ${
+          props.disabled && "cursor-not-allowed"
+        } w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-${props.className?.replace(
+          "text-",
+          ""
+        )} px-3 py-[6px] text-sm pl-8`}
+        type="text"
+        disabled={props.disabled ?? false}
+        placeholder={props.primaryPlaceholder}
+        defaultValue={props.placeholder}
+        spellCheck={false}
+        onChange={(e) => props.state?.(e.target.value)}
+      />
+      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+        <props.icon className={`text-sm ${props.className}`} />
+      </span>
+    </div>
+  );
 };
 
 const AddSocialButton = (props: any) => {

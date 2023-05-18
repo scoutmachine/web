@@ -35,7 +35,9 @@ export const Input = (props: {
         onChange={(e) => props.state?.(e.target.value)}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-        <props.icon className={`text-sm text-lightGray text-${props.className}`} />
+        <props.icon
+          className={`text-sm text-lightGray text-${props.className}`}
+        />
       </span>
     </div>
   );
@@ -67,6 +69,7 @@ const ModalBody = (props: {
   const [avatarURL, setAvatarURL] = useState<string>();
   const [teamNumber, setTeamNumber] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [deletedHover, setDeletedHover] = useState(false);
 
   useEffect(() => {
     const fetchTeamNumber = async () => {
@@ -190,9 +193,11 @@ const ModalBody = (props: {
               await deleteAccount();
               router.reload();
             }}
+            onMouseEnter={() => setDeletedHover(true)}
+            onMouseLeave={() => setDeletedHover(false)}
             className="bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600 text-sm font-bold"
           >
-            Delete Account
+            {deletedHover ? "Are you sure?" : "Delete Account"}
           </button>
         </div>
       </div>

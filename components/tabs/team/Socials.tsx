@@ -33,7 +33,7 @@ export const Socials = (props: any) => {
         <Social
           icon={Icon}
           name={social.handle}
-          className={`text-${className}`}
+          className={className}
         />
       </a>
     );

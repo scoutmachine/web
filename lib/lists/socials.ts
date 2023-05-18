@@ -18,61 +18,61 @@ export const Socials = [
   {
     name: "Support Email",
     icon: FaEnvelope,
-    className: "white",
+    className: "text-white",
   },
   {
     name: "Instagram",
     icon: FaInstagram,
-    className: "pink-400",
+    className: "text-pink-400",
   },
   {
     name: "Facebook",
     icon: FaFacebook,
-    className: "blue-400",
+    className: "text-blue-400",
   },
   {
     name: "Twitter",
     icon: FaTwitter,
-    className: "sky-400",
+    className: "text-sky-400",
   },
   {
     name: "Linkedin",
     icon: FaLinkedin,
-    className: "blue-500",
+    className: "text-blue-500",
   },
   {
     name: "GitHub",
     icon: FaGithub,
-    className: "white",
+    className: "text-white",
   },
   {
     name: "Gitlab",
     icon: FaGitlab,
-    className: "orange-400",
+    className: "text-orange-400",
   },
   {
     name: "YouTube",
     icon: FaYoutube,
-    className: "red-500",
+    className: "text-red-500",
   },
   {
     name: "Tiktok",
     icon: FaTiktok,
-    className: "pink-500",
+    className: "text-pink-500",
   },
   {
     name: "Twitch",
     icon: FaTwitch,
-    className: "indigo-400",
+    className: "text-indigo-400",
   },
   {
     name: "Snapchat",
     icon: FaSnapchat,
-    className: "primary",
+    className: "text-yellow-400",
   },
   {
     name: "Pinterest",
     icon: FaPinterest,
-    className: "red-500",
+    className: "text-red-400",
   },
 ];
