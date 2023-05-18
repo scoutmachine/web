@@ -10,77 +10,77 @@ import {
 export const Socials = (props: any) => {
   return props.socials.map((social: any, key: number) => {
     switch (social.type) {
-      case "facebook-profile":
+      case "facebook":
         return (
           <a
             key={key}
-            href={`https://facebook.com/${social.foreign_key}`}
+            href={`https://facebook.com/${social.handle}`}
             rel="noopener noreferrer"
             target="_blank"
           >
             <Social
               icon={FaFacebook}
-              name={social.foreign_key}
+              name={social.handle}
               className="text-blue-500"
             />
           </a>
         );
-      case "github-profile":
+      case "github":
         return (
           <a
             key={key}
-            href={`https://github.com/${social.foreign_key}`}
+            href={`https://github.com/${social.handle}`}
             rel="noopener noreferrer"
             target="_blank"
           >
             <Social
               icon={FaGithub}
-              name={social.foreign_key}
+              name={social.handle}
               className="text-white"
             />
           </a>
         );
-      case "instagram-profile":
+      case "instagram":
         return (
           <a
             key={key}
-            href={`https://instagram.com/${social.foreign_key}`}
+            href={`https://instagram.com/${social.handle}`}
             rel="noopener noreferrer"
             target="_blank"
           >
             <Social
               icon={FaInstagram}
-              name={social.foreign_key}
+              name={social.handle}
               className="text-pink-400"
             />
           </a>
         );
-      case "twitter-profile":
+      case "twitter":
         return (
           <a
             key={key}
-            href={`https://twitter.com/${social.foreign_key}`}
+            href={`https://twitter.com/${social.handle}`}
             rel="noopener noreferrer"
             target="_blank"
           >
             <Social
               icon={FaTwitter}
-              name={social.foreign_key}
+              name={social.handle}
               className="text-sky-400"
             />
           </a>
         );
-      case "youtube-channel":
+      case "youtube":
         return (
           <a
             key={key}
-            href={`https://youtube.com/${social.foreign_key}`}
+            href={`https://youtube.com/${social.handle}`}
             rel="noopener noreferrer"
             target="_blank"
           >
             <Social
               icon={FaYoutube}
-              name={social.foreign_key}
+              name={social.handle}
               className="text-red-500"
             />
           </a>

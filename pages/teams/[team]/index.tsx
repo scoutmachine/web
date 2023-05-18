@@ -43,15 +43,12 @@ async function fetchTeamData(team: string) {
   const start = performance.now();
 
   const fetchInfo = async () => {
-    const [getTeam, teamAvatar, teamSocials, yearsParticipated, teamDistrict] =
+    const [getTeam, teamAvatar, yearsParticipated, teamDistrict] =
       await Promise.all([
         await fetch(`${API_URL}/api/team?team=${team}`, {
           next: { revalidate: 60 },
         }),
         await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
-          next: { revalidate: 60 },
-        }),
-        await fetch(`${API_URL}/api/team/socials?team=${team}`, {
           next: { revalidate: 60 },
         }),
         await fetch(`${API_URL}/api/team/years?team=${team}`, {
@@ -79,7 +76,6 @@ async function fetchTeamData(team: string) {
     return {
       teamData: getTeam,
       teamAvatar: teamAvatar.avatar,
-      teamSocials,
       teamAwards,
       teamDistrict,
       yearsParticipated: yearsParticipated.reverse(),
@@ -94,7 +90,7 @@ async function fetchTeamData(team: string) {
   return await fetchInfo();
 }
 
-export default function TeamPage({ user, teamMembers }: any) {
+export default function TeamPage({ user, teamMembers, teamSocials }: any) {
   const router = useRouter();
   const { team } = router.query;
   const [teamData, setTeamData] = useState<any>();
@@ -180,7 +176,7 @@ export default function TeamPage({ user, teamMembers }: any) {
       <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-0 md:pr-0">
         <TeamScreen
           team={teamData.teamData}
-          socials={teamData.teamSocials}
+          socials={teamSocials}
           avatar={teamData.teamAvatar}
           district={teamData.teamDistrict}
           user={user}
@@ -437,11 +433,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }));
 
   const allSocials = data.flatMap((team) =>
-    team.socials.map((social: any) => ({
-      type: social.type,
-      handle: social.handle,
-      verified: social.verified,
-    }))
+    team.socials
+      .filter((social: any) => social.verified)
+      .map((social: any) => ({
+        type: social.type,
+        handle: social.handle,
+        verified: social.verified,
+      }))
   );
 
   if (session) {
