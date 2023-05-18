@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Socials } from "@/lib/lists/socials";
 import { API_URL } from "@/lib/constants";
 import { IconType } from "react-icons";
+import { useSession } from "next-auth/react";
 
 type SocialInput = {
   handle: string;
@@ -65,7 +66,7 @@ const AddSocialButton = (props: any) => {
       }));
 
       await fetch(
-        `${API_URL}/api/team/socials/add?team=${props.team.team_number}`,
+        `${API_URL}/api/team/socials?team=${props.team.team_number}`,
         {
           method: "POST",
           body: JSON.stringify(requestData),
@@ -102,34 +103,49 @@ const AddSocialButton = (props: any) => {
 
 const ModalHeader = (props: { team: any; avatar: any }) => {
   const [error, setError] = useState(false);
+  const { data: session } = useSession();
 
   return (
-    <div className="flex">
-      <Image
-        src={
-          props.avatar
-            ? `data:image/jpeg;base64,${props.avatar}`
-            : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                props.team.website?.startsWith("https")
-                  ? props.team.website
-                  : `https://${props.team.website?.slice(7)}`
-              }/&size=64`
-        }
-        onError={() => {
-          setError(true);
-        }}
-        height="25"
-        width="40"
-        className="mr-2"
-        alt={`${props.team.team_number} Avatar`}
-      />
-      <h1 className="font-semibold text-xl">
-        Add Socials
-        <p className="text-xs text-lightGray font-medium">
-          {props.team.team_number} | {props.team.nickname}
+    <>
+      <div className="flex">
+        <Image
+          src={
+            props.avatar
+              ? `data:image/jpeg;base64,${props.avatar}`
+              : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                  props.team.website?.startsWith("https")
+                    ? props.team.website
+                    : `https://${props.team.website?.slice(7)}`
+                }/&size=64`
+          }
+          onError={() => {
+            setError(true);
+          }}
+          height="25"
+          width="40"
+          className="mr-2"
+          alt={`${props.team.team_number} Avatar`}
+        />
+        <h1 className="font-semibold text-xl">
+          Add Socials
+          <p className="text-xs text-lightGray font-medium">
+            {props.team.team_number} | {props.team.nickname}
+          </p>
+        </h1>
+      </div>
+
+      <div className="border border-[#2A2A2A] bg-card rounded-lg px-3 py-3 mb-4 mt-3">
+        <p className="text-xs text-center text-lightGray">
+          Your submission(s) will be reviewed by a moderator before being added
+          to Scout Machine. Your user account will also be linked. <br /> <br />{" "}
+          <b>
+            Note: Do <span className="text-red-500">NOT</span> submit full URLs,
+            only handles are accepted.
+          </b>{" "}
+          <br /> (ex: user123, johndoe, kamendean)
         </p>
-      </h1>
-    </div>
+      </div>
+    </>
   );
 };
 
@@ -159,7 +175,7 @@ const ModalBody = (props: {
 
   return (
     <>
-      <div className="grid grid-cols-2 mt-6 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         {Socials.map((social: any, key: any) => {
           const socialExists = props.socials.some(
             (originalSocial: any) =>
