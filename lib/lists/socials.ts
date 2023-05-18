@@ -1,3 +1,4 @@
+import { IconType } from "react-icons";
 import {
   FaEnvelope,
   FaInstagram,
@@ -8,6 +9,8 @@ import {
   FaYoutube,
   FaTiktok,
   FaTwitch,
+  FaLinkedin,
+  FaSnapchat,
 } from "react-icons/fa";
 
 export const Socials = [
@@ -24,12 +27,17 @@ export const Socials = [
   {
     name: "Facebook",
     icon: FaFacebook,
-    className: "blue-500",
+    className: "blue-400",
   },
   {
     name: "Twitter",
     icon: FaTwitter,
     className: "sky-400",
+  },
+  {
+    name: "Linkedin",
+    icon: FaLinkedin,
+    className: "blue-500",
   },
   {
     name: "GitHub",
