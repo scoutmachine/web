@@ -83,7 +83,7 @@ model Post {
   longitude        Float?
   media            String[]
   published        Boolean  @default(false)
-  author           User     @relation(fields: [authorId], references: [id])
+  author           User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId         String
 }
 
@@ -96,7 +96,7 @@ model FavouritedTeam {
   state_prov  String?
   country     String?
   rookie_year Int
-  User        User?   @relation(fields: [userId], references: [id])
+  User        User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String?
 }
 
@@ -110,21 +110,20 @@ model FavouritedEvent {
   first_event_code String
   start_date       String
   end_date         String
-  User             User?   @relation(fields: [userId], references: [id])
+  User             User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String?
 }
 
 model Team {
-  id      Int      @id @default(autoincrement())
-  socials Social[]
+  team_number Int      @id @unique
+  socials     Social[]
 }
 
 model Social {
-  id          Int     @id @default(autoincrement())
-  handle      String
-  type        String
-  team_number Int
-  verified    Boolean @default(false)
-  Team        Team?   @relation(fields: [teamId], references: [id])
-  teamId      Int?
+  id       Int     @id @default(autoincrement())
+  handle   String
+  type     String
+  verified Boolean @default(false)
+  Team     Team?   @relation(fields: [teamId], references: [team_number], onDelete: Cascade)
+  teamId   Int?
 }

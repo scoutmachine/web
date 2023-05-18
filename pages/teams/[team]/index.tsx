@@ -23,6 +23,7 @@ import { GetServerSideProps } from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
+import { fetchTBA } from "@/lib/fetchTBA";
 
 const SubInfo = (props: any) => {
   return (
@@ -419,6 +420,30 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   });
 
+  const tbaSocials = await fetchTBA(`team/frc${team}/social_media`);
+
+  const data = await db.team.findMany({
+    where: {
+      team_number: Number(team),
+    },
+    include: {
+      socials: true,
+    },
+  });
+
+  const newFormattedTBASocials = tbaSocials.map((social: any) => ({
+    type: social.type.replace("-profile", "").replace("-channel", ""),
+    handle: social.foreign_key,
+  }));
+
+  const allSocials = data.flatMap((team) =>
+    team.socials.map((social: any) => ({
+      type: social.type,
+      handle: social.handle,
+      verified: social.verified,
+    }))
+  );
+
   if (session) {
     const user = await db.user.findUnique({
       where: {
@@ -430,8 +455,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     });
 
-    return { props: { user, teamMembers } };
+    return {
+      props: {
+        user,
+        teamMembers,
+        teamSocials: [...allSocials, ...newFormattedTBASocials],
+      },
+    };
   }
 
-  return { props: { teamMembers } };
+  return {
+    props: {
+      teamMembers,
+      teamSocials: [...allSocials, ...newFormattedTBASocials],
+    },
+  };
 };

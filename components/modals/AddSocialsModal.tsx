@@ -1,19 +1,15 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
-import {
-  FaEnvelope,
-  FaFacebook,
-  FaGithub,
-  FaGitlab,
-  FaInstagram,
-  FaTiktok,
-  FaTwitch,
-  FaTwitter,
-  FaYoutube,
-} from "react-icons/fa";
 import Image from "next/image";
+import { Socials } from "@/lib/lists/socials";
+import { API_URL } from "@/lib/constants";
 import { Input } from "./EditProfileModal";
 import router from "next/router";
+
+type SocialInput = {
+  handle: string;
+  type: string;
+};
 
 type Props = {
   isOpen: boolean;
@@ -22,11 +18,31 @@ type Props = {
   avatar: any;
 };
 
-const AddSocialButton = (props: { text?: string }) => {
+const AddSocialButton = (props: any) => {
+  const handleClick = async () => {
+    const requestData = props.socialInputs.map((input: SocialInput) => ({
+      handle: input.handle,
+      type: input.type,
+    }));
+
+    await fetch(
+      `${API_URL}/api/team/socials/add?team=${props.team.team_number}`,
+      {
+        method: "POST",
+        body: JSON.stringify(requestData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    router.reload();
+  };
+
   return (
     <button
-      onClick={() => router.reload()}
-      className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+      onClick={handleClick}
+      className="mt-3 border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
     >
       {props.text ?? "Add"}
     </button>
@@ -66,61 +82,67 @@ const ModalHeader = (props: { team: any; avatar: any }) => {
   );
 };
 
-const Socials = [
-  {
-    name: "Support Email",
-    icon: FaEnvelope,
-  },
-  {
-    name: "Instagram",
-    icon: FaInstagram,
-  },
-  {
-    name: "Facebook",
-    icon: FaFacebook,
-  },
-  {
-    name: "Twitter",
-    icon: FaTwitter,
-  },
-  {
-    name: "GitHub",
-    icon: FaGithub,
-  },
-  {
-    name: "Gitlab",
-    icon: FaGitlab,
-  },
-  {
-    name: "YouTube",
-    icon: FaYoutube,
-  },
-  {
-    name: "Tiktok",
-    icon: FaTiktok,
-  },
-  {
-    name: "Twitch",
-    icon: FaTwitch,
-  },
-];
-
 const ModalBody = (props: {
   setOpen: Dispatch<SetStateAction<boolean>>;
   team: any;
 }) => {
+  const [socialInputs, setSocialInputs] = useState<SocialInput[]>([]);
+
+  const handleInputChange = (key: string, value: string, type: string) => {
+    setSocialInputs((prevInputs) => {
+      const updatedInputs = prevInputs.map((input) => {
+        if (input.type === type) {
+          return { ...input, handle: value };
+        }
+        return input;
+      });
+
+      if (!updatedInputs.some((input) => input.type === type)) {
+        return [...updatedInputs, { handle: value, type }];
+      }
+
+      return updatedInputs;
+    });
+  };
+
   return (
-    <div className="flex flex-col mt-6 gap-4">
+    <div className="flex flex-col mt-6 gap-3">
       {Socials.map((social: any, key: any) => {
         return (
           <div key={key} className="flex gap-x-2">
-            <Input primaryPlaceholder={social.name} icon={social.icon} />
-            <AddSocialButton />
+            <Input
+              primaryPlaceholder={social.name}
+              icon={social.icon}
+              state={(value) =>
+                handleInputChange(social.name, value, social.name.toLowerCase())
+              }
+            />
           </div>
         );
       })}
 
-      <AddSocialButton text="Add All" />
+      <AddSocialButton
+        text={`Add ${socialInputs.length < 1 ? "Socials" : ""}${socialInputs
+          .filter((social) => social.handle.length > 0)
+          .map((social, index, array) => {
+            const socialType =
+              social.type.charAt(0).toUpperCase() + social.type.slice(1);
+            if (index === array.length - 1) {
+              if (array.length === 1) {
+                return socialType;
+              } else if (array.length > 1) {
+                return `and ${socialType}`;
+              } else {
+                return `, ${socialType}`;
+              }
+            }
+            return socialType;
+          })
+          .join(", ")}`}
+        team={props.team}
+        teamNumber={props.team.team_number}
+        socialInputs={socialInputs}
+      />
     </div>
   );
 };
