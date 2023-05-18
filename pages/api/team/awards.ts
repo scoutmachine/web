@@ -29,16 +29,19 @@ export default async function getTeamAwards(
   );
 
   const data = awards
-    .filter((award) => award)
+    .filter((award) => award && award.data && award.data.Awards)
     .reduce((acc, curr) => {
-      return acc.concat(
-        curr?.data.Awards.map((award: any) => {
-          return {
-            year: curr.year,
-            ...award,
-          };
-        })
-      );
+      if (curr?.data?.Awards) {
+        return acc.concat(
+          curr.data.Awards.map((award: any) => {
+            return {
+              year: curr.year,
+              ...award,
+            };
+          })
+        );
+      }
+      return acc;
     }, []);
 
   res.status(200).send(data);
