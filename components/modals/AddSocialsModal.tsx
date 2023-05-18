@@ -55,7 +55,7 @@ const AddSocialButton = (props: any) => {
         error && "text-red-400 py-2"
       } ${
         !submitted && !error && "text-lightGray"
-      } border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-sm hover:border-gray-600`}
+      } border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-sm hover:border-gray-600 w-full`}
     >
       {error && !submitted && "You can't submit nothing."}
 
@@ -127,37 +127,42 @@ const ModalBody = (props: {
   };
 
   return (
-    <div className="flex flex-col mt-6 gap-3">
-      {Socials.map((social: any, key: any) => {
-        const socialExists = props.socials.some(
-          (originalSocial: any) =>
-            social.name.toLowerCase() === originalSocial.type
-        );
+    <>
+      <div className="grid grid-cols-2 mt-6 gap-3">
+        {Socials.map((social: any, key: any) => {
+          const socialExists = props.socials.some(
+            (originalSocial: any) =>
+              social.name.toLowerCase() === originalSocial.type
+          );
 
-        const existingSocial = props.socials.filter(
-          (originalSocial: any) =>
-            social.name.toLowerCase() === originalSocial.type
-        );
+          const existingSocial = props.socials.filter(
+            (originalSocial: any) =>
+              social.name.toLowerCase() === originalSocial.type
+          );
 
-        const handle =
-          existingSocial.length > 0 ? existingSocial[0].handle : "";
+          const handle =
+            existingSocial.length > 0 ? existingSocial[0].handle : "";
 
-        return (
-          <div key={key} className="flex gap-x-2">
-            <Input
-              primaryPlaceholder={social.name}
-              icon={social.icon}
-              placeholder={handle}
-              disabled={socialExists ? true : false}
-              state={(value) =>
-                handleInputChange(social.name, value, social.name.toLowerCase())
-              }
-              className={social.className}
-            />
-          </div>
-        );
-      })}
-
+          return (
+            <div key={key} className="flex gap-x-2">
+              <Input
+                primaryPlaceholder={social.name}
+                icon={social.icon}
+                placeholder={handle}
+                disabled={socialExists ? true : false}
+                state={(value) =>
+                  handleInputChange(
+                    social.name,
+                    value,
+                    social.name.toLowerCase()
+                  )
+                }
+                className={social.className}
+              />
+            </div>
+          );
+        })}
+      </div>
       <AddSocialButton
         text={`Add ${socialInputs.length < 1 ? "Socials" : ""}${socialInputs
           .filter((social) => social.handle.length > 0)
@@ -181,7 +186,7 @@ const ModalBody = (props: {
         socialInputs={socialInputs}
         setOpen={props.setOpen}
       />
-    </div>
+    </>
   );
 };
 

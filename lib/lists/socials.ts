@@ -11,6 +11,7 @@ import {
   FaTwitch,
   FaLinkedin,
   FaSnapchat,
+  FaPinterest,
 } from "react-icons/fa";
 
 export const Socials = [
@@ -63,5 +64,15 @@ export const Socials = [
     name: "Twitch",
     icon: FaTwitch,
     className: "indigo-400",
+  },
+  {
+    name: "Snapchat",
+    icon: FaSnapchat,
+    className: "primary",
+  },
+  {
+    name: "Pinterest",
+    icon: FaPinterest,
+    className: "red-500",
   },
 ];
