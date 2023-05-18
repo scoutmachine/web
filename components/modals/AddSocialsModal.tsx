@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Socials } from "@/lib/lists/socials";
 import { API_URL } from "@/lib/constants";
 import { Input } from "./EditProfileModal";
-import router from "next/router";
 
 type SocialInput = {
   handle: string;
@@ -16,35 +15,56 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   team: any;
   avatar: any;
+  socials: any;
 };
 
 const AddSocialButton = (props: any) => {
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
+
   const handleClick = async () => {
-    const requestData = props.socialInputs.map((input: SocialInput) => ({
-      handle: input.handle,
-      type: input.type,
-    }));
+    if (!Object.keys(props.socialInputs).length) {
+      return setError(true);
+    } else {
+      setSubmitted(true);
 
-    await fetch(
-      `${API_URL}/api/team/socials/add?team=${props.team.team_number}`,
-      {
-        method: "POST",
-        body: JSON.stringify(requestData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+      const requestData = props.socialInputs.map((input: SocialInput) => ({
+        handle: input.handle,
+        type: input.type,
+      }));
 
-    router.reload();
+      await fetch(
+        `${API_URL}/api/team/socials/add?team=${props.team.team_number}`,
+        {
+          method: "POST",
+          body: JSON.stringify(requestData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      props.setOpen(false);
+    }
   };
 
   return (
     <button
       onClick={handleClick}
-      className="mt-3 border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+      className={`mt-3 border ${submitted && "text-green-400 py-2"} ${
+        error && "text-red-400 py-2"
+      } ${
+        !submitted && !error && "text-lightGray"
+      } border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-sm hover:border-gray-600`}
     >
-      {props.text ?? "Add"}
+      {error && !submitted && "You can't submit nothing."}
+
+      {!error &&
+        (props.text && !submitted
+          ? props.text
+          : submitted
+          ? "Thanks! Your social(s) will be reviewed by a moderator shortly."
+          : "Add")}
     </button>
   );
 };
@@ -85,6 +105,7 @@ const ModalHeader = (props: { team: any; avatar: any }) => {
 const ModalBody = (props: {
   setOpen: Dispatch<SetStateAction<boolean>>;
   team: any;
+  socials: any;
 }) => {
   const [socialInputs, setSocialInputs] = useState<SocialInput[]>([]);
 
@@ -108,14 +129,30 @@ const ModalBody = (props: {
   return (
     <div className="flex flex-col mt-6 gap-3">
       {Socials.map((social: any, key: any) => {
+        const socialExists = props.socials.some(
+          (originalSocial: any) =>
+            social.name.toLowerCase() === originalSocial.type
+        );
+
+        const existingSocial = props.socials.filter(
+          (originalSocial: any) =>
+            social.name.toLowerCase() === originalSocial.type
+        );
+
+        const handle =
+          existingSocial.length > 0 ? existingSocial[0].handle : "";
+
         return (
           <div key={key} className="flex gap-x-2">
             <Input
               primaryPlaceholder={social.name}
               icon={social.icon}
+              placeholder={handle}
+              disabled={socialExists ? true : false}
               state={(value) =>
                 handleInputChange(social.name, value, social.name.toLowerCase())
               }
+              className={social.className}
             />
           </div>
         );
@@ -142,16 +179,23 @@ const ModalBody = (props: {
         team={props.team}
         teamNumber={props.team.team_number}
         socialInputs={socialInputs}
+        setOpen={props.setOpen}
       />
     </div>
   );
 };
 
-export const AddSocialsModal = ({ isOpen, setOpen, team, avatar }: Props) => {
+export const AddSocialsModal = ({
+  isOpen,
+  setOpen,
+  team,
+  avatar,
+  socials,
+}: Props) => {
   return (
     <Modal
       header={<ModalHeader team={team} avatar={avatar} />}
-      body={<ModalBody setOpen={setOpen} team={team} />}
+      body={<ModalBody setOpen={setOpen} team={team} socials={socials} />}
       isOpen={isOpen}
       setOpen={setOpen}
     />

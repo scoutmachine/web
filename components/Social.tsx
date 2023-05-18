@@ -7,7 +7,7 @@ export const Social = (props: {
 }) => {
   return (
     <p className={`flex ${props.className} hover:text-primary`}>
-      {props.icon && <props.icon className="text-2xl mr-1" />}
+      {props.icon && <props.icon className="text-2xl mr-2" />}
       {props.name}
     </p>
   );

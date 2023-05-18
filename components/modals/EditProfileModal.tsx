@@ -24,7 +24,9 @@ export const Input = (props: {
   return (
     <div className="relative w-full">
       <input
-        className={`${props.className} w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
+        className={`${props.className} ${
+          props.disabled && "cursor-not-allowed"
+        } w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
         type="text"
         disabled={props.disabled ?? false}
         placeholder={props.primaryPlaceholder}
@@ -33,7 +35,7 @@ export const Input = (props: {
         onChange={(e) => props.state?.(e.target.value)}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-        <props.icon className="text-sm text-lightGray" />
+        <props.icon className={`text-sm text-lightGray text-${props.className}`} />
       </span>
     </div>
   );

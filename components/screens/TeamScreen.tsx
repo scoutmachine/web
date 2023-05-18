@@ -10,6 +10,7 @@ import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
 import { useSession } from "next-auth/react";
 import { districtCodeToName } from "@/lib/lists/districts";
 import { AddSocialsModal } from "../modals/AddSocialsModal";
+import { Socials as socials } from "@/lib/lists/socials";
 
 export function searchDistrict(array: any, valuetofind: any) {
   for (let i = 0; i < array.length; i++) {
@@ -166,13 +167,15 @@ export const TeamScreen = (props: any) => {
             {session && (
               <div className="flex mt-3">
                 <div className="flex gap-3">
-                  <button
-                    onClick={() => setIsAddSocialModelOpen(true)}
-                    className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
-                  >
-                    <FaPlus className="mr-2" />
-                    <span>Add Social</span>
-                  </button>
+                  {props.socials.length !== socials.length && (
+                    <button
+                      onClick={() => setIsAddSocialModelOpen(true)}
+                      className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
+                    >
+                      <FaPlus className="mr-2" />
+                      <span>Add Social</span>
+                    </button>
+                  )}
 
                   <button
                     className="group text-primary text-sm transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
@@ -212,6 +215,7 @@ export const TeamScreen = (props: any) => {
         setOpen={setIsAddSocialModelOpen}
         team={props.team}
         avatar={props.avatar}
+        socials={props.socials}
       />
     </>
   );
