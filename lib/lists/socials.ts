@@ -54,11 +54,13 @@ export const Socials = [
     name: "YouTube",
     icon: FaYoutube,
     className: "text-red-500",
+    url: "https://youtube.com/@",
   },
   {
     name: "Tiktok",
     icon: FaTiktok,
     className: "text-pink-500",
+    url: "https://tiktok.com/@",
   },
   {
     name: "Twitch",

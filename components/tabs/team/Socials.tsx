@@ -17,14 +17,16 @@ export const Socials = (props: any) => {
     );
     if (!socialType) return null;
 
-    const { icon: Icon, className } = socialType;
+    const { icon: Icon, className, url } = socialType;
 
     return (
       <a
         key={key}
         href={
-          social.type === "Support Email"
+          social.type === "support email"
             ? `mailto:${social.handle}`
+            : url
+            ? `${url}${social.handle}`
             : `https://${social.type.toLowerCase()}.com/${social.handle}`
         }
         rel="noopener noreferrer"
