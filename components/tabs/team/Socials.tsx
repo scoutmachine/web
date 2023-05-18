@@ -30,11 +30,7 @@ export const Socials = (props: any) => {
         rel="noopener noreferrer"
         target="_blank"
       >
-        <Social
-          icon={Icon}
-          name={social.handle}
-          className={className}
-        />
+        <Social icon={Icon} name={social.handle} className={className} />
       </a>
     );
   });
