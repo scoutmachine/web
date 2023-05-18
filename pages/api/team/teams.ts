@@ -6,7 +6,7 @@ export default async function getAllTeams(
   res: NextApiResponse
 ) {
   const { page } = req.query;
-  const data = fetchTBA(`teams/${page}`);
+  const data = await fetchTBA(`teams/${page}`);
 
   res.status(200).send(data);
 }
