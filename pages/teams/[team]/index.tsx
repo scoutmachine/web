@@ -181,6 +181,7 @@ export default function TeamPage({ user, teamMembers, teamSocials }: any) {
       <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-0 md:pr-0">
         <TeamScreen
           team={teamData.teamData}
+          years={teamData.yearsParticipated}
           socials={teamSocials}
           avatar={teamData.teamAvatar}
           district={teamData.teamDistrict}

@@ -1,5 +1,11 @@
 import Image from "next/image";
-import { FaAward, FaLink, FaPlus, FaStar } from "react-icons/fa";
+import {
+  FaAward,
+  FaInfoCircle,
+  FaLink,
+  FaPlus,
+  FaStar,
+} from "react-icons/fa";
 import { Socials } from "../tabs/team/Socials";
 import { useState } from "react";
 import { findTeam } from "@/utils/team";
@@ -11,6 +17,7 @@ import { useSession } from "next-auth/react";
 import { districtCodeToName } from "@/lib/lists/districts";
 import { AddSocialsModal } from "../modals/AddSocialsModal";
 import { Socials as socials } from "@/lib/lists/socials";
+import { ErrorMessage } from "../ErrorMessage";
 
 export function searchDistrict(array: any, valuetofind: any) {
   for (let i = 0; i < array.length; i++) {
@@ -125,6 +132,18 @@ export const TeamScreen = (props: any) => {
             )}
             {props.socials && <Socials socials={props.socials} />}
           </div>
+
+          {!props.years.includes(CURR_YEAR) && (
+            <ErrorMessage
+              message={
+                <span className="flex">
+                  <FaInfoCircle className="mr-2 text-xl mt-[2px]" /> Team{" "}
+                  {props.team.team_number} was last seen competing in{" "}
+                  {props.years[0]}
+                </span>
+              }
+            />
+          )}
 
           <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
             {isHOF && (
