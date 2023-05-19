@@ -15,6 +15,10 @@ import { FilterNumber } from "@/components/FilterNumber";
 import { fetchTeamsData as fetchTeams } from "@/utils/team";
 import exportFromJSON from "export-from-json";
 import Link from "next/link";
+import db from "@/lib/db";
+import { GetServerSideProps } from "next";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 async function fetchTeamsData(
   startIndex: number,
@@ -78,7 +82,7 @@ async function fetchTeamsData(
   };
 }
 
-export default function TeamsPage() {
+export default function TeamsPage({ user }: any) {
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
   const [time, setTime] = useState<any>();
@@ -185,7 +189,7 @@ export default function TeamsPage() {
     }
   }, []);
 
-  if (!teams && !avatars) {
+  if (!teams && !avatars && isLoading) {
     return <Loading />;
   }
 
@@ -307,7 +311,14 @@ export default function TeamsPage() {
             <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
               <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {teams.map((team: any, key: number) => {
-                  return <TeamCard key={key} team={team} avatars={avatars} />;
+                  return (
+                    <TeamCard
+                      key={key}
+                      team={team}
+                      avatars={avatars}
+                      favourites={user?.favouritedTeams}
+                    />
+                  );
                 })}
               </div>
             </div>
@@ -319,3 +330,23 @@ export default function TeamsPage() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = (await getServerSession(req, res, authOptions)) as Session;
+
+  if (session) {
+    const user = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user.id,
+      },
+      include: {
+        favouritedTeams: true,
+      },
+    });
+
+    return { props: { user } };
+  }
+
+  return { props: {} };
+};

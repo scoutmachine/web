@@ -10,6 +10,10 @@ import { useState, useEffect } from "react";
 import { FaBolt } from "react-icons/fa";
 import Head from "next/head";
 import { log } from "@/utils/log";
+import db from "@/lib/db";
+import { GetServerSideProps } from "next";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 async function fetchRookieTeamsData() {
   const cacheDataTeams = getStorage(`rookieTeams_${CURR_YEAR}`);
@@ -70,7 +74,7 @@ async function fetchRookieTeamsData() {
   };
 }
 
-export default function RookiesPage() {
+export default function RookiesPage({ user }: any) {
   const [rookieTeams, setRookieTeams] = useState<any>();
   const [avatars, setAvatars] = useState<any>();
 
@@ -123,7 +127,14 @@ export default function RookiesPage() {
         <div className="flex flex-col w-full gap-3 mt-10 sm:grid sm:grid-cols-2 lg:grid-cols-5">
           {Array.isArray(rookieTeams) &&
             rookieTeams.map((team: any, key: number) => {
-              return <TeamCard key={key} team={team} avatars={avatars} />;
+              return (
+                <TeamCard
+                  key={key}
+                  team={team}
+                  avatars={avatars}
+                  favourites={user?.favouritedTeams}
+                />
+              );
             })}
         </div>
       </div>
@@ -132,3 +143,23 @@ export default function RookiesPage() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = (await getServerSession(req, res, authOptions)) as Session;
+
+  if (session) {
+    const user = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user.id,
+      },
+      include: {
+        favouritedTeams: true,
+      },
+    });
+
+    return { props: { user } };
+  }
+
+  return { props: {} };
+};

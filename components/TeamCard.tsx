@@ -3,11 +3,9 @@ import { Tooltip } from "./Tooltip";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { Loading } from "./Loading";
+import { useState } from "react";
 import {
   favouriteTeam,
-  getFavourites,
   unfavouriteTeam,
 } from "@/utils/favourites";
 
@@ -27,19 +25,14 @@ const PlaceholderTeamCard = () => {
 
 export const TeamCard = (props: any) => {
   const { data: session } = useSession();
-  const [favourites, setFavourites] = useState<any>();
   const [error, setError] = useState(false);
-  const isFavourited = favourites?.some(
+  const isFavourited = props.favourites?.some(
     (team: any) => team.team_number === props.team.team_number
   );
-  const favouritedTeam = favourites?.filter(
+  const favouritedTeam = props.favourites?.filter(
     (team: any) => team.team_number === props.team.team_number
   );
   const [isStarFilled, setIsStarFilled] = useState(false);
-
-  useEffect(() => {
-    getFavourites(setFavourites);
-  }, []);
 
   const data = {
     team_number: props.team.team_number,

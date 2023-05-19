@@ -89,6 +89,7 @@ export const SignedInScreen = (props: {
                     key={key}
                     team={team}
                     avatars={props.avatars}
+                    favourites={props.favourites}
                     showFavLoading
                   />
                 );
