@@ -139,4 +139,8 @@ export const HOFTeams = [
     name: "191",
     year: "1994",
   },
+  {
+    name: "191",
+    year: "1992",
+  },
 ];

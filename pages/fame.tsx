@@ -50,34 +50,30 @@ export default function HOFPage() {
         <div className="bg-card border border-[#2A2A2A] py-5 rounded-lg flex flex-wrap gap-5 justify-center items-center flex">
           {HOFTeams.map((team: any, key: number) => {
             return (
-              <div className="banner" key={key}>
-                <div className="flex items-center justify-center mt-3">
-                  <Image
-                    src="/first-icon.svg"
-                    height="50"
-                    width="50"
-                    alt="FIRST Logo"
-                    priority={true}
-                  />
-                </div>
-                <div className="award-name mt-5">
-                  <span className="italic font-black">
-                    {team.year > "2022" ? "Impact Award" : "Chairman's Award"}
-                  </span>{" "}
-                  <br /> <br />
-                  <Link href={`/teams/${team.name}`} legacyBehavior>
-                    <a>
-                      <span className="font-bold hover:text-[#ecc729]">
-                        Team {team.name}
-                      </span>
-                    </a>
-                  </Link>
-                </div>
+              <Link key={key} href={`/teams/${team.name}`}>
+                <div className="banner text-white hover:text-primary cursor-pointer">
+                  <div className="flex items-center justify-center mt-3">
+                    <Image
+                      src="/first-icon.svg"
+                      height="50"
+                      width="50"
+                      alt="FIRST Logo"
+                      priority={true}
+                    />
+                  </div>
+                  <div className="award-name mt-5">
+                    <span className="italic font-black">
+                      {team.year > "2022" ? "Impact Award" : "Chairman's Award"}
+                    </span>{" "}
+                    <br /> <br />
+                    <span className="font-bold">Team {team.name}</span>
+                  </div>
 
-                <div className="award-event">
-                  <span className="text-xs font-semibold">{team.year}</span>
+                  <div className="award-event">
+                    <span className="text-xs font-semibold">{team.year}</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
