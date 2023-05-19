@@ -1,19 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 
-declare global {
-  var db: PrismaClient;
-}
+const prismaClientPropertyName = `__prevent-name-collision__prisma`;
+type GlobalThisWithPrismaClient = typeof globalThis & {
+  [prismaClientPropertyName]: PrismaClient;
+};
 
-let db: PrismaClient;
-
-if (process.env.NODE_ENV === "production") {
-  db = new PrismaClient();
-} else {
-  if (!global.db) {
-    global.db = new PrismaClient();
+const getPrismaClient = () => {
+  if (process.env.NODE_ENV === `production`) {
+    return new PrismaClient();
+  } else {
+    const newGlobalThis = globalThis as GlobalThisWithPrismaClient;
+    if (!newGlobalThis[prismaClientPropertyName]) {
+      newGlobalThis[prismaClientPropertyName] = new PrismaClient();
+    }
+    return newGlobalThis[prismaClientPropertyName];
   }
+};
 
-  db = global.db;
-}
+const db = getPrismaClient();
 
 export default db;
