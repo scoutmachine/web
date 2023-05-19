@@ -77,8 +77,6 @@ export const TeamDisplay = (props: any) => {
   };
 
   const renderMatchResult = () => {
-    const didWeWin = props.didWeWin();
-
     if (alliance === matchWinner()) {
       return (
         <>

@@ -19,5 +19,5 @@ export default async function getTeamEvents(
     return acc;
   }, []);
 
-  res.status(200).send(newData);
+  res.status(200).send(newData.reverse());
 }
