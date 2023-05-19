@@ -59,6 +59,7 @@ export const Socials = [
     name: "Discord",
     icon: FaDiscord,
     className: "text-violet-400",
+    url: "https://discord.gg/",
   },
   {
     name: "Twitch",
