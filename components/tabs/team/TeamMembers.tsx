@@ -3,7 +3,7 @@ export const TeamMembersTab = (props: any) => {
   return (
     <div className="mt-5">
       {props.members.length > 0 ? (
-        <div className="flex flex-col grid sm:grid-cols-2 md:grid-cols-6 gap-3">
+        <div className="flex flex-wrap gap-3">
           {props.members.map((member: any, key: number) => {
             return (
               <div
@@ -16,7 +16,7 @@ export const TeamMembersTab = (props: any) => {
                   className="rounded-full h-8 w-8 mr-2"
                   alt={`${member.name} Avatar`}
                 />
-                <h1 className="font-bold text-2xl group-hover:text-primary">
+                <h1 className="font-bold text-2xl group-hover:text-primary whitespace-nowrap">
                   {member.name}
                 </h1>
               </div>
