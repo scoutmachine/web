@@ -1,4 +1,3 @@
-import { IconType } from "react-icons";
 import {
   FaEnvelope,
   FaInstagram,
@@ -10,8 +9,8 @@ import {
   FaTiktok,
   FaTwitch,
   FaLinkedin,
-  FaSnapchat,
   FaPinterest,
+  FaDiscord,
 } from "react-icons/fa";
 
 export const Socials = [
@@ -57,10 +56,9 @@ export const Socials = [
     url: "https://youtube.com/@",
   },
   {
-    name: "Tiktok",
-    icon: FaTiktok,
-    className: "text-pink-500",
-    url: "https://tiktok.com/@",
+    name: "Discord",
+    icon: FaDiscord,
+    className: "text-violet-400",
   },
   {
     name: "Twitch",
@@ -68,9 +66,10 @@ export const Socials = [
     className: "text-indigo-400",
   },
   {
-    name: "Snapchat",
-    icon: FaSnapchat,
-    className: "text-yellow-400",
+    name: "Tiktok",
+    icon: FaTiktok,
+    className: "text-pink-500",
+    url: "https://tiktok.com/@",
   },
   {
     name: "Pinterest",
