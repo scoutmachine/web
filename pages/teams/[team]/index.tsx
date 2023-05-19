@@ -1,4 +1,4 @@
-import { EventData } from "@/components/EventData";
+import { EventData } from "@/components/eventdata";
 import { Footer } from "@/components/Footer";
 import { TabButton } from "@/components/TabButton";
 import { API_URL, CURR_YEAR } from "@/lib/constants";

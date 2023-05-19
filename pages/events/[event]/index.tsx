@@ -1,5 +1,5 @@
 import { ErrorMessage } from "@/components/ErrorMessage";
-import { EventData } from "@/components/EventData";
+import { EventData } from "@/components/eventdata";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import { TabButton } from "@/components/TabButton";
