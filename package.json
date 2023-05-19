@@ -31,7 +31,7 @@
     "export-from-json": "^1.7.2",
     "framer-motion": "^10.12.12",
     "haversine-distance": "^1.2.1",
-    "next": "13.4.2",
+    "next": "13.4.3",
     "next-auth": "^4.22.1",
     "next-s3-upload": "^0.3.0",
     "postcss": "8.4.23",
