@@ -24,6 +24,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { fetchTBA } from "@/lib/fetchTBA";
+import { EventsTab } from "@/components/tabs/team/Events";
 
 const SubInfo = (props: any) => {
   return (
@@ -210,6 +211,13 @@ export default function TeamPage({ user, teamMembers, teamSocials }: any) {
               >
                 Team Members <SubInfo>{teamMembers.length}</SubInfo>
               </TabButton>
+              <TabButton
+                active={activeTab}
+                tab={4}
+                onClick={() => setActiveTab(4)}
+              >
+                Events <SubInfo>{teamData.teamEvents.length}</SubInfo>
+              </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
                   className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
@@ -267,7 +275,7 @@ export default function TeamPage({ user, teamMembers, teamSocials }: any) {
               </div>
             </div>
 
-            {loading && ![1, 2, 3].includes(activeTab) && (
+            {loading && ![1, 2, 3, 4].includes(activeTab) && (
               <p className="text-gray-400 mt-5">
                 Loading {activeTab} Season...
               </p>
@@ -286,6 +294,8 @@ export default function TeamPage({ user, teamMembers, teamSocials }: any) {
             {activeTab === 3 && (
               <TeamMembersTab members={teamMembers} team={teamData.teamData} />
             )}
+
+            {activeTab === 4 && <EventsTab events={teamData.teamEvents} />}
 
             <div className="flex flex-col gap-5">
               {year.includes(activeTab) &&

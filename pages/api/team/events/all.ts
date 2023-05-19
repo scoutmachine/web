@@ -8,9 +8,16 @@ export default async function getTeamEvents(
   const { team } = req.query;
   const data = await fetchTBA(`team/frc${team}/events`);
 
-  const newData = data.map((event: any) => ({
-    event_type_string: event.event_type_string,
-  }));
+  const newData = data.reduce((acc: any[], event: any) => {
+    if (!event.name.includes("Cancelled")) {
+      acc.push({
+        name: event.name,
+        event_type_string: event.event_type_string,
+        event_code: `${event.year}${event.event_code}`,
+      });
+    }
+    return acc;
+  }, []);
 
   res.status(200).send(newData);
 }

@@ -5,9 +5,9 @@ import Link from "next/link";
 import {
   FaAward,
   FaBolt,
-  FaFire,
   FaGlobe,
   FaMapMarkedAlt,
+  FaPlane,
   FaRocket,
   FaTrophy,
 } from "react-icons/fa";
@@ -161,7 +161,7 @@ export const AboutTab = (props: any) => {
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
-          <FaFire className="mr-1 inline-block" /> Trips to Championship
+          <FaPlane className="mr-1 inline-block" /> Trips to Championship
         </h1>
         <p className="text-lightGray">
           {tripsToChampionship} {tripsToChampionship === 1 ? "trip" : "trips"}
