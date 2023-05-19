@@ -103,7 +103,6 @@ const AddSocialButton = (props: any) => {
 
 const ModalHeader = (props: { team: any; avatar: any }) => {
   const [error, setError] = useState(false);
-  const { data: session } = useSession();
 
   return (
     <>

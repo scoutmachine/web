@@ -1,7 +1,7 @@
 import { EventData } from "@/components/eventdata";
 import { Footer } from "@/components/Footer";
 import { TabButton } from "@/components/TabButton";
-import { API_URL, CURR_YEAR } from "@/lib/constants";
+import { API_URL } from "@/lib/constants";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
@@ -10,9 +10,6 @@ import { convertDate, isLive } from "@/utils/date";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { TeamScreen } from "@/components/screens/TeamScreen";
-import { getStorage, setStorage } from "@/utils/localStorage";
-import { formatTime } from "@/utils/time";
-import { log } from "@/utils/log";
 import { Loading } from "@/components/Loading";
 import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
@@ -34,71 +31,14 @@ const SubInfo = (props: any) => {
   );
 };
 
-async function fetchTeamData(team: string) {
-  const teamData = getStorage(`team_${team}_${CURR_YEAR}`);
-
-  if (teamData) {
-    return teamData;
-  }
-
-  const start = performance.now();
-
-  const fetchInfo = async () => {
-    const [getTeam, teamAvatar, yearsParticipated, teamDistrict, teamEvents] =
-      await Promise.all([
-        await fetch(`${API_URL}/api/team?team=${team}`, {
-          next: { revalidate: 60 },
-        }),
-        await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
-          next: { revalidate: 60 },
-        }),
-        await fetch(`${API_URL}/api/team/years?team=${team}`, {
-          next: { revalidate: 60 },
-        }),
-        await fetch(`${API_URL}/api/team/stats?team=${team}`, {
-          next: { revalidate: 60 },
-        }),
-        await fetch(`${API_URL}/api/team/events/all?team=${team}`, {
-          next: { revalidate: 60 },
-        }),
-      ]).then((responses) => Promise.all(responses.map((res) => res.json())));
-
-    const teamAwards = await fetch(
-      `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
-      {
-        next: { revalidate: 60 },
-      }
-    ).then((res) => res.json());
-
-    log(
-      "warning",
-      `Fetching [/team], [/team/${team}/...] took ${formatTime(
-        performance.now() - start
-      )}`
-    );
-
-    return {
-      teamData: getTeam,
-      teamAvatar: teamAvatar.avatar,
-      teamAwards,
-      teamDistrict,
-      yearsParticipated: yearsParticipated.reverse(),
-      teamEvents,
-    };
-  };
-
-  setStorage(
-    `team_${team}_${CURR_YEAR}`,
-    (await fetchInfo()) as unknown as string,
-    60 * 60 * 12
-  );
-  return await fetchInfo();
-}
-
-export default function TeamPage({ user, teamMembers, teamSocials }: any) {
+export default function TeamPage({
+  user,
+  teamMembers,
+  teamSocials,
+  teamData,
+}: any) {
   const router = useRouter();
   const { team } = router.query;
-  const [teamData, setTeamData] = useState<any>();
   const [activeTab, setActiveTab] = useState<any>(1);
   const [eventData, setEventData] = useState([]);
   const [matchData, setMatchData] = useState<any>();
@@ -110,11 +50,6 @@ export default function TeamPage({ user, teamMembers, teamSocials }: any) {
 
   useEffect(() => {
     if (!router.isReady) return;
-
-    const fetchData = async () => {
-      const data = await fetchTeamData(team as string);
-      if (data) setTeamData(data);
-    };
 
     const getEventData = async () => {
       setLoading(true);
@@ -135,7 +70,6 @@ export default function TeamPage({ user, teamMembers, teamSocials }: any) {
       setLoading(false);
     };
 
-    fetchData();
     getEventData();
   }, [activeTab, router.isReady, team]);
 
@@ -425,6 +359,32 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )) as Session;
   const { team }: any = context.params;
 
+  const [getTeam, teamAvatar, yearsParticipated, teamDistrict, teamEvents] =
+    await Promise.all([
+      await fetch(`${API_URL}/api/team?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/years?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/stats?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+      await fetch(`${API_URL}/api/team/events/all?team=${team}`, {
+        next: { revalidate: 60 },
+      }),
+    ]).then((responses) => Promise.all(responses.map((res) => res.json())));
+
+  const teamAwards = await fetch(
+    `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
+    {
+      next: { revalidate: 60 },
+    }
+  ).then((res) => res.json());
+
   const teamMembers = await db.user.findMany({
     where: {
       teamNumber: Number(team),
@@ -473,6 +433,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         user,
         teamMembers,
         teamSocials: [...allSocials, ...newFormattedTBASocials],
+        teamData: {
+          teamData: getTeam,
+          teamAvatar: teamAvatar.avatar,
+          teamAwards,
+          teamDistrict,
+          yearsParticipated: yearsParticipated.reverse(),
+          teamEvents,
+        },
       },
     };
   }
@@ -481,6 +449,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       teamMembers,
       teamSocials: [...allSocials, ...newFormattedTBASocials],
+      teamData: {
+        teamData: getTeam,
+        teamAvatar: teamAvatar.avatar,
+        teamAwards,
+        teamDistrict,
+        yearsParticipated: yearsParticipated.reverse(),
+        teamEvents,
+      },
     },
   };
 };
