@@ -43,7 +43,7 @@ async function fetchTeamData(team: string) {
   const start = performance.now();
 
   const fetchInfo = async () => {
-    const [getTeam, teamAvatar, yearsParticipated, teamDistrict] =
+    const [getTeam, teamAvatar, yearsParticipated, teamDistrict, teamEvents] =
       await Promise.all([
         await fetch(`${API_URL}/api/team?team=${team}`, {
           next: { revalidate: 60 },
@@ -55,6 +55,9 @@ async function fetchTeamData(team: string) {
           next: { revalidate: 60 },
         }),
         await fetch(`${API_URL}/api/team/stats?team=${team}`, {
+          next: { revalidate: 60 },
+        }),
+        await fetch(`${API_URL}/api/team/events/all?team=${team}`, {
           next: { revalidate: 60 },
         }),
       ]).then((responses) => Promise.all(responses.map((res) => res.json())));
@@ -79,6 +82,7 @@ async function fetchTeamData(team: string) {
       teamAwards,
       teamDistrict,
       yearsParticipated: yearsParticipated.reverse(),
+      teamEvents,
     };
   };
 

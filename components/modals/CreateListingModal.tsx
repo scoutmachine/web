@@ -68,10 +68,10 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [imageUrl, setImageUrl] = useState("");
   const { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
 
- const handleFileChange = async (file: any) => {
+  const handleFileChange = async (file: any) => {
     let { url } = await uploadToS3(file);
-    console.log(imageUrl)
-    console.log(url)
+    console.log(imageUrl);
+    console.log(url);
     setImageUrl(url);
   };
 
@@ -92,7 +92,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         formattedAddress: location.formattedAddress,
         latitude: location.latitude,
         longitude: location.longitude,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
       };
 
       await fetch(`${API_URL}/api/@me/post`, {
@@ -209,29 +209,30 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         <div>
           <div>
             <p className="uppercase text-xs text-lightGray mb-2">Image</p>
-        <div className="flex flex-col">
-          <div className="relative mt-1">
-            <FileInput
-              className="opacity-0 absolute z-[-1]"
-              onChange={handleFileChange}
-            />
-            <button
-              className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
-              onClick={openFileDialog}
-            >
-              Browse files
-            </button>
-            {imageUrl && (
-              <img
-                src={imageUrl}
-                className="mt-2 rounded-lg w-full h-fullo object-cover"
-                alt="Uploaded Image"
-              />
-            )}
-          </div>
-        </div>
+            <div className="flex flex-col">
+              <div className="relative mt-1">
+                <FileInput
+                  className="opacity-0 absolute z-[-1]"
+                  onChange={handleFileChange}
+                />
+                <button
+                  className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
+                  onClick={openFileDialog}
+                >
+                  Browse files
+                </button>
+                {imageUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={imageUrl}
+                    className="mt-2 rounded-lg w-full h-fullo object-cover"
+                    alt="Uploaded Image"
+                  />
+                )}
+              </div>
             </div>
           </div>
+        </div>
         <button
           className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
           onClick={() => createListing()}

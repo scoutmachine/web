@@ -2,7 +2,15 @@ import { searchDistrict } from "@/components/screens/TeamScreen";
 import { CURR_YEAR } from "@/lib/constants";
 import { districtCodeToName } from "@/lib/lists/districts";
 import Link from "next/link";
-import { FaAward, FaBolt, FaGlobe, FaRocket, FaTrophy } from "react-icons/fa";
+import {
+  FaAward,
+  FaBolt,
+  FaFire,
+  FaGlobe,
+  FaMapMarkedAlt,
+  FaRocket,
+  FaTrophy,
+} from "react-icons/fa";
 
 const Card = (props: any) => {
   return (
@@ -26,6 +34,10 @@ export const AboutTab = (props: any) => {
     (100 * district?.rank) / props.team.teamDistrict.total
   );
   const roundedPercentage = Math.round(districtPercentage / 10) * 10;
+
+  const tripsToChampionship = props.team.teamEvents.filter(
+    (event: any) => event.event_type_string === "Championship Division"
+  ).length;
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
@@ -122,6 +134,15 @@ export const AboutTab = (props: any) => {
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
+          <FaMapMarkedAlt className="mr-1 inline-block" /> Events Attended
+        </h1>
+        <p className="text-lightGray">
+          {props.team.teamEvents.length}{" "}
+          {props.team.teamEvents.length === 1 ? "event" : "events"}
+        </p>
+      </Card>
+      <Card>
+        <h1 className="text-white font-semibold">
           <FaTrophy className="mr-1 inline-block" /> Events Won
         </h1>
         <p className="text-lightGray">{eventsWon} events</p>
@@ -137,6 +158,14 @@ export const AboutTab = (props: any) => {
           <FaAward className="mr-1 inline-block" /> Avg Awards / Season
         </h1>
         <p className="text-lightGray">{avgAwards} awards</p>
+      </Card>
+      <Card>
+        <h1 className="text-white font-semibold">
+          <FaFire className="mr-1 inline-block" /> Trips to Championship
+        </h1>
+        <p className="text-lightGray">
+          {tripsToChampionship} {tripsToChampionship === 1 ? "trip" : "trips"}
+        </p>
       </Card>
     </div>
   );
