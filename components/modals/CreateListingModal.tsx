@@ -9,6 +9,7 @@ import { ListingType } from "@/types/ListingType";
 import { codes } from "currency-codes";
 import * as yup from "yup";
 import GoogleAutocomplete from "react-google-autocomplete";
+import { useS3Upload } from "next-s3-upload";
 
 type Props = {
   isOpen: boolean;
@@ -64,6 +65,15 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
     latitude: 0,
     longitude: 0,
   });
+  const [imageUrl, setImageUrl] = useState("");
+  const { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
+
+ const handleFileChange = async (file: any) => {
+    let { url } = await uploadToS3(file);
+    console.log(imageUrl)
+    console.log(url)
+    setImageUrl(url);
+  };
 
   const createListing = async () => {
     try {
@@ -82,6 +92,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         formattedAddress: location.formattedAddress,
         latitude: location.latitude,
         longitude: location.longitude,
+        imageUrl: imageUrl
       };
 
       await fetch(`${API_URL}/api/@me/post`, {
@@ -195,6 +206,32 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
             </div>
           </div>
         </div>
+        <div>
+          <div>
+            <p className="uppercase text-xs text-lightGray mb-2">Image</p>
+        <div className="flex flex-col">
+          <div className="relative mt-1">
+            <FileInput
+              className="opacity-0 absolute z-[-1]"
+              onChange={handleFileChange}
+            />
+            <button
+              className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
+              onClick={openFileDialog}
+            >
+              Browse files
+            </button>
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                className="mt-2 rounded-lg w-full h-fullo object-cover"
+                alt="Uploaded Image"
+              />
+            )}
+          </div>
+        </div>
+            </div>
+          </div>
         <button
           className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
           onClick={() => createListing()}

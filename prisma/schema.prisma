@@ -81,6 +81,7 @@ model Post {
   formattedAddress String?
   latitude         Float?
   longitude        Float?
+  imageUrl         String?
   media            String[]
   published        Boolean  @default(false)
   author           User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
