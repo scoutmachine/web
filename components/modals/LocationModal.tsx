@@ -25,9 +25,8 @@ const ModalBody = (props: {
   return (
     <div className="w-full h-full">
       <iframe
-        src={`https://www.google.com/maps/embed/v1/place?q=${props.team.school_name.replace(
-          " ",
-          "%20"
+        src={`https://www.google.com/maps/embed/v1/place?q=${encodeURIComponent(
+          props.team.school_name
         )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
         loading="lazy"
         className="w-full h-[450px] filter rounded-2xl border-2 border-gray-300"
