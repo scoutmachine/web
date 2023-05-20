@@ -107,7 +107,7 @@ export default function TeamPage({
   return (
     <>
       <Head>
-        <title>Team {teamData.teamData.team_number} | Scout Machine</title>
+        <title>Team {team} | Scout Machine</title>
       </Head>
 
       <Navbar />
@@ -359,31 +359,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )) as Session;
   const { team }: any = context.params;
 
-  const [getTeam, teamAvatar, yearsParticipated, teamDistrict, teamEvents] =
-    await Promise.all([
-      await fetch(`${API_URL}/api/team?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/avatar?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/years?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/stats?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-      await fetch(`${API_URL}/api/team/events/all?team=${team}`, {
-        next: { revalidate: 60 },
-      }),
-    ]).then((responses) => Promise.all(responses.map((res) => res.json())));
-
-  const teamAwards = await fetch(
-    `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
-    {
-      next: { revalidate: 60 },
-    }
-  ).then((res) => res.json());
+  const teamData = await fetch(`${API_URL}/api/team/all?team=${team}`).then(
+    (res) => res.json()
+  );
 
   const teamMembers = await db.user.findMany({
     where: {
@@ -433,14 +411,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         user,
         teamMembers,
         teamSocials: [...allSocials, ...newFormattedTBASocials],
-        teamData: {
-          teamData: getTeam,
-          teamAvatar: teamAvatar.avatar,
-          teamAwards,
-          teamDistrict,
-          yearsParticipated: yearsParticipated.reverse(),
-          teamEvents,
-        },
+        teamData,
       },
     };
   }
@@ -449,14 +420,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       teamMembers,
       teamSocials: [...allSocials, ...newFormattedTBASocials],
-      teamData: {
-        teamData: getTeam,
-        teamAvatar: teamAvatar.avatar,
-        teamAwards,
-        teamDistrict,
-        yearsParticipated: yearsParticipated.reverse(),
-        teamEvents,
-      },
+      teamData,
     },
   };
 };

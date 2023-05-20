@@ -36,7 +36,9 @@ export default async function getTeamAwards(
           curr.data.Awards.map((award: any) => {
             return {
               year: curr.year,
-              ...award,
+              eventCode: award.eventCode,
+              name: award.name,
+              teamNumber: award.teamNumber,
             };
           })
         );
