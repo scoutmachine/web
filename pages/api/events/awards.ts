@@ -8,5 +8,12 @@ export default async function getEventAwards(
   const { event } = req.query;
   const data = await fetchFIRST(`/awards/event/${event}`);
 
-  res.status(200).send(data.Awards);
+  const newAwards = data.Awards.map((award: any) => ({
+    awardId: award.awardId,
+    name: award.name,
+    teamNumber: award.teamNumber,
+    person: award.person,
+  }));
+
+  res.status(200).send(newAwards);
 }
