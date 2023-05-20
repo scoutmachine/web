@@ -64,6 +64,14 @@ export const AboutTab = (props: any) => {
     props.team.teamAwards.length / props.team.yearsParticipated.length
   ).toFixed(1);
 
+  const avgEvents = (
+    props.team.teamEvents.length / props.team.yearsParticipated.length
+  ).toFixed(1);
+
+  const avgAwardsPerEvent = (
+    props.team.teamAwards.length / props.team.teamEvents.length
+  ).toFixed(1);
+
   const eventsWon = props.team.teamAwards.filter((award: any) =>
     award.name.includes("Winner")
   ).length;
@@ -173,12 +181,18 @@ export const AboutTab = (props: any) => {
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
-          <FaMapMarkedAlt className="mr-1 inline-block" /> Events Attended
+          <FaMapMarkedAlt className="mr-1 inline-block" /> Events Completed
         </h1>
         <p className="text-lightGray">
           {props.team.teamEvents.length}{" "}
           {props.team.teamEvents.length === 1 ? "event" : "events"}
         </p>
+      </Card>
+      <Card>
+        <h1 className="text-white font-semibold">
+          <FaMapMarkedAlt className="mr-1 inline-block" /> Avg Events per Season
+        </h1>
+        <p className="text-lightGray">{avgEvents} events</p>
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
@@ -194,13 +208,20 @@ export const AboutTab = (props: any) => {
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
-          <FaAward className="mr-1 inline-block" /> Avg Awards / Season
+          <FaAward className="mr-1 inline-block" /> Avg Awards per Season
         </h1>
         <p className="text-lightGray">{avgAwards} awards</p>
       </Card>
       <Card>
         <h1 className="text-white font-semibold">
-          <FaPlane className="mr-1 inline-block" /> Trips to Championship
+          <FaAward className="mr-1 inline-block" /> Avg Awards per Event
+        </h1>
+        <p className="text-lightGray">{avgAwardsPerEvent} awards</p>
+      </Card>
+      <Card>
+        <h1 className="text-white font-semibold">
+          <FaPlane className="mr-1 inline-block" /> Trips to <i>FIRST</i>{" "}
+          Championship
         </h1>
         <p className="text-lightGray">
           {tripsToChampionship} {tripsToChampionship === 1 ? "trip" : "trips"}
