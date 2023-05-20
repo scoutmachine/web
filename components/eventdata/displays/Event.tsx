@@ -101,21 +101,25 @@ export const EventDisplay = (props: any) => {
             {json.redEPA} EPA
           </span>{" "}
           <br />
-          <p className="text-xs text-lightGray mt-1">
-            {redScore - json.redEPA > 0 ? (
-              <span className="text-green-400">
-                +{(redScore - json.redEPA).toFixed(1)}pts
-              </span>
-            ) : (
-              <span className="text-red-400">
-                {(redScore - json.redEPA).toFixed(1)}pts
-              </span>
-            )}{" "}
-            •{" "}
-            {redScore && json.redEPA && redScore - json.redEPA > 0
-              ? "OUTPERFORMED"
-              : "UNDERPERFORMED"}
-          </p>
+          {redScore || redScore != undefined || !Number.isNaN(redScore) ? (
+            <p className="text-xs text-lightGray mt-1">
+              {redScore - json.redEPA > 0 ? (
+                <span className="text-green-400">
+                  +{(redScore - json.redEPA).toFixed(1)}pts
+                </span>
+              ) : (
+                <span className="text-red-400">
+                  {(redScore - json.redEPA).toFixed(1)}pts
+                </span>
+              )}{" "}
+              •{" "}
+              {redScore && json.redEPA && redScore - json.redEPA > 0
+                ? "OUTPERFORMED"
+                : "UNDERPERFORMED"}
+            </p>
+          ) : (
+            ""
+          )}
         </p>
 
         <span className="font-regular">
@@ -175,18 +179,23 @@ export const EventDisplay = (props: any) => {
             {json.blueEPA} EPA
           </span>{" "}
           <br />
-          <p className="text-xs text-lightGray mt-1">
-            {blueScore - json.blueEPA > 0 ? (
-              <span className="text-green-400">
-                +{(blueScore - json.blueEPA).toFixed(1)}pts
-              </span>
-            ) : (
-              <span className="text-red-400">
-                {(blueScore - json.blueEPA).toFixed(1)}pts
-              </span>
-            )}{" "}
-            • {blueScore - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
-          </p>
+          {blueScore || blueScore != undefined || !Number.isNaN(blueScore) ? (
+            <p className="text-xs text-lightGray mt-1">
+              {blueScore - json.blueEPA > 0 ? (
+                <span className="text-green-400">
+                  +{(blueScore - json.blueEPA).toFixed(1)}pts
+                </span>
+              ) : (
+                <span className="text-red-400">
+                  {(blueScore - json.blueEPA).toFixed(1)}pts
+                </span>
+              )}{" "}
+              •{" "}
+              {blueScore - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            </p>
+          ) : (
+            ""
+          )}
         </p>
 
         <span className="font-regular">

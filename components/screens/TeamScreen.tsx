@@ -1,11 +1,5 @@
 import Image from "next/image";
-import {
-  FaAward,
-  FaInfoCircle,
-  FaLink,
-  FaPlus,
-  FaStar,
-} from "react-icons/fa";
+import { FaAward, FaInfoCircle, FaLink, FaPlus, FaStar } from "react-icons/fa";
 import { Socials } from "../tabs/team/Socials";
 import { useState } from "react";
 import { findTeam } from "@/utils/team";

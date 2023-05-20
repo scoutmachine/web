@@ -27,6 +27,7 @@ export default async function marketplaceAPI(
         formattedAddress: body.formattedAddress,
         latitude: parseFloat(body.latitude),
         longitude: parseFloat(body.longitude),
+        imageUrl: (body.imageUrl as string) || "",
       },
     });
 

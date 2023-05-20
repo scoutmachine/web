@@ -21,15 +21,16 @@ export const EventsTab = (props: any) => {
                 key={key}
                 className="group text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]"
               >
-                <td scope="row" className="group-hover:text-primary px-6 py-4 whitespace-nowrap">
+                <td
+                  scope="row"
+                  className="group-hover:text-primary px-6 py-4 whitespace-nowrap"
+                >
                   <Link href={`/events/${event.event_code}`}>
                     {event.event_code.substring(0, 4)}
                   </Link>
                 </td>
                 <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap">
-                  <Link href={`/events/${event.event_code}`}>
-                    {event.name}
-                  </Link>
+                  <Link href={`/events/${event.event_code}`}>{event.name}</Link>
                 </td>
               </tr>
             );
