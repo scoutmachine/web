@@ -58,11 +58,10 @@ export const SignedOutScreen = () => {
 
   useEffect(() => {
     const fetchContributors = async () => {
-      const allContributors = await getContributors();
-      setContributors(allContributors);
+      return await getContributors();
     };
 
-    fetchContributors();
+    fetchContributors().then(r => setContributors(r));
   });
 
   return (
