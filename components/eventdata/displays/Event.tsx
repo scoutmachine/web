@@ -1,7 +1,6 @@
 import { epochSecondsToTime, formatEpochSecondsToDate } from "@/utils/time";
 import Link from "next/link";
 import { FaYoutube, FaTimes, FaTrophy } from "react-icons/fa";
-import { json } from "stream/consumers";
 import { newText } from "..";
 
 export const EventDisplay = (props: any) => {

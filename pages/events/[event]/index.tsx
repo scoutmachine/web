@@ -19,6 +19,7 @@ export default function EventsPage({
   eventAlliances,
   eventRankings,
   eventAwards,
+  matchEPAs,
 }: any) {
   const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -92,6 +93,7 @@ export default function EventsPage({
                   data={matches}
                   isTeam={false}
                   setLoading={setLoading}
+                  matchEPAs={matchEPAs}
                 />
               ) : (
                 <ErrorMessage message="Looks like there's no data available for this event!" />
@@ -124,6 +126,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     `${API_URL}/api/events/event?event=${event}`
   ).then((res) => res.json());
 
+  const matchEPAs: any = {};
+
+  await Promise.all(
+    matches.map(async (match: any) => {
+      try {
+        const response = await fetch(
+          `${API_URL}/api/match/epa?match=${match.key}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch EPA data");
+        }
+        const data = await response.json();
+        matchEPAs[match.key] = data;
+      } catch (error) {
+        matchEPAs[match.key] = null;
+      }
+    })
+  );
+
   const eventInfo = await fetch(
     `${API_URL}/api/events/info?event=${event}`
   ).then((res) => res.json());
@@ -154,6 +175,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       eventInfo,
       eventTeams,
       eventAlliances,
+      matchEPAs,
       // eventRankings,
       // eventAwards,
     },

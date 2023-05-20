@@ -32,7 +32,6 @@ async function fetchEventsData(year: number) {
   }
 
   const data = await res.json();
-  console.log(data);
   data.sort((a: any, b: any) => a.start_date.localeCompare(b.start_date));
 
   setStorage(`events_${year}`, data);

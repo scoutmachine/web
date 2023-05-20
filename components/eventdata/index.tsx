@@ -1,9 +1,7 @@
 import { API_URL } from "@/lib/constants";
-import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FaYoutube, FaTimes, FaTrophy } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
 import { Loading } from "../Loading";
-import { epochSecondsToTime, formatEpochSecondsToDate } from "@/utils/time";
 import { EventDisplay } from "./displays/Event";
 import { TeamDisplay } from "./displays/Team";
 
@@ -39,8 +37,6 @@ const MatchHeader = (props: any) => {
 };
 
 const EventList = (props: any) => {
-  if (!props.epas) return <Loading />;
-
   if (props.isTeam) {
     return (
       <TeamDisplay
@@ -60,7 +56,7 @@ const EventList = (props: any) => {
         findAlliances={props.findAlliances}
         search_array={props.search_array}
         isTeam={props.isTeam}
-        epas={props.matchEPAs}
+        epas={props.epas}
         team={props.team}
       />
     );
@@ -69,7 +65,6 @@ const EventList = (props: any) => {
 
 export const EventData = (props: any) => {
   const [isClient, setIsClient] = useState(false);
-  const [matchEPAs, setMatchEPAs] = useState([]);
 
   function search_array(array: any, valuetofind: any) {
     for (let i = 0; i < array.length; i++) {
@@ -81,24 +76,7 @@ export const EventData = (props: any) => {
 
   useEffect(() => {
     setIsClient(true);
-
-    const fetchEPAs = async () => {
-      const matches: any = {};
-
-      await Promise.all(
-        props.data.map(async (match: any) => {
-          const data = await fetch(
-            `${API_URL}/api/match/epa?match=${match.key}`
-          ).then((res) => res.json());
-          matches[match.key] = data;
-        })
-      );
-
-      setMatchEPAs(matches);
-    };
-
-    fetchEPAs();
-  }, [props.data]);
+  }, []);
 
   const findAlliances = (match: any) => {
     if (match.alliances.blue.team_keys.includes(`frc${props.team}`)) {
@@ -130,10 +108,6 @@ export const EventData = (props: any) => {
       return "lose";
     }
   };
-
-  if (!matchEPAs) {
-    return <Loading />;
-  }
 
   return (
     <>
@@ -231,7 +205,7 @@ export const EventData = (props: any) => {
                       search_array={search_array}
                       key={key}
                       isTeam={props.isTeam}
-                      epas={matchEPAs}
+                      epas={props.matchEPAs}
                       team={props.team}
                     />
                   );
@@ -283,7 +257,7 @@ export const EventData = (props: any) => {
                       search_array={search_array}
                       key={key}
                       isTeam={props.isTeam}
-                      epas={matchEPAs}
+                      epas={props.matchEPAs}
                       team={props.team}
                     />
                   );
@@ -313,7 +287,7 @@ export const EventData = (props: any) => {
                       search_array={search_array}
                       key={key}
                       isTeam={props.isTeam}
-                      epas={matchEPAs}
+                      epas={props.matchEPAs}
                       team={props.team}
                     />
                   );

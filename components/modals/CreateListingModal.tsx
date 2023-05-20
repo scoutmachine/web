@@ -70,8 +70,6 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
 
   const handleFileChange = async (file: any) => {
     let { url } = await uploadToS3(file);
-    console.log(imageUrl);
-    console.log(url);
     setImageUrl(url);
   };
 
