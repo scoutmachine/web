@@ -92,9 +92,9 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         formattedAddress: location.formattedAddress,
         latitude: location.latitude,
         longitude: location.longitude,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl as string,
       };
-
+      
       await fetch(`${API_URL}/api/@me/post`, {
         method: "POST",
         body: JSON.stringify(data),
