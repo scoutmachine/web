@@ -36,9 +36,14 @@ export const MarketplacePage = (props: any) => {
             <h2 className="text-sm text-gray-300 uppercase">
               {props.marketplacePost.formattedAddress}
             </h2>
-            <h2 className="text-sm text-gray-300">
-              📌 {Math.ceil(distance as number).toLocaleString("en-US")} km away
-            </h2>
+            {Number.isNaN(distance) ? (
+              ""
+            ) : (
+              <h2 className="text-sm text-gray-300">
+                📌 {Math.ceil(distance as number).toLocaleString("en-US")} km
+                away
+              </h2>
+            )}
           </div>
           <h1
             className="text-white text-3xl font-bold mb-2"
