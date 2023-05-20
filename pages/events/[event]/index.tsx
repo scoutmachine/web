@@ -126,7 +126,7 @@ export default function EventsPage({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context): Promise<any> => {
   const { event }: any = context.params;
 
   const session: Session = (await getServerSession(
@@ -141,7 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const matchEPAs: any = {};
 
-  const matchPromises = matches.map(async (match: any) => {
+  const matchPromises = matches.map(async (match: any): Promise<{key: any, data: any | null}> => {
     try {
         const response: Response = await fetch(
             `${API_URL}/api/match/epa?match=${match.key}`

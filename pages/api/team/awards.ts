@@ -6,12 +6,12 @@ export default async function getTeamAwards(
     res: NextApiResponse
 ): Promise<void> {
     const {team, year} = req.query;
-    const currentYear = new Date().getFullYear();
-    const startYear = parseInt(year as string);
+    const currentYear: number = new Date().getFullYear();
+    const startYear: number = parseInt(year as string);
 
     const years: number[] = Array.from(
         {length: currentYear - startYear + 1},
-        (_, i) => startYear + i
+        (_, i: number) => startYear + i
     );
 
     const awards = await Promise.all(
