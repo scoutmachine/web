@@ -13,14 +13,12 @@ export default async function getAllTeamInfo(
     const [
       teamData,
       teamAvatar,
-      teamSocials,
       yearsParticipated,
       teamDistrict,
       teamEvents,
     ] = await Promise.all([
       fetchTBA(`team/frc${team}`),
       fetchTeamAvatar(req),
-      fetchTBA(`team/frc${team}/social_media`),
       fetchTBA(`team/frc${team}/years_participated`),
       fetch(`${API_URL}/api/team/stats?team=${team}`, {
         next: { revalidate: 60 },
@@ -39,11 +37,20 @@ export default async function getAllTeamInfo(
     const teamAwards = await teamAwardsResponse.json();
 
     res.status(200).json({
-      teamData,
+      teamData: {
+        city: teamData.city,
+        country: teamData.country,
+        nickname: teamData.nickname,
+        website: teamData.website,
+        team_number: teamData.team_number,
+        state_prov: teamData.state_prov,
+        school_name: teamData.school_name,
+        rookie_year: teamData.rookie_year,
+        name: teamData.name,
+      },
       teamAvatar: teamAvatar.avatar,
-      teamSocials,
-      teamAwards,
       yearsParticipated,
+      teamAwards,
       teamDistrict,
       teamEvents,
     });
