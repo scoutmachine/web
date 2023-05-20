@@ -17,8 +17,6 @@ export default function EventsPage({
   eventInfo,
   eventTeams,
   eventAlliances,
-  eventRankings,
-  eventAwards,
   matchEPAs,
 }: any) {
   const [activeTab, setActiveTab] = useState(1);
@@ -128,22 +126,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const matchEPAs: any = {};
 
-  await Promise.all(
-    matches.map(async (match: any) => {
-      try {
-        const response = await fetch(
-          `${API_URL}/api/match/epa?match=${match.key}`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch EPA data");
-        }
-        const data = await response.json();
-        matchEPAs[match.key] = data;
-      } catch (error) {
-        matchEPAs[match.key] = null;
+  const matchPromises = matches.map(async (match: any) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/api/match/epa?match=${match.key}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch EPA data");
       }
-    })
-  );
+      const data = await response.json();
+      return { key: match.key, data };
+    } catch (error) {
+      return { key: match.key, data: null };
+    }
+  });
+
+  const matchResults = await Promise.allSettled(matchPromises);
+
+  matchResults.forEach((result: any) => {
+    if (result.status === "fulfilled") {
+      matchEPAs[result.value.key] = result.value.data;
+    }
+  });
 
   const eventInfo = await fetch(
     `${API_URL}/api/events/info?event=${event}`
@@ -159,16 +163,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .then((res) => res.json())
     .catch(() => null);
 
-  // const eventRankings = await fetch(
-  //   `${API_URL}/api/events/rankings?event=${event}`
-  // )
-  //   .then((res) => res.json())
-  //   .catch(() => null);
-
-  // const eventAwards = await fetch(
-  //   `${API_URL}/api/events/awards?event=${event}`
-  // ).then((res) => res.json());
-
   return {
     props: {
       matches,
@@ -176,8 +170,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       eventTeams,
       eventAlliances,
       matchEPAs,
-      // eventRankings,
-      // eventAwards,
     },
   };
 };
