@@ -15,7 +15,7 @@ export const TeamDisplay = (props: any) => {
   const blueScore: number = Number(props.match.alliances.blue.score);
 
   const { alliance, team } = props.findAlliances();
-  const allianceColour:  =
+  const allianceColour: "text-red-400" | "text-sky-400" =
     alliance === "Red" ? RED_ALLIANCE_COLOR : BLUE_ALLIANCE_COLOR;
   const opposingAllianceColour: "text-red-400" | "text-sky-400" =
     allianceColour === RED_ALLIANCE_COLOR
