@@ -4,8 +4,8 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import { TabButton } from "@/components/TabButton";
 import { EventHeader } from "@/components/headers/EventHeader";
-import { AlliancesScreen } from "@/components/tabs/event/Alliances";
-import { TeamsScreen } from "@/components/tabs/event/Teams";
+import { AlliancesTab } from "@/components/tabs/event/Alliances";
+import { TeamsTab } from "@/components/tabs/event/Teams";
 import { API_URL } from "@/lib/constants";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
@@ -14,12 +14,14 @@ import { Loading } from "@/components/Loading";
 import db from "@/lib/db";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession, Session } from "next-auth";
+import { AwardsTab } from "@/components/tabs/event/Awards";
 
 export default function EventsPage({
   matches,
   eventInfo,
   eventTeams,
   eventAlliances,
+  eventAwards,
   matchEPAs,
   user,
 }: any) {
@@ -102,21 +104,16 @@ export default function EventsPage({
               ))}
 
             {eventAlliances && activeTab == 2 && (
-              <AlliancesScreen alliances={eventAlliances} />
+              <AlliancesTab alliances={eventAlliances} />
             )}
 
             {activeTab == 3 && (
               <p className="text-lightGray mt-5">Coming soon!</p>
             )}
-            {activeTab == 4 && (
-              <p className="text-lightGray mt-5">Coming soon!</p>
-            )}
+            {activeTab == 4 && <AwardsTab awards={eventAwards} />}
 
             {activeTab === 5 && (
-              <TeamsScreen
-                teams={eventTeams}
-                favourites={user?.favouritedTeams}
-              />
+              <TeamsTab teams={eventTeams} favourites={user?.favouritedTeams} />
             )}
           </div>
         </div>
@@ -184,6 +181,10 @@ export const getServerSideProps: GetServerSideProps = async (
     .then((res: Response) => res.json())
     .catch((): null => null);
 
+  const eventAwards = await fetch(
+    `${API_URL}/api/events/awards?event=${event.substring(4)}`
+  ).then((res: Response) => res.json());
+
   if (session) {
     const user = await db.user.findUnique({
       where: {
@@ -202,6 +203,7 @@ export const getServerSideProps: GetServerSideProps = async (
         eventInfo,
         eventTeams,
         eventAlliances,
+        eventAwards,
         matchEPAs,
       },
     };
@@ -213,6 +215,7 @@ export const getServerSideProps: GetServerSideProps = async (
       eventInfo,
       eventTeams,
       eventAlliances,
+      eventAwards,
       matchEPAs,
     },
   };

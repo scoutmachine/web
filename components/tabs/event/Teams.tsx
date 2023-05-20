@@ -1,6 +1,6 @@
 import { TeamCard } from "@/components/TeamCard";
 
-export const TeamsScreen = (props: any) => {
+export const TeamsTab = (props: any) => {
   return (
     <div className="flex flex-col md:grid grid-cols-4 gap-3 mt-5">
       {props.teams.map((team: any, key: number) => {

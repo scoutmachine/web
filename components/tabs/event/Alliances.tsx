@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaTimes } from "react-icons/fa";
 
-export const AlliancesScreen = (props: any) => {
+export const AlliancesTab = (props: any) => {
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
