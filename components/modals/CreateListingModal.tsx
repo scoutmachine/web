@@ -19,6 +19,7 @@ type Props = {
 const validationSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
   price: yup.string().required("Price is required"),
+  imageUrl: yup.string().required("Image is required"),
 });
 
 const Input = (props: {
@@ -81,6 +82,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         title,
         description,
         price,
+        imageUrl
       });
 
       const data = {
