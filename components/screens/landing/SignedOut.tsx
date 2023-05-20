@@ -56,7 +56,7 @@ const IssueTemplate = (props: any) => {
 export const SignedOutScreen = () => {
   const [contributors, setContributors] = useState([]);
 
-  useEffect(() => {
+  useEffect((): void => {
       const fetchContributors = async (): Promise<any> => {
           return await getContributors();
       };
@@ -82,7 +82,7 @@ export const SignedOutScreen = () => {
           </p>
 
           <div className="flex flex-wrap -space-x-1 overflow-hidden absolute bottom-10">
-            {contributors.map((contributor: any, key: number) => {
+            {contributors.map((contributor: any) => {
               return (
                 <a
                   key={contributor.id}

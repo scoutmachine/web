@@ -39,10 +39,10 @@ export default function MatchPage(): JSX.Element {
   const router = useRouter();
   const {event, match} = router.query;
 
-  useEffect(() => {
+  useEffect((): void => {
     if (!router.isReady) return;
 
-    const fetchData = async (): Promise<void> => {
+    const fetchData = async (): Promise<any> => {
       const data = await fetchMatchData(event as string, match as string);
       if (data) setMatchData(data);
     };

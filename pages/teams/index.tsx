@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import {API_URL, CURR_YEAR} from "@/lib/constants";
-import {useState, useEffect, useRef, JSX} from "react";
+import {useState, useEffect, useRef, JSX, MutableRefObject} from "react";
 import {Header} from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
@@ -95,7 +95,7 @@ export default function TeamsPage({user}: any): JSX.Element {
   const [teamNumberRange, setTeamNumberRange] = useState("");
   const itemsPerPage = 50;
 
-  const loadingScreenShown = useRef(false);
+  const loadingScreenShown: MutableRefObject<boolean> = useRef(false);
 
   useEffect(() => {
     setIsClient(true);

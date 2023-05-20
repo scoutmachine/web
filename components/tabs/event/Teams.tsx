@@ -1,6 +1,4 @@
 import { TeamCard } from "@/components/TeamCard";
-import { Tooltip } from "@/components/Tooltip";
-import Link from "next/link";
 
 export const TeamsScreen = (props: any) => {
   return (

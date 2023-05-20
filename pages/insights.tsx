@@ -10,7 +10,7 @@ import {JSX, useEffect, useState} from "react";
 export default function InsightsPage({insights}: any): JSX.Element {
     const [avatars, setAvatars] = useState([]);
 
-    useEffect(() => {
+    useEffect((): void => {
         const fetchAvatars = async (): Promise<void> => {
             const teamAvatars: any = {};
 

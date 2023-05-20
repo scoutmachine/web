@@ -44,7 +44,7 @@ export const TeamDisplay = (props: any) => {
   };
 
   const renderTeamLink = (team: string, isOpposing: boolean) => {
-    const teamColor = isOpposing ? opposingAllianceColour : allianceColour;
+    const teamColor: "text-red-400" | "text-sky-400" = isOpposing ? opposingAllianceColour : allianceColour;
     const isDqTeam = props.match.alliances.red.dq_team_keys.includes(team);
     const isSurrogateTeam =
       props.match?.alliances?.red?.surrogate_team_keys.includes(team);

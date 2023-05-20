@@ -29,7 +29,7 @@ export const authOptions: AuthOptions = {
     },
   },
   events: {
-    createUser: async (user): Promise<void> => {
+    createUser: async (user: {user: User}): Promise<void> => {
       let username;
 
       const userExists: User | null = await db.user.findUnique({

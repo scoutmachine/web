@@ -6,7 +6,7 @@ import db from "@/lib/db";
 export default async function getUserData(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
     const session: Session = (await getServerSession(req, res, authOptions)) as Session;
 
   if (!session) res.status(400).send("You are not logged in!");

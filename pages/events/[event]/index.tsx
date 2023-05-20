@@ -26,7 +26,7 @@ export default function EventsPage({
   const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const handleTabClick = (tabIndex: number) => {
+  const handleTabClick = (tabIndex: number): void => {
     setActiveTab(tabIndex);
   };
 
@@ -129,7 +129,7 @@ export default function EventsPage({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { event }: any = context.params;
 
-  const session = (await getServerSession(
+  const session: Session = (await getServerSession(
     context.req,
     context.res,
     authOptions
@@ -147,7 +147,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             `${API_URL}/api/match/epa?match=${match.key}`
         );
       if (!response.ok) {
-        throw new Error("Failed to fetch EPA data");
+        new Error("Failed to fetch EPA data");
       }
       const data = await response.json();
       return { key: match.key, data };

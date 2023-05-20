@@ -58,7 +58,7 @@ export default function MarketplacePage({ posts, user }: any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = (await getServerSession(req, res, authOptions)) as Session;
+  const session: Session = (await getServerSession(req, res, authOptions)) as Session;
   let user;
 
   if (session) {

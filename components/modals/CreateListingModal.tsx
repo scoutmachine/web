@@ -170,7 +170,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
               value={currencyType}
               onChange={(e: ChangeEvent<HTMLSelectElement>) => setCurrencyType(e.target.value)}
             >
-              {codes().map((currency) => (
+              {codes().map((currency: string) => (
                 <option key={currency} value={currency}>
                   {currency}
                 </option>

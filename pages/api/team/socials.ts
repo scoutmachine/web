@@ -6,7 +6,7 @@ import db from "@/lib/db";
 export default async function addSocials(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   const session: Session = (await getServerSession(req, res, authOptions)) as Session;
   const {team} = req.query;
 
@@ -43,7 +43,7 @@ export default async function addSocials(
       });
 
       await Promise.all(
-        body.map(async (social: any) => {
+        body.map(async (social: any): Promise<void> => {
           await db.social.create({
             data: {
               type: social.type,

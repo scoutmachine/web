@@ -1,5 +1,6 @@
 import { Social } from "@/components/Social";
 import { Socials as socials } from "@/lib/lists/socials";
+import {JSX} from "react";
 
 export const Socials = (props: any) => {
   const sortedSocials = props.socials
@@ -11,9 +12,9 @@ export const Socials = (props: any) => {
     }))
     .sort((a: any, b: any) => a.order - b.order);
 
-  return sortedSocials.map((social: any, key: number) => {
+  return sortedSocials.map((social: any, key: number): null | JSX.Element => {
     const socialType = socials.find(
-      (item) => item.name.toLowerCase() === social.type
+      (item): boolean => item.name.toLowerCase() === social.type
     );
     if (!socialType) return null;
 

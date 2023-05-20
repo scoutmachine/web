@@ -9,13 +9,13 @@ export default async function getTeamAwards(
     const currentYear = new Date().getFullYear();
     const startYear = parseInt(year as string);
 
-    const years = Array.from(
+    const years: number[] = Array.from(
         {length: currentYear - startYear + 1},
         (_, i) => startYear + i
     );
 
     const awards = await Promise.all(
-    years.map(async (year) => {
+    years.map(async (year: number) => {
       try {
         const response = await fetchFIRST(`/awards/team/${team}`, year);
         return {

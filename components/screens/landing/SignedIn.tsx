@@ -17,7 +17,8 @@ export const SignedInScreen = (props: {
     const kickoffTime: number = 1704542400;
     const router: NextRouter = useRouter();
 
-    function calculateTimeLeft(distance: any) {
+    function calculateTimeLeft(distance: any):
+        { weeks: number; days: number; hours: number; minutes: number; seconds: number} {
         const days: number = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours: number = Math.floor(
             (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -30,7 +31,7 @@ export const SignedInScreen = (props: {
     }
 
   useEffect(() => {
-      const interval: NodeJS.Timer = setInterval(() => {
+      const interval: NodeJS.Timer = setInterval((): void => {
           const now: number = new Date().getTime();
           const distance: number = kickoffTime * 1000 - now;
           setTimeLeft(calculateTimeLeft(distance));

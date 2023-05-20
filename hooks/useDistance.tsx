@@ -8,9 +8,9 @@ export const useDistance = (
     const [distance, setDistance] = useState<number | null>(null);
 
     useEffect((): void => {
-        navigator.permissions.query({name: "geolocation"}).then((result): void => {
+        navigator.permissions.query({name: "geolocation"}).then((result: PermissionStatus): void => {
             if (result.state === "granted") {
-                navigator.geolocation.getCurrentPosition((position): void => {
+                navigator.geolocation.getCurrentPosition((position: GeolocationPosition): void => {
                     const currentDistance: number =
                         haversine(
                             {

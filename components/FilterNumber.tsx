@@ -11,7 +11,7 @@ export const FilterNumber = (props: {
 
   return (
     <button
-      onClick={() => {
+      onClick={(): void => {
         setButtonClicked(props.range);
         props.setTeamNumberRange(props.range);
         props.reload && router.reload();

@@ -2,7 +2,7 @@ import {CURR_YEAR} from "@/lib/constants";
 import {convertDate} from "@/utils/date";
 import Link from "next/link";
 import {Search} from "../Search";
-import React, {ReactNode, useEffect, useRef, useState} from "react";
+import React, {JSX, ReactNode, useEffect, useRef, useState} from "react";
 import haversine from "haversine-distance";
 import {FaArrowUp, FaCrosshairs, FaFileCsv, FaGlobe, FaMapMarkerAlt,} from "react-icons/fa";
 import {getGeoData} from "@/utils/geo";
@@ -48,7 +48,7 @@ const Event = (props: any) => {
   );
 };
 
-export const EventsScreen = (props: any) => {
+export const EventsScreen = (props: any): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState("");
   const [nearbyEvents, setNearbyEvents] = useState([]);
   const [showNearbyEvents, setShowNearbyEvents] = useState(false);
@@ -64,7 +64,7 @@ export const EventsScreen = (props: any) => {
   const weeks: number[] = [...Array(7).keys()];
   const weeksArray: (string | number)[] = [
     "Preseason",
-    ...weeks.slice(1).map((week) => week - 1),
+    ...weeks.slice(1).map((week: number) => week - 1),
     "Championship",
     "Offseason",
   ];
@@ -86,7 +86,7 @@ export const EventsScreen = (props: any) => {
 
     if (filterByAddress) {
       fetchGeoData()
-        .then((data) => {
+        .then((data): void => {
           const lat: number = Number(data?.lat);
           const lng: number = Number(data?.lng);
           const eventDistances: any = {};

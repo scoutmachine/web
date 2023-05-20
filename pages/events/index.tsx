@@ -44,7 +44,7 @@ export default function EventsPage(): JSX.Element {
   const [year, setYear] = useState<number>(CURR_YEAR);
 
   useEffect((): void => {
-    async function fetchData() {
+    async function fetchData(): Promise<void> {
       const data = await fetchEventsData(year);
       if (data) setEvents(data);
     }
