@@ -5,8 +5,8 @@ import { FaMoneyBill } from "react-icons/fa";
 
 export const MarketplacePage = (props: any) => {
   const distance: number | null = useDistance(
-      props.marketplacePost.latitude,
-      props.marketplacePost.longitude
+    props.marketplacePost.latitude,
+    props.marketplacePost.longitude
   );
   const partTypeColour = (): string => {
     switch (props.marketplacePost.type) {

@@ -1,9 +1,9 @@
-import {useState, useEffect, JSX} from "react";
+import { useState, useEffect, JSX } from "react";
 import { FaYoutube } from "react-icons/fa";
 import { EventDisplay } from "./displays/Event";
 import { TeamDisplay } from "./displays/Team";
 
-export const newText:{name: string, new :string}[] = [
+export const newText: { name: string; new: string }[] = [
   {
     name: "f",
     new: "Final",
@@ -76,7 +76,7 @@ export const EventData = (props: any) => {
     setIsClient(true);
   }, []);
 
-  const findAlliances = (match: any): {alliance: string, teams: any} => {
+  const findAlliances = (match: any): { alliance: string; teams: any } => {
     if (match.alliances.blue.team_keys.includes(`frc${props.team}`)) {
       return {
         teams: match.alliances.blue.team_keys.map((team: any) =>
@@ -186,8 +186,9 @@ export const EventData = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {props.data?.filter((match: any): boolean => match.comp_level === "f")
-                .length > 0 && (
+              {props.data?.filter(
+                (match: any): boolean => match.comp_level === "f"
+              ).length > 0 && (
                 <MatchHeader title="Finals" isTeam={props.isTeam} />
               )}
 
@@ -245,7 +246,7 @@ export const EventData = (props: any) => {
                   } else if (matchB.comp_level === "sf") {
                     return 1;
                   }
-                    return 0;
+                  return 0;
                 })
                 .map((match: any, key: number) => {
                   return (
@@ -262,8 +263,9 @@ export const EventData = (props: any) => {
                   );
                 })}
 
-              {props.data?.filter((match: any): boolean => match.comp_level === "qm")
-                .length > 0 && (
+              {props.data?.filter(
+                (match: any): boolean => match.comp_level === "qm"
+              ).length > 0 && (
                 <MatchHeader
                   title="Qualification Matches"
                   isTeam={props.isTeam}

@@ -1,4 +1,10 @@
-import {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
@@ -32,7 +38,9 @@ export const Input = (props: {
         placeholder={props.primaryPlaceholder}
         defaultValue={props.placeholder}
         spellCheck={false}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => props.state?.(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          props.state?.(e.target.value)
+        }
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon
@@ -73,7 +81,9 @@ const ModalBody = (props: {
 
   useEffect(() => {
     const fetchTeamNumber = async (): Promise<void> => {
-      const data = await fetch(`${API_URL}/api/@me`).then((res: Response) => res.json());
+      const data = await fetch(`${API_URL}/api/@me`).then((res: Response) =>
+        res.json()
+      );
       setTeamNumber(data.teamNumber ?? "Unknown Team");
     };
 
@@ -100,7 +110,7 @@ const ModalBody = (props: {
     fieldName: string,
     fieldValue: string | number
   ): Promise<void> => {
-    const data: {[p: string]: string | number} = { [fieldName]: fieldValue };
+    const data: { [p: string]: string | number } = { [fieldName]: fieldValue };
     if (!fieldValue) {
       setErrorMessage(`${fieldName} left blank`);
       // @ts-ignore
@@ -214,14 +224,18 @@ export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
 
     const data: string = event.dataTransfer.getData("text/html");
     const doc: Document = new DOMParser().parseFromString(data, "text/html");
-    const images: HTMLCollectionOf<HTMLImageElement> = doc.getElementsByTagName("img");
+    const images: HTMLCollectionOf<HTMLImageElement> =
+      doc.getElementsByTagName("img");
     if (images.length > 0) {
       setImageURL(images[0].src);
     }
   };
 
   return (
-    <div onDrop={handleDrop} onDragOver={(event: DragEvent<HTMLDivElement>) => event.preventDefault()}>
+    <div
+      onDrop={handleDrop}
+      onDragOver={(event: DragEvent<HTMLDivElement>) => event.preventDefault()}
+    >
       <Modal
         header={<ModalHeader avatar={imageURL as string} />}
         body={<ModalBody setOpen={setOpen} avatar={imageURL as string} />}

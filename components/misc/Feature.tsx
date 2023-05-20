@@ -1,4 +1,4 @@
-import {NextRouter, useRouter} from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { FC } from "react";
 
 interface FeatureProps {

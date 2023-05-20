@@ -1,6 +1,6 @@
 import { Social } from "@/components/Social";
 import { Socials as socials } from "@/lib/lists/socials";
-import {JSX} from "react";
+import { JSX } from "react";
 
 export const Socials = (props: any) => {
   const sortedSocials = props.socials

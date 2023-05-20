@@ -3,8 +3,8 @@ import { TeamCard } from "../../TeamCard";
 import { FaStar, FaTags } from "react-icons/fa";
 import { MarketplacePost } from "../marketplace/MarketplacePost";
 import { useEffect, useState } from "react";
-import {formatEpochSecondsToDate} from "@/utils/time";
-import {NextRouter, useRouter} from "next/router";
+import { formatEpochSecondsToDate } from "@/utils/time";
+import { NextRouter, useRouter } from "next/router";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -13,30 +13,37 @@ export const SignedInScreen = (props: {
   avatars: any;
   user: any;
 }) => {
-    const [timeLeft, setTimeLeft] = useState<any>({});
-    const kickoffTime: number = 1704542400;
-    const router: NextRouter = useRouter();
+  const [timeLeft, setTimeLeft] = useState<any>({});
+  const kickoffTime: number = 1704542400;
+  const router: NextRouter = useRouter();
 
-    function calculateTimeLeft(distance: any):
-        { weeks: number; days: number; hours: number; minutes: number; seconds: number} {
-        const days: number = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours: number = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes: number = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds: number = Math.floor((distance % (1000 * 60)) / 1000);
-        const weeks: number = Math.floor(days / 7);
-        const remainingDays: number = days % 7;
-        return {weeks, days: remainingDays, hours, minutes, seconds};
-    }
+  function calculateTimeLeft(distance: any): {
+    weeks: number;
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } {
+    const days: number = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours: number = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes: number = Math.floor(
+      (distance % (1000 * 60 * 60)) / (1000 * 60)
+    );
+    const seconds: number = Math.floor((distance % (1000 * 60)) / 1000);
+    const weeks: number = Math.floor(days / 7);
+    const remainingDays: number = days % 7;
+    return { weeks, days: remainingDays, hours, minutes, seconds };
+  }
 
   useEffect(() => {
-      const interval: NodeJS.Timer = setInterval((): void => {
-          const now: number = new Date().getTime();
-          const distance: number = kickoffTime * 1000 - now;
-          setTimeLeft(calculateTimeLeft(distance));
-      }, 1000);
-      return () => clearInterval(interval);
+    const interval: NodeJS.Timer = setInterval((): void => {
+      const now: number = new Date().getTime();
+      const distance: number = kickoffTime * 1000 - now;
+      setTimeLeft(calculateTimeLeft(distance));
+    }, 1000);
+    return () => clearInterval(interval);
   }, [kickoffTime]);
 
   return (

@@ -10,7 +10,8 @@ export const epochSecondsToTime = (unixTimestamp: number): string => {
   const minutes: number = date.getMinutes();
   const ampm: "PM" | "AM" = hours >= 12 ? "PM" : "AM";
   const formattedHours: number = hours % 12 === 0 ? 12 : hours % 12;
-  const formattedMinutes: string | number = minutes < 10 ? `0${minutes}` : minutes;
+  const formattedMinutes: string | number =
+    minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
@@ -30,8 +31,11 @@ const getSuffix = (day: number): string => {
   }
 };
 
-export const formatEpochSecondsToDate = (epochSeconds: number): string => {
-  const date: Date = new Date(epochSeconds * 1000);
+export const formatEpochSecondsToDate = (
+  epochSeconds: number,
+  noMultiply?: boolean
+): string => {
+  const date: Date = new Date(noMultiply ? epochSeconds : epochSeconds * 1000);
   const months: string[] = [
     "Jan",
     "Feb",

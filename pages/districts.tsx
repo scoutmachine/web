@@ -3,36 +3,36 @@ import { Header } from "@/components/Header";
 import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
-import {getStorage, setStorage} from "@/utils/localStorage";
-import {JSX, useEffect, useState} from "react";
+import { getStorage, setStorage } from "@/utils/localStorage";
+import { JSX, useEffect, useState } from "react";
 
 async function fetchDistrictsData(): Promise<any> {
-    const districts = getStorage(`districts_${CURR_YEAR}`);
-    if (districts) return districts;
+  const districts = getStorage(`districts_${CURR_YEAR}`);
+  if (districts) return districts;
 
-    const fetchDistricts = await fetch(`${API_URL}/api/districts`).then((res: Response) =>
-        res.json()
-    );
+  const fetchDistricts = await fetch(`${API_URL}/api/districts`).then(
+    (res: Response) => res.json()
+  );
 
-    setStorage(`districts_${CURR_YEAR}`, fetchDistricts);
-    return fetchDistricts;
+  setStorage(`districts_${CURR_YEAR}`, fetchDistricts);
+  return fetchDistricts;
 }
 
 export default function DistrictsPage(): JSX.Element {
-    const [districts, setDistricts] = useState<any>();
+  const [districts, setDistricts] = useState<any>();
 
-    useEffect((): void => {
-        const fetchData = async (): Promise<void> => {
-            const data = await fetchDistrictsData();
-            setDistricts(data.districts);
-        };
+  useEffect((): void => {
+    const fetchData = async (): Promise<void> => {
+      const data = await fetchDistrictsData();
+      setDistricts(data.districts);
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-    if (!districts) return <Loading/>;
+  if (!districts) return <Loading />;
 
-    return (
+  return (
     <>
       <Navbar />
       <Header title="Districts" desc={`${CURR_YEAR} Season Districts`} />

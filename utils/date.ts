@@ -46,6 +46,7 @@ export const convertSeconds = (epochSeconds: number): string => {
   const minutes: number = date.getMinutes();
   const ampm: "PM" | "AM" = hours >= 12 ? "PM" : "AM";
   const formattedHours: number = hours % 12 === 0 ? 12 : hours % 12;
-  const formattedMinutes: string | number = minutes < 10 ? `0${minutes}` : minutes;
+  const formattedMinutes: string | number =
+    minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };

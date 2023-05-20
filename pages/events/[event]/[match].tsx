@@ -5,8 +5,8 @@ import { getStorage, setStorage } from "@/utils/localStorage";
 import { log } from "@/utils/log";
 import { formatTime } from "@/utils/time";
 import Head from "next/head";
-import {useRouter} from "next/router";
-import {useState, useEffect, JSX} from "react";
+import { useRouter } from "next/router";
+import { useState, useEffect, JSX } from "react";
 
 async function fetchMatchData(event: string, match: string): Promise<any> {
   const teamData = getStorage(`event_${event}_match_${match}_${CURR_YEAR}`);
@@ -18,7 +18,7 @@ async function fetchMatchData(event: string, match: string): Promise<any> {
   const start: number = performance.now();
 
   const res: Response = await fetch(
-      `${API_URL}/api/events/match?match=${event}_${match}`
+    `${API_URL}/api/events/match?match=${event}_${match}`
   );
 
   if (!res.ok) return undefined;
@@ -37,7 +37,7 @@ async function fetchMatchData(event: string, match: string): Promise<any> {
 export default function MatchPage(): JSX.Element {
   const [matchData, setMatchData] = useState<any>();
   const router = useRouter();
-  const {event, match} = router.query;
+  const { event, match } = router.query;
 
   useEffect((): void => {
     if (!router.isReady) return;

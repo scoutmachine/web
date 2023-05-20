@@ -1,4 +1,4 @@
-import NextAuth, {AuthOptions, User} from "next-auth";
+import NextAuth, { AuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -23,13 +23,13 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({session, user}: any): Promise<any> => {
+    session: async ({ session, user }: any): Promise<any> => {
       session.user.id = user.id;
       return session;
     },
   },
   events: {
-    createUser: async (user: {user: User}): Promise<void> => {
+    createUser: async (user: { user: User }): Promise<void> => {
       let username;
 
       const userExists: User | null = await db.user.findUnique({

@@ -2,7 +2,7 @@ import { epochSecondsToTime, formatEpochSecondsToDate } from "@/utils/time";
 import Link from "next/link";
 import { FaYoutube, FaTimes, FaTrophy } from "react-icons/fa";
 import { newText } from "..";
-import React, {JSX} from "react";
+import React, { JSX } from "react";
 
 const RED_ALLIANCE_COLOR: "text-red-400" = "text-red-400";
 const BLUE_ALLIANCE_COLOR: "text-sky-400" = "text-sky-400";
@@ -44,7 +44,9 @@ export const TeamDisplay = (props: any) => {
   };
 
   const renderTeamLink = (team: string, isOpposing: boolean) => {
-    const teamColor: "text-red-400" | "text-sky-400" = isOpposing ? opposingAllianceColour : allianceColour;
+    const teamColor: "text-red-400" | "text-sky-400" = isOpposing
+      ? opposingAllianceColour
+      : allianceColour;
     const isDqTeam = props.match.alliances.red.dq_team_keys.includes(team);
     const isSurrogateTeam =
       props.match?.alliances?.red?.surrogate_team_keys.includes(team);

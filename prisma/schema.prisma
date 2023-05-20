@@ -53,6 +53,7 @@ model User {
   username         String?           @unique
   name             String?
   email            String?           @unique
+  emailVerified    DateTime?
   image            String?
   teamNumber       Int?
   admin            Boolean           @default(false)
@@ -61,6 +62,8 @@ model User {
   posts            Post[]
   favouritedTeams  FavouritedTeam[]
   favouritedEvents FavouritedEvent[]
+  createdAt        DateTime?         @default(now())
+  updatedAt        DateTime?         @updatedAt
 }
 
 model VerificationToken {

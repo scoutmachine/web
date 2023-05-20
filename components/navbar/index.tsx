@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import React, {JSX, ReactNode, useEffect, useState} from "react";
+import React, { JSX, ReactNode, useEffect, useState } from "react";
 import {
   FaMedal,
   FaRobot,
@@ -46,7 +46,10 @@ const links = [
   { title: "Marketplace", href: "/marketplace", icon: <FaTags /> },
 ];
 
-export const Navbar = (props: { active?: string; refresh?: boolean }): JSX.Element => {
+export const Navbar = (props: {
+  active?: string;
+  refresh?: boolean;
+}): JSX.Element => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);

@@ -6,8 +6,8 @@ import { EventsScreen } from "@/components/screens/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { formatTime } from "@/utils/time";
-import {log} from "@/utils/log";
-import {useState, useEffect, JSX} from "react";
+import { log } from "@/utils/log";
+import { useState, useEffect, JSX } from "react";
 import Head from "next/head";
 
 async function fetchEventsData(year: number): Promise<any> {
@@ -19,12 +19,12 @@ async function fetchEventsData(year: number): Promise<any> {
 
   const start: number = performance.now();
   const res: Response = await fetch(`${API_URL}/api/events/${year}`, {
-    next: {revalidate: 60},
+    next: { revalidate: 60 },
   });
 
   log(
-      "warning",
-      `Fetching [/events/${year}] took ${formatTime(performance.now() - start)}`
+    "warning",
+    `Fetching [/events/${year}] took ${formatTime(performance.now() - start)}`
   );
 
   if (!res.ok) {

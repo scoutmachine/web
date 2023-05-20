@@ -18,8 +18,8 @@ export const favouriteTeam = async (data: any): Promise<void> => {
 };
 
 export const unfavouriteTeam = async (
-    favouritedTeam: any,
-    noReload?: boolean
+  favouritedTeam: any,
+  noReload?: boolean
 ): Promise<void> => {
   await fetch(`${API_URL}/api/@me/favourites?id=${favouritedTeam[0].id}`, {
     method: "DELETE",

@@ -126,7 +126,9 @@ export default function EventsPage({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context): Promise<any> => {
+export const getServerSideProps: GetServerSideProps = async (
+  context
+): Promise<any> => {
   const { event }: any = context.params;
 
   const session: Session = (await getServerSession(
@@ -136,47 +138,51 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
   )) as Session;
 
   const matches = await fetch(
-      `${API_URL}/api/events/event?event=${event}`
+    `${API_URL}/api/events/event?event=${event}`
   ).then((res: Response) => res.json());
 
   const matchEPAs: any = {};
 
-  const matchPromises = matches.map(async (match: any): Promise<{key: any, data: any | null}> => {
-    try {
+  const matchPromises = matches.map(
+    async (match: any): Promise<{ key: any; data: any | null }> => {
+      try {
         const response: Response = await fetch(
-            `${API_URL}/api/match/epa?match=${match.key}`
+          `${API_URL}/api/match/epa?match=${match.key}`
         );
-      if (!response.ok) {
-        new Error("Failed to fetch EPA data");
+        if (!response.ok) {
+          new Error("Failed to fetch EPA data");
+        }
+        const data = await response.json();
+        return { key: match.key, data };
+      } catch (error) {
+        return { key: match.key, data: null };
       }
-      const data = await response.json();
-      return { key: match.key, data };
-    } catch (error) {
-      return { key: match.key, data: null };
+    }
+  );
+
+  const matchResults: PromiseSettledResult<any>[] = await Promise.allSettled(
+    matchPromises
+  );
+
+  matchResults.forEach((result: any): void => {
+    if (result.status === "fulfilled") {
+      matchEPAs[result.value.key] = result.value.data;
     }
   });
 
-    const matchResults: PromiseSettledResult<any>[] = await Promise.allSettled(matchPromises);
+  const eventInfo = await fetch(
+    `${API_URL}/api/events/info?event=${event}`
+  ).then((res: Response) => res.json());
 
-    matchResults.forEach((result: any): void => {
-        if (result.status === "fulfilled") {
-            matchEPAs[result.value.key] = result.value.data;
-        }
-    });
+  const eventTeams = await fetch(
+    `${API_URL}/api/events/infoTeams?event=${event}`
+  ).then((res: Response) => res.json());
 
-    const eventInfo = await fetch(
-        `${API_URL}/api/events/info?event=${event}`
-    ).then((res: Response) => res.json());
-
-    const eventTeams = await fetch(
-        `${API_URL}/api/events/infoTeams?event=${event}`
-    ).then((res: Response) => res.json());
-
-    const eventAlliances = await fetch(
-        `${API_URL}/api/events/alliances?event=${event}`
-    )
-        .then((res: Response) => res.json())
-        .catch((): null => null);
+  const eventAlliances = await fetch(
+    `${API_URL}/api/events/alliances?event=${event}`
+  )
+    .then((res: Response) => res.json())
+    .catch((): null => null);
 
   if (session) {
     const user = await db.user.findUnique({
@@ -191,7 +197,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
 
     return {
       props: {
-        user,
+        user: JSON.parse(JSON.stringify(user)),
         matches,
         eventInfo,
         eventTeams,

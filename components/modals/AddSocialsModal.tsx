@@ -1,4 +1,4 @@
-import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import Image from "next/image";
 import { Socials } from "@/lib/lists/socials";
@@ -40,7 +40,9 @@ export const Input = (props: {
         placeholder={props.primaryPlaceholder}
         defaultValue={props.placeholder}
         spellCheck={false}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => props.state?.(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          props.state?.(e.target.value)
+        }
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon className={`text-sm ${props.className}`} />
@@ -59,10 +61,12 @@ const AddSocialButton = (props: any) => {
     } else {
       setSubmitted(true);
 
-      const requestData = props.socialInputs.map((input: SocialInput): {handle: string, type: string} => ({
-        handle: input.handle,
-        type: input.type,
-      }));
+      const requestData = props.socialInputs.map(
+        (input: SocialInput): { handle: string; type: string } => ({
+          handle: input.handle,
+          type: input.type,
+        })
+      );
 
       await fetch(
         `${API_URL}/api/team/socials?team=${props.team.team_number}`,
@@ -154,16 +158,26 @@ const ModalBody = (props: {
 }) => {
   const [socialInputs, setSocialInputs] = useState<SocialInput[]>([]);
 
-  const handleInputChange = (key: string, value: string, type: string): void => {
+  const handleInputChange = (
+    key: string,
+    value: string,
+    type: string
+  ): void => {
     setSocialInputs((prevInputs: SocialInput[]) => {
-      const updatedInputs: SocialInput[] = prevInputs.map((input: SocialInput) => {
-        if (input.type === type) {
-          return { ...input, handle: value };
+      const updatedInputs: SocialInput[] = prevInputs.map(
+        (input: SocialInput) => {
+          if (input.type === type) {
+            return { ...input, handle: value };
+          }
+          return input;
         }
-        return input;
-      });
+      );
 
-      if (!updatedInputs.some((input: SocialInput): boolean => input.type === type)) {
+      if (
+        !updatedInputs.some(
+          (input: SocialInput): boolean => input.type === type
+        )
+      ) {
         return [...updatedInputs, { handle: value, type }];
       }
 
@@ -211,20 +225,26 @@ const ModalBody = (props: {
       <AddSocialButton
         text={`Add ${socialInputs.length < 1 ? "Socials" : ""}${socialInputs
           .filter((social: SocialInput): boolean => social.handle.length > 0)
-          .map((social: SocialInput, index: number, array: SocialInput[]): string => {
-            const socialType: string =
-              social.type.charAt(0).toUpperCase() + social.type.slice(1);
-            if (index === array.length - 1) {
-              if (array.length === 1) {
-                return socialType;
-              } else if (array.length > 1) {
-                return `and ${socialType}`;
-              } else {
-                return `, ${socialType}`;
+          .map(
+            (
+              social: SocialInput,
+              index: number,
+              array: SocialInput[]
+            ): string => {
+              const socialType: string =
+                social.type.charAt(0).toUpperCase() + social.type.slice(1);
+              if (index === array.length - 1) {
+                if (array.length === 1) {
+                  return socialType;
+                } else if (array.length > 1) {
+                  return `and ${socialType}`;
+                } else {
+                  return `, ${socialType}`;
+                }
               }
+              return socialType;
             }
-            return socialType;
-          })
+          )
           .join(", ")}`}
         team={props.team}
         teamNumber={props.team.team_number}

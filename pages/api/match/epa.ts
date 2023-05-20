@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function getMatchEPA(
-    req: NextApiRequest,
-    res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<void> {
-  const {match} = req.query;
+  const { match } = req.query;
 
   if (!match) {
     res.status(400).send("No match code provided");

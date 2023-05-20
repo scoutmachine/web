@@ -21,9 +21,9 @@ export const fetchTeamAvatar = async (req: NextApiRequest) => {
 };
 
 export default async function getTeamAvatar(
-    req: NextApiRequest,
-    res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<void> {
-    const {avatar} = await fetchTeamAvatar(req);
-    res.status(200).send({avatar});
+  const { avatar } = await fetchTeamAvatar(req);
+  res.status(200).send({ avatar });
 }

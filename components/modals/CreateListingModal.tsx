@@ -1,4 +1,4 @@
-import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { API_URL } from "@/lib/constants";
 import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
@@ -34,7 +34,9 @@ const Input = (props: {
         type="text"
         placeholder={props.placeholder}
         spellCheck={false}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => props.state?.(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          props.state?.(e.target.value)
+        }
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon className="text-sm text-lightGray" />
@@ -168,7 +170,9 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
             <select
               className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
               value={currencyType}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) => setCurrencyType(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                setCurrencyType(e.target.value)
+              }
             >
               {codes().map((currency: string) => (
                 <option key={currency} value={currency}>

@@ -61,15 +61,15 @@ function countUniqueChampionshipTeams(events: any): number {
 
 export const AboutTab = (props: any) => {
   const avgAwards: string = (
-      props.team.teamAwards.length / props.team.yearsParticipated.length
+    props.team.teamAwards.length / props.team.yearsParticipated.length
   ).toFixed(1);
 
   const avgEvents: string = (
-      props.team.teamEvents.length / props.team.yearsParticipated.length
+    props.team.teamEvents.length / props.team.yearsParticipated.length
   ).toFixed(1);
 
   const avgAwardsPerEvent: string = (
-      props.team.teamAwards.length / props.team.teamEvents.length
+    props.team.teamAwards.length / props.team.teamEvents.length
   ).toFixed(1);
 
   const eventsWon = props.team.teamAwards.filter((award: any) =>
@@ -78,12 +78,12 @@ export const AboutTab = (props: any) => {
 
   const district = props.team.teamDistrict?.team;
   const districtPercentage: number = Math.trunc(
-      (100 * district?.rank) / props.team.teamDistrict.total
+    (100 * district?.rank) / props.team.teamDistrict.total
   );
   const roundedPercentage: number = Math.round(districtPercentage / 10) * 10;
 
   const tripsToChampionship: number = countUniqueChampionshipTeams(
-      props.team.teamEvents
+    props.team.teamEvents
   );
 
   return (

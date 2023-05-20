@@ -2,11 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
 
 export default async function getAllEvents(
-    req: NextApiRequest,
-    res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<void> {
-    const {year} = req.query;
-    const data = await fetchTBA(`events/${year}`);
+  const { year } = req.query;
+  const data = await fetchTBA(`events/${year}`);
 
-    res.status(200).send(data);
+  res.status(200).send(data);
 }

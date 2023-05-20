@@ -32,12 +32,12 @@ export const TeamScreen = (props: any) => {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   const isFavourited = props.user?.favouritedTeams?.some(
-      (favouritedTeam: any): boolean =>
-          favouritedTeam.team_number === props.team.team_number
+    (favouritedTeam: any): boolean =>
+      favouritedTeam.team_number === props.team.team_number
   );
   const favouritedTeam = props.user?.favouritedTeams?.filter(
-      (favouritedTeam: any): boolean =>
-          favouritedTeam.team_number === props.team.team_number
+    (favouritedTeam: any): boolean =>
+      favouritedTeam.team_number === props.team.team_number
   );
 
   return (
@@ -77,7 +77,10 @@ export const TeamScreen = (props: any) => {
             )}
 
             <div>
-              <p onClick={() => setIsLocationModalOpen(true)} className="text-lightGray text-sm font-medium hover:text-primary cursor-pointer">
+              <p
+                onClick={() => setIsLocationModalOpen(true)}
+                className="text-lightGray text-sm font-medium hover:text-primary cursor-pointer"
+              >
                 {props.team.school_name && props.team.school_name}{" "}
               </p>
 

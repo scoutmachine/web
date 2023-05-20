@@ -1,30 +1,30 @@
-import {EventData} from "@/components/eventdata";
-import {Footer} from "@/components/Footer";
-import {TabButton} from "@/components/TabButton";
-import {API_URL} from "@/lib/constants";
-import {NextRouter, useRouter} from "next/router";
-import React, {useEffect, useRef, useState} from "react";
-import {FaArrowUp, FaTwitch} from "react-icons/fa";
-import {convertDate, isLive} from "@/utils/date";
+import { EventData } from "@/components/eventdata";
+import { Footer } from "@/components/Footer";
+import { TabButton } from "@/components/TabButton";
+import { API_URL } from "@/lib/constants";
+import { NextRouter, useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
+import { FaArrowUp, FaTwitch } from "react-icons/fa";
+import { convertDate, isLive } from "@/utils/date";
 import Link from "next/link";
-import {Navbar} from "@/components/navbar";
-import {TeamScreen} from "@/components/screens/TeamScreen";
-import {Loading} from "@/components/Loading";
-import {AboutTab} from "@/components/tabs/team/About";
-import {AwardsTab} from "@/components/tabs/team/Awards";
+import { Navbar } from "@/components/navbar";
+import { TeamScreen } from "@/components/screens/TeamScreen";
+import { Loading } from "@/components/Loading";
+import { AboutTab } from "@/components/tabs/team/About";
+import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
-import {ErrorMessage} from "@/components/ErrorMessage";
-import {getServerSession, Session, User} from "next-auth";
-import {GetServerSideProps} from "next";
-import {authOptions} from "@/pages/api/auth/[...nextauth]";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import { getServerSession, Session, User } from "next-auth";
+import { GetServerSideProps } from "next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
-import {TeamMembersTab} from "@/components/tabs/team/TeamMembers";
-import {fetchTBA} from "@/lib/fetchTBA";
-import {EventsTab} from "@/components/tabs/team/Events";
+import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
+import { fetchTBA } from "@/lib/fetchTBA";
+import { EventsTab } from "@/components/tabs/team/Events";
 
 const SubInfo = (props: any) => {
   return (
-      <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
+    <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
       {props.children}
     </span>
   );
@@ -37,7 +37,7 @@ export default function TeamPage({
   teamData,
 }: any) {
   const router: NextRouter = useRouter();
-  const {team} = router.query;
+  const { team } = router.query;
   const [activeTab, setActiveTab] = useState<any>(1);
   const [eventData, setEventData] = useState([]);
   const [matchData, setMatchData] = useState<any>();
@@ -53,14 +53,14 @@ export default function TeamPage({
     const getEventData = async (): Promise<void> => {
       setLoading(true);
       const fetchEventData = await fetch(
-          `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
       ).then((res: Response) => res.json());
 
       const eventMatchData: any = {};
 
       for (const event of fetchEventData) {
         eventMatchData[event.event_code] = await fetch(
-            `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
+          `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
         ).then((res: Response) => res.json());
       }
       setMatchData(eventMatchData);
@@ -74,8 +74,8 @@ export default function TeamPage({
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent): void => {
       if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target as Node)
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsDropdownOpen(false);
       }
@@ -250,11 +250,13 @@ export default function TeamPage({
                         }
                         if (match.videos) {
                           match.videos
-                              .filter((video: any): boolean => video.type === "youtube")
-                              .forEach((video: any): void => {
-                                if (video.key)
-                                  playlists[eventCode].push(video.key);
-                              });
+                            .filter(
+                              (video: any): boolean => video.type === "youtube"
+                            )
+                            .forEach((video: any): void => {
+                              if (video.key)
+                                playlists[eventCode].push(video.key);
+                            });
                         }
                       });
                     });
@@ -351,14 +353,14 @@ export default function TeamPage({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session: Session = (await getServerSession(
-      context.req,
-      context.res,
-      authOptions
+    context.req,
+    context.res,
+    authOptions
   )) as Session;
-  const {team}: any = context.params;
+  const { team }: any = context.params;
 
   const teamData = await fetch(`${API_URL}/api/team/all?team=${team}`).then(
-      (res: Response) => res.json()
+    (res: Response) => res.json()
   );
 
   const teamMembers: User[] = await db.user.findMany({
@@ -378,10 +380,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   });
 
-  const newFormattedTBASocials = tbaSocials.map((social: any): { handle: any, type: any } => ({
-    type: social.type.replace("-profile", "").replace("-channel", ""),
-    handle: social.foreign_key,
-  }));
+  const newFormattedTBASocials = tbaSocials.map(
+    (social: any): { handle: any; type: any } => ({
+      type: social.type.replace("-profile", "").replace("-channel", ""),
+      handle: social.foreign_key,
+    })
+  );
 
   const allSocials = data.flatMap((team) =>
     team.socials
@@ -406,8 +410,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        user,
-        teamMembers,
+        user: JSON.parse(JSON.stringify(user)),
+        teamMembers: JSON.parse(JSON.stringify(teamMembers)),
         teamSocials: [...allSocials, ...newFormattedTBASocials],
         teamData,
       },
@@ -416,7 +420,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      teamMembers,
+      teamMembers: JSON.parse(JSON.stringify(teamMembers)),
       teamSocials: [...allSocials, ...newFormattedTBASocials],
       teamData,
     },

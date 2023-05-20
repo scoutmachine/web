@@ -2,19 +2,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
 export default async function getTeamAwards(
-    req: NextApiRequest,
-    res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<void> {
-    const {team, year} = req.query;
-    const currentYear: number = new Date().getFullYear();
-    const startYear: number = parseInt(year as string);
+  const { team, year } = req.query;
+  const currentYear: number = new Date().getFullYear();
+  const startYear: number = parseInt(year as string);
 
-    const years: number[] = Array.from(
-        {length: currentYear - startYear + 1},
-        (_, i: number) => startYear + i
-    );
+  const years: number[] = Array.from(
+    { length: currentYear - startYear + 1 },
+    (_, i: number) => startYear + i
+  );
 
-    const awards = await Promise.all(
+  const awards = await Promise.all(
     years.map(async (year: number) => {
       try {
         const response = await fetchFIRST(`/awards/team/${team}`, year);
@@ -29,18 +29,18 @@ export default async function getTeamAwards(
   );
 
   const data = awards
-      .filter((award) => award && award.data && award.data.Awards)
-      .reduce((acc: never[], curr): never[] => {
-          if (curr?.data?.Awards) {
-              return acc.concat(
-                  curr.data.Awards.map((award: any) => {
-                      return {
-                          year: curr.year,
-                          eventCode: award.eventCode,
-                          name: award.name,
-                          teamNumber: award.teamNumber,
-                      };
-                  })
+    .filter((award) => award && award.data && award.data.Awards)
+    .reduce((acc: never[], curr): never[] => {
+      if (curr?.data?.Awards) {
+        return acc.concat(
+          curr.data.Awards.map((award: any) => {
+            return {
+              year: curr.year,
+              eventCode: award.eventCode,
+              name: award.name,
+              teamNumber: award.teamNumber,
+            };
+          })
         );
       }
       return acc;

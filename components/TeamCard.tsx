@@ -3,7 +3,7 @@ import { Tooltip } from "./Tooltip";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
-import {JSX, useState} from "react";
+import { JSX, useState } from "react";
 import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
 
 const PlaceholderTeamCard = () => {

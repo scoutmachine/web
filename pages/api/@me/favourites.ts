@@ -4,20 +4,24 @@ import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
 export default async function getUserFavourites(
-    req: NextApiRequest,
-    res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<void> {
-    const session: Session = (await getServerSession(req, res, authOptions)) as Session;
-    const {id} = req.query;
+  const session: Session = (await getServerSession(
+    req,
+    res,
+    authOptions
+  )) as Session;
+  const { id } = req.query;
 
-    if (!session) {
-        res.status(400).send("You are not logged in.");
-    } else {
-        if (req.method === "GET") {
-            const data = await db.user.findUnique({
-                where: {
-                    // @ts-ignore
-                    id: session?.user?.id,
+  if (!session) {
+    res.status(400).send("You are not logged in.");
+  } else {
+    if (req.method === "GET") {
+      const data = await db.user.findUnique({
+        where: {
+          // @ts-ignore
+          id: session?.user?.id,
         },
         include: {
           favouritedTeams: true,

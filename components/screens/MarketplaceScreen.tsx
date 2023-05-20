@@ -1,6 +1,6 @@
-import {ListingType} from "@/types/ListingType";
-import {ChangeEvent, useEffect, useMemo, useState} from "react";
-import {MarketplacePost} from "./marketplace/MarketplacePost";
+import { ListingType } from "@/types/ListingType";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { MarketplacePost } from "./marketplace/MarketplacePost";
 
 export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
   const [mounted, setMounted] = useState(false);
@@ -11,7 +11,9 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
       return marketplacePosts;
     }
 
-    return marketplacePosts.filter((item: any): boolean => item.type == listingType);
+    return marketplacePosts.filter(
+      (item: any): boolean => item.type == listingType
+    );
   };
 
   let filteredMarketplacePosts = useMemo(getFilteredMarketplacePosts, [
@@ -32,17 +34,19 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
             {filteredMarketplacePosts.length === 1 ? "post" : "posts"}
           </p>
           <select
-              onChange={(event: ChangeEvent<HTMLSelectElement>) => setListingType(event.target.value)}
-              className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm"
+            onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+              setListingType(event.target.value)
+            }
+            className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm"
           >
             <option key="filterBy" value="filterBy">
               filter by
             </option>
             {Object.values(ListingType).map((value: ListingType) => {
               return (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
+                <option key={value} value={value}>
+                  {value}
+                </option>
               );
             })}
           </select>

@@ -7,7 +7,11 @@ export default async function UpdateUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session: Session = (await getServerSession(req, res, authOptions)) as Session;
+  const session: Session = (await getServerSession(
+    req,
+    res,
+    authOptions
+  )) as Session;
 
   if (!session) res.status(400).send("You are not logged in!");
 
