@@ -13,7 +13,7 @@ export default async function getAllTeamInfo(
         const [
             teamData,
             teamAvatar,
-            yearsParticipated,
+            rawYearsParticipated,
             teamDistrict,
             teamEvents,
         ] = await Promise.all([
@@ -27,6 +27,8 @@ export default async function getAllTeamInfo(
                 next: {revalidate: 60},
             }).then((res: Response) => res.json()),
         ]);
+
+        const yearsParticipated = rawYearsParticipated.reverse();
 
         const teamAwardsResponse: Response = await fetch(
             `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
