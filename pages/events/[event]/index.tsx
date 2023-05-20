@@ -11,6 +11,9 @@ import { GetServerSideProps } from "next";
 import { useState } from "react";
 import Head from "next/head";
 import { Loading } from "@/components/Loading";
+import db from "@/lib/db";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession, Session } from "next-auth";
 
 export default function EventsPage({
   matches,
@@ -18,6 +21,7 @@ export default function EventsPage({
   eventTeams,
   eventAlliances,
   matchEPAs,
+  user,
 }: any) {
   const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -108,7 +112,12 @@ export default function EventsPage({
               <p className="text-lightGray mt-5">Coming soon!</p>
             )}
 
-            {activeTab === 5 && <TeamsScreen teams={eventTeams} />}
+            {activeTab === 5 && (
+              <TeamsScreen
+                teams={eventTeams}
+                favourites={user?.favouritedTeams}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -119,6 +128,12 @@ export default function EventsPage({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { event }: any = context.params;
+
+  const session = (await getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  )) as Session;
 
   const matches = await fetch(
     `${API_URL}/api/events/event?event=${event}`
@@ -162,6 +177,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
     .then((res) => res.json())
     .catch(() => null);
+
+  if (session) {
+    const user = await db.user.findUnique({
+      where: {
+        // @ts-ignore
+        id: session.user.id,
+      },
+      include: {
+        favouritedTeams: true,
+      },
+    });
+
+    return {
+      props: {
+        user,
+        matches,
+        eventInfo,
+        eventTeams,
+        eventAlliances,
+        matchEPAs,
+      },
+    };
+  }
 
   return {
     props: {

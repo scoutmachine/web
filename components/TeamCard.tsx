@@ -4,10 +4,7 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import {
-  favouriteTeam,
-  unfavouriteTeam,
-} from "@/utils/favourites";
+import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
 
 const PlaceholderTeamCard = () => {
   return (
@@ -47,14 +44,17 @@ export const TeamCard = (props: any) => {
   if (!isFavourited && props.showFavLoading) return <PlaceholderTeamCard />;
 
   return (
-    <Tooltip team={props.team} avatar={props.avatars[props.team.team_number]}>
+    <Tooltip
+      team={props.team}
+      avatar={props.avatars && props.avatars[props.team.team_number]}
+    >
       <div className="relative px-5 py-8 h-32 border border-[#2A2A2A] bg-card hover:border-gray-600 rounded-lg">
         <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
           <a className="cursor-pointer">
             {!error ? (
               <Image
                 src={
-                  props.avatars[props.team.team_number]
+                  props.avatars && props.avatars[props.team.team_number]
                     ? `data:image/jpeg;base64,${
                         props.avatars[props.team.team_number]
                       }`
