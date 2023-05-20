@@ -9,11 +9,6 @@ export const EventDisplay = (props: any) => {
       ? JSON.parse(JSON.stringify(props.epas[props.match.key]))
       : "";
 
-  const totalPoints =
-    props.findAlliances().alliance === "Red"
-      ? props.match.alliances.red.score
-      : props.match.alliances.blue.score;
-
   const redScore = Number(props.match.alliances.red.score);
   const blueScore = Number(props.match.alliances.blue.score);
 
@@ -107,17 +102,17 @@ export const EventDisplay = (props: any) => {
           </span>{" "}
           <br />
           <p className="text-xs text-lightGray mt-1">
-            {totalPoints - json.redEPA > 0 ? (
+            {redScore - json.redEPA > 0 ? (
               <span className="text-green-400">
-                +{(totalPoints - json.redEPA).toFixed(1)}pts
+                +{(redScore - json.redEPA).toFixed(1)}pts
               </span>
             ) : (
               <span className="text-red-400">
-                {(totalPoints - json.redEPA).toFixed(1)}pts
+                {(redScore - json.redEPA).toFixed(1)}pts
               </span>
             )}{" "}
             •{" "}
-            {totalPoints && json.redEPA && totalPoints - json.redEPA > 0
+            {redScore && json.redEPA && redScore - json.redEPA > 0
               ? "OUTPERFORMED"
               : "UNDERPERFORMED"}
           </p>
@@ -181,17 +176,16 @@ export const EventDisplay = (props: any) => {
           </span>{" "}
           <br />
           <p className="text-xs text-lightGray mt-1">
-            {totalPoints - json.blueEPA > 0 ? (
+            {blueScore - json.blueEPA > 0 ? (
               <span className="text-green-400">
-                +{(totalPoints - json.blueEPA).toFixed(1)}pts
+                +{(blueScore - json.blueEPA).toFixed(1)}pts
               </span>
             ) : (
               <span className="text-red-400">
-                {(totalPoints - json.blueEPA).toFixed(1)}pts
+                {(blueScore - json.blueEPA).toFixed(1)}pts
               </span>
             )}{" "}
-            •{" "}
-            {totalPoints - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
+            • {blueScore - json.blueEPA > 0 ? "OUTPERFORMED" : "UNDERPERFORMED"}
           </p>
         </p>
 

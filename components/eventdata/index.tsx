@@ -1,7 +1,5 @@
-import { API_URL } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import { FaYoutube } from "react-icons/fa";
-import { Loading } from "../Loading";
 import { EventDisplay } from "./displays/Event";
 import { TeamDisplay } from "./displays/Team";
 
