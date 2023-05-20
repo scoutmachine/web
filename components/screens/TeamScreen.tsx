@@ -12,6 +12,7 @@ import { districtCodeToName } from "@/lib/lists/districts";
 import { AddSocialsModal } from "../modals/AddSocialsModal";
 import { Socials as socials } from "@/lib/lists/socials";
 import { ErrorMessage } from "../ErrorMessage";
+import { LocationModal } from "../modals/LocationModal";
 
 export function searchDistrict(array: any, valuetofind: any) {
   for (let i = 0; i < array.length; i++) {
@@ -28,6 +29,7 @@ export const TeamScreen = (props: any) => {
   const [isStarFilled, setIsStarFilled] = useState(false);
   const { data: session } = useSession();
   const [isAddSocialModalOpen, setIsAddSocialModelOpen] = useState(false);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   const isFavourited = props.user?.favouritedTeams?.some(
     (favouritedTeam: any) =>
@@ -75,7 +77,7 @@ export const TeamScreen = (props: any) => {
             )}
 
             <div>
-              <p className="text-lightGray text-sm font-medium">
+              <p onClick={() => setIsLocationModalOpen(true)} className="text-lightGray text-sm font-medium hover:text-primary cursor-pointer">
                 {props.team.school_name && props.team.school_name}{" "}
               </p>
 
@@ -229,6 +231,12 @@ export const TeamScreen = (props: any) => {
         team={props.team}
         avatar={props.avatar}
         socials={props.socials}
+      />
+
+      <LocationModal
+        isOpen={isLocationModalOpen}
+        setOpen={setIsLocationModalOpen}
+        team={props.team}
       />
     </>
   );
