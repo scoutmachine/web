@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Modal } from "./Modal";
 import { signOut } from "next-auth/react";
 import { FaSignOutAlt } from "react-icons/fa";

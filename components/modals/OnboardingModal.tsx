@@ -84,15 +84,15 @@ const OnboardingBody = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
 
-  const handleNextPage = () => {
+  const handleNextPage = (): void => {
     setCurrentPage(currentPage + 1);
   };
 
-  const handlePrevPage = () => {
+  const handlePrevPage = (): void => {
     setCurrentPage(currentPage - 1);
   };
 
-  const isLastPage = currentPage === instructions.length - 1;
+  const isLastPage: boolean = currentPage === instructions.length - 1;
 
   return (
     <>

@@ -9,10 +9,10 @@ export const EventDisplay = (props: any) => {
       ? JSON.parse(JSON.stringify(props.epas[props.match.key]))
       : "";
 
-  const redScore = Number(props.match.alliances.red.score);
-  const blueScore = Number(props.match.alliances.blue.score);
+  const redScore: number = Number(props.match.alliances.red.score);
+  const blueScore: number = Number(props.match.alliances.blue.score);
 
-  const matchWinner = () => {
+  const matchWinner = (): string => {
     if (redScore > blueScore) {
       return "Red";
     } else if (blueScore > redScore) {
@@ -20,6 +20,7 @@ export const EventDisplay = (props: any) => {
     } else if (blueScore === redScore) {
       return "Tie";
     }
+    return "Unknown";
   };
 
   return (

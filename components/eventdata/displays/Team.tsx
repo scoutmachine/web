@@ -2,28 +2,28 @@ import { epochSecondsToTime, formatEpochSecondsToDate } from "@/utils/time";
 import Link from "next/link";
 import { FaYoutube, FaTimes, FaTrophy } from "react-icons/fa";
 import { newText } from "..";
-import React from "react";
+import React, {JSX} from "react";
 
-const RED_ALLIANCE_COLOR = "text-red-400";
-const BLUE_ALLIANCE_COLOR = "text-sky-400";
-const RED_TEAM_COLOR = "text-white font-semibold";
-const BLUE_TEAM_COLOR = "text-sky-400";
-const DEFAULT_TEAM_COLOR = "text-lightGray";
+const RED_ALLIANCE_COLOR: "text-red-400" = "text-red-400";
+const BLUE_ALLIANCE_COLOR: "text-sky-400" = "text-sky-400";
+const RED_TEAM_COLOR: "text-white font-semibold" = "text-white font-semibold";
+const BLUE_TEAM_COLOR: "text-sky-400" = "text-sky-400";
+const DEFAULT_TEAM_COLOR: "text-lightGray" = "text-lightGray";
 
 export const TeamDisplay = (props: any) => {
-  const redScore = Number(props.match.alliances.red.score);
-  const blueScore = Number(props.match.alliances.blue.score);
+  const redScore: number = Number(props.match.alliances.red.score);
+  const blueScore: number = Number(props.match.alliances.blue.score);
 
   const { alliance, team } = props.findAlliances();
-  const allianceColour =
+  const allianceColour:  =
     alliance === "Red" ? RED_ALLIANCE_COLOR : BLUE_ALLIANCE_COLOR;
-  const opposingAllianceColour =
+  const opposingAllianceColour: "text-red-400" | "text-sky-400" =
     allianceColour === RED_ALLIANCE_COLOR
       ? BLUE_ALLIANCE_COLOR
       : RED_ALLIANCE_COLOR;
 
-  const score = alliance === "Red" ? redScore : blueScore;
-  const opposingTeamScore = score === redScore ? blueScore : redScore;
+  const score: number = alliance === "Red" ? redScore : blueScore;
+  const opposingTeamScore: number = score === redScore ? blueScore : redScore;
   const oppositeAlliance =
     alliance === "Red"
       ? props.match.alliances.blue.team_keys.map((team: any) =>
@@ -68,7 +68,7 @@ export const TeamDisplay = (props: any) => {
   };
 
   const renderTeamList = (teams: string[], isOpposing: boolean) => {
-    return teams.map((team, i) => (
+    return teams.map((team: string, i: number) => (
       <React.Fragment key={team}>
         {i > 0 && <span className="text-lightGray">, </span>}
         {renderTeamLink(team, isOpposing)}
@@ -76,7 +76,7 @@ export const TeamDisplay = (props: any) => {
     ));
   };
 
-  const renderMatchResult = () => {
+  const renderMatchResult = (): JSX.Element => {
     if (alliance === matchWinner()) {
       return (
         <>

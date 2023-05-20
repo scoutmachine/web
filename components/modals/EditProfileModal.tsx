@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
@@ -32,7 +32,7 @@ export const Input = (props: {
         placeholder={props.primaryPlaceholder}
         defaultValue={props.placeholder}
         spellCheck={false}
-        onChange={(e) => props.state?.(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.state?.(e.target.value)}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon
@@ -72,8 +72,8 @@ const ModalBody = (props: {
   const [deletedHover, setDeletedHover] = useState(false);
 
   useEffect(() => {
-    const fetchTeamNumber = async () => {
-      const data = await fetch(`${API_URL}/api/@me`).then((res) => res.json());
+    const fetchTeamNumber = async (): Promise<void> => {
+      const data = await fetch(`${API_URL}/api/@me`).then((res: Response) => res.json());
       setTeamNumber(data.teamNumber ?? "Unknown Team");
     };
 
@@ -81,7 +81,7 @@ const ModalBody = (props: {
     setAvatarURL(props.avatar);
   }, [props.avatar]);
 
-  const fetchUpdate = async (data: object) => {
+  const fetchUpdate = async (data: object): Promise<void> => {
     await fetch(`${API_URL}/api/@me/update`, {
       method: "POST",
       body: JSON.stringify(data),
@@ -91,7 +91,7 @@ const ModalBody = (props: {
     props.setOpen(false);
   };
 
-  const reloadSession = () => {
+  const reloadSession = (): void => {
     const event = new Event("visibilitychange");
     document.dispatchEvent(event);
   };
@@ -99,8 +99,8 @@ const ModalBody = (props: {
   const updateField = async (
     fieldName: string,
     fieldValue: string | number
-  ) => {
-    const data = { [fieldName]: fieldValue };
+  ): Promise<void> => {
+    const data: {[p: string]: string | number} = { [fieldName]: fieldValue };
     if (!fieldValue) {
       setErrorMessage(`${fieldName} left blank`);
       // @ts-ignore
@@ -111,7 +111,7 @@ const ModalBody = (props: {
     }
   };
 
-  const deleteAccount = async () => {
+  const deleteAccount = async (): Promise<void> => {
     await fetch(`${API_URL}/api/@me`, {
       method: "DELETE",
     });
@@ -189,7 +189,7 @@ const ModalBody = (props: {
           </div>
 
           <button
-            onClick={async () => {
+            onClick={async (): Promise<void> => {
               await deleteAccount();
               router.reload();
             }}
@@ -212,16 +212,16 @@ export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    const data = event.dataTransfer.getData("text/html");
-    const doc = new DOMParser().parseFromString(data, "text/html");
-    const images = doc.getElementsByTagName("img");
+    const data: string = event.dataTransfer.getData("text/html");
+    const doc: Document = new DOMParser().parseFromString(data, "text/html");
+    const images: HTMLCollectionOf<HTMLImageElement> = doc.getElementsByTagName("img");
     if (images.length > 0) {
       setImageURL(images[0].src);
     }
   };
 
   return (
-    <div onDrop={handleDrop} onDragOver={(event) => event.preventDefault()}>
+    <div onDrop={handleDrop} onDragOver={(event: DragEvent<HTMLDivElement>) => event.preventDefault()}>
       <Modal
         header={<ModalHeader avatar={imageURL as string} />}
         body={<ModalBody setOpen={setOpen} avatar={imageURL as string} />}

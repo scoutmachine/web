@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 import { Modal } from "./Modal";
 import { API_URL } from "@/lib/constants";
 import { FaBolt, FaDollarSign, FaFire } from "react-icons/fa";
@@ -34,7 +34,7 @@ const Input = (props: {
         type="text"
         placeholder={props.placeholder}
         spellCheck={false}
-        onChange={(e) => props.state?.(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.state?.(e.target.value)}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon className="text-sm text-lightGray" />
@@ -68,12 +68,12 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [imageUrl, setImageUrl] = useState("");
   const { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
 
-  const handleFileChange = async (file: any) => {
+  const handleFileChange = async (file: any): Promise<void> => {
     let { url } = await uploadToS3(file);
     setImageUrl(url);
   };
 
-  const createListing = async () => {
+  const createListing = async (): Promise<void> => {
     try {
       await validationSchema.validate({
         title,
@@ -141,7 +141,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
               <select
                 className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
                 value={listingType}
-                onChange={(e) => {
+                onChange={(e: ChangeEvent<HTMLSelectElement>): void => {
                   setListingType(e.target.value as ListingType);
                 }}
               >
@@ -168,7 +168,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
             <select
               className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
               value={currencyType}
-              onChange={(e) => setCurrencyType(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setCurrencyType(e.target.value)}
             >
               {codes().map((currency) => (
                 <option key={currency} value={currency}>
@@ -187,7 +187,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
                   className={`w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
                   placeholder={"Location"}
                   apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-                  onPlaceSelected={(place) => {
+                  onPlaceSelected={(place): void => {
                     const location = {
                       formattedAddress: place.formatted_address,
                       latitude: place.geometry.location.lat(),

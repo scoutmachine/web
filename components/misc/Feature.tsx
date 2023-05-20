@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import {NextRouter, useRouter} from "next/router";
 import { FC } from "react";
 
 interface FeatureProps {
@@ -6,8 +6,8 @@ interface FeatureProps {
   href?: string;
 }
 
-export const Feature: FC<FeatureProps> = (props) => {
-  const router = useRouter();
+export const Feature: FC<FeatureProps> = (props: FeatureProps) => {
+  const router: NextRouter = useRouter();
 
   return (
     <div

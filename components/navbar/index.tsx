@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, {JSX, ReactNode, useEffect, useState} from "react";
 import {
   FaMedal,
   FaRobot,
@@ -46,7 +46,7 @@ const links = [
   { title: "Marketplace", href: "/marketplace", icon: <FaTags /> },
 ];
 
-export const Navbar = (props: { active?: string; refresh?: boolean }) => {
+export const Navbar = (props: { active?: string; refresh?: boolean }): JSX.Element => {
   const [teams, setTeams] = useState<any>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showLinks, setShowLinks] = useState(false);
@@ -59,12 +59,12 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
 
   const [favourites, setFavourites] = useState<any>();
 
-  useEffect(() => {
+  useEffect((): void => {
     getFavourites(setFavourites);
   }, []);
 
-  useEffect(() => {
-    async function fetchData() {
+  useEffect((): void => {
+    async function fetchData(): Promise<void> {
       const data = await fetchTeamsData();
       if (data) setTeams(data);
     }
@@ -80,16 +80,16 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
     );
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = (): void => {
       setIsScrolled(window.scrollY > 0);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => {
+    return (): void => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isScrolled]);
 
-  useEffect(() => {
+  useEffect((): void => {
     window.addEventListener("click", () => setSearchTerm(""));
   });
 
@@ -147,7 +147,7 @@ export const Navbar = (props: { active?: string; refresh?: boolean }) => {
               showLinks ? "mt-5 2xl:mt-0 grid grid-cols-2" : "hidden"
             }`}
           >
-            {links.map((link, key) => {
+            {links.map((link, key: number) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
                   <a

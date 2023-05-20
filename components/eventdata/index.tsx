@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, JSX} from "react";
 import { FaYoutube } from "react-icons/fa";
 import { EventDisplay } from "./displays/Event";
 import { TeamDisplay } from "./displays/Team";
 
-export const newText = [
+export const newText:{name: string, new :string}[] = [
   {
     name: "f",
     new: "Final",
@@ -34,7 +34,7 @@ const MatchHeader = (props: any) => {
   );
 };
 
-const EventList = (props: any) => {
+const EventList = (props: any): JSX.Element => {
   if (props.isTeam) {
     return (
       <TeamDisplay
@@ -65,18 +65,18 @@ export const EventData = (props: any) => {
   const [isClient, setIsClient] = useState(false);
 
   function search_array(array: any, valuetofind: any) {
-    for (let i = 0; i < array.length; i++) {
+    for (let i: number = 0; i < array.length; i++) {
       if (array[i].name == valuetofind) {
         return array[i].new;
       }
     }
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     setIsClient(true);
   }, []);
 
-  const findAlliances = (match: any) => {
+  const findAlliances = (match: any): {alliance: string, teams: any} => {
     if (match.alliances.blue.team_keys.includes(`frc${props.team}`)) {
       return {
         teams: match.alliances.blue.team_keys.map((team: any) =>
@@ -94,7 +94,7 @@ export const EventData = (props: any) => {
     }
   };
 
-  const didWeWin = (match: any) => {
+  const didWeWin = (match: any): string => {
     if (
       match.score_breakdown &&
       findAlliances(match).alliance.toLowerCase() === match.winning_alliance
@@ -186,13 +186,13 @@ export const EventData = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {props.data?.filter((match: any) => match.comp_level === "f")
+              {props.data?.filter((match: any): boolean => match.comp_level === "f")
                 .length > 0 && (
                 <MatchHeader title="Finals" isTeam={props.isTeam} />
               )}
 
               {props.data
-                ?.filter((match: any) => match.comp_level === "f")
+                ?.filter((match: any): boolean => match.comp_level === "f")
                 .reverse()
                 .map((match: any, key: number) => {
                   return (
@@ -224,7 +224,7 @@ export const EventData = (props: any) => {
                   (match: any) =>
                     match.comp_level === "sf" || match.comp_level === "qf"
                 )
-                .sort((matchA: any, matchB: any) => {
+                .sort((matchA: any, matchB: any): number => {
                   if (matchA.comp_level === matchB.comp_level) {
                     if (
                       parseInt(matchA.set_number) ===
@@ -245,6 +245,7 @@ export const EventData = (props: any) => {
                   } else if (matchB.comp_level === "sf") {
                     return 1;
                   }
+                    return 0;
                 })
                 .map((match: any, key: number) => {
                   return (
@@ -261,7 +262,7 @@ export const EventData = (props: any) => {
                   );
                 })}
 
-              {props.data?.filter((match: any) => match.comp_level === "qm")
+              {props.data?.filter((match: any): boolean => match.comp_level === "qm")
                 .length > 0 && (
                 <MatchHeader
                   title="Qualification Matches"
@@ -270,7 +271,7 @@ export const EventData = (props: any) => {
               )}
 
               {props.data
-                ?.filter((match: any) => match.comp_level === "qm")
+                ?.filter((match: any): boolean => match.comp_level === "qm")
                 .sort(
                   (matchA: any, matchB: any) =>
                     parseInt(matchB.match_number) -

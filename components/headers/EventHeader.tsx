@@ -3,7 +3,7 @@ import { FaLink } from "react-icons/fa";
 import { Social } from "../Social";
 
 export const EventHeader = (props: any) => {
-  const formattedDate = `${convertDate(props.event.start_date)} -
+  const formattedDate: string = `${convertDate(props.event.start_date)} -
   ${convertDate(props.event.end_date)}, ${props.event.start_date.substring(
     0,
     4

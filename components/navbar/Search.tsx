@@ -1,7 +1,7 @@
 import { unfavouriteTeam, favouriteTeam } from "@/utils/favourites";
 import Link from "next/link";
 import router from "next/router";
-import { useState } from "react";
+import {ChangeEvent, useState} from "react";
 import { FaSearch, FaStar } from "react-icons/fa";
 
 export const Search = (props: any) => {
@@ -13,7 +13,7 @@ export const Search = (props: any) => {
         className="border border-[#2A2A2A] w-full bg-card placeholder-lightGray outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
         type="text"
         placeholder="Search teams..."
-        onChange={(e) => props.setSearchTerm(e.target.value.trim())}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.setSearchTerm(e.target.value.trim())}
         spellCheck={false}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -30,11 +30,11 @@ export const Search = (props: any) => {
         {props.teams && props.filteredOptions.length > 0 ? (
           props.filteredOptions.map((team: any, key: number) => {
             const isFavourited = props.favourites?.some(
-              (favouritedTeam: any) =>
+              (favouritedTeam: any): boolean =>
                 favouritedTeam.team_number === team.team_number
             );
             const favouritedTeam = props.favourites?.filter(
-              (favouritedTeam: any) =>
+              (favouritedTeam: any): boolean =>
                 favouritedTeam.team_number === team.team_number
             );
 

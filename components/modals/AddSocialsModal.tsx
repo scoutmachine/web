@@ -1,10 +1,9 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 import { Modal } from "./Modal";
 import Image from "next/image";
 import { Socials } from "@/lib/lists/socials";
 import { API_URL } from "@/lib/constants";
 import { IconType } from "react-icons";
-import { useSession } from "next-auth/react";
 
 type SocialInput = {
   handle: string;
@@ -41,7 +40,7 @@ export const Input = (props: {
         placeholder={props.primaryPlaceholder}
         defaultValue={props.placeholder}
         spellCheck={false}
-        onChange={(e) => props.state?.(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.state?.(e.target.value)}
       />
       <span className="absolute inset-y-0 left-0 flex items-center pl-3">
         <props.icon className={`text-sm ${props.className}`} />
@@ -54,13 +53,13 @@ const AddSocialButton = (props: any) => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleClick = async () => {
+  const handleClick = async (): Promise<void> => {
     if (!Object.keys(props.socialInputs).length) {
       return setError(true);
     } else {
       setSubmitted(true);
 
-      const requestData = props.socialInputs.map((input: SocialInput) => ({
+      const requestData = props.socialInputs.map((input: SocialInput): {handle: string, type: string} => ({
         handle: input.handle,
         type: input.type,
       }));
@@ -155,16 +154,16 @@ const ModalBody = (props: {
 }) => {
   const [socialInputs, setSocialInputs] = useState<SocialInput[]>([]);
 
-  const handleInputChange = (key: string, value: string, type: string) => {
-    setSocialInputs((prevInputs) => {
-      const updatedInputs = prevInputs.map((input) => {
+  const handleInputChange = (key: string, value: string, type: string): void => {
+    setSocialInputs((prevInputs: SocialInput[]) => {
+      const updatedInputs: SocialInput[] = prevInputs.map((input: SocialInput) => {
         if (input.type === type) {
           return { ...input, handle: value };
         }
         return input;
       });
 
-      if (!updatedInputs.some((input) => input.type === type)) {
+      if (!updatedInputs.some((input: SocialInput): boolean => input.type === type)) {
         return [...updatedInputs, { handle: value, type }];
       }
 
@@ -177,12 +176,12 @@ const ModalBody = (props: {
       <div className="grid grid-cols-2 gap-3">
         {Socials.map((social: any, key: any) => {
           const socialExists = props.socials.some(
-            (originalSocial: any) =>
+            (originalSocial: any): boolean =>
               social.name.toLowerCase() === originalSocial.type
           );
 
           const existingSocial = props.socials.filter(
-            (originalSocial: any) =>
+            (originalSocial: any): boolean =>
               social.name.toLowerCase() === originalSocial.type
           );
 
@@ -196,7 +195,7 @@ const ModalBody = (props: {
                 icon={social.icon}
                 placeholder={handle}
                 disabled={socialExists ? true : false}
-                state={(value) =>
+                state={(value: string) =>
                   handleInputChange(
                     social.name,
                     value,
@@ -211,9 +210,9 @@ const ModalBody = (props: {
       </div>
       <AddSocialButton
         text={`Add ${socialInputs.length < 1 ? "Socials" : ""}${socialInputs
-          .filter((social) => social.handle.length > 0)
-          .map((social, index, array) => {
-            const socialType =
+          .filter((social: SocialInput): boolean => social.handle.length > 0)
+          .map((social: SocialInput, index: number, array: SocialInput[]): string => {
+            const socialType: string =
               social.type.charAt(0).toUpperCase() + social.type.slice(1);
             if (index === array.length - 1) {
               if (array.length === 1) {
