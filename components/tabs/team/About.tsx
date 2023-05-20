@@ -20,6 +20,45 @@ const Card = (props: any) => {
   );
 };
 
+function countUniqueChampionshipTeams(events: any): number {
+  const championshipEvents = events.filter((event: any) =>
+    event.event_type_string.includes("Championship")
+  );
+
+  const uniqueEvents = new Set<string>();
+
+  championshipEvents.forEach((event: any) => {
+    const eventName = event.name.toLowerCase();
+    const eventCode = event.event_code.toLowerCase();
+    const keywords = [
+      "arc",
+      "cur",
+      "gal",
+      "dal",
+      "hop",
+      "john",
+      "mil",
+      "new",
+      "tes",
+      "cars",
+    ];
+
+    if (
+      ["Championship Division", "Championship Finals"].includes(
+        event.event_type_string
+      ) ||
+      keywords.some((keyword) => eventCode.includes(keyword))
+    ) {
+      const teamMatch = eventName.match(/\d+/) || eventCode.match(/\d+/);
+      if (teamMatch) {
+        uniqueEvents.add(teamMatch[0]);
+      }
+    }
+  });
+
+  return uniqueEvents.size;
+}
+
 export const AboutTab = (props: any) => {
   const avgAwards = (
     props.team.teamAwards.length / props.team.yearsParticipated.length
@@ -35,9 +74,9 @@ export const AboutTab = (props: any) => {
   );
   const roundedPercentage = Math.round(districtPercentage / 10) * 10;
 
-  const tripsToChampionship = props.team.teamEvents.filter(
-    (event: any) => event.event_type_string === "Championship Division"
-  ).length;
+  const tripsToChampionship = countUniqueChampionshipTeams(
+    props.team.teamEvents
+  );
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
