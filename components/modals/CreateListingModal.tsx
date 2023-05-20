@@ -82,7 +82,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         title,
         description,
         price,
-        imageUrl
+        imageUrl,
       });
 
       const data = {
