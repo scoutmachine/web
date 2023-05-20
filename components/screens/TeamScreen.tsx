@@ -15,7 +15,7 @@ import { ErrorMessage } from "../ErrorMessage";
 import { LocationModal } from "../modals/LocationModal";
 
 export function searchDistrict(array: any, valuetofind: any) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i: number = 0; i < array.length; i++) {
     if (array[i].code === valuetofind) {
       return array[i].name;
     }
@@ -32,12 +32,12 @@ export const TeamScreen = (props: any) => {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   const isFavourited = props.user?.favouritedTeams?.some(
-    (favouritedTeam: any) =>
-      favouritedTeam.team_number === props.team.team_number
+      (favouritedTeam: any): boolean =>
+          favouritedTeam.team_number === props.team.team_number
   );
   const favouritedTeam = props.user?.favouritedTeams?.filter(
-    (favouritedTeam: any) =>
-      favouritedTeam.team_number === props.team.team_number
+      (favouritedTeam: any): boolean =>
+          favouritedTeam.team_number === props.team.team_number
   );
 
   return (

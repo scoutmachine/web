@@ -5,19 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaMedal } from "react-icons/fa";
 import Head from "next/head";
-import { HOFTeams } from "@/lib/lists/hallOfFame";
+import {HOFTeams} from "@/lib/lists/hallOfFame";
+import {JSX} from "react";
 
-export default function HOFPage() {
-  return (
-    <>
-      <Head>
-        <title>Hall of Fame | Scout Machine</title>
-      </Head>
+export default function HOFPage(): JSX.Element {
+    return (
+        <>
+            <Head>
+                <title>Hall of Fame | Scout Machine</title>
+            </Head>
 
-      <Navbar active="Hall of Fame" />
+            <Navbar active="Hall of Fame"/>
 
-      <Header
-        className="flex"
+            <Header
+                className="flex"
         title={
           <a
             href="https://www.firsthalloffame.org/"

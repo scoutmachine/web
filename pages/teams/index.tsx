@@ -1,8 +1,8 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { useState, useEffect, useRef } from "react";
-import { Header } from "@/components/Header";
+import {API_URL, CURR_YEAR} from "@/lib/constants";
+import {useState, useEffect, useRef, JSX} from "react";
+import {Header} from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
@@ -53,20 +53,20 @@ async function fetchTeamsData(
   }
 
   const teamAvatars: any = {};
-  const start = performance.now();
+  const start: number = performance.now();
 
   await Promise.all(
-    sortedTeams.slice(0, 50).map(async (team: any) => {
-      const avatar = await fetch(
-        `${API_URL}/api/team/avatar?team=${team.team_number}`
-      ).then((res) => res.json());
+      sortedTeams.slice(0, 50).map(async (team: any): Promise<void> => {
+        const avatar = await fetch(
+            `${API_URL}/api/team/avatar?team=${team.team_number}`
+        ).then((res: Response) => res.json());
 
-      try {
-        teamAvatars[team.team_number] = avatar.avatar;
-      } catch {
-        teamAvatars[team.team_number] = null;
-      }
-    })
+        try {
+          teamAvatars[team.team_number] = avatar.avatar;
+        } catch {
+          teamAvatars[team.team_number] = null;
+        }
+      })
   );
 
   log("warning", `Fetched avatars in ${formatTime(performance.now() - start)}`);
@@ -82,7 +82,7 @@ async function fetchTeamsData(
   };
 }
 
-export default function TeamsPage({ user }: any) {
+export default function TeamsPage({user}: any): JSX.Element {
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
   const [time, setTime] = useState<any>();
@@ -99,9 +99,9 @@ export default function TeamsPage({ user }: any) {
 
   useEffect(() => {
     setIsClient(true);
-    const handleScroll = () => {
-      const scrollPosition = window.innerHeight + window.pageYOffset;
-      const contentHeight = document.documentElement.scrollHeight;
+    const handleScroll = (): void => {
+      const scrollPosition: number = window.innerHeight + window.pageYOffset;
+      const contentHeight: number = document.documentElement.scrollHeight;
 
       if (scrollPosition > contentHeight * 0.8) {
         setStartIndex(endIndex + 1);
@@ -113,11 +113,11 @@ export default function TeamsPage({ user }: any) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [startIndex, endIndex]);
 
-  useEffect(() => {
-    const fetchTeams = async () => {
+  useEffect((): void => {
+    const fetchTeams = async (): Promise<void> => {
       setIsLoading(true);
       try {
-        const { teams, avatars } = await fetchTeamsData(startIndex, endIndex);
+        const {teams, avatars} = await fetchTeamsData(startIndex, endIndex);
         setTeams((prevTeams: any) => [...prevTeams, ...teams]);
         setAvatars(avatars);
       } catch (error) {
@@ -129,7 +129,7 @@ export default function TeamsPage({ user }: any) {
     };
 
     if (!loadingScreenShown.current) {
-      fetchTeams().then(() => {
+      fetchTeams().then((): void => {
         loadingScreenShown.current = true;
       });
     } else {
@@ -137,29 +137,29 @@ export default function TeamsPage({ user }: any) {
     }
   }, [startIndex, endIndex]);
 
-  const changeSearch = async (event: { target: { value: string } }) => {
+  const changeSearch = async (event: { target: { value: string } }): Promise<void> => {
     const searchTerm = event.target.value;
     setQuery(searchTerm);
     setStartIndex(0);
     setEndIndex(itemsPerPage);
 
-    const { teams, avatars } = await fetchTeamsData(
-      0,
-      itemsPerPage,
-      "",
-      searchTerm
+    const {teams, avatars} = await fetchTeamsData(
+        0,
+        itemsPerPage,
+        "",
+        searchTerm
     );
     setTeams(teams);
     setAvatars(avatars);
   };
 
-  useEffect(() => {
-    const filterByNumber = async () => {
-      const { teams, avatars } = await fetchTeamsData(
-        startIndex,
-        endIndex,
-        teamNumberRange,
-        query
+  useEffect((): void => {
+    const filterByNumber = async (): Promise<void> => {
+      const {teams, avatars} = await fetchTeamsData(
+          startIndex,
+          endIndex,
+          teamNumberRange,
+          query
       );
       setTeams(teams);
       setAvatars(avatars);
@@ -172,16 +172,16 @@ export default function TeamsPage({ user }: any) {
 
   useEffect(() => {
     if (typeof window !== "undefined" && getStorage(`teams_${CURR_YEAR}`)) {
-      const interval = setInterval(() => {
+      const interval: NodeJS.Timer = setInterval((): void => {
         const time = new Date().toLocaleTimeString("en-GB", {
           hour: "numeric",
           minute: "2-digit",
         });
         setTime(time);
         setTeamExistsByTime(
-          getStorage(`teams_${CURR_YEAR}`).filter(
-            (team: any) => team.team_number === Number(time.replace(":", ""))
-          )[0]
+            getStorage(`teams_${CURR_YEAR}`).filter(
+                (team: any): boolean => team.team_number === Number(time.replace(":", ""))
+            )[0]
         );
       }, 100);
 
@@ -332,7 +332,7 @@ export default function TeamsPage({ user }: any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = (await getServerSession(req, res, authOptions)) as Session;
+  const session: Session = (await getServerSession(req, res, authOptions)) as Session;
 
   if (session) {
     const user = await db.user.findUnique({

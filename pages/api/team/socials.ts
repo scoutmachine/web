@@ -7,8 +7,8 @@ export default async function addSocials(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = (await getServerSession(req, res, authOptions)) as Session;
-  const { team } = req.query;
+  const session: Session = (await getServerSession(req, res, authOptions)) as Session;
+  const {team} = req.query;
 
   if (!session) res.status(400).send("You are not logged in!");
 
@@ -23,17 +23,17 @@ export default async function addSocials(
 
     if (teamExists) {
       await Promise.all(
-        body.map(async (social: any) => {
-          await db.social.create({
-            data: {
-              type: social.type,
-              handle: social.handle,
-              teamId: Number(team),
-              // @ts-ignore
-              userId: session.user?.id,
-            },
-          });
-        })
+          body.map(async (social: any): Promise<void> => {
+            await db.social.create({
+              data: {
+                type: social.type,
+                handle: social.handle,
+                teamId: Number(team),
+                // @ts-ignore
+                userId: session.user?.id,
+              },
+            });
+          })
       );
     } else {
       await db.team.create({

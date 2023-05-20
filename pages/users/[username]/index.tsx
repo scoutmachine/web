@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import db from "@/lib/db";
+import {User} from "next-auth";
 
 export default function UserProfilePage({ user }: any) {
   return (
@@ -20,11 +21,11 @@ export default function UserProfilePage({ user }: any) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username }: any = context.params;
 
-  const fetchUserData = await db.user.findUnique({
-    where: {
-      username: username,
-    },
-  });
+    const fetchUserData: User | null = await db.user.findUnique({
+        where: {
+            username: username,
+        },
+    });
 
   if (!fetchUserData) {
     return { props: {} };

@@ -1,14 +1,14 @@
-export const HOFTeams = [
-  {
-    name: "321",
-    year: "2023",
-  },
-  {
-    name: "1629",
-    year: "2022",
-  },
-  {
-    name: "503",
+export const HOFTeams: { name: string, year: string }[] = [
+    {
+        name: "321",
+        year: "2023",
+    },
+    {
+        name: "1629",
+        year: "2022",
+    },
+    {
+        name: "503",
     year: "2021",
   },
   {

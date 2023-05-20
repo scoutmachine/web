@@ -1,28 +1,28 @@
-export const districts = [
-  "CHS",
-  "FIM",
-  "FIT",
-  "FIN",
-  "ISR",
-  "FMA",
-  "FNC",
-  "NE",
-  "ONT",
-  "PNW",
+export const districts: string[] = [
+    "CHS",
+    "FIM",
+    "FIT",
+    "FIN",
+    "ISR",
+    "FMA",
+    "FNC",
+    "NE",
+    "ONT",
+    "PNW",
   "PCH",
 ];
 
-export const districtCodeToName = [
-  {
-    code: "CHS",
-    name: "FIRST Chesapeake",
-  },
-  {
-    code: "FIM",
-    name: "FIRST In Michigan",
-  },
-  {
-    code: "FIT",
+export const districtCodeToName: { code: string, name: string }[] = [
+    {
+        code: "CHS",
+        name: "FIRST Chesapeake",
+    },
+    {
+        code: "FIM",
+        name: "FIRST In Michigan",
+    },
+    {
+        code: "FIT",
     name: "FIRST In Texas",
   },
   {

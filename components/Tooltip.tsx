@@ -13,13 +13,13 @@ export const Tooltip = (props: {
   const [isHovering, setIsHovering] = useState(false);
   const [error, setError] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsHovering(true);
+  const handleMouseEnter = (): void => {
+      setIsHovering(true);
   };
 
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-  };
+    const handleMouseLeave = (): void => {
+        setIsHovering(false);
+    };
 
   const isTeam = (obj: Team | FavouritedTeam): obj is Team => {
     return (obj as Team).school_name !== undefined;
@@ -34,23 +34,23 @@ export const Tooltip = (props: {
               <div className="flex items-center justify-center">
                 {!error ? (
                   <Image
-                    className="rounded-lg mr-5 w-6 mb-2"
-                    alt={`Team ${props.team.team_number} Avatar`}
-                    height="25"
-                    width="25"
-                    priority={true}
-                    src={
-                      props.avatar
-                        ? `data:image/jpeg;base64,${props.avatar}`
-                        : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                            props.team.website?.startsWith("https")
-                              ? props.team.website
-                              : `https://${props.team.website?.slice(7)}`
-                          }/&size=64`
-                    }
-                    onError={() => {
-                      setError(true);
-                    }}
+                      className="rounded-lg mr-5 w-6 mb-2"
+                      alt={`Team ${props.team.team_number} Avatar`}
+                      height="25"
+                      width="25"
+                      priority={true}
+                      src={
+                          props.avatar
+                              ? `data:image/jpeg;base64,${props.avatar}`
+                              : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+                                  props.team.website?.startsWith("https")
+                                      ? props.team.website
+                                      : `https://${props.team.website?.slice(7)}`
+                              }/&size=64`
+                      }
+                      onError={(): void => {
+                          setError(true);
+                      }}
                   />
                 ) : (
                   <Image

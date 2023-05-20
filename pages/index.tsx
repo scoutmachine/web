@@ -9,19 +9,20 @@ import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { API_URL } from "@/lib/constants";
+import {API_URL} from "@/lib/constants";
+import {JSX} from "react";
 
-export default function LandingPage({ user, avatars }: any) {
-  const { data: session, status } = useSession();
+export default function LandingPage({user, avatars}: any): JSX.Element {
+    const {data: session, status} = useSession();
 
-  if (status === "loading") return <Loading />;
+    if (status === "loading") return <Loading/>;
 
-  if (session) {
-    return (
-      <>
-        <Head>
-          <title>Scout Machine</title>
-        </Head>
+    if (session) {
+        return (
+            <>
+                <Head>
+                    <title>Scout Machine</title>
+                </Head>
 
         <Navbar refresh />
         <SignedInScreen
@@ -50,7 +51,7 @@ export default function LandingPage({ user, avatars }: any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = (await getServerSession(req, res, authOptions)) as Session;
+    const session: Session = (await getServerSession(req, res, authOptions)) as Session;
 
   if (session) {
     const user = await db.user.findUnique({
@@ -72,13 +73,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
     if (user?.favouritedTeams) {
       await Promise.all(
-        user.favouritedTeams.map(async (team: any) => {
-          const data = await fetch(
-            `${API_URL}/api/team/avatar?team=${team.team_number}`
-          ).then((res) => res.json());
+          user.favouritedTeams.map(async (team: any): Promise<void> => {
+              const data = await fetch(
+                  `${API_URL}/api/team/avatar?team=${team.team_number}`
+              ).then((res: Response) => res.json());
 
-          teamAvatars[team.team_number] = data.avatar;
-        })
+              teamAvatars[team.team_number] = data.avatar;
+          })
       );
     }
 

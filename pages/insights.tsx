@@ -5,27 +5,27 @@ import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import {JSX, useEffect, useState} from "react";
 
-export default function InsightsPage({ insights }: any) {
-  const [avatars, setAvatars] = useState([]);
+export default function InsightsPage({insights}: any): JSX.Element {
+    const [avatars, setAvatars] = useState([]);
 
-  useEffect(() => {
-    const fetchAvatars = async () => {
-      const teamAvatars: any = {};
+    useEffect(() => {
+        const fetchAvatars = async (): Promise<void> => {
+            const teamAvatars: any = {};
 
-      await Promise.all(
-        insights.top.map(async (team: any) => {
-          const data = await fetch(
-            `${API_URL}/api/team/avatar?team=${team.teamNumber}`
-          ).then((res) => res.json());
+            await Promise.all(
+                insights.top.map(async (team: any): Promise<void> => {
+                    const data = await fetch(
+                        `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+                    ).then((res: Response) => res.json());
 
-          try {
-            teamAvatars[team.teamNumber] = data.avatar;
-          } catch {
-            teamAvatars[team.teamNumber] = null;
-          }
-        })
+                    try {
+                        teamAvatars[team.teamNumber] = data.avatar;
+                    } catch {
+                        teamAvatars[team.teamNumber] = null;
+                    }
+                })
       );
 
       setAvatars(teamAvatars);
@@ -103,9 +103,9 @@ export default function InsightsPage({ insights }: any) {
 }
 
 export async function getServerSideProps() {
-  const insightsData = await fetch(`${API_URL}/api/insights`).then((res) =>
-    res.json()
-  );
+    const insightsData = await fetch(`${API_URL}/api/insights`).then((res: Response) =>
+        res.json()
+    );
 
   return { props: { insights: insightsData } };
 }

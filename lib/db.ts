@@ -9,7 +9,7 @@ const getPrismaClient = () => {
   if (process.env.NODE_ENV === `production`) {
     return new PrismaClient();
   } else {
-    const newGlobalThis = globalThis as GlobalThisWithPrismaClient;
+    const newGlobalThis: GlobalThisWithPrismaClient = globalThis as GlobalThisWithPrismaClient;
     if (!newGlobalThis[prismaClientPropertyName]) {
       newGlobalThis[prismaClientPropertyName] = new PrismaClient();
     }
@@ -17,6 +17,6 @@ const getPrismaClient = () => {
   }
 };
 
-const db = getPrismaClient();
+const db: PrismaClient = getPrismaClient();
 
 export default db;

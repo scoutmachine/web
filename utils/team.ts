@@ -25,22 +25,22 @@ export const teamNumberInRange = (
   return teamNumber >= parseInt(start) && teamNumber <= parseInt(end);
 };
 
-export async function fetchTeamsData() {
+export async function fetchTeamsData(): Promise<any> {
   const teamsData = getStorage(`teams_${CURR_YEAR}`);
   if (teamsData) return teamsData;
 
-  const start = performance.now();
-  const getTeams = async (pageNum: string) =>
-    await fetch(`${API_URL}/api/team/teams?page=${pageNum}`, {
-      next: { revalidate: 60 },
-    }).then((res) => res.json());
-  const pageNumbers = [...Array(20).keys()].map((i) => i.toString());
-  const pages = await Promise.all(pageNumbers.map((num) => getTeams(num)));
+  const start: number = performance.now();
+  const getTeams = async (pageNum: string): Promise<any> =>
+      await fetch(`${API_URL}/api/team/teams?page=${pageNum}`, {
+        next: {revalidate: 60},
+      }).then((res: Response) => res.json());
+  const pageNumbers: string[] = [...Array(20).keys()].map((i: number) => i.toString());
+  const pages: any[] = await Promise.all(pageNumbers.map((num: string) => getTeams(num)));
   const teams: any = pages.flatMap((page: any) => page);
 
   log(
-    "warning",
-    `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
+      "warning",
+      `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
   );
 
   setStorage(`teams_${CURR_YEAR}`, teams, 60 * 60 * 24 * 7 * 4); // 4 weeks (28 days)

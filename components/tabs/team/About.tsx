@@ -25,12 +25,12 @@ function countUniqueChampionshipTeams(events: any): number {
     event.event_type_string.includes("Championship")
   );
 
-  const uniqueEvents = new Set<string>();
+  const uniqueEvents: Set<string> = new Set<string>();
 
-  championshipEvents.forEach((event: any) => {
+  championshipEvents.forEach((event: any): void => {
     const eventName = event.name.toLowerCase();
     const eventCode = event.event_code.toLowerCase();
-    const keywords = [
+    const keywords: string[] = [
       "arc",
       "cur",
       "gal",
@@ -60,16 +60,16 @@ function countUniqueChampionshipTeams(events: any): number {
 }
 
 export const AboutTab = (props: any) => {
-  const avgAwards = (
-    props.team.teamAwards.length / props.team.yearsParticipated.length
+  const avgAwards: string = (
+      props.team.teamAwards.length / props.team.yearsParticipated.length
   ).toFixed(1);
 
-  const avgEvents = (
-    props.team.teamEvents.length / props.team.yearsParticipated.length
+  const avgEvents: string = (
+      props.team.teamEvents.length / props.team.yearsParticipated.length
   ).toFixed(1);
 
-  const avgAwardsPerEvent = (
-    props.team.teamAwards.length / props.team.teamEvents.length
+  const avgAwardsPerEvent: string = (
+      props.team.teamAwards.length / props.team.teamEvents.length
   ).toFixed(1);
 
   const eventsWon = props.team.teamAwards.filter((award: any) =>
@@ -77,13 +77,13 @@ export const AboutTab = (props: any) => {
   ).length;
 
   const district = props.team.teamDistrict?.team;
-  const districtPercentage = Math.trunc(
-    (100 * district?.rank) / props.team.teamDistrict.total
+  const districtPercentage: number = Math.trunc(
+      (100 * district?.rank) / props.team.teamDistrict.total
   );
-  const roundedPercentage = Math.round(districtPercentage / 10) * 10;
+  const roundedPercentage: number = Math.round(districtPercentage / 10) * 10;
 
-  const tripsToChampionship = countUniqueChampionshipTeams(
-    props.team.teamEvents
+  const tripsToChampionship: number = countUniqueChampionshipTeams(
+      props.team.teamEvents
   );
 
   return (

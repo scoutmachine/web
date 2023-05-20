@@ -6,7 +6,7 @@ export const Socials = (props: any) => {
     .map((social: any) => ({
       ...social,
       order: socials.findIndex(
-        (item) => item.name.toLowerCase() === social.type
+        (item): boolean => item.name.toLowerCase() === social.type
       ),
     }))
     .sort((a: any, b: any) => a.order - b.order);

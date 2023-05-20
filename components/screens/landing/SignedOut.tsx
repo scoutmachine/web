@@ -8,17 +8,17 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
 
-async function getContributors() {
-  const contributors = getStorage("contributors");
+async function getContributors(): Promise<any> {
+    const contributors = getStorage("contributors");
 
-  if (contributors) return contributors;
+    if (contributors) return contributors;
 
-  const fetchContributors = await fetch(
-    `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
-  )
-    .then((response) => response.json())
-    .then((contributors) =>
-      contributors
+    const fetchContributors = await fetch(
+        `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
+    )
+        .then((response: Response) => response.json())
+        .then((contributors) =>
+            contributors
         .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
         .slice(0, 10)
     );
@@ -57,9 +57,9 @@ export const SignedOutScreen = () => {
   const [contributors, setContributors] = useState([]);
 
   useEffect(() => {
-    const fetchContributors = async () => {
-      return await getContributors();
-    };
+      const fetchContributors = async (): Promise<any> => {
+          return await getContributors();
+      };
 
     fetchContributors().then(r => setContributors(r));
   });

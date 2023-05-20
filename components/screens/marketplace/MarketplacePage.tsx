@@ -4,11 +4,11 @@ import { ListingType } from "@/types/ListingType";
 import { FaMoneyBill } from "react-icons/fa";
 
 export const MarketplacePage = (props: any) => {
-  const distance = useDistance(
-    props.marketplacePost.latitude,
-    props.marketplacePost.longitude
+  const distance: number | null = useDistance(
+      props.marketplacePost.latitude,
+      props.marketplacePost.longitude
   );
-  const partTypeColour = () => {
+  const partTypeColour = (): string => {
     switch (props.marketplacePost.type) {
       case "controller":
         return "#1f87ff";

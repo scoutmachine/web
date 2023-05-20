@@ -6,25 +6,25 @@ import { EventsScreen } from "@/components/screens/EventsScreen";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { formatTime } from "@/utils/time";
-import { log } from "@/utils/log";
-import { useState, useEffect } from "react";
+import {log} from "@/utils/log";
+import {useState, useEffect, JSX} from "react";
 import Head from "next/head";
 
-async function fetchEventsData(year: number) {
+async function fetchEventsData(year: number): Promise<any> {
   const eventsData = getStorage(`events_${year}`);
 
   if (eventsData) {
     return eventsData;
   }
 
-  const start = performance.now();
-  const res = await fetch(`${API_URL}/api/events/${year}`, {
-    next: { revalidate: 60 },
+  const start: number = performance.now();
+  const res: Response = await fetch(`${API_URL}/api/events/${year}`, {
+    next: {revalidate: 60},
   });
 
   log(
-    "warning",
-    `Fetching [/events/${year}] took ${formatTime(performance.now() - start)}`
+      "warning",
+      `Fetching [/events/${year}] took ${formatTime(performance.now() - start)}`
   );
 
   if (!res.ok) {
@@ -39,15 +39,16 @@ async function fetchEventsData(year: number) {
   return data;
 }
 
-export default function EventsPage() {
+export default function EventsPage(): JSX.Element {
   const [events, setEvents] = useState();
   const [year, setYear] = useState<number>(CURR_YEAR);
 
-  useEffect(() => {
+  useEffect((): void => {
     async function fetchData() {
       const data = await fetchEventsData(year);
       if (data) setEvents(data);
     }
+
     fetchData();
   }, [year]);
 

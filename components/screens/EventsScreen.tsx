@@ -1,30 +1,24 @@
-import { CURR_YEAR } from "@/lib/constants";
-import { convertDate } from "@/utils/date";
+import {CURR_YEAR} from "@/lib/constants";
+import {convertDate} from "@/utils/date";
 import Link from "next/link";
-import { Search } from "../Search";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import {Search} from "../Search";
+import React, {ReactNode, useEffect, useRef, useState} from "react";
 import haversine from "haversine-distance";
-import {
-  FaCrosshairs,
-  FaGlobe,
-  FaMapMarkerAlt,
-  FaArrowUp,
-  FaFileCsv,
-} from "react-icons/fa";
-import { getGeoData } from "@/utils/geo";
+import {FaArrowUp, FaCrosshairs, FaFileCsv, FaGlobe, FaMapMarkerAlt,} from "react-icons/fa";
+import {getGeoData} from "@/utils/geo";
 import exportFromJSON from "export-from-json";
-import { getStorage } from "@/utils/localStorage";
-import { Loading } from "../Loading";
+import {getStorage} from "@/utils/localStorage";
+import {Loading} from "../Loading";
 
 const Event = (props: any) => {
   return (
-    <Link href={`/events/${props.event.key}`} legacyBehavior>
-      <a>
-        <div
-          className={`hover:cursor-pointer border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}
-        >
-          <h1 className="text-xl font-bold text-left text-white">
-            {props.event.name.length > 49
+      <Link href={`/events/${props.event.key}`} legacyBehavior>
+        <a>
+          <div
+              className={`hover:cursor-pointer border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}
+          >
+            <h1 className="text-xl font-bold text-left text-white">
+              {props.event.name.length > 49
               ? `${props.event.name.slice(0, 49)}...`
               : props.event.name}
           </h1>
@@ -66,47 +60,46 @@ export const EventsScreen = (props: any) => {
   const [seasonDropDown, setSeasonDropDown] = useState<boolean>(false);
   const [weekDropDown, setWeekDropDown] = useState(false);
   const [weekQuery, setWeekQuery] = useState<any>();
-  const seasons = [...Array(CURR_YEAR - 1997 + 1).keys()].map((x) => x + 1997);
-  const weeks = [...Array(7).keys()];
-  const weeksArray = [
+  const seasons: number[] = [...Array(CURR_YEAR - 1997 + 1).keys()].map((x) => x + 1997);
+  const weeks: number[] = [...Array(7).keys()];
+  const weeksArray: (string | number)[] = [
     "Preseason",
     ...weeks.slice(1).map((week) => week - 1),
     "Championship",
     "Offseason",
   ];
 
-  const today = new Date();
-  const newToday = today.toISOString().split("T")[0];
+  const today: Date = new Date();
+  const newToday: string = today.toISOString().split("T")[0];
   today.setHours(0, 0, 0, 0);
 
-  const weekDropdownRef = useRef<HTMLDivElement>(null);
+  const weekDropdownRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (nearbyRange === "") {
       setNearbyRange(350);
     }
 
     const fetchGeoData = async () => {
-      const data = await getGeoData(address);
-      return data;
+      return await getGeoData(address);
     };
 
     if (filterByAddress) {
       fetchGeoData()
         .then((data) => {
-          const lat = Number(data?.lat);
-          const lng = Number(data?.lng);
+          const lat: number = Number(data?.lat);
+          const lng: number = Number(data?.lng);
           const eventDistances: any = {};
 
-          const nearbyEvents = props.events.filter((event: any) => {
-            const distance =
-              haversine(
-                { lat: event.lat, lng: event.lng },
-                {
-                  lat,
-                  lng,
-                }
-              ) / 1000; // convert to km
+          const nearbyEvents = props.events.filter((event: any): boolean => {
+            const distance: number =
+                haversine(
+                    {lat: event.lat, lng: event.lng},
+                    {
+                      lat,
+                      lng,
+                    }
+                ) / 1000; // convert to km
 
             eventDistances[event.event_code] = distance;
             return distance <= Number(nearbyRange); // events within x km range
@@ -117,20 +110,20 @@ export const EventsScreen = (props: any) => {
         })
         .then(() => setFilterByAddress(false));
     } else if (address === "") {
-      navigator.permissions.query({ name: "geolocation" }).then((result) => {
+      navigator.permissions.query({name: "geolocation"}).then((result: PermissionStatus): void => {
         if (result.state === "granted") {
-          navigator.geolocation.getCurrentPosition((position) => {
+          navigator.geolocation.getCurrentPosition((position: GeolocationPosition): void => {
             const eventDistances: any = {};
 
-            const nearbyEvents = props.events.filter((event: any) => {
-              const distance =
-                haversine(
-                  { lat: event.lat, lng: event.lng },
-                  {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                  }
-                ) / 1000; // convert to km
+            const nearbyEvents = props.events.filter((event: any): boolean => {
+              const distance: number =
+                  haversine(
+                      {lat: event.lat, lng: event.lng},
+                      {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                      }
+                  ) / 1000; // convert to km
 
               eventDistances[event.event_code] = distance;
               return distance <= Number(nearbyRange); // events within x km range
@@ -147,10 +140,10 @@ export const EventsScreen = (props: any) => {
   }, [props.events, nearbyRange, filterByAddress, address]);
 
   useEffect(() => {
-    const closeWeekDropdown = (event: MouseEvent) => {
+    const closeWeekDropdown = (event: MouseEvent): void => {
       if (
-        weekDropdownRef.current &&
-        !weekDropdownRef.current.contains(event.target as Node)
+          weekDropdownRef.current &&
+          !weekDropdownRef.current.contains(event.target as Node)
       ) {
         setWeekDropDown(false);
       }
@@ -214,15 +207,15 @@ export const EventsScreen = (props: any) => {
     <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">
         <button
-          onClick={() => {
-            if (weekQuery) {
-              setShowNearbyEvents(false);
-              setWeekQuery("");
-            } else {
-              setShowNearbyEvents(!showNearbyEvents);
-            }
-          }}
-          className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
+            onClick={(): void => {
+              if (weekQuery) {
+                setShowNearbyEvents(false);
+                setWeekQuery("");
+              } else {
+                setShowNearbyEvents(!showNearbyEvents);
+              }
+            }}
+            className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
         >
           {!showNearbyEvents && !weekQuery && (
             <FaCrosshairs className="mr-2 text-lg" />
@@ -277,17 +270,17 @@ export const EventsScreen = (props: any) => {
                   weekDropDown ? "block" : "hidden"
                 } z-20`}
               >
-                {weeksArray.map((week, i) => (
-                  <div
-                    key={i}
-                    className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-white text-lightGray"
-                    onClick={() =>
-                      setWeekQuery(
-                        typeof week === "number" && week !== 6 ? week + 1 : week
-                      )
-                    }
-                  >
-                    <h1
+                {weeksArray.map((week: string | number, i: number) => (
+                    <div
+                        key={i}
+                        className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-white text-lightGray"
+                        onClick={() =>
+                            setWeekQuery(
+                                typeof week === "number" && week !== 6 ? week + 1 : week
+                            )
+                        }
+                    >
+                      <h1
                       className={`text-center ${
                         weekQuery === Number(week) + 1
                           ? "font-bold text-white"
@@ -320,17 +313,17 @@ export const EventsScreen = (props: any) => {
                 } z-20`}
               >
                 <div className="grid grid-cols-2 gap-1">
-                  {seasons.map((szn, i) => (
-                    <div
-                      key={i}
-                      className="text-center transition-all flex items-center justfiy-center duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-2 rounded-lg"
-                      onClick={() => {
-                        props.setYear(szn);
-                        props.setEvents([]);
-                      }}
-                    >
-                      {szn}
-                    </div>
+                  {seasons.map((szn: number, i: number) => (
+                      <div
+                          key={i}
+                          className="text-center transition-all flex items-center justfiy-center duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-2 rounded-lg"
+                          onClick={(): void => {
+                            props.setYear(szn);
+                            props.setEvents([]);
+                          }}
+                      >
+                        {szn}
+                      </div>
                   ))}
                 </div>
               </div>
@@ -355,14 +348,14 @@ export const EventsScreen = (props: any) => {
 
       {weekQuery &&
         renderEventsSection(
-          (event: any) =>
-            typeof weekQuery === "number"
-              ? event.week === weekQuery - 1
-              : event.event_type_string === weekQuery
-              ? weekQuery === "Championship"
-              : ["Championship Division", "Championship Finals"].includes(
-                  event.event_type_string
-                ),
+            (event: any): boolean =>
+                typeof weekQuery === "number"
+                    ? event.week === weekQuery - 1
+                    : event.event_type_string === weekQuery
+                        ? weekQuery === "Championship"
+                        : ["Championship Division", "Championship Finals"].includes(
+                            event.event_type_string
+                        ),
           `${typeof weekQuery === "number" ? `Week ${weekQuery}` : weekQuery}`
         )}
 
@@ -388,7 +381,7 @@ export const EventsScreen = (props: any) => {
         renderEventsSection(
           (event: any) =>
             nearbyEvents.some(
-              (nearbyEvent: any) => nearbyEvent.name === event.name
+                (nearbyEvent: any): boolean => nearbyEvent.name === event.name
             ),
           <p>
             Nearby <span className="text-lightGray">({nearbyRange}km)</span>
@@ -396,34 +389,34 @@ export const EventsScreen = (props: any) => {
         )}
 
       {!weekQuery && !showNearbyEvents && !searchQuery && (
-        <div>
-          {renderEventsSection(
-            (event: any) => newToday <= event.end_date,
-            "Upcoming"
-          )}
-          {renderEventsSection(
-            (event: any) => event.event_type_string === "Preseason",
-            "Preseason"
-          )}
+          <div>
+            {renderEventsSection(
+                (event: any): boolean => newToday <= event.end_date,
+                "Upcoming"
+            )}
+            {renderEventsSection(
+                (event: any): boolean => event.event_type_string === "Preseason",
+                "Preseason"
+            )}
 
-          {renderEventsSection((event: any) => event.week === 0, "Week 1")}
-          {renderEventsSection((event: any) => event.week === 1, "Week 2")}
-          {renderEventsSection((event: any) => event.week === 2, "Week 3")}
-          {renderEventsSection((event: any) => event.week === 3, "Week 4")}
-          {renderEventsSection((event: any) => event.week === 4, "Week 5")}
-          {renderEventsSection((event: any) => event.week === 5, "Week 6")}
+            {renderEventsSection((event: any): boolean => event.week === 0, "Week 1")}
+            {renderEventsSection((event: any): boolean => event.week === 1, "Week 2")}
+            {renderEventsSection((event: any): boolean => event.week === 2, "Week 3")}
+            {renderEventsSection((event: any): boolean => event.week === 3, "Week 4")}
+            {renderEventsSection((event: any): boolean => event.week === 4, "Week 5")}
+            {renderEventsSection((event: any): boolean => event.week === 5, "Week 6")}
 
-          {renderEventsSection(
-            (event: any) =>
-              ["Championship Division", "Championship Finals"].includes(
-                event.event_type_string
-              ),
-            "FIRST Championship"
-          )}
-          {renderEventsSection(
-            (event: any) => event.event_type_string === "Offseason",
-            "Offseason"
-          )}
+            {renderEventsSection(
+                (event: any) =>
+                    ["Championship Division", "Championship Finals"].includes(
+                        event.event_type_string
+                    ),
+                "FIRST Championship"
+            )}
+            {renderEventsSection(
+                (event: any): boolean => event.event_type_string === "Offseason",
+                "Offseason"
+            )}
         </div>
       )}
     </div>

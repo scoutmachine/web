@@ -1,7 +1,7 @@
 import { log } from "./log";
 
-export const setStorage = (key: string, value: string, ttl?: number) => {
-  const now = new Date();
+export const setStorage = (key: string, value: string, ttl?: number): void => {
+  const now: Date = new Date();
 
   const item = {
     value: value,
@@ -19,12 +19,12 @@ export const setStorage = (key: string, value: string, ttl?: number) => {
   }
 };
 
-export const getStorage = (key: string) => {
-  const item = localStorage.getItem(key);
+export const getStorage = (key: string): null | any => {
+  const item: string | null = localStorage.getItem(key);
   if (!item) return null;
 
   const data = JSON.parse(item);
-  const now = new Date();
+  const now: Date = new Date();
 
   if (!data.expiry || now.getTime() > data.expiry) {
     localStorage.removeItem(key);

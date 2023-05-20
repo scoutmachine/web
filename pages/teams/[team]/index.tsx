@@ -1,31 +1,30 @@
-import { EventData } from "@/components/eventdata";
-import { Footer } from "@/components/Footer";
-import { TabButton } from "@/components/TabButton";
-import { API_URL } from "@/lib/constants";
-import { useRouter } from "next/router";
-import React, { useRef } from "react";
-import { useEffect, useState } from "react";
-import { FaArrowUp, FaTwitch } from "react-icons/fa";
-import { convertDate, isLive } from "@/utils/date";
+import {EventData} from "@/components/eventdata";
+import {Footer} from "@/components/Footer";
+import {TabButton} from "@/components/TabButton";
+import {API_URL} from "@/lib/constants";
+import {NextRouter, useRouter} from "next/router";
+import React, {useEffect, useRef, useState} from "react";
+import {FaArrowUp, FaTwitch} from "react-icons/fa";
+import {convertDate, isLive} from "@/utils/date";
 import Link from "next/link";
-import { Navbar } from "@/components/navbar";
-import { TeamScreen } from "@/components/screens/TeamScreen";
-import { Loading } from "@/components/Loading";
-import { AboutTab } from "@/components/tabs/team/About";
-import { AwardsTab } from "@/components/tabs/team/Awards";
+import {Navbar} from "@/components/navbar";
+import {TeamScreen} from "@/components/screens/TeamScreen";
+import {Loading} from "@/components/Loading";
+import {AboutTab} from "@/components/tabs/team/About";
+import {AwardsTab} from "@/components/tabs/team/Awards";
 import Head from "next/head";
-import { ErrorMessage } from "@/components/ErrorMessage";
-import { Session, getServerSession } from "next-auth";
-import { GetServerSideProps } from "next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import {ErrorMessage} from "@/components/ErrorMessage";
+import {getServerSession, Session, User} from "next-auth";
+import {GetServerSideProps} from "next";
+import {authOptions} from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
-import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
-import { fetchTBA } from "@/lib/fetchTBA";
-import { EventsTab } from "@/components/tabs/team/Events";
+import {TeamMembersTab} from "@/components/tabs/team/TeamMembers";
+import {fetchTBA} from "@/lib/fetchTBA";
+import {EventsTab} from "@/components/tabs/team/Events";
 
 const SubInfo = (props: any) => {
   return (
-    <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
+      <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
       {props.children}
     </span>
   );
@@ -37,8 +36,8 @@ export default function TeamPage({
   teamSocials,
   teamData,
 }: any) {
-  const router = useRouter();
-  const { team } = router.query;
+  const router: NextRouter = useRouter();
+  const {team} = router.query;
   const [activeTab, setActiveTab] = useState<any>(1);
   const [eventData, setEventData] = useState([]);
   const [matchData, setMatchData] = useState<any>();
@@ -48,22 +47,21 @@ export default function TeamPage({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
 
-  useEffect(() => {
+  useEffect((): void => {
     if (!router.isReady) return;
 
-    const getEventData = async () => {
+    const getEventData = async (): Promise<void> => {
       setLoading(true);
       const fetchEventData = await fetch(
-        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
-      ).then((res) => res.json());
+          `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+      ).then((res: Response) => res.json());
 
       const eventMatchData: any = {};
 
       for (const event of fetchEventData) {
-        const matchData = await fetch(
-          `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
-        ).then((res) => res.json());
-        eventMatchData[event.event_code] = matchData;
+        eventMatchData[event.event_code] = await fetch(
+            `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
+        ).then((res: Response) => res.json());
       }
       setMatchData(eventMatchData);
       setEventData(fetchEventData);
@@ -74,10 +72,10 @@ export default function TeamPage({
   }, [activeTab, router.isReady, team]);
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
+    const handleOutsideClick = (event: MouseEvent): void => {
       if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsDropdownOpen(false);
       }
@@ -85,16 +83,16 @@ export default function TeamPage({
 
     window.addEventListener("click", handleOutsideClick);
 
-    return () => {
+    return (): void => {
       window.removeEventListener("click", handleOutsideClick);
     };
   }, [dropdownRef]);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (): void => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleTabClick = (tabIndex: number) => {
+  const handleTabClick = (tabIndex: number): void => {
     setActiveTab(tabIndex);
   };
 
@@ -236,27 +234,27 @@ export default function TeamPage({
               {year.includes(activeTab) &&
                 eventData
                   .sort((a: any, b: any) => {
-                    const aTimestamp = new Date(a.start_date).getTime();
-                    const bTimestamp = new Date(b.start_date).getTime();
+                    const aTimestamp: number = new Date(a.start_date).getTime();
+                    const bTimestamp: number = new Date(b.start_date).getTime();
                     return bTimestamp - aTimestamp;
                   })
                   .map((event: any, key: number) => {
                     const playlists: any = {};
 
-                    eventData.forEach((event: any) => {
+                    eventData.forEach((event: any): void => {
                       const eventCode = event.event_code;
 
-                      matchData[eventCode].forEach((match: any) => {
+                      matchData[eventCode].forEach((match: any): void => {
                         if (!playlists[eventCode]) {
                           playlists[eventCode] = [];
                         }
                         if (match.videos) {
                           match.videos
-                            .filter((video: any) => video.type === "youtube")
-                            .forEach((video: any) => {
-                              if (video.key)
-                                playlists[eventCode].push(video.key);
-                            });
+                              .filter((video: any): boolean => video.type === "youtube")
+                              .forEach((video: any): void => {
+                                if (video.key)
+                                  playlists[eventCode].push(video.key);
+                              });
                         }
                       });
                     });
@@ -352,18 +350,18 @@ export default function TeamPage({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = (await getServerSession(
-    context.req,
-    context.res,
-    authOptions
+  const session: Session = (await getServerSession(
+      context.req,
+      context.res,
+      authOptions
   )) as Session;
-  const { team }: any = context.params;
+  const {team}: any = context.params;
 
   const teamData = await fetch(`${API_URL}/api/team/all?team=${team}`).then(
-    (res) => res.json()
+      (res: Response) => res.json()
   );
 
-  const teamMembers = await db.user.findMany({
+  const teamMembers: User[] = await db.user.findMany({
     where: {
       teamNumber: Number(team),
     },
@@ -380,7 +378,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   });
 
-  const newFormattedTBASocials = tbaSocials.map((social: any) => ({
+  const newFormattedTBASocials = tbaSocials.map((social: any): { handle: any, type: any } => ({
     type: social.type.replace("-profile", "").replace("-channel", ""),
     handle: social.foreign_key,
   }));

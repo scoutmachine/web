@@ -6,19 +6,19 @@ import { FaTrash } from "react-icons/fa";
 import { useDistance } from "@/hooks/useDistance";
 
 export const MarketplacePost = (props: any) => {
-  const distance = useDistance(
-    props.marketplacePost.latitude,
-    props.marketplacePost.longitude
+  const distance: number | null = useDistance(
+      props.marketplacePost.latitude,
+      props.marketplacePost.longitude
   );
-  const showTrashIcon =
-    props.user?.admin || props.marketplacePost.author.id === props.user?.id;
-  const deletePost = async () => {
-    await fetch(`${API_URL}/api/@me/post?id=${props.marketplacePost.id}`, {
-      method: "DELETE",
-    });
+    const showTrashIcon =
+        props.user?.admin || props.marketplacePost.author.id === props.user?.id;
+    const deletePost = async (): Promise<void> => {
+        await fetch(`${API_URL}/api/@me/post?id=${props.marketplacePost.id}`, {
+            method: "DELETE",
+        });
 
-    router.reload();
-  };
+        router.reload();
+    };
 
   return (
     <div>

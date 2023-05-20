@@ -2,19 +2,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
 export default async function getTeamAwards(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { team, year } = req.query;
-  const currentYear = new Date().getFullYear();
-  const startYear = parseInt(year as string);
+    req: NextApiRequest,
+    res: NextApiResponse
+): Promise<void> {
+    const {team, year} = req.query;
+    const currentYear = new Date().getFullYear();
+    const startYear = parseInt(year as string);
 
-  const years = Array.from(
-    { length: currentYear - startYear + 1 },
-    (_, i) => startYear + i
-  );
+    const years = Array.from(
+        {length: currentYear - startYear + 1},
+        (_, i) => startYear + i
+    );
 
-  const awards = await Promise.all(
+    const awards = await Promise.all(
     years.map(async (year) => {
       try {
         const response = await fetchFIRST(`/awards/team/${team}`, year);
@@ -29,18 +29,18 @@ export default async function getTeamAwards(
   );
 
   const data = awards
-    .filter((award) => award && award.data && award.data.Awards)
-    .reduce((acc, curr) => {
-      if (curr?.data?.Awards) {
-        return acc.concat(
-          curr.data.Awards.map((award: any) => {
-            return {
-              year: curr.year,
-              eventCode: award.eventCode,
-              name: award.name,
-              teamNumber: award.teamNumber,
-            };
-          })
+      .filter((award) => award && award.data && award.data.Awards)
+      .reduce((acc: never[], curr): never[] => {
+          if (curr?.data?.Awards) {
+              return acc.concat(
+                  curr.data.Awards.map((award: any) => {
+                      return {
+                          year: curr.year,
+                          eventCode: award.eventCode,
+                          name: award.name,
+                          teamNumber: award.teamNumber,
+                      };
+                  })
         );
       }
       return acc;

@@ -136,16 +136,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )) as Session;
 
   const matches = await fetch(
-    `${API_URL}/api/events/event?event=${event}`
-  ).then((res) => res.json());
+      `${API_URL}/api/events/event?event=${event}`
+  ).then((res: Response) => res.json());
 
   const matchEPAs: any = {};
 
   const matchPromises = matches.map(async (match: any) => {
     try {
-      const response = await fetch(
-        `${API_URL}/api/match/epa?match=${match.key}`
-      );
+        const response: Response = await fetch(
+            `${API_URL}/api/match/epa?match=${match.key}`
+        );
       if (!response.ok) {
         throw new Error("Failed to fetch EPA data");
       }
@@ -156,27 +156,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   });
 
-  const matchResults = await Promise.allSettled(matchPromises);
+    const matchResults: PromiseSettledResult<any>[] = await Promise.allSettled(matchPromises);
 
-  matchResults.forEach((result: any) => {
-    if (result.status === "fulfilled") {
-      matchEPAs[result.value.key] = result.value.data;
-    }
-  });
+    matchResults.forEach((result: any): void => {
+        if (result.status === "fulfilled") {
+            matchEPAs[result.value.key] = result.value.data;
+        }
+    });
 
-  const eventInfo = await fetch(
-    `${API_URL}/api/events/info?event=${event}`
-  ).then((res) => res.json());
+    const eventInfo = await fetch(
+        `${API_URL}/api/events/info?event=${event}`
+    ).then((res: Response) => res.json());
 
-  const eventTeams = await fetch(
-    `${API_URL}/api/events/infoTeams?event=${event}`
-  ).then((res) => res.json());
+    const eventTeams = await fetch(
+        `${API_URL}/api/events/infoTeams?event=${event}`
+    ).then((res: Response) => res.json());
 
-  const eventAlliances = await fetch(
-    `${API_URL}/api/events/alliances?event=${event}`
-  )
-    .then((res) => res.json())
-    .catch(() => null);
+    const eventAlliances = await fetch(
+        `${API_URL}/api/events/alliances?event=${event}`
+    )
+        .then((res: Response) => res.json())
+        .catch((): null => null);
 
   if (session) {
     const user = await db.user.findUnique({

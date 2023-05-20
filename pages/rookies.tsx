@@ -5,9 +5,9 @@ import { Navbar } from "@/components/navbar";
 import { TeamCard } from "@/components/TeamCard";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/utils/localStorage";
-import { formatTime } from "@/utils/time";
-import { useState, useEffect } from "react";
-import { FaBolt } from "react-icons/fa";
+import {formatTime} from "@/utils/time";
+import {useState, useEffect, JSX} from "react";
+import {FaBolt} from "react-icons/fa";
 import Head from "next/head";
 import { log } from "@/utils/log";
 import db from "@/lib/db";
@@ -26,30 +26,30 @@ async function fetchRookieTeamsData() {
     };
   }
 
-  const start = performance.now();
-  const getRookies = async (pageNum: string) =>
-    await fetch(`${API_URL}/api/team/teams?page=${pageNum}`, {
-      next: { revalidate: 60 },
-    }).then((res) => res.json());
-  const pageNumbers = [...Array(20).keys()].map((i) => i.toString());
-  const pages = await Promise.all(pageNumbers.map((num) => getRookies(num)));
+  const start: number = performance.now();
+  const getRookies = async (pageNum: string): Promise<any> =>
+      await fetch(`${API_URL}/api/team/teams?page=${pageNum}`, {
+        next: {revalidate: 60},
+      }).then((res: Response) => res.json());
+  const pageNumbers: string[] = [...Array(20).keys()].map((i: number) => i.toString());
+  const pages: any[] = await Promise.all(pageNumbers.map((num: string) => getRookies(num)));
   const data: any = pages
-    .flatMap((page: any) => page)
-    .filter(
-      (team: any) =>
-        team.rookie_year === CURR_YEAR && !team.nickname.includes("Off-Season")
-    );
+      .flatMap((page: any) => page)
+      .filter(
+          (team: any) =>
+              team.rookie_year === CURR_YEAR && !team.nickname.includes("Off-Season")
+      );
   log(
-    "warning",
-    `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
+      "warning",
+      `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
   );
 
   const teamAvatars: any = {};
 
-  const getTeamAvatars = data.map(async (team: any) => {
+  const getTeamAvatars = data.map(async (team: any): Promise<void> => {
     try {
-      const response = await fetch(
-        `${API_URL}/api/team/avatar?team=${team.team_number}`
+      const response: Response = await fetch(
+          `${API_URL}/api/team/avatar?team=${team.team_number}`
       );
       const data = await response.json();
       teamAvatars[team.team_number] = data.avatar;
@@ -74,12 +74,12 @@ async function fetchRookieTeamsData() {
   };
 }
 
-export default function RookiesPage({ user }: any) {
+export default function RookiesPage({user}: any): JSX.Element {
   const [rookieTeams, setRookieTeams] = useState<any>();
   const [avatars, setAvatars] = useState<any>();
 
-  useEffect(() => {
-    async function fetchData() {
+  useEffect((): void => {
+    async function fetchData(): Promise<void> {
       const teams = (await fetchRookieTeamsData()).teams;
       const avatars = (await fetchRookieTeamsData()).avatars;
 
@@ -145,7 +145,7 @@ export default function RookiesPage({ user }: any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = (await getServerSession(req, res, authOptions)) as Session;
+  const session: Session = (await getServerSession(req, res, authOptions)) as Session;
 
   if (session) {
     const user = await db.user.findUnique({

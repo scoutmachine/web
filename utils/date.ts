@@ -1,15 +1,15 @@
 const getDayOrdinal = (day: number) => {
-  const suffixes = ["th", "st", "nd", "rd"];
-  const v = day % 100;
+  const suffixes: string[] = ["th", "st", "nd", "rd"];
+  const v: number = day % 100;
   return day + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
 };
 
 export const convertDate = (dateParam: string) => {
-  const date = new Date(dateParam);
-  const month = date.getUTCMonth();
-  const day = date.getUTCDate();
+  const date: Date = new Date(dateParam);
+  const month: number = date.getUTCMonth();
+  const day: number = date.getUTCDate();
 
-  const months = [
+  const months: string[] = [
     "Jan",
     "Feb",
     "Mar",
@@ -23,17 +23,17 @@ export const convertDate = (dateParam: string) => {
     "Nov",
     "Dec",
   ];
-  const monthName = months[month];
+  const monthName: string = months[month];
 
-  const dayOrdinal = getDayOrdinal(day);
+  const dayOrdinal: string = getDayOrdinal(day);
 
-  const output = `${monthName} ${dayOrdinal}`;
+  const output: string = `${monthName} ${dayOrdinal}`;
   return output;
 };
 
 export const isLive = (start: string, end: string) => {
-  const today = new Date();
-  const newToday = today.toISOString().split("T")[0];
+  const today: Date = new Date();
+  const newToday: string = today.toISOString().split("T")[0];
 
   today.setHours(0, 0, 0, 0);
 
@@ -41,11 +41,11 @@ export const isLive = (start: string, end: string) => {
 };
 
 export const convertSeconds = (epochSeconds: number): string => {
-  const date = new Date(epochSeconds * 1000);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
-  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const date: Date = new Date(epochSeconds * 1000);
+  const hours: number = date.getHours();
+  const minutes: number = date.getMinutes();
+  const ampm: "PM" | "AM" = hours >= 12 ? "PM" : "AM";
+  const formattedHours: number = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes: string | number = minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };

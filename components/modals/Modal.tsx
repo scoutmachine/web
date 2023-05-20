@@ -1,5 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import {Dialog, Transition} from "@headlessui/react";
+import {Dispatch, Fragment, JSX, SetStateAction} from "react";
 
 type Props = {
   isOpen: boolean;

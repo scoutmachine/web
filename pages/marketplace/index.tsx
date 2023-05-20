@@ -4,13 +4,14 @@ import { CreateListingModal } from "@/components/modals/CreateListingModal";
 import { Navbar } from "@/components/navbar";
 import { MarketplaceScreen } from "@/components/screens/MarketplaceScreen";
 import db from "@/lib/db";
-import { GetServerSideProps } from "next";
-import { getServerSession, Session } from "next-auth";
-import { useSession } from "next-auth/react";
+import {GetServerSideProps} from "next";
+import {getServerSession, Session, User} from "next-auth";
+import {useSession} from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { FaMoneyBill } from "react-icons/fa";
-import { authOptions } from "../api/auth/[...nextauth]";
+import {authOptions} from "../api/auth/[...nextauth]";
+import {Post} from ".prisma/client";
 
 export default function MarketplacePage({ posts, user }: any) {
   const { data: session } = useSession();
@@ -69,12 +70,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     });
   }
 
-  const posts = await db.post.findMany({
-    where: {},
-    include: {
-      author: true,
-    },
-  });
+    const posts: (Post & { author: User })[] = await db.post.findMany({
+        where: {},
+        include: {
+            author: true,
+        },
+    });
 
   return {
     props: {

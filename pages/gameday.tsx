@@ -1,9 +1,10 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Navbar } from "@/components/navbar";
-import { TwitchEmbed } from "@/components/TwitchEmbed";
+import {TwitchEmbed} from "@/components/TwitchEmbed";
+import {JSX} from "react";
 
-const channels = [
+const channels: { official: string[], special: string[] }[] = [
   {
     official: [
       "FIRSTinspires",
@@ -44,17 +45,17 @@ const channels = [
   },
 ];
 
-export default function GameDayPage() {
+export default function GameDayPage(): JSX.Element {
   return (
-    <>
-      <Navbar active="Game Day" />
-      <Header
-        title="Game Day"
-        desc="Watch all your favourite teams compete for the trophy - in one place."
-      />
+      <>
+        <Navbar active="Game Day"/>
+        <Header
+            title="Game Day"
+            desc="Watch all your favourite teams compete for the trophy - in one place."
+        />
 
-      <div className="pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl w-full">
-        <h1 className="mt-10 mb-5 font-extrabold text-2xl">
+        <div className="pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl w-full">
+          <h1 className="mt-10 mb-5 font-extrabold text-2xl">
           Official Event Streams
         </h1>
         <div className="flex flex-col md:grid sm:grid sm:grid-cols-2 md:grid-cols-5 gap-5">

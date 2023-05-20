@@ -4,37 +4,37 @@ import { fetchTeamAvatar } from "./avatar";
 import { API_URL } from "@/lib/constants";
 
 export default async function getAllTeamInfo(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const { team } = req.query;
+    req: NextApiRequest,
+    res: NextApiResponse
+): Promise<void> {
+    try {
+        const {team} = req.query;
 
-    const [
-      teamData,
-      teamAvatar,
-      yearsParticipated,
-      teamDistrict,
-      teamEvents,
-    ] = await Promise.all([
-      fetchTBA(`team/frc${team}`),
-      fetchTeamAvatar(req),
-      fetchTBA(`team/frc${team}/years_participated`),
-      fetch(`${API_URL}/api/team/stats?team=${team}`, {
-        next: { revalidate: 60 },
-      }).then((res) => res.json()),
-      fetch(`${API_URL}/api/team/events/all?team=${team}`, {
-        next: { revalidate: 60 },
-      }).then((res) => res.json()),
-    ]);
+        const [
+            teamData,
+            teamAvatar,
+            yearsParticipated,
+            teamDistrict,
+            teamEvents,
+        ] = await Promise.all([
+            fetchTBA(`team/frc${team}`),
+            fetchTeamAvatar(req),
+            fetchTBA(`team/frc${team}/years_participated`),
+            fetch(`${API_URL}/api/team/stats?team=${team}`, {
+                next: {revalidate: 60},
+            }).then((res: Response) => res.json()),
+            fetch(`${API_URL}/api/team/events/all?team=${team}`, {
+                next: {revalidate: 60},
+            }).then((res: Response) => res.json()),
+        ]);
 
-    const teamAwardsResponse = await fetch(
-      `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
-      {
-        next: { revalidate: 60 },
-      }
-    );
-    const teamAwards = await teamAwardsResponse.json();
+        const teamAwardsResponse: Response = await fetch(
+            `${API_URL}/api/team/awards?team=${team}&year=${yearsParticipated[0]}`,
+            {
+                next: {revalidate: 60},
+            }
+        );
+        const teamAwards = await teamAwardsResponse.json();
 
     res.status(200).json({
       teamData: {

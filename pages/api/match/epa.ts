@@ -1,17 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function getMatchEPA(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { match } = req.query;
+    req: NextApiRequest,
+    res: NextApiResponse
+): Promise<void> {
+  const {match} = req.query;
 
   if (!match) {
     res.status(400).send("No match code provided");
     return;
   }
 
-  const matchCodeRegex = /^[A-Za-z0-9_-]+$/;
+  const matchCodeRegex: RegExp = /^[A-Za-z0-9_-]+$/;
   if (!matchCodeRegex.test(String(match))) {
     res.status(400).send("Invalid match code");
     return;
