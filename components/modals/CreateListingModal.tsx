@@ -94,7 +94,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         longitude: location.longitude,
         imageUrl: imageUrl as string,
       };
-      
+
       await fetch(`${API_URL}/api/@me/post`, {
         method: "POST",
         body: JSON.stringify(data),

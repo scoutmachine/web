@@ -23,7 +23,7 @@ export const MarketplacePost = (props: any) => {
   return (
     <div>
       <div className="overflow-hidden relative border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 rounded-lg">
-        {Number.isNaN(distance) ? (
+        {Number.isNaN(distance) || distance === 0 ? (
           ""
         ) : (
           <span className="text-sm text-lightGray bottom-3 left-5 md:text-left">

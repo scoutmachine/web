@@ -36,7 +36,7 @@ export const MarketplacePage = (props: any) => {
             <h2 className="text-sm text-gray-300 uppercase">
               {props.marketplacePost.formattedAddress}
             </h2>
-            {Number.isNaN(distance) ? (
+            {Number.isNaN(distance) || distance === 0 ? (
               ""
             ) : (
               <h2 className="text-sm text-gray-300">
