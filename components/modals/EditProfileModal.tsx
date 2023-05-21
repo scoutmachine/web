@@ -61,7 +61,7 @@ const ModalHeader = (props: { avatar: string }) => {
         className="rounded-full mr-2"
         alt="Avatar"
       />
-      <h1 className="font-semibold text-xl">Edit your profile</h1>
+      <h1 className="font-semibold text-xl text-black dark:text-white">Edit your profile</h1>
     </div>
   );
 };
@@ -205,7 +205,7 @@ const ModalBody = (props: {
             }}
             onMouseEnter={() => setDeletedHover(true)}
             onMouseLeave={() => setDeletedHover(false)}
-            className="bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600 text-sm font-bold"
+            className="text-black dark:text-white bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600 text-sm font-bold"
           >
             {deletedHover ? "Are you sure?" : "Delete Account"}
           </button>

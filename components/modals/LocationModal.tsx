@@ -11,7 +11,7 @@ type Props = {
 const ModalHeader = (props: any) => (
   <>
     <>
-      <h1 className="font-semibold text-lg flex mb-3">
+      <h1 className="font-semibold text-lg flex mb-3 text-black dark:text-white">
         <FaMapMarkerAlt className="text-2xl mr-1" /> {props.team.school_name}
       </h1>
     </>

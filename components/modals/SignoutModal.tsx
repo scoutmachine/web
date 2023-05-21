@@ -21,7 +21,7 @@ const ModalHeader = () => (
           priority={true}
         />
       </div>
-      <h1 className="font-semibold text-xl text-center">
+      <h1 className="font-semibold text-xl text-center text-black dark:text-white">
         Sign out / Scout Machine
       </h1>
     </>
