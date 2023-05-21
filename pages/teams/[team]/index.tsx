@@ -373,7 +373,7 @@ export const getServerSideProps: GetServerSideProps = async (
     },
   });
 
-  const tbaSocials: void | AxiosResponse<any, any> = await fetchTBA(
+  const tbaSocials: any | void | AxiosResponse<any, any> = await fetchTBA(
     `team/frc${team}/social_media`
   );
 

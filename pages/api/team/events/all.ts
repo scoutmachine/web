@@ -7,7 +7,7 @@ export default async function getTeamEvents(
   res: NextApiResponse
 ): Promise<void> {
   const { team } = req.query;
-  const data: void | AxiosResponse<any, any> = await fetchTBA(
+  const data: any | void | AxiosResponse<any, any> = await fetchTBA(
     `team/frc${team}/events`
   );
 

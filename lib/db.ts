@@ -8,16 +8,8 @@ type GlobalThisWithPrismaClient = typeof globalThis & {
 // @ts-ignore
 const getPrismaClient = (): PrismaClient<
   Prisma.PrismaClientOptions,
-  "log" extends keyof Prisma.PrismaClientOptions
-    ? Prisma.PrismaClientOptions["log"] extends Array<
-        Prisma.LogLevel | Prisma.LogDefinition
-      >
-      ? Prisma.GetEvents<Prisma.PrismaClientOptions["log"]>
-      : never
-    : never,
-  "rejectOnNotFound" extends keyof Prisma.PrismaClientOptions
-    ? Prisma.PrismaClientOptions["rejectOnNotFound"]
-    : false
+  Prisma.GetEvents<Prisma.LogLevel | Prisma.LogDefinition>,
+  false
 > => {
   if (process.env.NODE_ENV === `production`) {
     return new PrismaClient();
