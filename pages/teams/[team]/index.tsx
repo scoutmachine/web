@@ -70,7 +70,9 @@ export default function TeamPage({
       setLoading(false);
     };
 
-    getEventData();
+    if (activeTab.toString().length === 4) {
+      getEventData();
+    }
   }, [activeTab, router.isReady, team]);
 
   useEffect(() => {
@@ -210,7 +212,7 @@ export default function TeamPage({
               </div>
             </div>
 
-            {loading && ![1, 2, 3, 4].includes(activeTab) && (
+            {loading && activeTab.length === 4 && (
               <p className="text-gray-400 mt-5">
                 Loading {activeTab} Season...
               </p>

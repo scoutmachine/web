@@ -3,29 +3,9 @@ import { Card } from "@/components/misc/Card";
 import { FAQ } from "@/components/misc/FAQ";
 import { Feature } from "@/components/misc/Feature";
 import { BMAC_URL, CURR_YEAR, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
-import { getStorage, setStorage } from "@/utils/localStorage";
+import { developers } from "@/lib/lists/developers";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
-
-async function getContributors(): Promise<any> {
-  const contributors = getStorage("contributors");
-
-  if (contributors) return contributors;
-
-  // const fetchContributors = await fetch(
-  //   `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
-  // )
-  //   .then((response: Response) => response.json())
-  //   .then((contributors) =>
-  //     contributors
-  //       .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
-  //       .slice(0, 10)
-  //   );
-
-  // setStorage("contributors", fetchContributors);
-  // return fetchContributors;
-}
 
 const IssueTemplate = (props: any) => {
   return (
@@ -54,41 +34,6 @@ const IssueTemplate = (props: any) => {
 };
 
 export const SignedOutScreen = () => {
-  const [contributors, setContributors] = useState([
-    {
-      id: 68391329,
-      html_url: "https://github.com/heybereket",
-      avatar_url: "https://avatars.githubusercontent.com/u/68391329?v=4",
-      login: "heybereket",
-    },
-    {
-      id: 68178572,
-      html_url: "https://github.com/eternalmoon1234",
-      avatar_url: "https://avatars.githubusercontent.com/u/68178572?v=4",
-      login: "eternalmoon1234",
-    },
-    {
-      id: 62668093,
-      html_url: "https://github.com/Autumn-Ou",
-      avatar_url: "https://avatars.githubusercontent.com/u/62668093?v=4",
-      login: "Autumn-Ou",
-    },
-    {
-      id: 64022614,
-      html_url: "https://github.com/NebuDev14",
-      avatar_url: "https://avatars.githubusercontent.com/u/64022614?v=4",
-      login: "NebuDev14",
-    },
-  ]);
-
-  // useEffect((): void => {
-  //   const fetchContributors = async (): Promise<any> => {
-  //     return await getContributors();
-  //   };
-  //
-  //   fetchContributors().then((r) => setContributors(r));
-  // });
-
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
@@ -107,7 +52,7 @@ export const SignedOutScreen = () => {
           </p>
 
           <div className="flex flex-wrap -space-x-1 overflow-hidden absolute bottom-10">
-            {contributors.map((contributor: any) => {
+            {developers.map((contributor: any) => {
               return (
                 <a
                   key={contributor.id}
