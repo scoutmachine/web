@@ -10,7 +10,7 @@ export default async function getInsights(
 
   await Promise.all(
     districts.map(async (district: any): Promise<void> => {
-      const data = await fetchFIRST(
+      const data: any = await fetchFIRST(
         `/rankings/district?districtCode=${district}`
       );
       topTeams.push(data.districtRanks[0]);
