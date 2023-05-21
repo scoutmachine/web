@@ -157,7 +157,7 @@ export default function TeamPage({
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
-                  className={`group bg-card border border-[#2A2A2A] w-[300px] text-black dark:text-white  ${
+                  className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
                     isDropdownOpen
                       ? "rounded-t-lg border-2 border-b-[#2A2A2A] border-transparent"
                       : "rounded-lg border-b-[5px] border-[#2A2A2A]"
@@ -165,26 +165,24 @@ export default function TeamPage({
                   onClick={toggleDropdown}
                 >
                   <span
-                    className={`font-bold group-hover:text-black dark:text-white transition-all duration-150 ${
+                    className={`font-bold group-hover:text-white transition-all duration-150 ${
                       activeTab === currentYearTab
-                        ? "text-black dark:text-white"
+                        ? "text-white"
                         : "text-lightGray"
-                    } ${isDropdownOpen && "text-black dark:text-white"}`}
+                    } ${isDropdownOpen && "text-white"}`}
                   >
                     {String(activeTab).length >= 4
                       ? `${activeTab} Season`
                       : "Select a Season"}
                   </span>
                   <FaArrowUp
-                    className={`transform text-lightGray group-hover:text-black dark:text-white transition-all duration-150 ${
-                      isDropdownOpen
-                        ? "-rotate-180 text-black dark:text-white"
-                        : ""
+                    className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
+                      isDropdownOpen ? "-rotate-180 text-white" : ""
                     }`}
                   />
                 </div>
                 <div
-                  className={`absolute right-0 left-0 bg-card text-black dark:text-white rounded-b-lg px-3 py-4 ${
+                  className={`absolute right-0 left-0 bg-card text-white rounded-b-lg px-3 py-4 ${
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
@@ -193,7 +191,7 @@ export default function TeamPage({
                       {teamData.yearsParticipated.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-black dark:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={(): void => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
@@ -277,7 +275,7 @@ export default function TeamPage({
                             <Link href={`/events/${event.key}`} legacyBehavior>
                               <a>
                                 <h1
-                                  className="font-black text-primary text-2xl hover:text-black dark:text-white"
+                                  className="font-black text-primary text-2xl hover:text-white"
                                   key={key}
                                 >
                                   {event.name}
@@ -289,7 +287,7 @@ export default function TeamPage({
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              <p className="text-lightGray hover:text-black dark:text-white">
+                              <p className="text-lightGray hover:text-white">
                                 {event.location_name &&
                                   `${event.location_name}, ${event.city}, ${event.country}`}
                               </p>
@@ -307,7 +305,7 @@ export default function TeamPage({
                                     rel="noopener noreferrer"
                                     target="_blank"
                                   >
-                                    <div className="flex bg-[#6441a5] text-black dark:text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                    <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
                                       <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                       {event.webcasts[0].channel}
                                     </div>
@@ -323,7 +321,7 @@ export default function TeamPage({
                                   rel="noopener noreferrer"
                                   target="_blank"
                                 >
-                                  <div className="flex bg-[#6441a5] text-black dark:text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
+                                  <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
                                     <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                     {event.webcasts[0].channel}
                                   </div>

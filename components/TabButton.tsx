@@ -14,8 +14,8 @@ export const TabButton = (props: Props) => {
       onClick={props.onClick}
       className={`button ${
         props.active === props.tab
-          ? "text-black dark:text-white"
-          : "text-lightGray hover:text-black dark:text-white"
+          ? "text-white"
+          : "text-lightGray hover:text-white"
       } bg-card font-semibold px-5 py-2 rounded-lg cursor-pointer select-none active:translate-y-1  active:[box-shadow:0_0px_0_0_#19999,0_0px_0_0_#19999] active:border-b-[0px] transition-all duration-150 [box-shadow:0_10px_0_0_#19999,0_15px_0_0_#19999] border-b-[5px] border-[#2A2A2A]`}
     >
       {props.children}

@@ -53,16 +53,6 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
     setBlueAllianceWinRate(blueWinRate);
   }, [redAlliance, blueAlliance, epas]);
 
-  const getWinningAlliance = (): string => {
-    if (redAllianceWinRate > blueAllianceWinRate) {
-      return "Red";
-    } else if (blueAllianceWinRate > redAllianceWinRate) {
-      return "Blue";
-    } else {
-      return "Tie";
-    }
-  };
-
   return (
     <>
       <Navbar />
@@ -116,10 +106,9 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
             <h1 className="text-3xl font-bold mb-4 text-red-200 text-center">
               Red Alliance{" "}
               <button className="cursor-default bg-red-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
-                {getWinningAlliance() === "Red"
-                  ? "Higher Win %"
-                  : "Lower Win %"}{" "}
-                ({redAllianceWinRate.toFixed(2)})
+                Win Avg (
+                {((Number(redAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(2)}
+                %)
               </button>
             </h1>
 
@@ -181,10 +170,11 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
             <h1 className="text-3xl font-bold mb-4 text-sky-200 text-center">
               Blue Alliance{" "}
               <button className="cursor-default bg-sky-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
-                {getWinningAlliance() === "Blue"
-                  ? "Higher Win %"
-                  : "Lower Win %"}{" "}
-                ({blueAllianceWinRate.toFixed(2)})
+                Win Avg (
+                {((Number(blueAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(
+                  2
+                )}
+                %)
               </button>
             </h1>
 
