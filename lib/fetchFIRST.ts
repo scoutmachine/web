@@ -2,7 +2,10 @@ import axios, { AxiosResponse } from "axios";
 import { CURR_YEAR } from "./constants";
 import { log } from "@/utils/log";
 
-export const fetchFIRST = async (route?: string, year?: number) => {
+export const fetchFIRST = async (
+  route?: string,
+  year?: number
+): Promise<AxiosResponse<any> | void> => {
   if (!process.env.FIRST_API_KEY) log("error", "FIRST_API_KEY not provided");
 
   return await axios

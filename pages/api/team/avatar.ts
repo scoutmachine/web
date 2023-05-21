@@ -1,7 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 
-export const fetchTeamAvatar = async (req: NextApiRequest) => {
+export const fetchTeamAvatar = async (
+  req: NextApiRequest
+): Promise<
+  | { avatar: null; status: any }
+  | { avatar: any; status: any }
+  | { avatar: null; status: number }
+> => {
   try {
     const { team } = req.query;
     const response = await fetchFIRST(`/avatars?teamNumber=${team}`);

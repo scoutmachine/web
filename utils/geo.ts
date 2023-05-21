@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-interface GeoData {
+export interface GeoData {
   lat: number;
   lng: number;
 }

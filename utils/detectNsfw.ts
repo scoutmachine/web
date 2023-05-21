@@ -15,9 +15,7 @@ export const detectNsfw = async (imageUrl: string): Promise<boolean> => {
       p.className === "Hentai" ||
       p.className == "Sexy"
   )?.probability;
-  if (nsfwProbability && nsfwProbability > 0.5) {
-    return true; // Image is NSFW
-  }
+  return !!(nsfwProbability && nsfwProbability > 0.5);
 
-  return false; // Image is safe
+  // Image is safe
 };

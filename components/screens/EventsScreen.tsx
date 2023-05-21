@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Search } from "../Search";
 import React, { JSX, ReactNode, useEffect, useRef, useState } from "react";
 import haversine from "haversine-distance";
+import { GeoData } from "@/utils/geo";
 import {
   FaArrowUp,
   FaCrosshairs,
@@ -67,7 +68,7 @@ export const EventsScreen = (props: any): JSX.Element => {
   const [weekDropDown, setWeekDropDown] = useState(false);
   const [weekQuery, setWeekQuery] = useState<any>();
   const seasons: number[] = [...Array(CURR_YEAR - 1997 + 1).keys()].map(
-    (x) => x + 1997
+    (x: number) => x + 1997
   );
   const weeks: number[] = [...Array(7).keys()];
   const weeksArray: (string | number)[] = [
@@ -89,13 +90,13 @@ export const EventsScreen = (props: any): JSX.Element => {
       setNearbyRange(350);
     }
 
-    const fetchGeoData = async () => {
+    const fetchGeoData = async (): Promise<GeoData | null> => {
       return await getGeoData(address);
     };
 
     if (filterByAddress) {
       fetchGeoData()
-        .then((data): void => {
+        .then((data: GeoData | null): void => {
           const lat: number = Number(data?.lat);
           const lng: number = Number(data?.lng);
           const eventDistances: any = {};

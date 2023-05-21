@@ -36,7 +36,7 @@ export default async function getUserFavourites(
     if (req.method === "POST") {
       if (req.body) {
         const body = JSON.parse(req.body);
-        const data = await db.favouritedTeam.create({
+        const data: FavouritedTeam = await db.favouritedTeam.create({
           data: {
             // @ts-ignore
             userId: session?.user.id,

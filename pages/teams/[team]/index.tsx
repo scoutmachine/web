@@ -393,7 +393,7 @@ export const getServerSideProps: GetServerSideProps = async (
     })
   );
 
-  const allSocials = data.flatMap((team) =>
+  const allSocials = data.flatMap((team: any) =>
     team.socials
       .filter((social: any) => social.verified)
       .map((social: any) => ({

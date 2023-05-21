@@ -214,8 +214,8 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
                       longitude: any;
                     } = {
                       formattedAddress: place.formatted_address,
-                      latitude: place.geometry.location.lat(),
-                      longitude: place.geometry.location.lng(),
+                      latitude: place.geometry.location.lat,
+                      longitude: place.geometry.location.lng,
                     };
 
                     setLocation(location);

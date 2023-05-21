@@ -37,7 +37,7 @@ const Social = (props: { icon: ReactNode }) => {
   );
 };
 
-const links = [
+const links: { title: string; href: string; icon: JSX.Element }[] = [
   { title: "Teams", href: "/teams", icon: <FaRobot /> },
   { title: "Events", href: "/events", icon: <FaHammer /> },
   { title: "Hall of Fame", href: "/fame", icon: <FaMedal /> },
@@ -202,7 +202,7 @@ export const Navbar = (props: {
                 <div className="py-2 gap-y-2 flex flex-col items-center">
                   <p
                     className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={() => {
+                    onClick={(): void => {
                       setShowEditProfileModal(true);
                       setProfileDropdown(false);
                     }}
