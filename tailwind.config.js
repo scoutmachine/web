@@ -14,7 +14,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#fbbb04",
-        lightGray: "#7D7D7D",
+        lightGray: "#d8d8d8",
         card: "#1F1F1F",
       },
     },
