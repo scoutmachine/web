@@ -23,12 +23,10 @@ export const Footer = () => {
         Copyright © {new Date().getFullYear()} ⎯{" "}
         <Link href="/" legacyBehavior>
           <a>
-            <span className="text-primary font-bold">
-              Scout Machine
-            </span>
+            <span className="text-primary font-bold">Scout Machine</span>
           </a>
         </Link>
-        <br/>
+        <br />
         <a
           href={`${GITHUB_URL}/commit/${latestCommit}`}
           className="text-xs"
