@@ -57,7 +57,7 @@ export const Modal = ({
                 <Dialog.Panel
                   className={`w-full ${
                     noClose ? "max-w-xl" : "max-w-md"
-                  } transform overflow-hidden rounded-2xl p-6 transition-all bg-white border border-solid hover:border-gray-300 dark:border-[#2A2A2A] dark:bg-[#191919]`}
+                  } transform overflow-hidden rounded-2xl p-6 transition-all bg-white border border-solid hover:border-gray-600 dark:border-[#2A2A2A] dark:bg-[#191919]`}
                 >
                   {header}
                   {body}

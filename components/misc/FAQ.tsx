@@ -12,15 +12,15 @@ export const FAQ = (props: {
   return (
     <div className="border border-[#2A2A2A] rounded-md p-4 mb-4">
       <div
-        className="flex items-center justify-between cursor-pointer text-lightGray hover:text-black dark:text-white transition-all duration-150"
+        className="group flex items-center justify-between cursor-pointer text-lightGray hover:text-black dark:hover:text-white dark:text-white"
         onClick={toggleOpen}
       >
-        <h3 className={`${open && "text-black dark:text-white"} text-lg font-medium`}>
+        <h3 className={`${open && "text-white"} text-lightGray dark:hover:text-white text-lg font-medium transition-all duration-150`}>
           {props.question}
         </h3>
         <FaArrowUp
-          className={`text-md transform transition-transform ${
-            open ? "rotate-180 text-black dark:text-white" : ""
+          className={`text-md transform transition-transform text-lightGray group-hover:text-black dark:group-hover:text-white transition-all duration-150 ${
+            open && "rotate-180 text-white"
           }`}
         />
       </div>

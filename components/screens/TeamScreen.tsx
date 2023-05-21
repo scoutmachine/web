@@ -43,7 +43,7 @@ export const TeamScreen = (props: any) => {
   return (
     <>
       <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
-        <div className="bg-white border border-solid hover:border-gray-300 dark:border-[#2a2a2a] dark:bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
+        <div className="bg-white border border-solid hover:border-gray-600 dark:border-[#2a2a2a] dark:bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
           <div className="md:flex">
             {!error ? (
               <Image
@@ -144,7 +144,7 @@ export const TeamScreen = (props: any) => {
             />
           )}
 
-          <div className="bg-white border border-solid hover:border-gray-300 dark:bg-card dark:border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
+          <div className="bg-white border border-solid hover:border-gray-600 dark:bg-card dark:border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
             {isHOF && (
               <Link href="/fame" legacyBehavior>
                 <a>

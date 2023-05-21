@@ -50,7 +50,7 @@ export const SignedInScreen = (props: {
     <>
       <div className="w-full pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl">
         <div className="border border-[#2a2a2a] bg-[#191919] mt-10 rounded-lg px-10 py-10">
-          <h1 className="flex flex-wrap text-5xl font-bold">
+          <h1 className="flex flex-wrap text-5xl font-bold text-black dark:text-white">
             Welcome back,{" "}
             <span className="text-primary md:ml-2">
               {props.session.user?.name}!

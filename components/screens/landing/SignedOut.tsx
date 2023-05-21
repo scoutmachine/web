@@ -13,7 +13,7 @@ const IssueTemplate = (props: any) => {
       <li>
         Go to{" "}
         <a
-          className="text-black dark:text-white"
+          className="text-white"
           href={`${GITHUB_URL}/issues`}
           rel="noopener noreferrer"
           target="_blank"
@@ -119,7 +119,7 @@ export const SignedOutScreen = () => {
               href={BMAC_URL}
               rel="noopener noreferrer"
               target="_blank"
-              className="text-primary hover:text-black dark:text-white"
+              className="text-primary hover:text-black dark:hover:text-white"
             >
               <span className="inline-block align-top">
                 <FaCoffee className="text-3xl" />
@@ -182,7 +182,7 @@ export const SignedOutScreen = () => {
                 <p className="font-medium mb-[-2px]">
                   Financially via{" "}
                   <a
-                    className="text-primary hover:text-black dark:text-white"
+                    className="text-primary hover:text-black dark:hover:text-white"
                     href={BMAC_URL}
                     rel="noopener noreferrer"
                     target="_blank"
