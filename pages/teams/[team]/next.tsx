@@ -7,7 +7,11 @@ import {
   formatRelativeTime,
 } from "@/utils/time";
 import { GetServerSideProps } from "next";
-import { FaUndo } from "react-icons/fa";
+import {
+  FaArrowAltCircleDown,
+  FaArrowAltCircleUp,
+  FaUndo,
+} from "react-icons/fa";
 import { GoPrimitiveDot } from "react-icons/go";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,6 +57,16 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
     setBlueAllianceWinRate(blueWinRate);
   }, [redAlliance, blueAlliance, epas]);
 
+  const getWinningAlliance = (): string => {
+    if (redAllianceWinRate > blueAllianceWinRate) {
+      return "Red";
+    } else if (blueAllianceWinRate > redAllianceWinRate) {
+      return "Blue";
+    } else {
+      return "Tie";
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -60,14 +74,15 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
       <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-10">
         <div className="bg-card mb-5 p-5 rounded-lg border dark:border-[#2A2A2A]">
           <p className="text-lightGray text-center">
-            {epochSecondsToTime(toEpochSeconds, true)} •{" "}
-            {formatEpochSecondsToDate(toEpochSeconds, true)}
+            {formatEpochSecondsToDate(toEpochSeconds, true)} •{" "}
+            {next.match.tournamentLevel} Match
           </p>
           <h1 className="text-black dark:text-white text-2xl text-center">
             <b>
               {isTimeInPast(next.match.startTime) ? "Last Match:" : "Upcoming:"}
             </b>{" "}
-            {next.match.description} on {next.match.field} Field
+            {next.match.description} on {next.match.field} Field at{" "}
+            {epochSecondsToTime(toEpochSeconds, true)}
           </h1>
           <p className="text-lightGray text-center">
             {next.event.name} at{" "}
@@ -106,9 +121,18 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
             <h1 className="text-3xl font-bold mb-4 text-red-200 text-center">
               Red Alliance{" "}
               <button className="cursor-default bg-red-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
-                Win Avg (
-                {((Number(redAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(2)}
-                %)
+                <span className="flex">
+                  Win Avg (
+                  {((Number(redAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(
+                    2
+                  )}
+                  %){" "}
+                  {getWinningAlliance() === "Red" ? (
+                    <FaArrowAltCircleUp className="text-md ml-1 mt-[3px]" />
+                  ) : (
+                    <FaArrowAltCircleDown className="text-md ml-1 mt-[3px]" />
+                  )}
+                </span>
               </button>
             </h1>
 
@@ -170,11 +194,18 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
             <h1 className="text-3xl font-bold mb-4 text-sky-200 text-center">
               Blue Alliance{" "}
               <button className="cursor-default bg-sky-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
-                Win Avg (
-                {((Number(blueAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(
-                  2
-                )}
-                %)
+                <span className="flex">
+                  Win Avg (
+                  {((Number(blueAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(
+                    2
+                  )}
+                  %)
+                  {getWinningAlliance() === "Blue" ? (
+                    <FaArrowAltCircleUp className="text-md ml-1 mt-[3px]" />
+                  ) : (
+                    <FaArrowAltCircleDown className="text-md ml-1 mt-[3px]" />
+                  )}
+                </span>
               </button>
             </h1>
 
