@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
 import { fetchTeamAvatar } from "./avatar";
 import { API_URL } from "@/lib/constants";
+import { AxiosResponse } from "axios";
 
 export default async function getAllTeamInfo(
   req: NextApiRequest,
@@ -16,7 +17,7 @@ export default async function getAllTeamInfo(
       rawYearsParticipated,
       teamDistrict,
       teamEvents,
-    ] = await Promise.all([
+    ]: any | void | AxiosResponse<any, any> = await Promise.all([
       fetchTBA(`team/frc${team}`),
       fetchTeamAvatar(req),
       fetchTBA(`team/frc${team}/years_participated`),
