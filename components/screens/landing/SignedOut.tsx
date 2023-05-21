@@ -13,18 +13,18 @@ async function getContributors(): Promise<any> {
 
   if (contributors) return contributors;
 
-  const fetchContributors = await fetch(
-    `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
-  )
-    .then((response: Response) => response.json())
-    .then((contributors) =>
-      contributors
-        .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
-        .slice(0, 10)
-    );
+  // const fetchContributors = await fetch(
+  //   `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
+  // )
+  //   .then((response: Response) => response.json())
+  //   .then((contributors) =>
+  //     contributors
+  //       .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
+  //       .slice(0, 10)
+  //   );
 
-  setStorage("contributors", fetchContributors);
-  return fetchContributors;
+  // setStorage("contributors", fetchContributors);
+  // return fetchContributors;
 }
 
 const IssueTemplate = (props: any) => {
@@ -56,13 +56,13 @@ const IssueTemplate = (props: any) => {
 export const SignedOutScreen = () => {
   const [contributors, setContributors] = useState([]);
 
-  useEffect((): void => {
-    const fetchContributors = async (): Promise<any> => {
-      return await getContributors();
-    };
-
-    fetchContributors().then((r) => setContributors(r));
-  });
+  // useEffect((): void => {
+  //   const fetchContributors = async (): Promise<any> => {
+  //     return await getContributors();
+  //   };
+  //
+  //   fetchContributors().then((r) => setContributors(r));
+  // });
 
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
