@@ -61,7 +61,9 @@ const ModalHeader = (props: { avatar: string }) => {
         className="rounded-full mr-2"
         alt="Avatar"
       />
-      <h1 className="font-semibold text-xl text-black dark:text-white">Edit your profile</h1>
+      <h1 className="font-semibold text-xl text-black dark:text-white">
+        Edit your profile
+      </h1>
     </div>
   );
 };
@@ -75,8 +77,10 @@ const ModalBody = (props: {
     session?.user?.name as string
   );
   const [avatarURL, setAvatarURL] = useState<string>();
-  // @ts-ignore
-  const [teamNumber, setTeamNumber] = useState<string>(session?.user?.teamNumber as string);
+  const [teamNumber, setTeamNumber] = useState<string>(
+    // @ts-ignore
+    session?.user?.teamNumber as string
+  );
   const [errorMessage, setErrorMessage] = useState<string>();
   const [deletedHover, setDeletedHover] = useState(false);
 

@@ -41,8 +41,9 @@ export default function HOFPage(): JSX.Element {
             extent. Those who receive this coveted honor are bestowed with the
             privilege of being enshrined in the esteemed{" "}
             <span className="italic">FIRST</span> Hall of Fame. <br /> <br />{" "}
-            There are currently <b className="text-black dark:text-white">{HOFTeams.length}</b>{" "}
-            Hall of Fame teams.
+            There are currently{" "}
+            <b className="text-black dark:text-white">{HOFTeams.length}</b> Hall
+            of Fame teams.
           </p>
         }
       />

@@ -2,9 +2,12 @@ export function formatTime(ms: number) {
   const date: Date = new Date(ms);
 
   return `${date.getMinutes()}mins ${date.getSeconds()}s`;
-};
+}
 
-export function epochSecondsToTime(epochSeconds: number, noMultiply?: boolean): string {
+export function epochSecondsToTime(
+  epochSeconds: number,
+  noMultiply?: boolean
+): string {
   const date: Date = new Date(noMultiply ? epochSeconds : epochSeconds * 1000);
   const hours: number = date.getHours();
   const minutes: number = date.getMinutes();
@@ -13,7 +16,7 @@ export function epochSecondsToTime(epochSeconds: number, noMultiply?: boolean): 
   const formattedMinutes: string | number =
     minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
-};
+}
 
 function getSuffix(day: number): string {
   if (day >= 11 && day <= 13) {
@@ -29,7 +32,7 @@ function getSuffix(day: number): string {
     default:
       return "th";
   }
-};
+}
 
 export function formatEpochSecondsToDate(
   epochSeconds: number,
@@ -68,7 +71,7 @@ export function formatEpochSecondsToDate(
   const suffix: string = getSuffix(day);
   const year: number = date.getFullYear();
   return `${dayOfWeek}, ${month} ${day}${suffix}, ${year}`;
-};
+}
 
 export function formatRelativeTime(timestamp: string): string {
   const currentTime = new Date();
@@ -80,25 +83,25 @@ export function formatRelativeTime(timestamp: string): string {
 
   if (daysDifference > 0) {
     if (daysDifference === 1) {
-      return '1 day ago';
+      return "1 day ago";
     } else {
       return `${daysDifference} days ago`;
     }
   } else if (secondsDifference >= 3600) {
     const hoursDifference = Math.floor(secondsDifference / 3600);
     if (hoursDifference === 1) {
-      return '1 hour ago';
+      return "1 hour ago";
     } else {
       return `${hoursDifference} hours ago`;
     }
   } else if (secondsDifference >= 60) {
     const minutesDifference = Math.floor(secondsDifference / 60);
     if (minutesDifference === 1) {
-      return '1 minute ago';
+      return "1 minute ago";
     } else {
       return `${minutesDifference} minutes ago`;
     }
   } else {
-    return 'Just now';
+    return "Just now";
   }
 }

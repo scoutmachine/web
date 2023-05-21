@@ -99,7 +99,9 @@ export const AwardsTab = (props: any) => {
                     target="_blank"
                     className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
                   >
-                    <h1 className="font-bold text-black dark:text-white">{award.name}</h1>
+                    <h1 className="font-bold text-black dark:text-white">
+                      {award.name}
+                    </h1>
                     <p className="text-lightGray">{award.year}</p>
                   </a>
                 );

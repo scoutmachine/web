@@ -68,7 +68,10 @@ export default function InsightsPage({ insights }: any): JSX.Element {
                 </Link>
                 <p className="text-lightGray">
                   #1 in the{" "}
-                  <Link href="/districts" className="text-black dark:text-white">
+                  <Link
+                    href="/districts"
+                    className="text-black dark:text-white"
+                  >
                     {team.districtCode} District
                   </Link>{" "}
                   scoring a total of {team.totalPoints} Ranking Points. <br />{" "}

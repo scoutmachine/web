@@ -28,8 +28,10 @@ const OnboardingBody = () => {
       ),
       description: (
         <p>
-          <span className="text-black dark:text-white font-bold">My name is Griffy</span> &
-          I&apos;ve been tasked to be your assistant for today! Let&apos;s go
+          <span className="text-black dark:text-white font-bold">
+            My name is Griffy
+          </span>{" "}
+          & I&apos;ve been tasked to be your assistant for today! Let&apos;s go
           over all you need to know about Scout Machine in under 1 min.
         </p>
       ),
@@ -57,24 +59,28 @@ const OnboardingBody = () => {
             Well, here are <i>some</i> things:
           </span>
           <li>
-            <b className="text-black dark:text-white">/teams</b> (discover new teams)
-          </li>
-          <li>
-            <b className="text-black dark:text-white">/events</b> (all {CURR_YEAR} events)
-          </li>
-          <li>
-            <b className="text-black dark:text-white">/marketplace</b> (buy/sell frc parts)
-          </li>
-          <li>
-            <b className="text-black dark:text-white">/rookies</b> (all {CURR_YEAR} rookie
+            <b className="text-black dark:text-white">/teams</b> (discover new
             teams)
           </li>
           <li>
-            <b className="text-black dark:text-white">/fame</b> (view all hall of fame teams)
+            <b className="text-black dark:text-white">/events</b> (all{" "}
+            {CURR_YEAR} events)
           </li>
           <li>
-            <b className="text-black dark:text-white">/gameday</b> (watch all twitch streams for
-            FRC events)
+            <b className="text-black dark:text-white">/marketplace</b> (buy/sell
+            frc parts)
+          </li>
+          <li>
+            <b className="text-black dark:text-white">/rookies</b> (all{" "}
+            {CURR_YEAR} rookie teams)
+          </li>
+          <li>
+            <b className="text-black dark:text-white">/fame</b> (view all hall
+            of fame teams)
+          </li>
+          <li>
+            <b className="text-black dark:text-white">/gameday</b> (watch all
+            twitch streams for FRC events)
           </li>
         </p>
       ),

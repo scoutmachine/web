@@ -6,7 +6,8 @@ import React, { JSX } from "react";
 
 const RED_ALLIANCE_COLOR: "text-red-400" = "text-red-400";
 const BLUE_ALLIANCE_COLOR: "text-sky-400" = "text-sky-400";
-const RED_TEAM_COLOR: "text-black dark:text-white font-semibold" = "text-black dark:text-white font-semibold";
+const RED_TEAM_COLOR: "text-black dark:text-white font-semibold" =
+  "text-black dark:text-white font-semibold";
 const BLUE_TEAM_COLOR: "text-sky-400" = "text-sky-400";
 const DEFAULT_TEAM_COLOR: "text-lightGray" = "text-lightGray";
 

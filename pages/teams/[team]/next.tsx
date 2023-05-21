@@ -12,6 +12,7 @@ import { GoPrimitiveDot } from "react-icons/go";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export default function NextTeamMatch({ next, avatars, epas }: any) {
   const router = useRouter();
@@ -31,6 +32,35 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
     const currentTime: Date = new Date();
     const targetTime: Date = new Date(time);
     return targetTime < currentTime;
+  };
+
+  const [redAllianceWinRate, setRedAllianceWinRate] = useState(0);
+  const [blueAllianceWinRate, setBlueAllianceWinRate] = useState(0);
+
+  useEffect(() => {
+    let redWinRate = 0;
+    let blueWinRate = 0;
+
+    redAlliance.forEach((team: any) => {
+      redWinRate += epas[team.teamNumber].winrate;
+    });
+
+    blueAlliance.forEach((team: any) => {
+      blueWinRate += epas[team.teamNumber].winrate;
+    });
+
+    setRedAllianceWinRate(redWinRate);
+    setBlueAllianceWinRate(blueWinRate);
+  }, [redAlliance, blueAlliance, epas]);
+
+  const getWinningAlliance = (): string => {
+    if (redAllianceWinRate > blueAllianceWinRate) {
+      return "Red";
+    } else if (blueAllianceWinRate > redAllianceWinRate) {
+      return "Blue";
+    } else {
+      return "Tie";
+    }
   };
 
   return (
@@ -84,7 +114,13 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
         <div className="flex flex-col md:grid md:grid-cols-2 gap-3">
           <div className="bg-red-500 rounded-md p-5">
             <h1 className="text-3xl font-bold mb-4 text-red-200 text-center">
-              Red Alliance
+              Red Alliance{" "}
+              <button className="cursor-default bg-red-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
+                {getWinningAlliance() === "Red"
+                  ? "Higher Win %"
+                  : "Lower Win %"}{" "}
+                ({redAllianceWinRate.toFixed(2)})
+              </button>
             </h1>
 
             <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
@@ -143,7 +179,13 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
 
           <div className="bg-sky-500 rounded-md p-5">
             <h1 className="text-3xl font-bold mb-4 text-sky-200 text-center">
-              Blue Alliance
+              Blue Alliance{" "}
+              <button className="cursor-default bg-sky-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
+                {getWinningAlliance() === "Blue"
+                  ? "Higher Win %"
+                  : "Lower Win %"}{" "}
+                ({blueAllianceWinRate.toFixed(2)})
+              </button>
             </h1>
 
             <div className="flex flex-col md:grid md:grid-cols-3 gap-3">

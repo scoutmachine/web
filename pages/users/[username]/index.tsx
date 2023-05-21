@@ -30,7 +30,9 @@ export default function UserProfilePage({ user }: any) {
             />
 
             <div>
-              <h1 className="font-black text-black dark:text-white text-4xl">{user.name}</h1>
+              <h1 className="font-black text-black dark:text-white text-4xl">
+                {user.name}
+              </h1>
 
               <p className="text-lightGray">
                 <b>

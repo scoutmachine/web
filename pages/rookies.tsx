@@ -117,7 +117,9 @@ export default function RookiesPage({ user }: any): JSX.Element {
             Get ready to meet the fresh new faces of{" "}
             <span className="italic">FIRST</span> Robotics for {CURR_YEAR}! With
             over{" "}
-            <span className="font-bold text-black dark:text-white">{rookieTeams.length}</span>{" "}
+            <span className="font-bold text-black dark:text-white">
+              {rookieTeams.length}
+            </span>{" "}
             rookie teams joining the competition this year, the excitement is at
             an all-time high. We&apos;re thrilled to highlight these
             up-and-coming teams and give them the recognition they deserve.{" "}

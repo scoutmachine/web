@@ -15,7 +15,11 @@ export const FAQ = (props: {
         className="group flex items-center justify-between cursor-pointer text-lightGray hover:text-black dark:hover:text-white dark:text-white"
         onClick={toggleOpen}
       >
-        <h3 className={`${open && "text-white"} text-lightGray dark:hover:text-white text-lg font-medium transition-all duration-150`}>
+        <h3
+          className={`${
+            open && "text-white"
+          } text-lightGray dark:hover:text-white text-lg font-medium transition-all duration-150`}
+        >
           {props.question}
         </h3>
         <FaArrowUp
