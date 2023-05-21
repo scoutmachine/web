@@ -284,7 +284,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
               </div>
               <div>
                 <button
-                  className="mt-2 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-white transition-all duration-150"
+                  className="mt-2 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-black dark:text-white transition-all duration-150"
                   onClick={() => {
                     exportFromJSON({
                       data: getStorage(`teams_${CURR_YEAR}`),

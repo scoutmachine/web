@@ -39,7 +39,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         <div className="mt-4">
           <button
             type="button"
-            className="flex outline-none rounded-lg bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
+            className="flex outline-none rounded-lg bg-red-500 hover:bg-red-600 text-black dark:text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
             onClick={() => signOut()}
           >
             <FaSignOutAlt className="text-xl mr-2" /> Sign Out

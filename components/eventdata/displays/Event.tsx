@@ -32,7 +32,7 @@ export const EventDisplay = (props: any) => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FaYoutube className="text-2xl text-red-400 hover:text-white" />
+            <FaYoutube className="text-2xl text-red-400 hover:text-black dark:text-white" />
           </a>
         ) : (
           <p className="text-lightGray">
@@ -55,7 +55,7 @@ export const EventDisplay = (props: any) => {
               } ${
                 props.didWeWin() === "unknown" && props.isTeam
                   ? "text-lightGray"
-                  : "text-white"
+                  : "text-black dark:text-white"
               }`}
             >
               {props.search_array(newText, props.match.comp_level)}{" "}
@@ -93,7 +93,7 @@ export const EventDisplay = (props: any) => {
             : "text-lightGray"
         }`}
       >
-        <p className="text-white font-bold mb-1">
+        <p className="text-black dark:text-white font-bold mb-1">
           {props.match.alliances.red.score ?? "?"}{" "}
           {props.match.alliances.red.score === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
@@ -135,7 +135,7 @@ export const EventDisplay = (props: any) => {
                       <span
                         className={`hover:text-primary ${
                           team.substring(3) === props.team &&
-                          "text-white font-semibold"
+                          "text-black dark:text-white font-semibold"
                         }`}
                       >
                         <span
@@ -171,7 +171,7 @@ export const EventDisplay = (props: any) => {
             : "text-lightGray"
         }`}
       >
-        <p className="text-white font-bold mb-1">
+        <p className="text-black dark:text-white font-bold mb-1">
           {props.match.alliances.blue.score ?? "?"}{" "}
           {props.match.alliances.blue.score === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
@@ -211,7 +211,7 @@ export const EventDisplay = (props: any) => {
                       <span
                         className={`hover:text-primary ${
                           team.substring(3) === props.team &&
-                          "text-white font-semibold"
+                          "text-black dark:text-white font-semibold"
                         }`}
                       >
                         <span

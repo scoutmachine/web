@@ -13,7 +13,7 @@ const IssueTemplate = (props: any) => {
       <li>
         Go to{" "}
         <a
-          className="text-white"
+          className="text-black dark:text-white"
           href={`${GITHUB_URL}/issues`}
           rel="noopener noreferrer"
           target="_blank"
@@ -47,7 +47,7 @@ export const SignedOutScreen = () => {
             className="ml-[-8px]"
           />
 
-          <p className="text-white pr-6 md:pr-0 font-semibold text-2xl md:text-4xl">
+          <p className="text-black dark:text-white pr-6 md:pr-0 font-semibold text-2xl md:text-4xl">
             Smarter FRC data insights
           </p>
 
@@ -77,7 +77,7 @@ export const SignedOutScreen = () => {
             data you want, when you want. From accessing important data points
             to viewing match histories and tracking performance metrics -
             it&apos;s all in one place. <br /> <br />{" "}
-            <span className="text-white">
+            <span className="text-black dark:text-white">
               Say goodbye to time-consuming data analysis and hello to
             </span>{" "}
             <span className="text-primary">Scout Machine</span>.
@@ -90,7 +90,7 @@ export const SignedOutScreen = () => {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white"
+              className="text-black dark:text-white"
             >
               <span className="inline-block align-top	ml-1">
                 <FaGithub className="text-3xl" />
@@ -119,7 +119,7 @@ export const SignedOutScreen = () => {
               href={BMAC_URL}
               rel="noopener noreferrer"
               target="_blank"
-              className="text-primary hover:text-white"
+              className="text-primary hover:text-black dark:text-white"
             >
               <span className="inline-block align-top">
                 <FaCoffee className="text-3xl" />
@@ -131,7 +131,7 @@ export const SignedOutScreen = () => {
       </div>
       <div className="flex flex-col md:grid grid-cols-2 gap-x-5">
         <Card>
-          <h1 className="text-2xl text-white font-bold mb-5">
+          <h1 className="text-2xl text-black dark:text-white font-bold mb-5">
             All the features you could ever want...
           </h1>
           <div className="gap-3 flex flex-wrap">
@@ -154,7 +154,7 @@ export const SignedOutScreen = () => {
           </div>
         </Card>
         <Card>
-          <h1 className="text-2xl text-white font-bold mb-5">
+          <h1 className="text-2xl text-black dark:text-white font-bold mb-5">
             Frequently Asked Questions
           </h1>
           <FAQ
@@ -182,7 +182,7 @@ export const SignedOutScreen = () => {
                 <p className="font-medium mb-[-2px]">
                   Financially via{" "}
                   <a
-                    className="text-primary hover:text-white"
+                    className="text-primary hover:text-black dark:text-white"
                     href={BMAC_URL}
                     rel="noopener noreferrer"
                     target="_blank"
@@ -198,7 +198,7 @@ export const SignedOutScreen = () => {
                 <p className="font-medium mt-4 mb-[-2px]">
                   Contributing Code via{" "}
                   <a
-                    className="text-white"
+                    className="text-black dark:text-white"
                     href={GITHUB_URL}
                     target="_blank"
                     rel="noopener noreferrer"

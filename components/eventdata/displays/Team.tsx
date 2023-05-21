@@ -6,7 +6,7 @@ import React, { JSX } from "react";
 
 const RED_ALLIANCE_COLOR: "text-red-400" = "text-red-400";
 const BLUE_ALLIANCE_COLOR: "text-sky-400" = "text-sky-400";
-const RED_TEAM_COLOR: "text-white font-semibold" = "text-white font-semibold";
+const RED_TEAM_COLOR: "text-black dark:text-white font-semibold" = "text-black dark:text-white font-semibold";
 const BLUE_TEAM_COLOR: "text-sky-400" = "text-sky-400";
 const DEFAULT_TEAM_COLOR: "text-lightGray" = "text-lightGray";
 
@@ -55,7 +55,7 @@ export const TeamDisplay = (props: any) => {
       <Link href={`/teams/${team}`}>
         <span
           className={`hover:text-primary ${teamColor} ${
-            team === props.team && "text-white font-semibold"
+            team === props.team && "text-black dark:text-white font-semibold"
           } ${isDqTeam ? "line-through text-red-400 hover:text-primary" : ""} ${
             isSurrogateTeam ? "underline decoration-dotted" : ""
           }`}
@@ -100,7 +100,7 @@ export const TeamDisplay = (props: any) => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <FaYoutube className="text-2xl text-red-400 hover:text-white" />
+            <FaYoutube className="text-2xl text-red-400 hover:text-black dark:text-white" />
           </a>
         ) : (
           <p className="text-lightGray">
@@ -123,7 +123,7 @@ export const TeamDisplay = (props: any) => {
               } ${
                 props.didWeWin() === "unknown" && props.isTeam
                   ? DEFAULT_TEAM_COLOR
-                  : "text-white"
+                  : "text-black dark:text-white"
               }`}
             >
               {props.search_array(newText, props.match.comp_level)}{" "}

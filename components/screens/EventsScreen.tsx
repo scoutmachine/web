@@ -24,7 +24,7 @@ const Event = (props: any) => {
         <div
           className={`hover:cursor-pointer border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}
         >
-          <h1 className="text-xl font-bold text-left text-white">
+          <h1 className="text-xl font-bold text-left text-black dark:text-white">
             {props.event.name.length > 49
               ? `${props.event.name.slice(0, 49)}...`
               : props.event.name}
@@ -177,7 +177,7 @@ export const EventsScreen = (props: any): JSX.Element => {
       {props.events.some(filterCondition) && (
         <>
           <h1 className="flex mt-10 mb-5 text-lightGray">
-            <p className="text-2xl font-bold text-white">{title}</p>
+            <p className="text-2xl font-bold text-black dark:text-white">{title}</p>
             <span className="border border-[#2A2A2A] text-lightGray text-xl px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.events.filter(filterCondition).length}{" "}
               {props.events.filter(filterCondition).length === 1
@@ -231,7 +231,7 @@ export const EventsScreen = (props: any): JSX.Element => {
               setShowNearbyEvents(!showNearbyEvents);
             }
           }}
-          className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
+          className="hover:cursor-pointer flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-black dark:text-white transition-all duration-150 rounded-lg px-3 py-2"
         >
           {!showNearbyEvents && !weekQuery && (
             <FaCrosshairs className="mr-2 text-lg" />
@@ -254,7 +254,7 @@ export const EventsScreen = (props: any): JSX.Element => {
             {address && (
               <button
                 onClick={() => setFilterByAddress(true)}
-                className="flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg px-3 py-2"
+                className="flex text-sm mt-5 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-black dark:text-white transition-all duration-150 rounded-lg px-3 py-2"
               >
                 Search
               </button>
@@ -269,27 +269,27 @@ export const EventsScreen = (props: any): JSX.Element => {
             <div className="relative ml-3" ref={weekDropdownRef}>
               {" "}
               <div
-                className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${
+                className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-black dark:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${
                   weekDropDown && "rounded-b-none"
                 }`}
                 onClick={() => setWeekDropDown(!weekDropDown)}
               >
                 <h1 className="mr-2">Sort by Week</h1>
                 <FaArrowUp
-                  className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
-                    weekDropDown ? "-rotate-180 text-white" : ""
+                  className={`transform text-lightGray group-hover:text-black dark:text-white transition-all duration-150 ${
+                    weekDropDown ? "-rotate-180 text-black dark:text-white" : ""
                   }`}
                 />
               </div>
               <div
-                className={`absolute select-none flex flex-col items-center justify-center duration-150 right-0 left-0 border border-[#2A2A2A] bg-card text-white rounded-b-lg px-4 py-2 ${
+                className={`absolute select-none flex flex-col items-center justify-center duration-150 right-0 left-0 border border-[#2A2A2A] bg-card text-black dark:text-white rounded-b-lg px-4 py-2 ${
                   weekDropDown ? "block" : "hidden"
                 } z-20`}
               >
                 {weeksArray.map((week: string | number, i: number) => (
                   <div
                     key={i}
-                    className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-white text-lightGray"
+                    className="my-1 font-semibold duration-150 hover:cursor-pointer hover:text-black dark:text-white text-lightGray"
                     onClick={() =>
                       setWeekQuery(
                         typeof week === "number" && week !== 6 ? week + 1 : week
@@ -299,7 +299,7 @@ export const EventsScreen = (props: any): JSX.Element => {
                     <h1
                       className={`text-center ${
                         weekQuery === Number(week) + 1
-                          ? "font-bold text-white"
+                          ? "font-bold text-black dark:text-white"
                           : ""
                       }`}
                     >
@@ -311,20 +311,20 @@ export const EventsScreen = (props: any): JSX.Element => {
             </div>
             <div className="relative ml-3">
               <div
-                className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${
+                className={`flex items-center text-sm mt-5 px-10 bg-card border border-[#2A2A2A] hover:border-gray-600 text-lightGray hover:text-black dark:text-white transition-all duration-150 rounded-lg py-2 z-20 select-none hover:cursor-pointer ${
                   seasonDropDown && "rounded-b-none"
                 }`}
                 onClick={() => setSeasonDropDown(!seasonDropDown)}
               >
                 Season
                 <FaArrowUp
-                  className={`ml-2 transform text-lightGray group-hover:text-white transition-all duration-150 ${
-                    seasonDropDown ? "-rotate-180 text-white" : ""
+                  className={`ml-2 transform text-lightGray group-hover:text-black dark:text-white transition-all duration-150 ${
+                    seasonDropDown ? "-rotate-180 text-black dark:text-white" : ""
                   }`}
                 />
               </div>
               <div
-                className={`absolute select-none flex flex-col items-center justify-center duration-150  border border-[#2A2A2A] bg-card text-white rounded-b-lg px-4 py-2 ${
+                className={`absolute select-none flex flex-col items-center justify-center duration-150  border border-[#2A2A2A] bg-card text-black dark:text-white rounded-b-lg px-4 py-2 ${
                   seasonDropDown ? "block" : "hidden"
                 } z-20`}
               >
@@ -332,7 +332,7 @@ export const EventsScreen = (props: any): JSX.Element => {
                   {seasons.map((szn: number, i: number) => (
                     <div
                       key={i}
-                      className="text-center transition-all flex items-center justfiy-center duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-2 rounded-lg"
+                      className="text-center transition-all flex items-center justfiy-center duration-150 cursor-pointer text-lightGray hover:text-black dark:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-2 rounded-lg"
                       onClick={(): void => {
                         props.setYear(szn);
                         props.setEvents([]);
@@ -348,7 +348,7 @@ export const EventsScreen = (props: any): JSX.Element => {
         )}
 
         <button
-          className="mt-5 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-white transition-all duration-150"
+          className="mt-5 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-black dark:text-white transition-all duration-150"
           onClick={(): void => {
             exportFromJSON({
               data: getStorage(`events_${CURR_YEAR}`),

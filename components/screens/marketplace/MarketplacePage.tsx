@@ -46,7 +46,7 @@ export const MarketplacePage = (props: any) => {
             )}
           </div>
           <h1
-            className="text-white text-3xl font-bold mb-2"
+            className="text-black dark:text-white text-3xl font-bold mb-2"
             style={{ cursor: "auto" }}
           >
             {props.marketplacePost.title}
@@ -54,7 +54,7 @@ export const MarketplacePage = (props: any) => {
           <div className="flex mb-4">
             <span
               style={{ backgroundColor: partTypeColour() }}
-              className="px-2 py-1 text-white font-medium uppercase rounded-md text-xs"
+              className="px-2 py-1 text-black dark:text-white font-medium uppercase rounded-md text-xs"
             >
               {
                 ListingType[

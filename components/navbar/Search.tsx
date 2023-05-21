@@ -10,7 +10,7 @@ export const Search = (props: any) => {
   return (
     <div className="relative md:mr-8 2xl:mr-0 mt-3 md:mt-0">
       <input
-        className="border border-[#2A2A2A] w-full bg-card placeholder-lightGray outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
+        className="bg-white border border-solid hover:border-gray-300 w-full dark:hover:border-[#2A2A2A] dark:bg-card placeholder-lightGray outline-none rounded-lg text-lightGray px-3 py-[6px] text-sm pl-8"
         type="text"
         placeholder="Search teams..."
         onChange={(e: ChangeEvent<HTMLInputElement>) =>

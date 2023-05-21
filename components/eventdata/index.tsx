@@ -144,7 +144,7 @@ export const EventData = (props: any) => {
           </div>
 
           <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
-            <thead className="text-xs text-white uppercase">
+            <thead className="text-xs text-black dark:text-white uppercase">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Video

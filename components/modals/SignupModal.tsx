@@ -41,7 +41,7 @@ const ModalFooter = () => (
       <div className="mt-4">
         <button
           type="button"
-          className="flex rounded-lg bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
+          className="flex rounded-lg bg-red-500 hover:bg-red-600 text-black dark:text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
           onClick={async (): Promise<void> => {
             localStorage.getItem("signUpState")
               ? null

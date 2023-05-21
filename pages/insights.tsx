@@ -68,7 +68,7 @@ export default function InsightsPage({ insights }: any): JSX.Element {
                 </Link>
                 <p className="text-lightGray">
                   #1 in the{" "}
-                  <Link href="/districts" className="text-white">
+                  <Link href="/districts" className="text-black dark:text-white">
                     {team.districtCode} District
                   </Link>{" "}
                   scoring a total of {team.totalPoints} Ranking Points. <br />{" "}
@@ -78,14 +78,14 @@ export default function InsightsPage({ insights }: any): JSX.Element {
                   competitions. In{" "}
                   <Link
                     href={`/events/2023${team.event1Code.toLowerCase()}`}
-                    className="text-white"
+                    className="text-black dark:text-white"
                   >
                     {team.event1Code}
                   </Link>
                   , scoring {team.event1Points} points, and in{" "}
                   <Link
                     href={`/events/2023${team.event2Code.toLowerCase()}`}
-                    className="text-white"
+                    className="text-black dark:text-white"
                   >
                     {team.event2Code}
                   </Link>

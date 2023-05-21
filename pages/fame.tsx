@@ -25,7 +25,7 @@ export default function HOFPage(): JSX.Element {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <h1 className="flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-white">
+            <h1 className="flex text-3xl md:text-5xl font-black text-primary mb-2 hover:text-black dark:text-white">
               <FaMedal className="mr-1 md:ml-0 ml-[-10px] md:mb-0 mb-3 w-[50px]" />{" "}
               <span className="italic md:mr-3 mr-2">FIRST</span> Hall of Fame
             </h1>
@@ -41,7 +41,7 @@ export default function HOFPage(): JSX.Element {
             extent. Those who receive this coveted honor are bestowed with the
             privilege of being enshrined in the esteemed{" "}
             <span className="italic">FIRST</span> Hall of Fame. <br /> <br />{" "}
-            There are currently <b className="text-white">{HOFTeams.length}</b>{" "}
+            There are currently <b className="text-black dark:text-white">{HOFTeams.length}</b>{" "}
             Hall of Fame teams.
           </p>
         }
@@ -52,7 +52,7 @@ export default function HOFPage(): JSX.Element {
           {HOFTeams.map((team: any, key: number) => {
             return (
               <Link key={key} href={`/teams/${team.name}`}>
-                <div className="banner text-white hover:text-primary cursor-pointer">
+                <div className="banner text-black dark:text-white hover:text-primary cursor-pointer">
                   <div className="flex items-center justify-center mt-3">
                     <Image
                       src="/first-icon.svg"

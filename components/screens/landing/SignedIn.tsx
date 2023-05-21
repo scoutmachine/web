@@ -63,7 +63,7 @@ export const SignedInScreen = (props: {
           <div className="flex flex-col md:grid md:grid-cols-2 md:gap-3">
             <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
               <p className="text-lightGray">
-                <b className="text-white">
+                <b className="text-black dark:text-white">
                   Ready for Kickoff on {formatEpochSecondsToDate(kickoffTime)}?
                 </b>
                 <br />
@@ -73,7 +73,7 @@ export const SignedInScreen = (props: {
             </div>
             <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
               <p className="text-lightGray">
-                <b className="text-white">Current Season</b>
+                <b className="text-black dark:text-white">Current Season</b>
                 <br />
                 2023 CHARGED UP
               </p>

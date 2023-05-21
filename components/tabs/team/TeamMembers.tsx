@@ -27,7 +27,7 @@ export const TeamMembersTab = (props: any) => {
       ) : (
         <p className="text-lightGray">
           No team members found for{" "}
-          <span className="text-white">
+          <span className="text-black dark:text-white">
             {props.team.team_number} | {props.team.nickname}
           </span>
           .

@@ -89,7 +89,7 @@ export const AboutTab = (props: any) => {
   return (
     <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaRocket className="mr-1 inline-block" /> General Info
         </h1>
         <p className="text-lightGray">
@@ -99,11 +99,11 @@ export const AboutTab = (props: any) => {
         {district && (
           <>
             <p className="text-lightGray text-sm mt-2">
-              <b className="text-white">Qualified for District Championship:</b>{" "}
+              <b className="text-black dark:text-white">Qualified for District Championship:</b>{" "}
               {props.team.teamDistrict.team.qualifiedDistrictCmp ? "Yes" : "No"}
             </p>
             <p className="text-lightGray text-sm">
-              <b className="text-white">
+              <b className="text-black dark:text-white">
                 Qualified for <i>FIRST</i> Championship:
               </b>{" "}
               {props.team.teamDistrict.team.qualifiedFirstCmp ? "Yes" : "No"}
@@ -120,7 +120,7 @@ export const AboutTab = (props: any) => {
               top {districtPercentage === 0 ? 1 : roundedPercentage}%
             </span>
           )}
-          <h1 className="text-white font-semibold">
+          <h1 className="text-black dark:text-white font-semibold">
             <FaGlobe className="mr-1 inline-block" /> District Rank
           </h1>
           <p className="text-lightGray">
@@ -143,7 +143,7 @@ export const AboutTab = (props: any) => {
                   <span>
                     & {district?.event1Points}pts at{" "}
                     <Link
-                      className="text-white hover:text-primary"
+                      className="text-black dark:text-white hover:text-primary"
                       href={`/events/${CURR_YEAR}${district?.event1Code?.toLowerCase()}`}
                     >
                       {district?.event1Code}
@@ -154,7 +154,7 @@ export const AboutTab = (props: any) => {
                   <span>
                     & {district?.event2Points}pts at{" "}
                     <Link
-                      className="text-white hover:text-primary"
+                      className="text-black dark:text-white hover:text-primary"
                       href={`/events/${CURR_YEAR}${district?.event2Code?.toLowerCase()}`}
                     >
                       {district?.event2Code}
@@ -169,7 +169,7 @@ export const AboutTab = (props: any) => {
         </div>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaBolt className="mr-1 inline-block" /> Seasons Completed
         </h1>
         <p className="text-lightGray">
@@ -180,7 +180,7 @@ export const AboutTab = (props: any) => {
         </p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaMapMarkedAlt className="mr-1 inline-block" /> Events Completed
         </h1>
         <p className="text-lightGray">
@@ -189,37 +189,37 @@ export const AboutTab = (props: any) => {
         </p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaMapMarkedAlt className="mr-1 inline-block" /> Avg Events per Season
         </h1>
         <p className="text-lightGray">{avgEvents} events</p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaTrophy className="mr-1 inline-block" /> Events Won
         </h1>
         <p className="text-lightGray">{eventsWon} events</p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Awards Won
         </h1>
         <p className="text-lightGray">{props.team.teamAwards.length} awards</p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Avg Awards per Season
         </h1>
         <p className="text-lightGray">{avgAwards} awards</p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Avg Awards per Event
         </h1>
         <p className="text-lightGray">{avgAwardsPerEvent} awards</p>
       </Card>
       <Card>
-        <h1 className="text-white font-semibold">
+        <h1 className="text-black dark:text-white font-semibold">
           <FaPlane className="mr-1 inline-block" /> Trips to <i>FIRST</i>{" "}
           Championship
         </h1>

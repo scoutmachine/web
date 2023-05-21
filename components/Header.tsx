@@ -14,7 +14,7 @@ export const Header = (props: {
             <>
               <h1 className={`${props.className}`}>{props.title} </h1>
               <span
-                className={`text-white ${
+                className={`text-black dark:text-white ${
                   isValidElement(props.title) && "md:ml-4"
                 }`}
               >
@@ -25,7 +25,7 @@ export const Header = (props: {
             <h1>
               {props.title}{" "}
               <span
-                className={`text-white ${
+                className={`text-black dark:text-white ${
                   isValidElement(props.title) && "md:ml-4"
                 }`}
               >

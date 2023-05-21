@@ -14,7 +14,7 @@ export const AwardsTab = (props: { awards: any }) => {
               href={`https://frc-events.firstinspires.org/2023/awards?id=${award.awardId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white font-bold"
+              className="text-black dark:text-white font-bold"
             >
               {award.name}
             </a>

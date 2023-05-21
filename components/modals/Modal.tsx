@@ -40,7 +40,7 @@ export const Modal = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/75" />
+            <div className="fixed inset-0 bg-white/75 dark:bg-black/75" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -57,7 +57,7 @@ export const Modal = ({
                 <Dialog.Panel
                   className={`w-full ${
                     noClose ? "max-w-xl" : "max-w-md"
-                  } transform overflow-hidden rounded-2xl p-6 transition-all border border-[#2A2A2A] bg-[#191919]`}
+                  } transform overflow-hidden rounded-2xl p-6 transition-all bg-white border border-solid hover:border-gray-300 dark:border-[#2A2A2A] dark:bg-[#191919]`}
                 >
                   {header}
                   {body}

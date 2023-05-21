@@ -20,7 +20,8 @@ export default function Document(): JSX.Element {
         <meta name="theme-color" content="#FBBB04" />
         <link rel="shortcut icon" href="/smLogo.png" />
       </Head>
-      <body>
+
+      <body className="bg-[#f7f7f7] dark:bg-[#141414]">
         <Main />
         <NextScript />
       </body>

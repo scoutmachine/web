@@ -38,7 +38,7 @@ export const MarketplacePost = (props: any) => {
               alt={`${props.marketplacePost.title} Media Image`}
             />
           )}
-          <h1 className="font-bold text-xl text-white">
+          <h1 className="font-bold text-xl text-black dark:text-white">
             {props.marketplacePost.title}
           </h1>
           <p className="text-lightGray break-words mb-3">
@@ -53,7 +53,7 @@ export const MarketplacePost = (props: any) => {
             alt={`${props.marketplacePost.author.image} Avatar`}
           />
           <div className="mx-4">
-            <h1 className="text-sm font-semibold text-white">
+            <h1 className="text-sm font-semibold text-black dark:text-white">
               {props.marketplacePost.author?.name.length > 24
                 ? `${props.marketplacePost.author?.name.slice(0, 24)}...`
                 : props.marketplacePost.author?.name}

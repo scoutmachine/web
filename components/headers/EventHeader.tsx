@@ -64,7 +64,7 @@ export const EventHeader = (props: any) => {
             <Social
               icon={FaLink}
               name={props.event.website.replace(".html", "")}
-              className="text-white font-bold mt-3"
+              className="text-black dark:text-white font-bold mt-3"
             />
           </a>
         )}

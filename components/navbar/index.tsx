@@ -31,7 +31,7 @@ import router from "next/router";
 
 const Social = (props: { icon: ReactNode }) => {
   return (
-    <span className="flex cursor-pointer flex-col items-center rounded-md p-1 text-white bg-[#1f1f1f] hover:bg-[#2a2a2a] text-xl mt-1">
+    <span className="flex cursor-pointer flex-col items-center rounded-md p-1 bg-gray-200 hover:bg-gray-300 text-black dark:text-white dark:bg-[#1f1f1f] dark:hover:bg-[#2a2a2a] text-xl mt-1">
       {props.icon}
     </span>
   );
@@ -109,15 +109,15 @@ export const Navbar = (props: {
         <div
           className={`${
             isScrolled ? "rounded-b-lg" : "mt-5 rounded-lg"
-          } bg-card border border-[#2A2A2A] bg-[#191919] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between`}
+          } bg-[#f7f7f7] border border-gray-300 dark:bg-card dark:border-[#2A2A2A] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between`}
         >
           <div className="flex relative space-x-1">
             <Link href="/" legacyBehavior>
               <a>
-                <h1 className="font-extrabold text-white text-2xl mr-2 hidden md:block">
+                <h1 className="font-extrabold text-black dark:text-white text-2xl mr-2 hidden md:block">
                   sm
                 </h1>
-                <h1 className="font-black text-white text-2xl mr-2 md:hidden">
+                <h1 className="font-black text-black dark:text-white text-2xl mr-2 md:hidden">
                   sm
                 </h1>
               </a>
@@ -141,7 +141,7 @@ export const Navbar = (props: {
               } rounded-lg py-2 px-[13px]`}
               onClick={() => setShowLinks(!showLinks)}
             >
-              <FaBars className="2xl:hidden text-white text-xl" />
+              <FaBars className="2xl:hidden text-black dark:text-white text-xl" />
             </button>
           </div>
 

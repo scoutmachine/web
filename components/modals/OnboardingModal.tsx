@@ -28,7 +28,7 @@ const OnboardingBody = () => {
       ),
       description: (
         <p>
-          <span className="text-white font-bold">My name is Griffy</span> &
+          <span className="text-black dark:text-white font-bold">My name is Griffy</span> &
           I&apos;ve been tasked to be your assistant for today! Let&apos;s go
           over all you need to know about Scout Machine in under 1 min.
         </p>
@@ -42,7 +42,7 @@ const OnboardingBody = () => {
           data you want, when you want. From accessing important data points to
           viewing match histories and tracking performance metrics - it&apos;s
           all in one place. <br /> <br />
-          <span className="text-white">
+          <span className="text-black dark:text-white">
             <b>Much love,</b> <br />
             The creators of Scout Machine
           </span>
@@ -53,27 +53,27 @@ const OnboardingBody = () => {
       title: "Ok, what can I do?",
       description: (
         <p>
-          <span className="text-white">
+          <span className="text-black dark:text-white">
             Well, here are <i>some</i> things:
           </span>
           <li>
-            <b className="text-white">/teams</b> (discover new teams)
+            <b className="text-black dark:text-white">/teams</b> (discover new teams)
           </li>
           <li>
-            <b className="text-white">/events</b> (all {CURR_YEAR} events)
+            <b className="text-black dark:text-white">/events</b> (all {CURR_YEAR} events)
           </li>
           <li>
-            <b className="text-white">/marketplace</b> (buy/sell frc parts)
+            <b className="text-black dark:text-white">/marketplace</b> (buy/sell frc parts)
           </li>
           <li>
-            <b className="text-white">/rookies</b> (all {CURR_YEAR} rookie
+            <b className="text-black dark:text-white">/rookies</b> (all {CURR_YEAR} rookie
             teams)
           </li>
           <li>
-            <b className="text-white">/fame</b> (view all hall of fame teams)
+            <b className="text-black dark:text-white">/fame</b> (view all hall of fame teams)
           </li>
           <li>
-            <b className="text-white">/gameday</b> (watch all twitch streams for
+            <b className="text-black dark:text-white">/gameday</b> (watch all twitch streams for
             FRC events)
           </li>
         </p>
@@ -102,7 +102,7 @@ const OnboardingBody = () => {
     <>
       <div className="animate-fade-in px-5 py-5">
         <div className="mb-5">
-          <h1 className="text-4xl font-bold mb-2 text-white">
+          <h1 className="text-4xl font-bold mb-2 text-black dark:text-white">
             {instructions[currentPage].title}
           </h1>
           <p className="text-lightGray">
@@ -113,7 +113,7 @@ const OnboardingBody = () => {
         <div className="flex gap-3">
           {currentPage !== 0 && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-white transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:text-white transition-all duration-150"
               onClick={handlePrevPage}
               disabled={currentPage === 0}
             >
@@ -122,7 +122,7 @@ const OnboardingBody = () => {
           )}
           {!isLastPage && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-white transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:text-white transition-all duration-150"
               onClick={handleNextPage}
             >
               Next
@@ -130,7 +130,7 @@ const OnboardingBody = () => {
           )}
           {isLastPage && (
             <button
-              className="outline-none bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
+              className="outline-none bg-green-500 hover:bg-green-700 text-black dark:text-white font-bold py-2 px-4 rounded-lg"
               onClick={() => router.push("/")}
             >
               Finish

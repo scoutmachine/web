@@ -21,7 +21,7 @@ export const Socials: (
   {
     name: "Support Email",
     icon: FaEnvelope,
-    className: "text-white",
+    className: "text-black dark:text-white",
   },
   {
     name: "Instagram",
@@ -46,7 +46,7 @@ export const Socials: (
   {
     name: "GitHub",
     icon: FaGithub,
-    className: "text-white",
+    className: "text-black dark:text-white",
   },
   {
     name: "Gitlab",

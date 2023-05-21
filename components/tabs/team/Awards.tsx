@@ -45,7 +45,7 @@ export const AwardsTab = (props: any) => {
                           award.year
                         }${award.eventCode.toLowerCase()}`}
                       >
-                        <div className="award-name mt-3 mb-3 group text-white">
+                        <div className="award-name mt-3 mb-3 group text-black dark:text-white">
                           <span className="text-xs group-hover:text-primary">
                             {award.eventCode}
                           </span>{" "}
@@ -71,7 +71,7 @@ export const AwardsTab = (props: any) => {
                   } more events won that aren't shown -`}{" "}
               <span
                 onClick={() => props.setShowAll(!props.showAll)}
-                className="text-white hover:text-primary hover:cursor-pointer"
+                className="text-black dark:text-white hover:text-primary hover:cursor-pointer"
               >
                 {props.showAll ? "show less?" : "show all?"}
               </span>
@@ -99,7 +99,7 @@ export const AwardsTab = (props: any) => {
                     target="_blank"
                     className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
                   >
-                    <h1 className="font-bold text-white">{award.name}</h1>
+                    <h1 className="font-bold text-black dark:text-white">{award.name}</h1>
                     <p className="text-lightGray">{award.year}</p>
                   </a>
                 );

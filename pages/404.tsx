@@ -19,7 +19,7 @@ export default function Page404(): JSX.Element {
           were looking for.{" "}
           <Link href="/" legacyBehavior>
             <a>
-              <span className="text-white">Go back home?</span>
+              <span className="text-black dark:text-white">Go back home?</span>
             </a>
           </Link>
         </p>
