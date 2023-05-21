@@ -4,26 +4,26 @@ import { log } from "./log";
 import { formatTime } from "./time";
 import { HOFTeams } from "@/lib/lists/hallOfFame";
 
-export const findTeam = (teamName: string): any => {
+export function findTeam(teamName: string): any {
   for (const team of HOFTeams) {
     if ((team as any).name === teamName) {
       return team;
     }
   }
   return false;
-};
+}
 
-export const teamNumberInRange = (
+export function teamNumberInRange(
   teamNumber: number,
   teamNumberRange: string
-): boolean => {
+): boolean {
   if (!teamNumberRange) {
     return true;
   }
 
   const [start, end] = teamNumberRange.split("-");
   return teamNumber >= parseInt(start) && teamNumber <= parseInt(end);
-};
+}
 
 export async function fetchTeamsData(): Promise<any> {
   const teamsData = getStorage(`teams_${CURR_YEAR}`);

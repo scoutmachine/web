@@ -1,6 +1,6 @@
 import { log } from "./log";
 
-export const setStorage = (key: string, value: string, ttl?: number): void => {
+export function setStorage(key: string, value: string, ttl?: number): void {
   const now: Date = new Date();
 
   const item: { value: string; expiry: number } = {
@@ -17,9 +17,9 @@ export const setStorage = (key: string, value: string, ttl?: number): void => {
       localStorage.clear();
     }
   }
-};
+}
 
-export const getStorage = (key: string): null | any => {
+export function getStorage(key: string): null | any {
   const item: string | null = localStorage.getItem(key);
   if (!item) return null;
 
@@ -32,4 +32,4 @@ export const getStorage = (key: string): null | any => {
   }
 
   return data.value;
-};
+}

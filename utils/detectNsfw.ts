@@ -1,6 +1,6 @@
 import nsfwjs from "nsfwjs";
 
-export const detectNsfw = async (imageUrl: string): Promise<boolean> => {
+export async function detectNsfw(imageUrl: string): Promise<boolean> {
   const img: HTMLImageElement = document.createElement("img");
   img.src = imageUrl;
 
@@ -18,4 +18,4 @@ export const detectNsfw = async (imageUrl: string): Promise<boolean> => {
   return !!(nsfwProbability && nsfwProbability > 0.5);
 
   // Image is safe
-};
+}

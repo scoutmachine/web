@@ -1,10 +1,10 @@
-const getDayOrdinal = (day: number) => {
+function getDayOrdinal(day: number) {
   const suffixes: string[] = ["th", "st", "nd", "rd"];
   const v: number = day % 100;
   return day + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
-};
+}
 
-export const convertDate = (dateParam: string) => {
+export function convertDate(dateParam: string) {
   const date: Date = new Date(dateParam);
   const month: number = date.getUTCMonth();
   const day: number = date.getUTCDate();
@@ -29,18 +29,18 @@ export const convertDate = (dateParam: string) => {
 
   const output: string = `${monthName} ${dayOrdinal}`;
   return output;
-};
+}
 
-export const isLive = (start: string, end: string) => {
+export function isLive(start: string, end: string) {
   const today: Date = new Date();
   const newToday: string = today.toISOString().split("T")[0];
 
   today.setHours(0, 0, 0, 0);
 
   return newToday >= start && newToday <= end;
-};
+}
 
-export const convertSeconds = (epochSeconds: number): string => {
+export function convertSeconds(epochSeconds: number): string {
   const date: Date = new Date(epochSeconds * 1000);
   const hours: number = date.getHours();
   const minutes: number = date.getMinutes();
@@ -49,4 +49,4 @@ export const convertSeconds = (epochSeconds: number): string => {
   const formattedMinutes: string | number =
     minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
-};
+}
