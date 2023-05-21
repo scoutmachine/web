@@ -25,7 +25,7 @@ export const Footer = () => {
         Copyright © {new Date().getFullYear()} ⎯{" "}
         <Link href="/" legacyBehavior>
           <a>
-            <span className="text-primary hover:text-black dark:text-white font-bold">
+            <span className="text-primary font-bold">
               Scout Machine
             </span>
           </a>
