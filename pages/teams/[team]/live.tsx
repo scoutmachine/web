@@ -7,12 +7,14 @@ export default function LiveFieldViewPage({ next }: any) {
   const router = useRouter();
 
   useEffect(() => {
-    router.push(
-      `https://twitch.tv/${
-        next.event.webcasts[next.event.webcasts.length - 1].channel
-      }`
-    );
-  });
+    const channel = next.event.webcasts.reduce((acc: string, item: any) => {
+      return item.channel.length > acc.length ? item.channel : acc;
+    }, "");
+
+    router.push(`https://twitch.tv/${channel}`);
+  }, [next.event.webcasts, router]);
+
+  return null;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
