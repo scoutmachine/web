@@ -1,11 +1,11 @@
-export const formatTime = (ms: number): string => {
+export function formatTime(ms: number) {
   const date: Date = new Date(ms);
 
   return `${date.getMinutes()}mins ${date.getSeconds()}s`;
 };
 
-export const epochSecondsToTime = (unixTimestamp: number): string => {
-  const date: Date = new Date(unixTimestamp * 1000);
+export function epochSecondsToTime(epochSeconds: number, noMultiply?: boolean): string {
+  const date: Date = new Date(noMultiply ? epochSeconds : epochSeconds * 1000);
   const hours: number = date.getHours();
   const minutes: number = date.getMinutes();
   const ampm: "PM" | "AM" = hours >= 12 ? "PM" : "AM";
@@ -15,7 +15,7 @@ export const epochSecondsToTime = (unixTimestamp: number): string => {
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
-const getSuffix = (day: number): string => {
+function getSuffix(day: number): string {
   if (day >= 11 && day <= 13) {
     return "th";
   }
@@ -31,11 +31,22 @@ const getSuffix = (day: number): string => {
   }
 };
 
-export const formatEpochSecondsToDate = (
+export function formatEpochSecondsToDate(
   epochSeconds: number,
   noMultiply?: boolean
-): string => {
+): string {
   const date: Date = new Date(noMultiply ? epochSeconds : epochSeconds * 1000);
+
+  const days: string[] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
   const months: string[] = [
     "Jan",
     "Feb",
@@ -50,9 +61,44 @@ export const formatEpochSecondsToDate = (
     "Nov",
     "Dec",
   ];
+
   const month: string = months[date.getMonth()];
   const day: number = date.getDate();
+  const dayOfWeek: string = days[date.getDay()];
   const suffix: string = getSuffix(day);
   const year: number = date.getFullYear();
-  return `${month} ${day}${suffix}, ${year}`;
+  return `${dayOfWeek}, ${month} ${day}${suffix}, ${year}`;
 };
+
+export function formatRelativeTime(timestamp: string): string {
+  const currentTime = new Date();
+  const targetTime = new Date(timestamp);
+
+  const timeDifference = currentTime.getTime() - targetTime.getTime();
+  const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+  const secondsDifference = Math.floor(timeDifference / 1000);
+
+  if (daysDifference > 0) {
+    if (daysDifference === 1) {
+      return '1 day ago';
+    } else {
+      return `${daysDifference} days ago`;
+    }
+  } else if (secondsDifference >= 3600) {
+    const hoursDifference = Math.floor(secondsDifference / 3600);
+    if (hoursDifference === 1) {
+      return '1 hour ago';
+    } else {
+      return `${hoursDifference} hours ago`;
+    }
+  } else if (secondsDifference >= 60) {
+    const minutesDifference = Math.floor(secondsDifference / 60);
+    if (minutesDifference === 1) {
+      return '1 minute ago';
+    } else {
+      return `${minutesDifference} minutes ago`;
+    }
+  } else {
+    return 'Just now';
+  }
+}

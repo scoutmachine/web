@@ -177,7 +177,9 @@ export const EventsScreen = (props: any): JSX.Element => {
       {props.events.some(filterCondition) && (
         <>
           <h1 className="flex mt-10 mb-5 text-lightGray">
-            <p className="text-2xl font-bold text-black dark:text-white">{title}</p>
+            <p className="text-2xl font-bold text-black dark:text-white">
+              {title}
+            </p>
             <span className="border border-[#2A2A2A] text-lightGray text-xl px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.events.filter(filterCondition).length}{" "}
               {props.events.filter(filterCondition).length === 1
@@ -319,7 +321,9 @@ export const EventsScreen = (props: any): JSX.Element => {
                 Season
                 <FaArrowUp
                   className={`ml-2 transform text-lightGray group-hover:text-black dark:text-white transition-all duration-150 ${
-                    seasonDropDown ? "-rotate-180 text-black dark:text-white" : ""
+                    seasonDropDown
+                      ? "-rotate-180 text-black dark:text-white"
+                      : ""
                   }`}
                 />
               </div>

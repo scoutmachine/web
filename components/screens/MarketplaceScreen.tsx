@@ -3,7 +3,6 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { MarketplacePost } from "./marketplace/MarketplacePost";
 
 export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
-  const [mounted, setMounted] = useState(false);
   const [listingType, setListingType] = useState("filterBy");
 
   const getFilteredMarketplacePosts = (): any => {
@@ -20,10 +19,6 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
     listingType,
     marketplacePosts,
   ]);
-
-  useEffect((): void => {
-    setMounted(true);
-  }, []);
 
   return (
     <>
