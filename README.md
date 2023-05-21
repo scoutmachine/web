@@ -5,7 +5,7 @@
 <img src="/public/powered-by-vercel.svg" height="40">
 
 [![CodeQL](https://github.com/scoutmachine/web/actions/workflows/codeql.yml/badge.svg)](https://github.com/scoutmachine/web/actions/workflows/codeql.yml)
-[![Lint Code Base](https://github.com/scoutmachine/web/actions/workflows/super-linter.yml/badge.svg)](https://github.com/scoutmachine/web/actions/workflows/super-linter.yml)
+[![Code Format Check](https://github.com/scoutmachine/web/actions/workflows/format-checker.yml/badge.svg)](https://github.com/scoutmachine/web/actions/workflows/format-checker.yml)
 
 ## About Scout Machine
 
