@@ -5,6 +5,7 @@ import { MarketplacePost } from "../marketplace/MarketplacePost";
 import { useEffect, useState } from "react";
 import { formatEpochSecondsToDate } from "@/utils/time";
 import { NextRouter, useRouter } from "next/router";
+import Link from "next/link";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -57,7 +58,11 @@ export const SignedInScreen = (props: {
             </span>
           </h1>
           <p className="font-medium text-lightGray">
-            {props.session.user?.email}
+            {/* @ts-ignore */}
+            <Link href={`/users/${props.session.user?.username}`}>
+              @{(props.session.user as any)?.username}
+            </Link>{" "}
+            • {props.session.user?.email}
           </p>
 
           <div className="flex flex-col md:grid md:grid-cols-2 md:gap-3">

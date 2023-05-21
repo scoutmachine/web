@@ -75,19 +75,12 @@ const ModalBody = (props: {
     session?.user?.name as string
   );
   const [avatarURL, setAvatarURL] = useState<string>();
-  const [teamNumber, setTeamNumber] = useState<string>();
+  // @ts-ignore
+  const [teamNumber, setTeamNumber] = useState<string>(session?.user?.teamNumber as string);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [deletedHover, setDeletedHover] = useState(false);
 
   useEffect((): void => {
-    const fetchTeamNumber = async (): Promise<void> => {
-      const data = await fetch(`${API_URL}/api/@me`).then((res: Response) =>
-        res.json()
-      );
-      setTeamNumber(data.teamNumber ?? "Unknown Team");
-    };
-
-    fetchTeamNumber();
     setAvatarURL(props.avatar);
   }, [props.avatar]);
 

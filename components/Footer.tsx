@@ -17,8 +17,6 @@ export const Footer = () => {
     fetchLatestCommit();
   });
 
-  console.log(latestCommit);
-
   return (
     <div className="px-4 py-2 pb-12 mt-10 rounded-lg flex flex-col items-center justify-center text-center">
       <div className="text-lightGray text-sm uppercase mb-3">
@@ -37,7 +35,7 @@ export const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Running on # {latestCommit}
+          Commit # {latestCommit}
         </a>
         <div className="flex items-center justify-center">
           <a

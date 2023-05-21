@@ -9,8 +9,10 @@ import {
 import { GetServerSideProps } from "next";
 import { FaUndo } from "react-icons/fa";
 import { GoPrimitiveDot } from "react-icons/go";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function NextTeamMatch({ next }: any) {
+export default function NextTeamMatch({ next, avatars }: any) {
   const toEpochSeconds = new Date(next.match.startTime).getTime();
   const redAlliance = next.match.teams.filter((team: any) =>
     team.station.includes("Red")
@@ -37,7 +39,7 @@ export default function NextTeamMatch({ next }: any) {
             {next.match.tournamentLevel} Match
           </p>
           <h1 className="text-black dark:text-white text-2xl text-center">
-            <b>Upcoming:</b> {next.match.description} on {next.match.field}{" "}
+            <b>{isTimeInPast(next.match.startTime) ? 'Last Match:' : 'Upcoming:'}</b> {next.match.description} on {next.match.field}{" "}
             Field
           </h1>
           <p className="text-lightGray text-center">
@@ -70,15 +72,38 @@ export default function NextTeamMatch({ next }: any) {
             <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
               {redAlliance.map((team: any, key: number) => {
                 return (
-                  <div key={key} className="bg-red-400 rounded-lg py-5">
-                    <h1
-                      className={`text-xl ${
-                        team.surrogate ? "text-lightGray" : "text-white"
-                      } font-bold text-center`}
-                    >
-                      Team {team.teamNumber}
-                    </h1>
-                  </div>
+                  <Link key={key} href={`/teams/${team.teamNumber}`}>
+                    <div className="bg-red-400 hover:bg-red-300 rounded-lg py-5 flex items-center justify-center">
+                      <h1
+                        className={`text-xl flex ${
+                          team.surrogate ? "text-lightGray" : "text-white"
+                        } font-bold`}
+                      >
+                        {avatars[team.teamNumber] ? (
+                          <Image
+                            className="rounded-lg mr-4 w-7"
+                            alt={`Team ${team.teamNumber} Avatar`}
+                            height="50"
+                            width="50"
+                            priority={true}
+                            src={`data:image/jpeg;base64,${
+                              avatars[team.teamNumber]
+                            }`}
+                          />
+                        ) : (
+                          <Image
+                            className="mr-2 w-8"
+                            alt="FIRST Logo"
+                            height="50"
+                            width="50"
+                            priority={true}
+                            src={`/first-icon.svg`}
+                          />
+                        )}{" "}
+                        Team {team.teamNumber}
+                      </h1>
+                    </div>
+                  </Link>
                 );
               })}
             </div>
@@ -92,11 +117,38 @@ export default function NextTeamMatch({ next }: any) {
             <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
               {blueAlliance.map((team: any, key: number) => {
                 return (
-                  <div key={key} className="bg-sky-400 rounded-lg py-5">
-                    <h1 className="text-xl text-white font-bold text-center">
-                      Team {team.teamNumber}
-                    </h1>
-                  </div>
+                  <Link key={key} href={`/teams/${team.teamNumber}`}>
+                    <div className="bg-sky-400 hover:bg-sky-300 rounded-lg py-5 flex items-center justify-center">
+                      <h1
+                        className={`text-xl flex ${
+                          team.surrogate ? "text-lightGray" : "text-white"
+                        } font-bold`}
+                      >
+                        {avatars[team.teamNumber] ? (
+                          <Image
+                            className="rounded-lg mr-4 w-7"
+                            alt={`Team ${team.teamNumber} Avatar`}
+                            height="50"
+                            width="50"
+                            priority={true}
+                            src={`data:image/jpeg;base64,${
+                              avatars[team.teamNumber]
+                            }`}
+                          />
+                        ) : (
+                          <Image
+                            className="mr-2 w-8"
+                            alt="FIRST Logo"
+                            height="50"
+                            width="50"
+                            priority={true}
+                            src={`/first-icon.svg`}
+                          />
+                        )}{" "}
+                        Team {team.teamNumber}
+                      </h1>
+                    </div>
+                  </Link>
                 );
               })}
             </div>
@@ -116,5 +168,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     (res) => res.json()
   );
 
-  return { props: { next: nextMatch } };
+  const teamAvatars: any = {};
+
+  await Promise.all(
+    nextMatch.match.teams.map(async (team: any): Promise<void> => {
+      const data = await fetch(
+        `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+      ).then((res: Response) => res.json());
+
+      try {
+        teamAvatars[team.teamNumber] = data.avatar;
+      } catch {
+        teamAvatars[team.teamNumber] = null;
+      }
+    })
+  );
+
+  return { props: { next: nextMatch, avatars: teamAvatars } };
 };

@@ -25,6 +25,8 @@ export const authOptions: AuthOptions = {
   callbacks: {
     session: async ({ session, user }: any): Promise<any> => {
       session.user.id = user.id;
+      session.user.username = user.username;
+      session.user.teamNumber = user.teamNumber;
       return session;
     },
   },
