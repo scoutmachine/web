@@ -15,12 +15,14 @@ import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { getServerSession, Session, User } from "next-auth";
-import { GetServerSideProps } from "next";
+import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { fetchTBA } from "@/lib/fetchTBA";
 import { EventsTab } from "@/components/tabs/team/Events";
+import {AxiosResponse} from "axios";
+import {FavouritedTeam} from "@prisma/client";
 
 const SubInfo = (props: any) => {
   return (
@@ -188,7 +190,7 @@ export default function TeamPage({
                         <div
                           key={key}
                           className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
-                          onClick={() => {
+                          onClick={(): void => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
                             setCurrentYearTab(year);
@@ -351,7 +353,7 @@ export default function TeamPage({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext): Promise<any> => {
   const session: Session = (await getServerSession(
     context.req,
     context.res,
@@ -369,7 +371,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   });
 
-  const tbaSocials = await fetchTBA(`team/frc${team}/social_media`);
+  const tbaSocials:  void | AxiosResponse<any, any> = await fetchTBA(`team/frc${team}/social_media`);
 
   const data = await db.team.findMany({
     where: {
@@ -398,7 +400,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
 
   if (session) {
-    const user = await db.user.findUnique({
+    const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
       where: {
         // @ts-ignore
         id: session.user.id,

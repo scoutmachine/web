@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/navbar";
-import { GetServerSideProps } from "next";
+import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import Head from "next/head";
 import db from "@/lib/db";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import { User } from "next-auth";
 import { formatEpochSecondsToDate } from "@/utils/time";
 
 export default function UserProfilePage({ user }: any) {
-  const toEpochSeconds = new Date(user.createdAt).getTime();
+  const toEpochSeconds: number = new Date(user.createdAt).getTime();
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function UserProfilePage({ user }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext): Promise<any> => {
   const { username }: any = context.params;
 
   const fetchUserData: User | null = await db.user.findUnique({

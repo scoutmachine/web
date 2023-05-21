@@ -79,7 +79,7 @@ const ModalBody = (props: {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [deletedHover, setDeletedHover] = useState(false);
 
-  useEffect(() => {
+  useEffect((): void => {
     const fetchTeamNumber = async (): Promise<void> => {
       const data = await fetch(`${API_URL}/api/@me`).then((res: Response) =>
         res.json()

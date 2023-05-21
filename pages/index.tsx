@@ -50,7 +50,7 @@ export default function LandingPage({ user, avatars }: any): JSX.Element {
   }
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }):  Promise<{props: {user: any, avatars: any}} | {props: {}}> => {
   const session: Session = (await getServerSession(
     req,
     res,

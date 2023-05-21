@@ -54,7 +54,7 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
       </div>
 
       <div className="pl-4 pr-4 md:pl-8 md:pr-8 gap-3 space-y-3 columns-1 md:columns-3 lg:columns-5">
-        {filteredMarketplacePosts.map((marketplacePost: any, index: any) => (
+        {filteredMarketplacePosts.map((marketplacePost: any, index: number) => (
           <MarketplacePost
             key={index}
             marketplacePost={marketplacePost}

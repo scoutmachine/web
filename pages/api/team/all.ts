@@ -30,6 +30,7 @@ export default async function getAllTeamInfo(
 
     const yearsParticipated = rawYearsParticipated.reverse();
 
+    // @ts-ignore
     const teamAwards: Response = await fetch(
       `${API_URL}/api/team/awards?team=${team}&year=${
         rawYearsParticipated[rawYearsParticipated.length - 1]
@@ -39,6 +40,7 @@ export default async function getAllTeamInfo(
       }
     ).then((res) => res.json());
 
+    // @ts-ignore
     res.status(200).json({
       teamData: {
         city: teamData.city,

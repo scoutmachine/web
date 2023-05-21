@@ -102,7 +102,7 @@ export default function InsightsPage({ insights }: any): JSX.Element {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps():  Promise<{props: {insights: any}}> {
   const insightsData = await fetch(`${API_URL}/api/insights`).then(
     (res: Response) => res.json()
   );

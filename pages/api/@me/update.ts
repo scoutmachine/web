@@ -6,7 +6,7 @@ import db from "@/lib/db";
 export default async function UpdateUser(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   const session: Session = (await getServerSession(
     req,
     res,

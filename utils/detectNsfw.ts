@@ -1,7 +1,7 @@
 import nsfwjs from "nsfwjs";
 
 export const detectNsfw = async (imageUrl: string): Promise<boolean> => {
-  const img = document.createElement("img");
+  const img: HTMLImageElement = document.createElement("img");
   img.src = imageUrl;
 
   const model = await nsfwjs.load();

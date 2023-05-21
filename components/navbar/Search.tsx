@@ -63,7 +63,7 @@ export const Search = (props: any) => {
 
                 {props.session && (
                   <FaStar
-                    onClick={() => {
+                    onClick={(): void => {
                       if (isFavourited) {
                         unfavouriteTeam(favouritedTeam);
                       } else {

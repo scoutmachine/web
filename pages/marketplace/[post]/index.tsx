@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import { MarketplacePage } from "@/components/screens/marketplace/MarketplacePage";
-import { GetServerSideProps } from "next";
+import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import Head from "next/head";
 import db from "@/lib/db";
 import { Post } from ".prisma/client";
@@ -21,7 +21,7 @@ export default function MarketplacePostPage({ post }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext): Promise<any> => {
   const { post }: any = context.params;
 
   const getPostData: (Post & { author: User }) | null =

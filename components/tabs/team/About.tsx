@@ -47,7 +47,7 @@ function countUniqueChampionshipTeams(events: any): number {
       ["Championship Division", "Championship Finals"].includes(
         event.event_type_string
       ) ||
-      keywords.some((keyword) => eventCode.includes(keyword))
+      keywords.some((keyword: string) => eventCode.includes(keyword))
     ) {
       const teamMatch = eventName.match(/\d+/) || eventCode.match(/\d+/);
       if (teamMatch) {

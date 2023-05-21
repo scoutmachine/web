@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "@/lib/db";
-import { Session, getServerSession } from "next-auth";
+import {Session, getServerSession, User} from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
+import {FavouritedTeam} from "@prisma/client";
 
 export default async function getUserFavourites(
   req: NextApiRequest,
@@ -18,7 +19,7 @@ export default async function getUserFavourites(
     res.status(400).send("You are not logged in.");
   } else {
     if (req.method === "GET") {
-      const data = await db.user.findUnique({
+      const data: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
         where: {
           // @ts-ignore
           id: session?.user?.id,
@@ -59,7 +60,7 @@ export default async function getUserFavourites(
     }
 
     if (req.method === "DELETE") {
-      const data = await db.favouritedTeam.delete({
+      const data: FavouritedTeam = await db.favouritedTeam.delete({
         where: {
           id: Number(id),
         },

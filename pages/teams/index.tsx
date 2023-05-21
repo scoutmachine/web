@@ -17,8 +17,9 @@ import exportFromJSON from "export-from-json";
 import Link from "next/link";
 import db from "@/lib/db";
 import { GetServerSideProps } from "next";
-import { getServerSession, Session } from "next-auth";
+import {getServerSession, Session, User} from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
+import {FavouritedTeam} from "@prisma/client";
 
 async function fetchTeamsData(
   startIndex: number,
@@ -175,7 +176,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
   useEffect(() => {
     if (typeof window !== "undefined" && getStorage(`teams_${CURR_YEAR}`)) {
       const interval: NodeJS.Timer = setInterval((): void => {
-        const time = new Date().toLocaleTimeString("en-GB", {
+        const time: string = new Date().toLocaleTimeString("en-GB", {
           hour: "numeric",
           minute: "2-digit",
         });
@@ -334,7 +335,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }):  Promise<{props: {user: any}} | {props: {}}> => {
   const session: Session = (await getServerSession(
     req,
     res,
@@ -342,7 +343,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   )) as Session;
 
   if (session) {
-    const user = await db.user.findUnique({
+    const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
       where: {
         // @ts-ignore
         id: session.user.id,

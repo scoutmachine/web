@@ -26,7 +26,7 @@ export const Modal = ({
         <Dialog
           as="div"
           className="relative z-10"
-          onClose={() => {
+          onClose={(): void => {
             !noClose && setOpen(false);
             onClose && onClose();
           }}

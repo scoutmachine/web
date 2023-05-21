@@ -12,10 +12,11 @@ import Head from "next/head";
 import { log } from "@/utils/log";
 import db from "@/lib/db";
 import { GetServerSideProps } from "next";
-import { getServerSession, Session } from "next-auth";
+import {getServerSession, Session, User} from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
+import {FavouritedTeam} from "@prisma/client";
 
-async function fetchRookieTeamsData() {
+async function fetchRookieTeamsData(): Promise<{teams: any, avatars: any}> {
   const cacheDataTeams = getStorage(`rookieTeams_${CURR_YEAR}`);
   const cacheDataAvatars = getStorage(`rookieTeamsAvatars_${CURR_YEAR}`);
 
@@ -148,7 +149,7 @@ export default function RookiesPage({ user }: any): JSX.Element {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }):  Promise<{props: {user: any}} | {props: {}}> => {
   const session: Session = (await getServerSession(
     req,
     res,
@@ -156,7 +157,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   )) as Session;
 
   if (session) {
-    const user = await db.user.findUnique({
+    const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
       where: {
         // @ts-ignore
         id: session.user.id,

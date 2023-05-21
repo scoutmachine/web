@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 interface GeoData {
   lat: number;
@@ -17,7 +17,7 @@ interface GeocodeResult {
 }
 
 export const getGeoData = async (address: string): Promise<GeoData | null> => {
-  const response = await axios.get<GeocodeResult>(
+  const response:  AxiosResponse<GeocodeResult, any> = await axios.get<GeocodeResult>(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${address.replace(
       / /g,
       ""

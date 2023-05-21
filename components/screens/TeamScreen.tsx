@@ -61,7 +61,7 @@ export const TeamScreen = (props: any) => {
                           : `https://${props.team.website?.slice(7)}`
                       }/&size=64`
                 }
-                onError={() => {
+                onError={(): void => {
                   setError(true);
                 }}
               />
@@ -197,7 +197,7 @@ export const TeamScreen = (props: any) => {
 
                   <button
                     className="group text-primary text-sm transition-all duration-150 inline-flex items-center bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-3 py-1"
-                    onClick={() => {
+                    onClick={(): void => {
                       if (isFavourited) {
                         unfavouriteTeam(favouritedTeam, true);
                         setIsStarFilled(false);

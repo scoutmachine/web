@@ -165,7 +165,7 @@ const ModalBody = (props: {
   ): void => {
     setSocialInputs((prevInputs: SocialInput[]) => {
       const updatedInputs: SocialInput[] = prevInputs.map(
-        (input: SocialInput) => {
+        (input: SocialInput): {handle: string, type: string} | SocialInput => {
           if (input.type === type) {
             return { ...input, handle: value };
           }
@@ -208,7 +208,7 @@ const ModalBody = (props: {
                 primaryPlaceholder={social.name}
                 icon={social.icon}
                 placeholder={handle}
-                disabled={socialExists ? true : false}
+                disabled={!!socialExists}
                 state={(value: string) =>
                   handleInputChange(
                     social.name,

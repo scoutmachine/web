@@ -150,7 +150,7 @@ export const Navbar = (props: {
               showLinks ? "mt-5 2xl:mt-0 grid grid-cols-2" : "hidden"
             }`}
           >
-            {links.map((link, key: number) => {
+            {links.map((link: {title: string, href: string, icon: JSX.Element}, key: number) => {
               return (
                 <Link href={link.href} key={key} legacyBehavior>
                   <a
@@ -208,7 +208,7 @@ export const Navbar = (props: {
 
                   <p
                     className="text-sm text-lightGray hover:text-primary cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={() => {
+                    onClick={(): void => {
                       localStorage.clear();
                       router.reload();
                     }}
@@ -218,7 +218,7 @@ export const Navbar = (props: {
 
                   <p
                     className="text-sm text-lightGray hover:text-red-400 cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={() => {
+                    onClick={(): void => {
                       setShowSignoutModal(true);
                       setProfileDropdown(false);
                     }}
