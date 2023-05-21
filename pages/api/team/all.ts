@@ -41,7 +41,6 @@ export default async function getAllTeamInfo(
       }
     ).then((res) => res.json());
 
-    // @ts-ignore
     res.status(200).json({
       teamData: {
         city: teamData.city,
