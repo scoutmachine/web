@@ -1,4 +1,4 @@
-name: Format Check
+name: Code Format Check
 
 on:
   push:
@@ -21,4 +21,4 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       - name: Check formatting
-        run: npm run lint
+        run: npm run check-code-format
