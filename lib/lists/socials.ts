@@ -12,9 +12,12 @@ import {
   FaPinterest,
   FaDiscord,
 } from "react-icons/fa";
-import {IconType} from "react-icons";
+import { IconType } from "react-icons";
 
-export const Socials: ({name: string, icon: IconType, className: string, url?: undefined} | {name: string, icon: IconType, className: string, url: string})[] = [
+export const Socials: (
+  | { name: string; icon: IconType; className: string; url?: undefined }
+  | { name: string; icon: IconType; className: string; url: string }
+)[] = [
   {
     name: "Support Email",
     icon: FaEnvelope,

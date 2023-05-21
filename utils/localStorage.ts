@@ -3,7 +3,7 @@ import { log } from "./log";
 export const setStorage = (key: string, value: string, ttl?: number): void => {
   const now: Date = new Date();
 
-  const item: {value: string, expiry: number} = {
+  const item: { value: string; expiry: number } = {
     value: value,
     expiry: now.getTime() + 1000 * Number(ttl ?? 60 * 60), // 1 hour,
   };

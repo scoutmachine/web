@@ -15,14 +15,14 @@ import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { getServerSession, Session, User } from "next-auth";
-import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { fetchTBA } from "@/lib/fetchTBA";
 import { EventsTab } from "@/components/tabs/team/Events";
-import {AxiosResponse} from "axios";
-import {FavouritedTeam} from "@prisma/client";
+import { AxiosResponse } from "axios";
+import { FavouritedTeam } from "@prisma/client";
 
 const SubInfo = (props: any) => {
   return (
@@ -353,7 +353,9 @@ export default function TeamPage({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext): Promise<any> => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<any> => {
   const session: Session = (await getServerSession(
     context.req,
     context.res,
@@ -371,7 +373,9 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     },
   });
 
-  const tbaSocials:  void | AxiosResponse<any, any> = await fetchTBA(`team/frc${team}/social_media`);
+  const tbaSocials: void | AxiosResponse<any, any> = await fetchTBA(
+    `team/frc${team}/social_media`
+  );
 
   const data = await db.team.findMany({
     where: {
@@ -400,15 +404,16 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   );
 
   if (session) {
-    const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
-      where: {
-        // @ts-ignore
-        id: session.user.id,
-      },
-      include: {
-        favouritedTeams: true,
-      },
-    });
+    const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
+      await db.user.findUnique({
+        where: {
+          // @ts-ignore
+          id: session.user.id,
+        },
+        include: {
+          favouritedTeams: true,
+        },
+      });
 
     return {
       props: {

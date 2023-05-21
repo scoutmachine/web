@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/navbar";
-import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import db from "@/lib/db";
 import Image from "next/image";
@@ -47,7 +47,9 @@ export default function UserProfilePage({ user }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext): Promise<any> => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+): Promise<any> => {
   const { username }: any = context.params;
 
   const fetchUserData: User | null = await db.user.findUnique({

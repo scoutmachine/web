@@ -17,9 +17,9 @@ import exportFromJSON from "export-from-json";
 import Link from "next/link";
 import db from "@/lib/db";
 import { GetServerSideProps } from "next";
-import {getServerSession, Session, User} from "next-auth";
+import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
-import {FavouritedTeam} from "@prisma/client";
+import { FavouritedTeam } from "@prisma/client";
 
 async function fetchTeamsData(
   startIndex: number,
@@ -335,7 +335,10 @@ export default function TeamsPage({ user }: any): JSX.Element {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }):  Promise<{props: {user: any}} | {props: {}}> => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+}): Promise<{ props: { user: any } } | { props: {} }> => {
   const session: Session = (await getServerSession(
     req,
     res,
@@ -343,15 +346,16 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }):  Pro
   )) as Session;
 
   if (session) {
-    const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
-      where: {
-        // @ts-ignore
-        id: session.user.id,
-      },
-      include: {
-        favouritedTeams: true,
-      },
-    });
+    const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
+      await db.user.findUnique({
+        where: {
+          // @ts-ignore
+          id: session.user.id,
+        },
+        include: {
+          favouritedTeams: true,
+        },
+      });
 
     return { props: { user: JSON.parse(JSON.stringify(user)) } };
   }

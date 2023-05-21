@@ -31,7 +31,15 @@ export const TeamCard = (props: any): JSX.Element => {
   );
   const [isStarFilled, setIsStarFilled] = useState(false);
 
-  const data: {team_number: number, nickname: string | null, city: string | null, state_prov: string | null, country: string | null, website: string | null, rookie_year: number} = {
+  const data: {
+    team_number: number;
+    nickname: string | null;
+    city: string | null;
+    state_prov: string | null;
+    country: string | null;
+    website: string | null;
+    rookie_year: number;
+  } = {
     team_number: props.team.team_number,
     nickname: props.team.nickname,
     city: props.team.city,

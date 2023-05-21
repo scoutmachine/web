@@ -150,24 +150,29 @@ export const Navbar = (props: {
               showLinks ? "mt-5 2xl:mt-0 grid grid-cols-2" : "hidden"
             }`}
           >
-            {links.map((link: {title: string, href: string, icon: JSX.Element}, key: number) => {
-              return (
-                <Link href={link.href} key={key} legacyBehavior>
-                  <a
-                    className={`block md:inline-block text-[0.9rem] ${
-                      props.active === link.title
-                        ? "text-primary"
-                        : "text-lightGray"
-                    } font-medium mb-2 md:mb-0`}
-                  >
-                    <div className="flex items-center">
-                      <span className="text-lg mr-2">{link.icon}</span>
-                      <span>{link.title}</span>
-                    </div>
-                  </a>
-                </Link>
-              );
-            })}
+            {links.map(
+              (
+                link: { title: string; href: string; icon: JSX.Element },
+                key: number
+              ) => {
+                return (
+                  <Link href={link.href} key={key} legacyBehavior>
+                    <a
+                      className={`block md:inline-block text-[0.9rem] ${
+                        props.active === link.title
+                          ? "text-primary"
+                          : "text-lightGray"
+                      } font-medium mb-2 md:mb-0`}
+                    >
+                      <div className="flex items-center">
+                        <span className="text-lg mr-2">{link.icon}</span>
+                        <span>{link.title}</span>
+                      </div>
+                    </a>
+                  </Link>
+                );
+              }
+            )}
 
             <Search
               teams={teams}

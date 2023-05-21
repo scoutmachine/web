@@ -16,8 +16,11 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const validationSchema: yup.ObjectSchema<{title: string, price: string, imageUrl: string}, yup.AnyObject, {title: undefined, price: undefined, imageUrl: undefined}>
-    = yup.object().shape({
+const validationSchema: yup.ObjectSchema<
+  { title: string; price: string; imageUrl: string },
+  yup.AnyObject,
+  { title: undefined; price: undefined; imageUrl: undefined }
+> = yup.object().shape({
   title: yup.string().required("Title is required"),
   price: yup.string().required("Price is required"),
   imageUrl: yup.string().required("Image is required"),
@@ -86,7 +89,17 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         imageUrl,
       });
 
-      const data: {title: string, content: string, price: string, type: ListingType, currencyType: string, formattedAddress: string, latitude: number, longitude: number, imageUrl: string} = {
+      const data: {
+        title: string;
+        content: string;
+        price: string;
+        type: ListingType;
+        currencyType: string;
+        formattedAddress: string;
+        latitude: number;
+        longitude: number;
+        imageUrl: string;
+      } = {
         title: title,
         content: description,
         price: price,
@@ -195,7 +208,11 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
                   placeholder={"Location"}
                   apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
                   onPlaceSelected={(place): void => {
-                    const location: {formattedAddress: any, latitude: any, longitude: any} = {
+                    const location: {
+                      formattedAddress: any;
+                      latitude: any;
+                      longitude: any;
+                    } = {
                       formattedAddress: place.formatted_address,
                       latitude: place.geometry.location.lat(),
                       longitude: place.geometry.location.lng(),

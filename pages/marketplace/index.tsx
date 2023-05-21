@@ -57,7 +57,10 @@ export default function MarketplacePage({ posts, user }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }): Promise<{props: {posts: any, user: any}}> => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+}): Promise<{ props: { posts: any; user: any } }> => {
   const session: Session = (await getServerSession(
     req,
     res,

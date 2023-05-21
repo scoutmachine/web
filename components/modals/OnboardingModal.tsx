@@ -1,5 +1,5 @@
 import router from "next/router";
-import {Dispatch, JSX, SetStateAction, useState} from "react";
+import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
 import { CURR_YEAR } from "@/lib/constants";
@@ -12,7 +12,11 @@ type Props = {
 const OnboardingBody = () => {
   const { data: session } = useSession();
 
-  const instructions: ({title: JSX.Element, description: JSX.Element} | {title: string, description: JSX.Element} | {title: string, description: string})[] = [
+  const instructions: (
+    | { title: JSX.Element; description: JSX.Element }
+    | { title: string; description: JSX.Element }
+    | { title: string; description: string }
+  )[] = [
     {
       title: (
         <p>

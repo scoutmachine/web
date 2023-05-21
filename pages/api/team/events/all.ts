@@ -1,13 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 
 export default async function getTeamEvents(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   const { team } = req.query;
-  const data: void | AxiosResponse<any, any> = await fetchTBA(`team/frc${team}/events`);
+  const data: void | AxiosResponse<any, any> = await fetchTBA(
+    `team/frc${team}/events`
+  );
 
   const newData = data.reduce((acc: any[], event: any) => {
     if (!event.name.includes("Cancelled")) {

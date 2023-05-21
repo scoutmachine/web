@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 
 export default async function getAllTeams(
   req: NextApiRequest,

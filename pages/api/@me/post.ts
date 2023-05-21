@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import db from "@/lib/db";
-import {Post} from ".prisma/client";
+import { Post } from ".prisma/client";
 
 export default async function marketplaceAPI(
   req: NextApiRequest,
