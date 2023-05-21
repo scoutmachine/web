@@ -17,7 +17,7 @@ export default async function getTeamStats(
     const teamDistrict = fetchDistrict[fetchDistrict.length - 1].abbreviation;
     const teamRanking: any[] = [];
 
-    const firstPageData = await fetchFIRST(
+    const firstPageData: any = await fetchFIRST(
       `/rankings/district?districtCode=${teamDistrict}&page=1`
     );
     teamRanking.push(...firstPageData.districtRanks);

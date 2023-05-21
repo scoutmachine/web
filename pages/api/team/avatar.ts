@@ -10,7 +10,7 @@ export const fetchTeamAvatar = async (
 > => {
   try {
     const { team } = req.query;
-    const response = await fetchFIRST(`/avatars?teamNumber=${team}`);
+    const response: any = await fetchFIRST(`/avatars?teamNumber=${team}`);
 
     if (response.status < 200 || response.status >= 300) {
       return { avatar: null, status: response.status };

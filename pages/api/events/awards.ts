@@ -6,7 +6,7 @@ export default async function getEventAwards(
   res: NextApiResponse
 ): Promise<void> {
   const { event } = req.query;
-  const data = await fetchFIRST(`/awards/event/${event}`);
+  const data: any = await fetchFIRST(`/awards/event/${event}`);
 
   const newAwards = data.Awards.map((award: any) => ({
     awardId: award.awardId,
