@@ -30,7 +30,7 @@ where to acquire the necessary API keys and how to set up the database.
 
 The Blue Alliance API key is used to access the Blue Alliance API. You can get a Blue Alliance API key by creating an
 account on [The Blue Alliance](https://www.thebluealliance.com/). Once you have created an account, you can find your
-API key on at [thebluealliance.com](https://www.thebluealliance.com/request/apiwrite)
+API key on at [thebluealliance.com](https://www.thebluealliance.com/account)
 
 ### 1.2: FRC Events API Key
 

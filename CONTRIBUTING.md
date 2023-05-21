@@ -29,7 +29,7 @@ You can use any IDE you want to develop the project. [Visual Studio Code](https:
 ### 3.4: Request a Blue Alliance API Key & an FRC Events API Key
 
 Your local testing instance will require read access for both the FRC events & TBA APIs. You can request a TBA API key
-from [thebluealliance.com](https://www.thebluealliance.com/request/apiwrite). You can request an FRC Events API key
+from [thebluealliance.com](https://www.thebluealliance.com/account). You can request an FRC Events API key
 from [frc-events.firstinspires.org](https://frc-events.firstinspires.org/services/API).
 
 ### 3.5: Create a .env File
