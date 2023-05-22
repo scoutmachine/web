@@ -5,9 +5,20 @@ import db from "@/lib/db";
 import Image from "next/image";
 import { User } from "next-auth";
 import { formatEpochSecondsToDate } from "@/utils/time";
+import { FaCopy } from "react-icons/fa";
+import router from "next/router";
+import { API_URL } from "@/lib/constants";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function UserProfilePage({ user }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
+
+  const notify = () =>
+    toast.custom(() => (
+      <div className={`flex bg-card px-6 py-4 rounded-lg text-lightGray`}>
+        <FaCopy className="mr-2 mt-[3px]" /> Successfully copied to clipboard
+      </div>
+    ));
 
   return (
     <>
@@ -39,12 +50,25 @@ export default function UserProfilePage({ user }: any) {
                   {user.teamNumber ? `Team ${user.teamNumber}` : "Unknown Team"}
                 </b>{" "}
                 • Joined {formatEpochSecondsToDate(toEpochSeconds, true)} <br />{" "}
-                <span className="text-sm">@{user.username}</span>
+                <span className="text-sm flex">
+                  @{user.username}{" "}
+                  <FaCopy
+                    className="ml-2 mt-[3px] text-xs cursor-pointer hover:text-white"
+                    onClick={() => {
+                      notify();
+                      navigator.clipboard.writeText(
+                        `${API_URL}${router.asPath}`
+                      );
+                    }}
+                  />
+                </span>
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      <Toaster position="bottom-right" reverseOrder={false} />
     </>
   );
 }
