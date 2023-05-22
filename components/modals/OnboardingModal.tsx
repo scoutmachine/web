@@ -2,7 +2,7 @@ import router from "next/router";
 import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
-import { CURR_YEAR } from "@/lib/constants";
+import { CURR_YEAR, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 
 type Props = {
   isOpen: boolean;
@@ -20,24 +20,27 @@ const OnboardingBody = () => {
     {
       title: (
         <p>
-          Welcome,{" "}
+          Hi there,{" "}
           <span className="text-primary">
-            {session?.user?.name?.split(" ")[0]}!
+            {session?.user?.name?.split(" ")[0]}.
           </span>
         </p>
       ),
       description: (
         <p>
-          <span className="text-black dark:text-white font-bold">
-            My name is Griffy
+          We&apos;re so excited to have you here. By the end of this,
+          you&apos;ll learn everything you need to know about{" "}
+          <span className="text-primary">Scout Machine!</span> <br /> <br />
+          Press{" "}
+          <span className="bg-card py-1 px-2 rounded font-semibold">
+            Next
           </span>{" "}
-          & I&apos;ve been tasked to be your assistant for today! Let&apos;s go
-          over all you need to know about Scout Machine in under 1 min.
+          & let&apos;s get the party started.
         </p>
       ),
     },
     {
-      title: "What is this place?",
+      title: <p className="text-primary">What is this place?</p>,
       description: (
         <p>
           Scout Machine is the all-in-one tool your FRC team needs to find the
@@ -52,7 +55,7 @@ const OnboardingBody = () => {
       ),
     },
     {
-      title: "Ok, what can I do?",
+      title: <p className="text-primary">Ok, what can I do?</p>,
       description: (
         <p>
           <span className="text-black dark:text-white">
@@ -86,9 +89,32 @@ const OnboardingBody = () => {
       ),
     },
     {
-      title: "Ready to go!",
-      description:
-        "You're all set! Now, you're a Scout Machine Pro. Have fun :)",
+      title: <p className="text-primary">Ready to go</p>,
+      description: (
+        <p>
+          You&apos;re now a Scout Machine Expert. Have fun out there! <br />
+          <br /> Remember, if you have any questions, bug reports, feature
+          requests, or anything else, you can always reach out to us via{" "}
+          <a
+            className="text-purple-400"
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Discord
+          </a>{" "}
+          or{" "}
+          <a
+            className="text-white"
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Github
+          </a>{" "}
+          & we&apos;ll be happy to help.
+        </p>
+      ),
     },
   ];
 
@@ -106,7 +132,7 @@ const OnboardingBody = () => {
 
   return (
     <>
-      <div className="animate-fade-in px-5 py-5">
+      <div className="fade-in px-5 py-5">
         <div className="mb-5">
           <h1 className="text-4xl font-bold mb-2 text-black dark:text-white">
             {instructions[currentPage].title}
@@ -119,7 +145,7 @@ const OnboardingBody = () => {
         <div className="flex gap-3">
           {currentPage !== 0 && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:text-white transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray transition-all duration-150"
               onClick={handlePrevPage}
               disabled={currentPage === 0}
             >
@@ -128,7 +154,7 @@ const OnboardingBody = () => {
           )}
           {!isLastPage && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:text-white transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray transition-all duration-150"
               onClick={handleNextPage}
             >
               Next
