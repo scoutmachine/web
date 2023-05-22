@@ -15,8 +15,8 @@ export default function Document(): JSX.Element {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Scout Machine" />
         <meta name="twitter:description" content="Smarter FRC data insights" />
-        <meta name="twitter:image" content="/smBanner.png" />
-        <meta name="og:image" content="/smBanner.png" />
+        <meta name="twitter:image" content="/ScoutMachineBanner.png" />
+        <meta name="og:image" content="/ScoutMachineBanner.png" />
         <meta name="theme-color" content="#FBBB04" />
         <link rel="shortcut icon" href="/smLogo.png" />
       </Head>

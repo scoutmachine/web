@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/smBanner.png" alt="Pindrop" />
+  <img src="./public/ScoutMachineBanner.png" alt="Pindrop" />
 </p>
 
 <img src="/public/powered-by-vercel.svg" height="40">
