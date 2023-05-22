@@ -1,6 +1,7 @@
 export const dev: boolean = process.env.NODE_ENV !== "production";
 
 export const CURR_YEAR: number = 2023;
+export const COMP_SEASON: boolean = false;
 
 export const API_URL: string = dev
   ? "http://localhost:3000"

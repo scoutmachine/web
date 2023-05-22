@@ -1,6 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import { API_URL } from "@/lib/constants";
+import { API_URL, COMP_SEASON } from "@/lib/constants";
 import {
   epochSecondsToTime,
   formatEpochSecondsToDate,
@@ -18,9 +18,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-export default function NextTeamMatch({ next, avatars, epas, invalid }: any) {
+export default function NextTeamMatch({ next, avatars, epas }: any) {
   const router = useRouter();
   const teamQuery = router.query.team;
+
+  useEffect(() => {
+    if (COMP_SEASON) {
+      const refreshTimer = setTimeout(() => {
+        router.replace(router.asPath);
+      }, 120000);
+
+      return () => clearTimeout(refreshTimer);
+    }
+  }, [router]);
 
   const toEpochSeconds = new Date(next.match?.startTime).getTime();
   const redAlliance = next.match?.teams.filter((team: any) =>
