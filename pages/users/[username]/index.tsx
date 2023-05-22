@@ -68,7 +68,7 @@ export default function UserProfilePage({ user }: any) {
         </div>
       </div>
 
-      <Toaster position="bottom-right" reverseOrder={false} />
+      <Toaster position="bottom-right" />
     </>
   );
 }
