@@ -42,6 +42,6 @@ export default async function getTeamInfo(
       location_name: currentEvent.location_name,
     },
     match: lastMatch[0] ?? null,
-    previous: { description: lastMatch[1].description } ?? null,
+    previous: lastMatch[1] ? { description: lastMatch[1].description } : null,
   });
 }
