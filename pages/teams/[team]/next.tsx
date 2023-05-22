@@ -10,6 +10,7 @@ import { GetServerSideProps } from "next";
 import {
   FaArrowAltCircleDown,
   FaArrowAltCircleUp,
+  FaRedo,
   FaUndo,
 } from "react-icons/fa";
 import { GoPrimitiveDot } from "react-icons/go";
@@ -21,14 +22,24 @@ import { useState, useEffect } from "react";
 export default function NextTeamMatch({ next, avatars, epas }: any) {
   const router = useRouter();
   const teamQuery = router.query.team;
+  const [refreshIcon, setRefreshIcon] = useState(false);
+
+  const refreshData = () => {
+    setRefreshIcon(true);
+    router.replace(router.asPath);
+  };
 
   useEffect(() => {
     if (COMP_SEASON) {
       const refreshTimer = setTimeout(() => {
+        setRefreshIcon(true);
         router.replace(router.asPath);
       }, 120000);
 
-      return () => clearTimeout(refreshTimer);
+      return () => {
+        setRefreshIcon(false);
+        clearTimeout(refreshTimer);
+      };
     }
   }, [router]);
 
@@ -131,6 +142,18 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
           </p>
 
           <div className="flex flex-row gap-3 items-center justify-center">
+            {COMP_SEASON && (
+              <button
+                onClick={refreshData}
+                className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-lightGray hover:text-white transition-all duration-150 py-2 px-5 rounded-lg"
+              >
+                <FaRedo
+                  className={`mr-2 text-xs mt-[4px] ${refreshIcon && "spin"}`}
+                />{" "}
+                {refreshIcon ? "Refreshing..." : "Refresh Data"}
+              </button>
+            )}
+
             {isTimeInPast(next.match?.startTime) && (
               <span className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-green-400 py-2 px-5 rounded-lg">
                 <GoPrimitiveDot className="mr-1 text-xl" /> Match Completed{" "}

@@ -30,9 +30,14 @@ a:hover {
   animation: fade 2s ease-in-out;
 }
 
-.fade-out {
-  opacity: 0;
-  transform: translateY(-20px);
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s 1 linear;
 }
 
 .banner {
