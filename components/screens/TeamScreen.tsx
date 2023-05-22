@@ -24,7 +24,7 @@ export function searchDistrict(array: any, valuetofind: any) {
 
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
-  const isHOF = findTeam(String(props.team.team_number));
+  const isHOF = findTeam(String(props.team?.team_number));
   const currentDistrict = props.district ? props.district.team : null;
   const [isStarFilled, setIsStarFilled] = useState(false);
   const { data: session } = useSession();
@@ -33,11 +33,11 @@ export const TeamScreen = (props: any) => {
 
   const isFavourited = props.user?.favouritedTeams?.some(
     (favouritedTeam: any): boolean =>
-      favouritedTeam.team_number === props.team.team_number
+      favouritedTeam.team_number === props.team?.team_number
   );
   const favouritedTeam = props.user?.favouritedTeams?.filter(
     (favouritedTeam: any): boolean =>
-      favouritedTeam.team_number === props.team.team_number
+      favouritedTeam.team_number === props.team?.team_number
   );
 
   return (
@@ -48,7 +48,7 @@ export const TeamScreen = (props: any) => {
             {!error ? (
               <Image
                 className="rounded-lg mr-5 w-20 mb-5 md:mb-0"
-                alt={`Team ${props.team.team_number} Avatar`}
+                alt={`Team ${props.team?.team_number} Avatar`}
                 height="50"
                 width="50"
                 priority={true}
@@ -56,9 +56,9 @@ export const TeamScreen = (props: any) => {
                   props.avatar
                     ? `data:image/jpeg;base64,${props.avatar}`
                     : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                        props.team.website?.startsWith("https")
-                          ? props.team.website
-                          : `https://${props.team.website?.slice(7)}`
+                        props.team?.website?.startsWith("https")
+                          ? props.team?.website
+                          : `https://${props.team?.website?.slice(7)}`
                       }/&size=64`
                 }
                 onError={(): void => {
@@ -81,27 +81,27 @@ export const TeamScreen = (props: any) => {
                 onClick={() => setIsLocationModalOpen(true)}
                 className="text-lightGray text-sm font-medium hover:text-primary cursor-pointer"
               >
-                {props.team.school_name && props.team.school_name}{" "}
+                {props.team?.school_name && props.team?.school_name}{" "}
               </p>
 
               <h1 className="font-black text-black dark:text-white text-4xl">
-                Team {props.team.team_number}:{" "}
-                <span className="text-primary">{props.team.nickname}</span>
+                Team {props.team?.team_number}:{" "}
+                <span className="text-primary">{props.team?.nickname}</span>
               </h1>
 
               <p className="text-lightGray">
                 <b>
-                  {props.team.city && `${props.team.city},`}{" "}
-                  {props.team.state_prov && `${props.team.state_prov},`}{" "}
-                  {props.team.country}
-                  {!props.team.city &&
-                    !props.team.state_prov &&
-                    !props.team.country &&
+                  {props.team?.city && `${props.team?.city},`}{" "}
+                  {props.team?.state_prov && `${props.team?.state_prov},`}{" "}
+                  {props.team?.country}
+                  {!props.team?.city &&
+                    !props.team?.state_prov &&
+                    !props.team?.country &&
                     "Unknown Location"}
                 </b>{" "}
-                • Joined <span>{props.team.rookie_year}</span> •{" "}
+                • Joined <span>{props.team?.rookie_year}</span> •{" "}
                 <a
-                  href={`https://frc-events.firstinspires.org/team/${props.team.team_number}`}
+                  href={`https://frc-events.firstinspires.org/team/${props.team?.team_number}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -112,18 +112,18 @@ export const TeamScreen = (props: any) => {
           </div>
 
           <div className="flex flex-wrap gap-3 md:gap-5 mt-3">
-            {props.team.website && (
+            {props.team?.website && (
               <a
-                href={props.team.website}
+                href={props.team?.website}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Social
                   icon={FaLink}
                   name={
-                    props.team.website.includes("https")
-                      ? props.team.website.replace("https://www.", "")
-                      : props.team.website.replace("http://www.", "")
+                    props.team?.website.includes("https")
+                      ? props.team?.website.replace("https://www.", "")
+                      : props.team?.website.replace("http://www.", "")
                   }
                   className="text-black dark:text-white font-bold"
                 />
@@ -132,13 +132,13 @@ export const TeamScreen = (props: any) => {
             {props.socials && <Socials socials={props.socials} />}
           </div>
 
-          {!props.years.includes(CURR_YEAR) && (
+          {!props.years?.includes(CURR_YEAR) && (
             <ErrorMessage
               message={
                 <span className="flex">
                   <FaInfoCircle className="mr-2 text-xl mt-[2px]" /> Team{" "}
-                  {props.team.team_number} was last seen competing in{" "}
-                  {props.years[0]}
+                  {props.team?.team_number} was last seen competing in{" "}
+                  {props.years?.[0]}
                 </span>
               }
             />
@@ -179,13 +179,13 @@ export const TeamScreen = (props: any) => {
             </p>
 
             <p className="text-lightGray font-bold text-sm italic">
-              {props.team.name}
+              {props.team?.name}
             </p>
 
             {session && (
               <div className="flex mt-3">
                 <div className="flex gap-3">
-                  {props.socials.length !== socials.length && (
+                  {props.socials?.length !== socials.length && (
                     <button
                       onClick={() => setIsAddSocialModelOpen(true)}
                       className="text-sm text-lightGray hover:text-black dark:text-white transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
@@ -218,7 +218,7 @@ export const TeamScreen = (props: any) => {
                       {isStarFilled || isFavourited
                         ? "Unfavourite"
                         : "Favourite"}{" "}
-                      {props.team.team_number}
+                      {props.team?.team_number}
                     </span>
                   </button>
                 </div>
@@ -233,7 +233,7 @@ export const TeamScreen = (props: any) => {
         setOpen={setIsAddSocialModelOpen}
         team={props.team}
         avatar={props.avatar}
-        socials={props.socials}
+        socials={props?.socials}
       />
 
       <LocationModal

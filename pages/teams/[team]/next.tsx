@@ -18,17 +18,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-export default function NextTeamMatch({ next, avatars, epas }: any) {
+export default function NextTeamMatch({ next, avatars, epas, invalid }: any) {
   const router = useRouter();
   const teamQuery = router.query.team;
-  const toEpochSeconds = new Date(next.match.startTime).getTime();
-  const redAlliance = next.match.teams.filter((team: any) =>
+
+  const toEpochSeconds = new Date(next.match?.startTime).getTime();
+  const redAlliance = next.match?.teams.filter((team: any) =>
     team.station.includes("Red")
   );
-  const blueAlliance = next.match.teams.filter((team: any) =>
+  const blueAlliance = next.match?.teams.filter((team: any) =>
     team.station.includes("Blue")
   );
-  const teamAlliance = next.match.teams
+  const teamAlliance = next.match?.teams
     .find((team: any) => team.teamNumber === Number(teamQuery))
     .station.replace(/[0-9]/g, "");
 
@@ -45,11 +46,11 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
     let redWinRate = 0;
     let blueWinRate = 0;
 
-    redAlliance.forEach((team: any) => {
+    redAlliance?.forEach((team: any) => {
       redWinRate += epas[team.teamNumber].winrate;
     });
 
-    blueAlliance.forEach((team: any) => {
+    blueAlliance?.forEach((team: any) => {
       blueWinRate += epas[team.teamNumber].winrate;
     });
 
@@ -67,6 +68,28 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
     }
   };
 
+  if (!next.match) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-10">
+          <div className="bg-card mb-5 p-5 rounded-lg border dark:border-[#2A2A2A]">
+            <p className="text-center text-red-500">
+              Oh no... we tried our hardest but we&apos;re unable to process{" "}
+              {teamQuery}&apos;s next match. <br />
+            </p>
+            <p className="text-center text-black dark:text-white">
+              Please try again or come back later.
+            </p>
+          </div>
+        </div>
+
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar />
@@ -75,13 +98,15 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
         <div className="bg-card mb-5 p-5 rounded-lg border dark:border-[#2A2A2A]">
           <p className="text-lightGray text-center">
             {formatEpochSecondsToDate(toEpochSeconds, true)} •{" "}
-            {next.match.tournamentLevel} Match
+            {next.match?.tournamentLevel} Match
           </p>
           <h1 className="text-black dark:text-white text-2xl text-center">
             <b>
-              {isTimeInPast(next.match.startTime) ? "Last Match:" : "Upcoming:"}
+              {isTimeInPast(next.match?.startTime)
+                ? "Last Match:"
+                : "Upcoming:"}
             </b>{" "}
-            {next.match.description} on {next.match.field} Field at{" "}
+            {next.match?.description} on {next.match?.field} Field at{" "}
             {epochSecondsToTime(toEpochSeconds, true)}
           </h1>
           <p className="text-lightGray text-center">
@@ -93,10 +118,10 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
           </p>
 
           <div className="flex flex-row gap-3 items-center justify-center">
-            {isTimeInPast(next.match.startTime) && (
+            {isTimeInPast(next.match?.startTime) && (
               <span className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-green-400 py-2 px-5 rounded-lg">
                 <GoPrimitiveDot className="mr-1 text-xl" /> Match Completed{" "}
-                {formatRelativeTime(next.match.startTime)}
+                {formatRelativeTime(next.match?.startTime)}
               </span>
             )}
             <span className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-yellow-400 py-2 px-5 rounded-lg">
@@ -280,24 +305,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const teamAvatars: any = {};
   const matchEPAs: any = {};
 
-  await Promise.all(
-    nextMatch.match.teams.map(async (team: any): Promise<void> => {
-      const data = await fetch(
-        `${API_URL}/api/team/avatar?team=${team.teamNumber}`
-      ).then((res: Response) => res.json());
-      const epa = await fetch(
-        `https://api.statbotics.io/v2/team/${team.teamNumber}`
-      ).then((res) => res.json());
+  if (nextMatch.match) {
+    await Promise.all(
+      nextMatch.match.teams.map(async (team: any): Promise<void> => {
+        const data = await fetch(
+          `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+        ).then((res: Response) => res.json());
+        const epa = await fetch(
+          `https://api.statbotics.io/v2/team/${team.teamNumber}`
+        ).then((res) => res.json());
 
-      try {
-        teamAvatars[team.teamNumber] = data.avatar;
-        matchEPAs[team.teamNumber] = epa;
-      } catch {
-        teamAvatars[team.teamNumber] = null;
-        matchEPAs[team.teamNumber] = null;
-      }
-    })
-  );
+        try {
+          teamAvatars[team.teamNumber] = data.avatar;
+          matchEPAs[team.teamNumber] = epa;
+        } catch {
+          teamAvatars[team.teamNumber] = null;
+          matchEPAs[team.teamNumber] = null;
+        }
+      })
+    );
+  }
 
   return { props: { next: nextMatch, avatars: teamAvatars, epas: matchEPAs } };
 };

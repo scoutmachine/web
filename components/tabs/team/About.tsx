@@ -21,13 +21,13 @@ const Card = (props: any) => {
 };
 
 function countUniqueChampionshipTeams(events: any): number {
-  const championshipEvents = events.filter((event: any) =>
+  const championshipEvents = events?.filter((event: any) =>
     event.event_type_string.includes("Championship")
   );
 
   const uniqueEvents: Set<string> = new Set<string>();
 
-  championshipEvents.forEach((event: any): void => {
+  championshipEvents?.forEach((event: any): void => {
     const eventName = event.name.toLowerCase();
     const eventCode = event.event_code.toLowerCase();
     const keywords: string[] = [
@@ -61,29 +61,29 @@ function countUniqueChampionshipTeams(events: any): number {
 
 export const AboutTab = (props: any) => {
   const avgAwards: string = (
-    props.team.teamAwards.length / props.team.yearsParticipated.length
+    props.team?.teamAwards?.length / props.team?.yearsParticipated?.length
   ).toFixed(1);
 
   const avgEvents: string = (
-    props.team.teamEvents.length / props.team.yearsParticipated.length
+    props.team?.teamEvents?.length / props.team?.yearsParticipated?.length
   ).toFixed(1);
 
   const avgAwardsPerEvent: string = (
-    props.team.teamAwards.length / props.team.teamEvents.length
+    props.team?.teamAwards?.length / props.team?.teamEvents?.length
   ).toFixed(1);
 
-  const eventsWon = props.team.teamAwards.filter((award: any) =>
+  const eventsWon = props.team?.teamAwards?.filter((award: any) =>
     award.name.includes("Winner")
   ).length;
 
-  const district = props.team.teamDistrict?.team;
+  const district = props.team?.teamDistrict?.team;
   const districtPercentage: number = Math.trunc(
-    (100 * district?.rank) / props.team.teamDistrict.total
+    (100 * district?.rank) / props.team?.teamDistrict?.total
   );
   const roundedPercentage: number = Math.round(districtPercentage / 10) * 10;
 
   const tripsToChampionship: number = countUniqueChampionshipTeams(
-    props.team.teamEvents
+    props.team?.teamEvents
   );
 
   return (
@@ -93,7 +93,7 @@ export const AboutTab = (props: any) => {
           <FaRocket className="mr-1 inline-block" /> General Info
         </h1>
         <p className="text-lightGray">
-          {props.team.teamData.team_number} | {props.team.teamData.nickname}
+          {props.team?.teamData?.team_number} | {props.team?.teamData?.nickname}
         </p>
 
         {district && (
@@ -102,13 +102,13 @@ export const AboutTab = (props: any) => {
               <b className="text-black dark:text-white">
                 Qualified for District Championship:
               </b>{" "}
-              {props.team.teamDistrict.team.qualifiedDistrictCmp ? "Yes" : "No"}
+              {props.team?.teamDistrict.team.qualifiedDistrictCmp ? "Yes" : "No"}
             </p>
             <p className="text-lightGray text-sm">
               <b className="text-black dark:text-white">
                 Qualified for <i>FIRST</i> Championship:
               </b>{" "}
-              {props.team.teamDistrict.team.qualifiedFirstCmp ? "Yes" : "No"}
+              {props.team?.teamDistrict.team.qualifiedFirstCmp ? "Yes" : "No"}
             </p>
           </>
         )}
@@ -135,7 +135,7 @@ export const AboutTab = (props: any) => {
                 >
                   #{district.rank} in{" "}
                   {searchDistrict(districtCodeToName, district.districtCode)} (
-                  {district.districtCode}, {props.team.teamDistrict.total}{" "}
+                  {district.districtCode}, {props.team?.teamDistrict.total}{" "}
                   teams)
                 </b>{" "}
                 <br />
@@ -175,10 +175,10 @@ export const AboutTab = (props: any) => {
           <FaBolt className="mr-1 inline-block" /> Seasons Completed
         </h1>
         <p className="text-lightGray">
-          {props.team.yearsParticipated.length} seasons
+          {props.team?.yearsParticipated?.length} seasons
         </p>
         <p className="text-lightGray flex-wrap text-sm">
-          ({props.team.yearsParticipated.join(", ")})
+          ({props.team?.yearsParticipated?.join(", ")})
         </p>
       </Card>
       <Card>
@@ -186,8 +186,8 @@ export const AboutTab = (props: any) => {
           <FaMapMarkedAlt className="mr-1 inline-block" /> Events Completed
         </h1>
         <p className="text-lightGray">
-          {props.team.teamEvents.length}{" "}
-          {props.team.teamEvents.length === 1 ? "event" : "events"}
+          {props.team?.teamEvents?.length}{" "}
+          {props.team?.teamEvents?.length === 1 ? "event" : "events"}
         </p>
       </Card>
       <Card>
@@ -206,7 +206,7 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Awards Won
         </h1>
-        <p className="text-lightGray">{props.team.teamAwards.length} awards</p>
+        <p className="text-lightGray">{props.team?.teamAwards?.length} awards</p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">

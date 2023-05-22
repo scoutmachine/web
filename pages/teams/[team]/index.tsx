@@ -49,6 +49,16 @@ export default function TeamPage({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
 
+  useEffect(() => {
+    const redirectToHome = async () => {
+      if (!teamData.teamData) {
+        await router.push("/404");
+      }
+    };
+
+    redirectToHome();
+  }, [router, teamData.teamData]);
+
   useEffect((): void => {
     if (!router.isReady) return;
 
@@ -100,10 +110,10 @@ export default function TeamPage({
     setActiveTab(tabIndex);
   };
 
-  if (!teamData) return <Loading />;
+  if (!teamData || !teamData.teamData) return <Loading />;
 
-  const year = teamData.yearsParticipated
-    ? teamData.yearsParticipated.map((year: any) => year)
+  const year = teamData?.yearsParticipated
+    ? teamData?.yearsParticipated.map((year: any) => year)
     : [];
 
   return (
@@ -116,11 +126,11 @@ export default function TeamPage({
 
       <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-0 md:pr-0">
         <TeamScreen
-          team={teamData.teamData}
-          years={teamData.yearsParticipated}
+          team={teamData?.teamData}
+          years={teamData?.yearsParticipated}
           socials={teamSocials}
-          avatar={teamData.teamAvatar}
-          district={teamData.teamDistrict}
+          avatar={teamData?.teamAvatar}
+          district={teamData?.teamDistrict}
           user={user}
         />
 
@@ -139,7 +149,7 @@ export default function TeamPage({
                 tab={2}
                 onClick={() => setActiveTab(2)}
               >
-                Awards <SubInfo>{teamData.teamAwards.length}</SubInfo>
+                Awards <SubInfo>{teamData?.teamAwards?.length}</SubInfo>
               </TabButton>
               <TabButton
                 active={activeTab}
@@ -153,7 +163,7 @@ export default function TeamPage({
                 tab={4}
                 onClick={() => setActiveTab(4)}
               >
-                Events <SubInfo>{teamData.teamEvents.length}</SubInfo>
+                Events <SubInfo>{teamData?.teamEvents?.length}</SubInfo>
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
@@ -186,25 +196,27 @@ export default function TeamPage({
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
-                  {teamData.yearsParticipated.length > 0 ? (
+                  {teamData?.yearsParticipated?.length > 0 ? (
                     <div className="grid grid-cols-3 gap-3">
-                      {teamData.yearsParticipated.map((year: any, key: any) => (
-                        <div
-                          key={key}
-                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
-                          onClick={(): void => {
-                            handleTabClick(Number(year));
-                            setIsDropdownOpen(false);
-                            setCurrentYearTab(year);
-                          }}
-                        >
-                          {year}
-                        </div>
-                      ))}
+                      {teamData?.yearsParticipated?.map(
+                        (year: any, key: any) => (
+                          <div
+                            key={key}
+                            className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                            onClick={(): void => {
+                              handleTabClick(Number(year));
+                              setIsDropdownOpen(false);
+                              setCurrentYearTab(year);
+                            }}
+                          >
+                            {year}
+                          </div>
+                        )
+                      )}
                     </div>
                   ) : (
                     <p className="px-2 text-lightGray">
-                      Looks like {teamData.teamData.team_number} hasn&apos;t
+                      Looks like {teamData?.teamData?.team_number} hasn&apos;t
                       competed, yet.
                     </p>
                   )}
@@ -229,10 +241,10 @@ export default function TeamPage({
             )}
 
             {activeTab === 3 && (
-              <TeamMembersTab members={teamMembers} team={teamData.teamData} />
+              <TeamMembersTab members={teamMembers} team={teamData?.teamData} />
             )}
 
-            {activeTab === 4 && <EventsTab events={teamData.teamEvents} />}
+            {activeTab === 4 && <EventsTab events={teamData?.teamEvents} />}
 
             <div className="flex flex-col gap-5">
               {year.includes(activeTab) &&
@@ -369,59 +381,73 @@ export const getServerSideProps: GetServerSideProps = async (
     (res: Response) => res.json()
   );
 
-  const teamMembers: User[] = await db.user.findMany({
-    where: {
-      teamNumber: Number(team),
-    },
-  });
+  if (teamData.teamData) {
+    const teamMembers: User[] = await db.user.findMany({
+      where: {
+        teamNumber: Number(team),
+      },
+    });
 
-  const tbaSocials: any | void | AxiosResponse<any, any> = await fetchTBA(
-    `team/frc${team}/social_media`
-  );
+    const tbaSocials: any | void | AxiosResponse<any, any> = await fetchTBA(
+      `team/frc${team}/social_media`
+    );
 
-  const data = await db.team.findMany({
-    where: {
-      team_number: Number(team),
-    },
-    include: {
-      socials: true,
-    },
-  });
+    const data = await db.team.findMany({
+      where: {
+        team_number: Number(team),
+      },
+      include: {
+        socials: true,
+      },
+    });
 
-  const newFormattedTBASocials = tbaSocials.map(
-    (social: any): { handle: any; type: any } => ({
-      type: social.type.replace("-profile", "").replace("-channel", ""),
-      handle: social.foreign_key,
-    })
-  );
+    const newFormattedTBASocials = tbaSocials?.map(
+      (social: any): { handle: any; type: any } => ({
+        type: social.type.replace("-profile", "").replace("-channel", ""),
+        handle: social.foreign_key,
+      })
+    );
 
-  const allSocials = data.flatMap((team: any) =>
-    team.socials
-      .filter((social: any) => social.verified)
-      .map((social: any) => ({
-        type: social.type,
-        handle: social.handle,
-        verified: social.verified,
-      }))
-  );
+    const allSocials = data.flatMap((team: any) =>
+      team.socials
+        .filter((social: any) => social.verified)
+        .map((social: any) => ({
+          type: social.type,
+          handle: social.handle,
+          verified: social.verified,
+        }))
+    );
 
-  if (session) {
-    const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
-      await db.user.findUnique({
-        where: {
-          // @ts-ignore
-          id: session.user.id,
+    if (session) {
+      const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
+        await db.user.findUnique({
+          where: {
+            // @ts-ignore
+            id: session.user.id,
+          },
+          include: {
+            favouritedTeams: true,
+          },
+        });
+
+      return {
+        props: {
+          user: JSON.parse(JSON.stringify(user)),
+          teamMembers: JSON.parse(JSON.stringify(teamMembers)),
+          teamSocials: newFormattedTBASocials
+            ? [...allSocials, ...newFormattedTBASocials]
+            : null,
+          teamData,
         },
-        include: {
-          favouritedTeams: true,
-        },
-      });
+      };
+    }
 
     return {
       props: {
-        user: JSON.parse(JSON.stringify(user)),
         teamMembers: JSON.parse(JSON.stringify(teamMembers)),
-        teamSocials: [...allSocials, ...newFormattedTBASocials],
+        teamSocials: newFormattedTBASocials
+          ? [...allSocials, ...newFormattedTBASocials]
+          : null,
         teamData,
       },
     };
@@ -429,9 +455,9 @@ export const getServerSideProps: GetServerSideProps = async (
 
   return {
     props: {
-      teamMembers: JSON.parse(JSON.stringify(teamMembers)),
-      teamSocials: [...allSocials, ...newFormattedTBASocials],
-      teamData,
+      teamData: {
+        teamData: null,
+      },
     },
   };
 };

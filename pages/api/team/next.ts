@@ -35,7 +35,7 @@ export default async function getTeamInfo(
 
   res.status(200).json({
     event: currentEvent,
-    match: lastMatch[0],
-    previous: lastMatch[1],
+    match: lastMatch[0] ?? null,
+    previous: lastMatch[1] ?? null,
   });
 }
