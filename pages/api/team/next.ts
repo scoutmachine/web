@@ -26,17 +26,16 @@ export default async function getTeamInfo(
   const schedule: any | void | AxiosResponse<any, any> = await fetchFIRST(
     `/schedule/${currentEvent.first_event_code}?teamNumber=${team}`
   );
-  const previousMatch = schedule.Schedule[schedule.Schedule.length - 1];
 
   const lastMatch = schedule.Schedule.sort((a: any, b: any) => {
     const aDate = new Date(a.startTime);
     const bDate = new Date(b.startTime);
     return bDate.getTime() - aDate.getTime();
-  })[0];
+  });
 
   res.status(200).json({
     event: currentEvent,
-    match: lastMatch,
-    previous: previousMatch,
+    match: lastMatch[0],
+    previous: lastMatch[1],
   });
 }
