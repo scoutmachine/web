@@ -18,9 +18,9 @@ export const FilterNumber = (props: {
       }}
       className={`${
         buttonClicked === props.range
-          ? "bg-[#191919]"
-          : "bg-card hover:bg-[#191919]"
-      } px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A]`}
+          ? "border border-solid bg-gray-100"
+          : "bg-white dark:bg-card hover:bg-gray-100 dark:hover:bg-[#191919]"
+      } px-3 py-1 text-lightGray text-sm rounded-lg border border-solid dark:border-[#2A2A2A]`}
     >
       {props.name}
     </button>

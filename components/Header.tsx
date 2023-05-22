@@ -8,7 +8,7 @@ export const Header = (props: {
 }) => {
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full">
-      <div className="border border-[#2a2a2a] bg-[#191919] mt-10 rounded-lg px-10 py-10">
+      <div className="border bg-white border-solid dark:border-[#2a2a2a] dark:bg-[#191919] mt-10 rounded-lg px-10 py-10">
         <div className="md:flex text-primary md:text-5xl text-3xl font-black mb-2">
           {props.className ? (
             <>

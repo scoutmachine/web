@@ -224,7 +224,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
                   value={query}
                   onChange={changeSearch}
                   spellCheck="false"
-                  className="border border-[#2A2A2A] bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
+                  className="border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
                 />
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
                   <FaSearch className="text-sm text-lightGray" />
@@ -290,7 +290,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
               </div>
               <div>
                 <button
-                  className="mt-2 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-black dark:text-white transition-all duration-150"
+                  className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:text-white transition-all duration-150"
                   onClick={() => {
                     exportFromJSON({
                       data: getStorage(`teams_${CURR_YEAR}`),
@@ -306,7 +306,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
               <br />
               {teamExistsByTime && (
                 <div>
-                  <b className="text-white">
+                  <b className="text-black dark:text-white">
                     Looks like the time is{" "}
                     <span className="text-primary">{time}.</span>
                   </b>{" "}

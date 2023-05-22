@@ -56,7 +56,7 @@ export const TeamCard = (props: any): JSX.Element => {
       team={props.team}
       avatar={props.avatars && props.avatars[props.team.team_number]}
     >
-      <div className="relative px-5 py-8 h-32 border border-[#2A2A2A] bg-card hover:border-gray-600 rounded-lg">
+      <div className="relative px-5 py-8 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg">
         <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
           <a className="cursor-pointer">
             {!error ? (
@@ -92,7 +92,7 @@ export const TeamCard = (props: any): JSX.Element => {
               />
             )}
 
-            <h1 className="flex-wrap flex mt-[-15px] text-gray-200 font-extrabold text-lg">
+            <h1 className="flex-wrap flex mt-[-15px] text-black dark:text-gray-200 font-extrabold text-lg">
               {props.team.nickname.length > 20
                 ? `${props.team.nickname.slice(0, 20)}...`
                 : props.team.nickname}
