@@ -132,7 +132,7 @@ const OnboardingBody = () => {
 
   return (
     <>
-      <div className="fade-in px-5 py-5">
+      <div className="onboardingFadeIn px-5 py-5">
         <div className="mb-5">
           <h1 className="text-4xl font-bold mb-2 text-black dark:text-white">
             {instructions[currentPage].title}
