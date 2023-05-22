@@ -8,7 +8,7 @@ export default function Document(): JSX.Element {
         <meta name="description" content="Smarter FRC data insights" />
         <meta
           name="keywords"
-          content="frc,robotics,6070,mississauga,ontario,peel,pdsb,scoutmachine"
+          content="frc,robotics,scoutmachine,firstrobticscompetition,FIRST Robotics,FIRST Robotics Competition,robotics,first,firstrobotics,competition,team,regionals,matches,videos"
         />
         <meta name="og:title" content="Scout Machine" />
         <meta name="og:description" content="Smarter FRC data insights" />
