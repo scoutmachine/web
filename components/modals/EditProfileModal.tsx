@@ -110,12 +110,28 @@ const ModalBody = (props: {
     const data: { [p: string]: string | number } = { [fieldName]: fieldValue };
     if (!fieldValue) {
       setErrorMessage(`${fieldName} left blank`);
-      // @ts-ignore
-    } else if (session?.user[fieldName] === fieldValue) {
+    } else if (
+      session?.user &&
+      (session.user as { [key: string]: string })[fieldName] === fieldValue
+    ) {
       setErrorMessage(`That already is your ${fieldName}!`);
-    } else {
-      await fetchUpdate(data);
+    } else if (fieldName === "image") {
+      const urlRegex =
+        /^(https?:\/\/(?:lh3\.googleusercontent\.com|avatars\.githubusercontent\.com))/;
+      const linkRegex = /^https?:\/\/\S+$/;
+      if (
+        fieldValue !== null &&
+        (!urlRegex.test(fieldValue as string) ||
+          !linkRegex.test(fieldValue as string))
+      ) {
+        setErrorMessage(
+          "Invalid avatar URL. Please provide a Discord or GitHub link."
+        );
+        return;
+      }
     }
+
+    await fetchUpdate(data);
   };
 
   const deleteAccount = async (): Promise<void> => {
