@@ -1,6 +1,13 @@
 import { log } from "@/utils/log";
 import axios, { AxiosResponse } from "axios";
 
+export const tbaAxios = axios.create({
+	baseURL: "https://www.thebluealliance.com/api/v3/",
+	headers: {
+		"X-TBA-Auth-Key": process.env.BLUE_ALLIANCE_API_KEY,
+	},
+});
+
 export const fetchTBA = async (
   route: string
 ): Promise<AxiosResponse<any> | void> => {
