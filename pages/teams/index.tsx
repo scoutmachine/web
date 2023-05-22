@@ -175,19 +175,25 @@ export default function TeamsPage({ user }: any): JSX.Element {
 
   useEffect(() => {
     if (typeof window !== "undefined" && getStorage(`teams_${CURR_YEAR}`)) {
-      const interval: NodeJS.Timer = setInterval((): void => {
-        const time: string = new Date().toLocaleTimeString("en-GB", {
+      let previousTime: string = "";
+
+      const interval: NodeJS.Timer = setInterval(() => {
+        const currentTime: string = new Date().toLocaleTimeString("en-GB", {
           hour: "numeric",
           minute: "2-digit",
         });
-        setTime(time);
-        setTeamExistsByTime(
-          getStorage(`teams_${CURR_YEAR}`).filter(
-            (team: any): boolean =>
-              team.team_number === Number(time.replace(":", ""))
-          )[0]
-        );
-      }, 100);
+
+        if (currentTime !== previousTime) {
+          setTime(currentTime);
+          setTeamExistsByTime(
+            getStorage(`teams_${CURR_YEAR}`).filter(
+              (team: any) =>
+                team.team_number === Number(currentTime.replace(":", ""))
+            )[0]
+          );
+          previousTime = currentTime;
+        }
+      }, 1000);
 
       return () => clearInterval(interval);
     }
@@ -300,12 +306,15 @@ export default function TeamsPage({ user }: any): JSX.Element {
               <br />
               {teamExistsByTime && (
                 <div>
-                  <b className="text-primary">Looks like the time is {time}.</b>{" "}
+                  <b className="text-white">
+                    Looks like the time is{" "}
+                    <span className="text-primary">{time}.</span>
+                  </b>{" "}
                   <Link
-                    className="hover:text-primary"
+                    className="text-lightGray hover:text-primary"
                     href={`/teams/${teamExistsByTime.team_number}`}
                   >
-                    Perhaps check out {teamExistsByTime.team_number} |{" "}
+                    Why don&apos;t ya check out {teamExistsByTime.team_number} |{" "}
                     {teamExistsByTime.nickname}?
                   </Link>
                 </div>

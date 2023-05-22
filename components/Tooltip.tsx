@@ -25,6 +25,8 @@ export const Tooltip = (props: {
     return (obj as Team).school_name !== undefined;
   };
 
+  console.log(isHovering)
+
   return (
     <div className="flex flex-col">
       <Tippy
