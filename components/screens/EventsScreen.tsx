@@ -353,7 +353,7 @@ export const EventsScreen = (props: any): JSX.Element => {
         <button
           className="mt-5 bg-card hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg border border-[#2A2A2A] hover:text-black dark:text-white transition-all duration-150"
           onClick={(): void => {
-						fetch('/api/events/refresh')
+            fetch("/api/events/refresh");
           }}
         >
           <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" /> Refresh
