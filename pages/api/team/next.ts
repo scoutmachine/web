@@ -34,8 +34,14 @@ export default async function getTeamInfo(
   });
 
   res.status(200).json({
-    event: currentEvent,
+    event: {
+      city: currentEvent.city,
+      country: currentEvent.country,
+      state_prov: currentEvent.state_prov,
+      name: currentEvent.name,
+      location_name: currentEvent.location_name,
+    },
     match: lastMatch[0] ?? null,
-    previous: lastMatch[1] ?? null,
+    previous: { description: lastMatch[1].description } ?? null,
   });
 }

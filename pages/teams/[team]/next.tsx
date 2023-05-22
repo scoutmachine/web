@@ -110,14 +110,17 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
             {formatEpochSecondsToDate(toEpochSeconds, true)} •{" "}
             {next.match?.tournamentLevel} Match
           </p>
-          <h1 className="text-black dark:text-white text-2xl text-center">
+          <h1 className="text-black dark:text-lightGray text-2xl text-center">
             <b>
               {isTimeInPast(next.match?.startTime)
                 ? "Last Match:"
                 : "Upcoming:"}
             </b>{" "}
-            {next.match?.description} on {next.match?.field} Field at{" "}
-            {epochSecondsToTime(toEpochSeconds, true)}
+            <span className="text-white">{next.match?.description}</span> on{" "}
+            <span className="text-white">{next.match?.field} Field</span> at{" "}
+            <span className="text-white">
+              {epochSecondsToTime(toEpochSeconds, true)}
+            </span>
           </h1>
           <p className="text-lightGray text-center">
             {next.event.name} at{" "}
