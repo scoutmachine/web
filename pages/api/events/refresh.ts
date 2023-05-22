@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Event, PrismaClient } from "@prisma/client";
 import { tbaAxios } from "@/lib/fetchTBA";
+import { CURR_YEAR } from "@/lib/constants";
 
 const primsa = new PrismaClient();
 
@@ -9,8 +10,10 @@ export default async function getEventRankings(
   res: NextApiResponse
 ): Promise<void> {
   try {
-    console.log("Refreshing events");
-    const { data } = await tbaAxios.get<Event[]>(`events/${2023}`);
+		const { year = CURR_YEAR } = req.query;
+    console.log(`Refreshing events for ${year}`);
+
+    const { data } = await tbaAxios.get<Event[]>(`events/${year}`);
     console.log(`Got ${data.length} events from TBA`);
 
     // TODO: Add models in later
