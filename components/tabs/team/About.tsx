@@ -102,7 +102,9 @@ export const AboutTab = (props: any) => {
               <b className="text-black dark:text-white">
                 Qualified for District Championship:
               </b>{" "}
-              {props.team?.teamDistrict.team.qualifiedDistrictCmp ? "Yes" : "No"}
+              {props.team?.teamDistrict.team.qualifiedDistrictCmp
+                ? "Yes"
+                : "No"}
             </p>
             <p className="text-lightGray text-sm">
               <b className="text-black dark:text-white">
@@ -206,7 +208,9 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Awards Won
         </h1>
-        <p className="text-lightGray">{props.team?.teamAwards?.length} awards</p>
+        <p className="text-lightGray">
+          {props.team?.teamAwards?.length} awards
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
