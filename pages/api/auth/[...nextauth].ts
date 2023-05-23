@@ -27,6 +27,7 @@ export const authOptions: AuthOptions = {
       session.user.id = user.id;
       session.user.username = user.username;
       session.user.teamNumber = user.teamNumber;
+      session.user.admin = user.admin;
       return session;
     },
   },

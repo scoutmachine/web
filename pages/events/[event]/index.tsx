@@ -15,8 +15,8 @@ import db from "@/lib/db";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession, Session, User } from "next-auth";
 import { AwardsTab } from "@/components/tabs/event/Awards";
-import { ParsedUrlQuery } from "querystring";
 import { FavouritedTeam } from "@prisma/client";
+import router from "next/router";
 
 export default function EventsPage({
   matches,
