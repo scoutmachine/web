@@ -2,27 +2,27 @@ import db from "@/lib/db";
 import { fetchTBA } from "@/lib/fetchTBA";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const MAX_PAGE_SIZE = 200;
-const MAX_TEAMS = 9999;
+const TOTAL_PAGES = 21;
 
 export default async function getAllTeams(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const teamsCollectionExists = await db.team.findMany();
+  const teamsCollectionCount = await db.team.count();
+  const allTeams = await db.team.findMany();
 
-  if (teamsCollectionExists) {
-    return res.status(200).send(teamsCollectionExists);
+  if (teamsCollectionCount > 0) {
+    res.status(200).send(allTeams);
+    return;
   }
 
   const getTeams = async (page: string) => await fetchTBA(`teams/${page}`);
-  const totalPages = Math.ceil(MAX_TEAMS / MAX_PAGE_SIZE);
   const data: any[] = [];
 
-  for (let page = 0; page < totalPages; page++) {
+  for (let page = 0; page < TOTAL_PAGES; ++page) {
     const teams: any = await getTeams(page.toString());
     const pageData = teams.map((team: any) => ({ ...team }));
-    data.push(...pageData.slice(0, MAX_PAGE_SIZE));
+    data.push(...pageData);
   }
 
   await db.team.createMany({
