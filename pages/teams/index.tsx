@@ -1,18 +1,14 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import { API_URL, CURR_YEAR } from "@/lib/constants";
-import { useState, useEffect, useRef, JSX, MutableRefObject } from "react";
+import { CURR_YEAR } from "@/lib/constants";
+import { useState, useEffect, JSX } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
-import { getStorage, setStorage } from "@/utils/localStorage";
+import { getStorage } from "@/utils/localStorage";
 import { Loading } from "@/components/Loading";
-import { formatTime } from "@/utils/time";
-import { log } from "@/utils/log";
-import { teamNumberInRange } from "@/utils/team";
 import { FilterNumber } from "@/components/FilterNumber";
-import { fetchTeamsData as fetchTeams } from "@/utils/team";
 import exportFromJSON from "export-from-json";
 import Link from "next/link";
 import db from "@/lib/db";
@@ -21,82 +17,18 @@ import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
 
-async function fetchTeamsData(
-  startIndex: number,
-  endIndex: number,
-  teamNumberRange: string = "",
-  searchTerm: string = ""
-) {
-  await fetchTeams();
-
-  const teamsData = getStorage(`teams_${CURR_YEAR}`);
-  const teamAvatarsData = getStorage(`cached_avatars_${CURR_YEAR}`);
-  const sortedTeams = teamsData.sort(() => Math.random() - 0.5);
-  const teamsSlice = sortedTeams.slice(startIndex, endIndex);
-
-  if (teamsData && teamAvatarsData) {
-    const filteredTeams = teamsData.filter((team: any) =>
-      (team.team_number + team.nickname + team.city)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
-
-    return {
-      teams: searchTerm
-        ? filteredTeams.slice(startIndex, endIndex)
-        : teamNumberRange
-        ? teamsData.filter((team: any) =>
-            teamNumberInRange(team.team_number, teamNumberRange)
-          )
-        : sortedTeams.slice(0, 50),
-      avatars: teamAvatarsData,
-    };
-  }
-
-  const teamAvatars: any = {};
-  const start: number = performance.now();
-
-  await Promise.all(
-    sortedTeams.slice(0, 50).map(async (team: any): Promise<void> => {
-      const avatar = await fetch(
-        `${API_URL}/api/team/avatar?team=${team.team_number}`
-      ).then((res: Response) => res.json());
-
-      try {
-        teamAvatars[team.team_number] = avatar.avatar;
-      } catch {
-        teamAvatars[team.team_number] = null;
-      }
-    })
-  );
-
-  log("warning", `Fetched avatars in ${formatTime(performance.now() - start)}`);
-  setStorage(`cached_avatars_${CURR_YEAR}`, teamAvatars);
-
-  return {
-    teams: teamNumberRange
-      ? teamsSlice.filter((team: any) =>
-          teamNumberInRange(team.team_number, teamNumberRange)
-        )
-      : teamsSlice,
-    avatars: teamAvatars,
-  };
-}
-
-export default function TeamsPage({ user }: any): JSX.Element {
+export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
+  const [allTeams, setAllTeams] = useState(teams);
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
   const [time, setTime] = useState<any>();
-  const [teams, setTeams] = useState<any>([]);
   const [query, setQuery] = useState("");
-  const [avatars, setAvatars] = useState<any>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [teamNumberRange, setTeamNumberRange] = useState("");
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(50);
-  const [teamNumberRange, setTeamNumberRange] = useState("");
-  const itemsPerPage = 50;
 
-  const loadingScreenShown: MutableRefObject<boolean> = useRef(false);
+  const itemsPerPage = 50;
+  const displayedTeams = allTeams.slice(0, endIndex);
 
   useEffect(() => {
     setIsClient(true);
@@ -113,65 +45,6 @@ export default function TeamsPage({ user }: any): JSX.Element {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [startIndex, endIndex]);
-
-  useEffect((): void => {
-    const fetchTeams = async (): Promise<void> => {
-      setIsLoading(true);
-      try {
-        const { teams, avatars } = await fetchTeamsData(startIndex, endIndex);
-        setTeams((prevTeams: any) => [...prevTeams, ...teams]);
-        setAvatars(avatars);
-      } catch (error) {
-        setIsLoading(true);
-        log("error", "Failed to fetch teams");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (!loadingScreenShown.current) {
-      fetchTeams().then((): void => {
-        loadingScreenShown.current = true;
-      });
-    } else {
-      fetchTeams();
-    }
-  }, [startIndex, endIndex]);
-
-  const changeSearch = async (event: {
-    target: { value: string };
-  }): Promise<void> => {
-    const searchTerm = event.target.value;
-    setQuery(searchTerm);
-    setStartIndex(0);
-    setEndIndex(itemsPerPage);
-
-    const { teams, avatars } = await fetchTeamsData(
-      0,
-      itemsPerPage,
-      "",
-      searchTerm
-    );
-    setTeams(teams);
-    setAvatars(avatars);
-  };
-
-  useEffect((): void => {
-    const filterByNumber = async (): Promise<void> => {
-      const { teams, avatars } = await fetchTeamsData(
-        startIndex,
-        endIndex,
-        teamNumberRange,
-        query
-      );
-      setTeams(teams);
-      setAvatars(avatars);
-    };
-
-    if (teamNumberRange) {
-      filterByNumber();
-    }
-  }, [endIndex, query, startIndex, teamNumberRange]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && getStorage(`teams_${CURR_YEAR}`)) {
@@ -199,9 +72,21 @@ export default function TeamsPage({ user }: any): JSX.Element {
     }
   }, []);
 
-  if (!teams && !avatars && isLoading) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    if (query) {
+      setAllTeams(
+        teams.filter((team: any) =>
+          (team.team_number + team.nickname + team.city)
+            .toLowerCase()
+            .includes(query.toLowerCase())
+        )
+      );
+    }
+  }, [query, teams]);
+
+  const changeSearch = (event: { target: { value: string } }) => {
+    setQuery(event.target.value);
+  };
 
   return (
     <>
@@ -323,7 +208,7 @@ export default function TeamsPage({ user }: any): JSX.Element {
 
             <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
               <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {teams.map((team: any, key: number) => {
+                {displayedTeams.map((team: any, key: number) => {
                   return (
                     <TeamCard
                       key={key}
@@ -354,6 +239,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     authOptions
   )) as Session;
 
+  const teams = await db.team.findMany();
+  const sortedTeams = teams.sort(() => Math.random() - 0.5);
+  const teamAvatars: any = {};
+
   if (session) {
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
       await db.user.findUnique({
@@ -366,8 +255,19 @@ export const getServerSideProps: GetServerSideProps = async ({
         },
       });
 
-    return { props: { user: JSON.parse(JSON.stringify(user)) } };
+    return {
+      props: {
+        user: JSON.parse(JSON.stringify(user)),
+        teams: sortedTeams,
+        avatars: teamAvatars,
+      },
+    };
   }
 
-  return { props: {} };
+  return {
+    props: {
+      teams: sortedTeams,
+      avatars: teamAvatars,
+    },
+  };
 };
