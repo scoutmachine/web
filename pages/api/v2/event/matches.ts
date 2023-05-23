@@ -19,19 +19,30 @@ export default async function getEventRankings(
     if (eventMatches.length > 0) {
       res.status(200).send(eventMatches);
     } else {
-      await Promise.all(
-        matches.map(
-          async (match: any) =>
-            await db.match.createMany({
-              data: {
+      const createdMatches = await Promise.allSettled(
+        matches.map(async (match: any) => {
+          try {
+            const createdMatch = await db.match.upsert({
+              where: {
+                key: match.key,
+              },
+              create: {
                 ...match,
               },
-              skipDuplicates: true,
-            })
-        )
+              update: {},
+            });
+            return { status: "fulfilled", value: createdMatch };
+          } catch (error) {
+            return { status: "rejected", reason: error };
+          }
+        })
       );
 
-      res.status(200).send("Success");
+      const successfulMatches = createdMatches
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => (result as PromiseFulfilledResult<any>).value);
+
+      res.status(200).send((successfulMatches as any).value);
     }
   } catch {
     res.status(400).send("Error");

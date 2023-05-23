@@ -7,10 +7,7 @@ import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
 import { API_URL } from "@/lib/constants";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import Head from "next/head";
 import { Loading } from "@/components/Loading";
@@ -140,41 +137,14 @@ export const getServerSideProps: GetServerSideProps = async (
   )) as Session;
 
   const matches = await fetch(
-    `${API_URL}/api/events/event?event=${event}`
-  ).then((res: Response) => res.json());
+    `${API_URL}/api/v2/event/matches?event=${event}`
+  ).then((res) => res.json());
 
-  const matchEPAs: any = {};
-
-  const matchPromises = matches.map(
-    async (match: any): Promise<{ key: any; data: any | null }> => {
-      try {
-        const response: Response = await fetch(
-          `${API_URL}/api/match/epa?match=${match.key}`
-        );
-        if (!response.ok) {
-          new Error("Failed to fetch EPA data");
-        }
-        const data = await response.json();
-        return { key: match.key, data };
-      } catch (error) {
-        return { key: match.key, data: null };
-      }
-    }
-  );
-
-  const matchResults: PromiseSettledResult<any>[] = await Promise.allSettled(
-    matchPromises
-  );
-
-  matchResults.forEach((result: any): void => {
-    if (result.status === "fulfilled") {
-      matchEPAs[result.value.key] = result.value.data;
-    }
+  const eventInfo = await db.event.findUnique({
+    where: {
+      key: String(event),
+    },
   });
-
-  const eventInfo = await fetch(
-    `${API_URL}/api/events/info?event=${event}`
-  ).then((res: Response) => res.json());
 
   const eventTeams = await fetch(
     `${API_URL}/api/events/infoTeams?event=${event}`
@@ -210,7 +180,6 @@ export const getServerSideProps: GetServerSideProps = async (
         eventTeams,
         eventAlliances,
         eventAwards,
-        matchEPAs,
       },
     };
   }
@@ -222,7 +191,6 @@ export const getServerSideProps: GetServerSideProps = async (
       eventTeams,
       eventAlliances,
       eventAwards,
-      matchEPAs,
     },
   };
 };

@@ -4,10 +4,10 @@ import { FaYoutube, FaTimes, FaTrophy } from "react-icons/fa";
 import { newText } from "..";
 
 export const EventDisplay = (props: any) => {
-  const json =
-    props.epas && props.epas[props.match.key]
-      ? JSON.parse(JSON.stringify(props.epas[props.match.key]))
-      : "";
+  // const json =
+  //   props.epas && props.epas[props.match.key]
+  //     ? JSON.parse(JSON.stringify(props.epas[props.match.key]))
+  //     : "";
 
   const redScore: number = Number(props.match.alliances.red.score);
   const blueScore: number = Number(props.match.alliances.blue.score);
@@ -98,11 +98,11 @@ export const EventDisplay = (props: any) => {
           {props.match.alliances.red.score === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
           )}
-          <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
+          {/* <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
             {json.redEPA} EPA
-          </span>{" "}
+          </span>{" "} */}
           <br />
-          {redScore || redScore != undefined || !Number.isNaN(redScore) ? (
+          {/* {redScore || redScore != undefined || !Number.isNaN(redScore) ? (
             <p className="text-xs text-lightGray mt-1">
               {redScore - json.redEPA > 0 ? (
                 <span className="text-green-400">
@@ -120,7 +120,7 @@ export const EventDisplay = (props: any) => {
             </p>
           ) : (
             ""
-          )}
+          )} */}
         </p>
 
         <span className="font-regular">
@@ -176,11 +176,11 @@ export const EventDisplay = (props: any) => {
           {props.match.alliances.blue.score === 0 && (
             <div className="bg-red-400 h-3 w-2 inline-block"></div>
           )}
-          <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
+          {/* <span className="border border-[#2A2A2A] text-xs text-lightGray py-[2px] px-2 ml-1 rounded-full">
             {json.blueEPA} EPA
-          </span>{" "}
+          </span>{" "} */}
           <br />
-          {blueScore || blueScore != undefined || !Number.isNaN(blueScore) ? (
+          {/* {blueScore || blueScore != undefined || !Number.isNaN(blueScore) ? (
             <p className="text-xs text-lightGray mt-1">
               {blueScore - json.blueEPA > 0 ? (
                 <span className="text-green-400">
@@ -196,7 +196,7 @@ export const EventDisplay = (props: any) => {
             </p>
           ) : (
             ""
-          )}
+          )} */}
         </p>
 
         <span className="font-regular">

@@ -5,13 +5,14 @@ import Head from "next/head";
 import { JSX } from "react";
 
 export default function MatchPage({ match }: any): JSX.Element {
+  const title = `Match ${match.match_number} / ${match.event_key
+    .slice(4)
+    .toUpperCase()} | Scout Machine`;
+
   return (
     <>
       <Head>
-        <title>
-          Match {match.match_number} / {match.event_key.slice(4).toUpperCase()}{" "}
-          | Scout Machine
-        </title>
+        <title>{title}</title>
       </Head>
 
       <Navbar />
