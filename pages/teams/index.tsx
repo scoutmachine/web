@@ -31,12 +31,7 @@ const filterOptions = [
   { name: "9000s", range: "9000-9999" },
 ];
 
-export default function TeamsPage({
-  user,
-  teams,
-  avatars,
-  rawTeams,
-}: any): JSX.Element {
+export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   const [allTeams, setAllTeams] = useState(teams);
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
@@ -109,14 +104,16 @@ export default function TeamsPage({
   useEffect(() => {
     if (teamNumberRange) {
       setAllTeams(
-        rawTeams.filter((team: any) =>
-          teamNumberInRange(team.team_number, teamNumberRange)
-        )
+        teams
+          .sort((a: any, b: any) => a.team_number - b.team_number)
+          .filter((team: any) =>
+            teamNumberInRange(team.team_number, teamNumberRange)
+          )
       );
     } else if (teamNumberRange.length === 0) {
       setAllTeams(teams);
     }
-  }, [rawTeams, teams, teamNumberRange]);
+  }, [teams, teamNumberRange]);
 
   const changeSearch = (event: { target: { value: string } }) => {
     setQuery(event.target.value);
@@ -227,13 +224,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     authOptions
   )) as Session;
 
-  const teams = await db.team.findMany({
-    orderBy: [
-      {
-        team_number: "asc",
-      },
-    ],
-  });
+  const teams = await db.team.findMany();
   const sortedTeams = [...teams].sort(() => Math.random() - 0.5);
   const teamAvatars: any = {};
 
@@ -253,7 +244,6 @@ export const getServerSideProps: GetServerSideProps = async ({
       props: {
         user: JSON.parse(JSON.stringify(user)),
         teams: sortedTeams,
-        rawTeams: teams,
         avatars: teamAvatars,
       },
     };
@@ -262,7 +252,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       teams: sortedTeams,
-      rawTeams: teams,
       avatars: teamAvatars,
     },
   };
