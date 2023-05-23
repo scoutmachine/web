@@ -22,10 +22,11 @@ export default async function getEventRankings(
       await Promise.all(
         matches.map(
           async (match: any) =>
-            await db.match.create({
+            await db.match.createMany({
               data: {
                 ...match,
               },
+              skipDuplicates: true,
             })
         )
       );
