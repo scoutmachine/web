@@ -7,7 +7,6 @@ import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
 import { getStorage } from "@/utils/localStorage";
-import { Loading } from "@/components/Loading";
 import { FilterNumber } from "@/components/FilterNumber";
 import exportFromJSON from "export-from-json";
 import Link from "next/link";
@@ -16,8 +15,28 @@ import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
+import { teamNumberInRange } from "@/utils/team";
 
-export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
+const filterOptions = [
+  { name: <FaHome />, range: "" },
+  { name: "999s", range: "1-999" },
+  { name: "1000s", range: "1000-2000" },
+  { name: "2000s", range: "2000-3000" },
+  { name: "3000s", range: "3000-4000" },
+  { name: "4000s", range: "4000-5000" },
+  { name: "5000s", range: "5000-6000" },
+  { name: "6000s", range: "6000-7000" },
+  { name: "7000s", range: "7000-8000" },
+  { name: "8000s", range: "8000-0000" },
+  { name: "9000s", range: "9000-9999" },
+];
+
+export default function TeamsPage({
+  user,
+  teams,
+  avatars,
+  rawTeams,
+}: any): JSX.Element {
   const [allTeams, setAllTeams] = useState(teams);
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
@@ -26,6 +45,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   const [teamNumberRange, setTeamNumberRange] = useState("");
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(50);
+  const [buttonClicked, setButtonClicked] = useState("");
 
   const itemsPerPage = 50;
   const displayedTeams = allTeams.slice(0, endIndex);
@@ -81,8 +101,22 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
             .includes(query.toLowerCase())
         )
       );
+    } else if (query.length === 0 && !teamNumberRange) {
+      setAllTeams(teams);
     }
-  }, [query, teams]);
+  }, [allTeams, query, teamNumberRange, teams]);
+
+  useEffect(() => {
+    if (teamNumberRange) {
+      setAllTeams(
+        rawTeams.filter((team: any) =>
+          teamNumberInRange(team.team_number, teamNumberRange)
+        )
+      );
+    } else if (teamNumberRange.length === 0) {
+      setAllTeams(teams);
+    }
+  }, [rawTeams, teams, teamNumberRange]);
 
   const changeSearch = (event: { target: { value: string } }) => {
     setQuery(event.target.value);
@@ -116,62 +150,16 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                 </span>
               </div>
               <div className="mt-3 gap-2 flex flex-wrap">
-                <FilterNumber
-                  name={<FaHome />}
-                  reload
-                  range=""
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="999s"
-                  range="1-999"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="1000s"
-                  range="1000-2000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="2000s"
-                  range="2000-3000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="3000s"
-                  range="3000-4000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="4000s"
-                  range="4000-5000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="5000s"
-                  range="5000-6000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="6000s"
-                  range="6000-7000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="7000s"
-                  range="7000-8000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="8000s"
-                  range="8000-0000"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
-                <FilterNumber
-                  name="9000s"
-                  range="9000-9999"
-                  setTeamNumberRange={setTeamNumberRange}
-                />
+                {filterOptions.map((option, index) => (
+                  <FilterNumber
+                    key={index}
+                    name={option.name}
+                    range={option.range}
+                    setTeamNumberRange={setTeamNumberRange}
+                    setButtonClicked={setButtonClicked}
+                    buttonClicked={buttonClicked}
+                  />
+                ))}
               </div>
               <div>
                 <button
@@ -239,8 +227,14 @@ export const getServerSideProps: GetServerSideProps = async ({
     authOptions
   )) as Session;
 
-  const teams = await db.team.findMany();
-  const sortedTeams = teams.sort(() => Math.random() - 0.5);
+  const teams = await db.team.findMany({
+    orderBy: [
+      {
+        team_number: "asc",
+      },
+    ],
+  });
+  const sortedTeams = [...teams].sort(() => Math.random() - 0.5);
   const teamAvatars: any = {};
 
   if (session) {
@@ -259,6 +253,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       props: {
         user: JSON.parse(JSON.stringify(user)),
         teams: sortedTeams,
+        rawTeams: teams,
         avatars: teamAvatars,
       },
     };
@@ -267,6 +262,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       teams: sortedTeams,
+      rawTeams: teams,
       avatars: teamAvatars,
     },
   };

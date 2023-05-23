@@ -98,8 +98,7 @@ export const Navbar = (props: {
     window.addEventListener("click", () => setSearchTerm(""));
   });
 
-  if (!teams) return <Loading />;
-  if (status === "loading") return <Loading />;
+  if (status === "loading" || !teams) return <Loading />;
 
   return (
     <>

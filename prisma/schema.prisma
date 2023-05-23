@@ -138,6 +138,8 @@ model Team {
   state_prov     String?
   website        String?
   socials        Social[]
+  Event          Event?   @relation(fields: [eventKey], references: [key])
+  eventKey       String?
 }
 
 model Social {
@@ -181,6 +183,7 @@ model Event {
   playoff_type        Int?
   playoff_type_string String?
   matches             Match[]
+  teams               Team[]
 }
 
 model Match {
