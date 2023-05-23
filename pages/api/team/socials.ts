@@ -40,11 +40,11 @@ export default async function addSocials(
         })
       );
     } else {
-      await db.team.create({
-        data: {
-          team_number: Number(team),
-        },
-      });
+      // await db.team.create({
+      //   data: {
+      //     team_number: Number(team),
+      //   },
+      // });
 
       await Promise.all(
         body.map(async (social: any): Promise<void> => {
