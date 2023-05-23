@@ -36,6 +36,9 @@ from [frc-events.firstinspires.org](https://frc-events.firstinspires.org/service
 
 Create a .env file based on the .env.example file and add your API keys to the file.
 
+Please note that you need to take your FRC events API key and base64 encode it you can do so through many methods but a
+simple online encoder is available at [base64encode.org](https://www.base64encode.org/).
+
 ```dotenv
 # Required
 BLUE_ALLIANCE_API_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
