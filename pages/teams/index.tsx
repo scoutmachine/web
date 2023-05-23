@@ -6,7 +6,6 @@ import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
 import Head from "next/head";
-import { getStorage } from "@/utils/localStorage";
 import { FilterNumber } from "@/components/FilterNumber";
 import exportFromJSON from "export-from-json";
 import Link from "next/link";
@@ -62,7 +61,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   }, [startIndex, endIndex]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && getStorage(`teams_${CURR_YEAR}`)) {
+    if (typeof window !== "undefined") {
       let previousTime: string = "";
 
       const interval: NodeJS.Timer = setInterval(() => {
@@ -74,7 +73,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
         if (currentTime !== previousTime) {
           setTime(currentTime);
           setTeamExistsByTime(
-            getStorage(`teams_${CURR_YEAR}`).filter(
+            teams.filter(
               (team: any) =>
                 team.team_number === Number(currentTime.replace(":", ""))
             )[0]
@@ -85,7 +84,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
 
       return () => clearInterval(interval);
     }
-  }, []);
+  }, [teams]);
 
   useEffect(() => {
     if (query) {
@@ -163,7 +162,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                   className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white transition-all duration-150"
                   onClick={() => {
                     exportFromJSON({
-                      data: getStorage(`teams_${CURR_YEAR}`),
+                      data: teams,
                       fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
                       exportType: exportFromJSON.types.csv,
                     });
@@ -172,10 +171,10 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                   <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" />{" "}
                   Export Data (CSV)
                 </button>
-              </div>{" "}
-              <br />
+              </div>
+
               {teamExistsByTime && (
-                <div>
+                <div className="mt-5">
                   <b className="text-black dark:text-white">
                     Looks like the time is{" "}
                     <span className="text-primary">{time}.</span>
