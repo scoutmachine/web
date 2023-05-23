@@ -119,8 +119,25 @@ model FavouritedEvent {
 }
 
 model Team {
-  team_number Int      @id @unique
-  socials     Social[]
+  team_number    Int      @id @unique
+  address        String?
+  city           String?
+  country        String?
+  gmaps_place_id String?
+  gmaps_url      String?
+  key            String
+  lat            Int?
+  lng            Int?
+  location_name  String?
+  motto          String?
+  name           String?
+  nickname       String
+  postal_code    String?
+  rookie_year    Int?
+  school_name    String?
+  state_prov     String?
+  website        String?
+  socials        Social[]
 }
 
 model Social {
@@ -158,7 +175,7 @@ model Event {
   website             String?
   first_event_id      String?
   first_event_code    String?
-  // webcasts 			 Webcast[]
+  webcasts            Json?
   division_keys       String[]
   parent_event_key    String?
   playoff_type        Int?
