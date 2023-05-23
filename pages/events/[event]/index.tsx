@@ -10,7 +10,6 @@ import { API_URL } from "@/lib/constants";
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
-  PreviewData,
 } from "next";
 import { useState } from "react";
 import Head from "next/head";
