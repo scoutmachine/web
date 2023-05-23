@@ -27,7 +27,7 @@ const filterOptions = [
   { name: "5000s", range: "5000-6000" },
   { name: "6000s", range: "6000-7000" },
   { name: "7000s", range: "7000-8000" },
-  { name: "8000s", range: "8000-0000" },
+  { name: "8000s", range: "8000-9000" },
   { name: "9000s", range: "9000-9999" },
 ];
 
@@ -104,7 +104,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   useEffect(() => {
     if (teamNumberRange) {
       setAllTeams(
-        teams
+        [...teams]
           .sort((a: any, b: any) => a.team_number - b.team_number)
           .filter((team: any) =>
             teamNumberInRange(team.team_number, teamNumberRange)
