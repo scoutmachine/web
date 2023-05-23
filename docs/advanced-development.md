@@ -40,6 +40,9 @@ account, you need to request an API key from
 [frc-events.firstinspires.org](https://frc-events.firstinspires.org/services/API). and confirm your email address. Once
 you have confirmed your email address, you will be sent an API key within 24 hours.
 
+Please note that you need to take your FRC events API key and base64 encode it you can do so through many methods but a
+simple online encoder is available at [base64encode.org](https://www.base64encode.org/).
+
 ### 1.3: Google Maps API Key
 
 The Google Maps API key is used to access the Google Maps API. You can get a Google Maps API key by creating a project
