@@ -166,26 +166,24 @@ const addTeamsToEvents = async () => {
 
 	for (const event of allEvents) {
 		console.log('Adding Teams to Event: ', event.key)
-		const participatingTeams = await tbaAxios.get(`/event/${event.key}/teams/keys`)
-		console.log('participatingTeams: ', participatingTeams)
+		// const participatingTeams = await tbaAxios.get(`/event/${event.key}/teams/keys`)
 		
-		db.event.update({
+		const abc = await db.event.update({
 			where: {
 				key: event.key
 			},
 			data: {
 				teams: {
-					connect: participatingTeams.data.map((teamKey: string) => {
-						return {
-							key: teamKey
-						}
-					})
+					connect: {
+						team_number: 4
+					}
 				}
 			}
 		})
 
-		break
+		console.log('abc: ', abc)
 
+		break
 	}
 	
 	
