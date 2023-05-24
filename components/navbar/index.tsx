@@ -26,7 +26,7 @@ import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
 import { fetchTeamsData } from "@/utils/team";
-import { GITHUB_URL, DISCORD_URL, BMAC_URL } from "@/lib/constants";
+import { GITHUB_URL, DISCORD_URL, BMAC_URL, API_URL } from "@/lib/constants";
 import router from "next/router";
 
 const Social = (props: { icon: ReactNode }) => {
@@ -68,7 +68,9 @@ export const Navbar = (props: {
 
   useEffect((): void => {
     async function fetchData(): Promise<void> {
-      const data = await fetchTeamsData();
+      const data = await fetch(`${API_URL}/api/v2/teams/all`).then((res) =>
+        res.json()
+      );
       if (data) setTeams(data);
     }
     fetchData();
@@ -96,8 +98,7 @@ export const Navbar = (props: {
     window.addEventListener("click", () => setSearchTerm(""));
   });
 
-  if (!teams) return <Loading />;
-  if (status === "loading") return <Loading />;
+  if (status === "loading" || !teams) return <Loading />;
 
   return (
     <>
