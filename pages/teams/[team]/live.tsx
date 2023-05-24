@@ -1,9 +1,11 @@
 import { API_URL } from "@/lib/constants";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function LiveFieldViewPage({ next }: any) {
+export default function LiveFieldViewPage({
+  next,
+}: InferGetServerSidePropsType<GetServerSideProps>) {
   const router = useRouter();
 
   useEffect(() => {

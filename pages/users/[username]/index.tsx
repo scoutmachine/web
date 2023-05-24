@@ -1,5 +1,9 @@
 import { Navbar } from "@/components/navbar";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import Head from "next/head";
 import db from "@/lib/db";
 import Image from "next/image";
@@ -10,7 +14,9 @@ import router from "next/router";
 import { API_URL } from "@/lib/constants";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function UserProfilePage({ user }: any) {
+export default function UserProfilePage({
+  user,
+}: InferGetServerSidePropsType<GetServerSideProps>) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
 
   const notify = () =>
@@ -28,11 +34,11 @@ export default function UserProfilePage({ user }: any) {
 
       <Navbar />
 
-      <div className="pl-4 pr-4 md:pl-8 md:pr-8 w-full max-w-screen-3xl">
+      <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
         <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
           <div className="md:flex">
             <Image
-              className="mr-5 mb-5 md:mb-0 rounded-lg"
+              className="mb-5 mr-5 rounded-lg md:mb-0"
               alt="FIRST Logo"
               height="50"
               width="85"
@@ -41,7 +47,7 @@ export default function UserProfilePage({ user }: any) {
             />
 
             <div>
-              <h1 className="font-black text-black dark:text-white text-4xl">
+              <h1 className="text-4xl font-black text-black dark:text-white">
                 {user.name}
               </h1>
 
@@ -50,7 +56,7 @@ export default function UserProfilePage({ user }: any) {
                   {user.teamNumber ? `Team ${user.teamNumber}` : "Unknown Team"}
                 </b>{" "}
                 • Joined {formatEpochSecondsToDate(toEpochSeconds, true)} <br />{" "}
-                <span className="text-sm flex">
+                <span className="flex text-sm">
                   @{user.username}{" "}
                   <FaCopy
                     className="ml-2 mt-[3px] text-xs cursor-pointer hover:text-white"

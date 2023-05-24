@@ -10,7 +10,7 @@ import { FilterNumber } from "@/components/FilterNumber";
 import exportFromJSON from "export-from-json";
 import Link from "next/link";
 import db from "@/lib/db";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
@@ -30,7 +30,11 @@ const filterOptions = [
   { name: "9000s", range: "9000-9999" },
 ];
 
-export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
+export default function TeamsPage({
+  user,
+  teams,
+  avatars,
+}: InferGetServerSidePropsType<GetServerSideProps>): JSX.Element {
   const [allTeams, setAllTeams] = useState(teams);
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
@@ -145,7 +149,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                   <FaSearch className="text-sm text-lightGray" />
                 </span>
               </div>
-              <div className="mt-3 gap-2 flex flex-wrap">
+              <div className="flex flex-wrap gap-2 mt-3">
                 {filterOptions.map((option, index) => (
                   <FilterNumber
                     key={index}
@@ -190,8 +194,8 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
               )}
             </Header>
 
-            <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
-              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="w-full pl-4 pr-4 mx-auto mt-5 md:pr-8 md:pl-8">
+              <div className="flex flex-col w-full gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-4">
                 {displayedTeams.map((team: any, key: number) => {
                   return (
                     <TeamCard

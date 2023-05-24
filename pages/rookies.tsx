@@ -11,7 +11,7 @@ import { FaBolt } from "react-icons/fa";
 import Head from "next/head";
 import { log } from "@/utils/log";
 import db from "@/lib/db";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
@@ -79,7 +79,9 @@ async function fetchRookieTeamsData(): Promise<{ teams: any; avatars: any }> {
   };
 }
 
-export default function RookiesPage({ user }: any): JSX.Element {
+export default function RookiesPage({
+  user,
+}: InferGetServerSidePropsType<GetServerSideProps>): JSX.Element {
   const [rookieTeams, setRookieTeams] = useState<any>();
   const [avatars, setAvatars] = useState<any>();
 

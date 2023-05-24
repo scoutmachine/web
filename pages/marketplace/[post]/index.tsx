@@ -1,13 +1,19 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import { MarketplacePage } from "@/components/screens/marketplace/MarketplacePage";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import Head from "next/head";
 import db from "@/lib/db";
 import { Post } from ".prisma/client";
 import { User } from "next-auth";
 
-export default function MarketplacePostPage({ post }: any) {
+export default function MarketplacePostPage({
+  post,
+}: InferGetServerSidePropsType<GetServerSideProps>) {
   return (
     <>
       <Head>
