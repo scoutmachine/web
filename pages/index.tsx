@@ -6,16 +6,13 @@ import { SignedOutScreen } from "@/components/screens/landing/SignedOut";
 import { SignedInScreen } from "@/components/screens/landing/SignedIn";
 import { Loading } from "@/components/Loading";
 import db from "@/lib/db";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { API_URL } from "@/lib/constants";
 import { JSX } from "react";
 
-export default function LandingPage({
-  user,
-  avatars,
-}: InferGetServerSidePropsType<GetServerSideProps>): JSX.Element {
+export default function LandingPage({ user, avatars }: any): JSX.Element {
   const { data: session, status } = useSession();
 
   if (status === "loading") return <Loading />;

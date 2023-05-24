@@ -7,11 +7,7 @@ import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
 import { API_URL } from "@/lib/constants";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import Head from "next/head";
 import { Loading } from "@/components/Loading";
@@ -30,7 +26,7 @@ export default function EventsPage({
   eventAwards,
   matchEPAs,
   user,
-}: InferGetServerSidePropsType<GetServerSideProps>) {
+}: any) {
   const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -48,10 +44,10 @@ export default function EventsPage({
 
       <Navbar />
 
-      <div className="flex flex-wrap items-center justify-center pl-4 pr-4 mt-10 md:pr-8 md:pl-8">
+      <div className="flex flex-wrap items-center justify-center mt-10 pl-4 pr-4 md:pr-8 md:pl-8">
         <EventHeader event={eventInfo} teams={eventTeams} />
 
-        <div className="flex justify-center w-full pl-4 pr-4 md:pr-0 md:pl-0 max-w-screen-3xl">
+        <div className="pr-4 pl-4 md:pr-0 md:pl-0 w-full max-w-screen-3xl flex justify-center">
           <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-5 w-full">
             <div className="flex flex-wrap gap-5">
               <TabButton
@@ -114,7 +110,7 @@ export default function EventsPage({
             )}
 
             {activeTab == 3 && (
-              <p className="mt-5 text-lightGray">Coming soon!</p>
+              <p className="text-lightGray mt-5">Coming soon!</p>
             )}
             {activeTab == 4 && <AwardsTab awards={eventAwards} />}
 

@@ -15,11 +15,7 @@ import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { getServerSession, Session, User } from "next-auth";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
@@ -41,7 +37,7 @@ export default function TeamPage({
   teamMembers,
   teamSocials,
   teamData,
-}: InferGetServerSidePropsType<GetServerSideProps>) {
+}: any) {
   const router: NextRouter = useRouter();
   const { team } = router.query;
   const [activeTab, setActiveTab] = useState<any>(1);
@@ -138,7 +134,7 @@ export default function TeamPage({
           user={user}
         />
 
-        <div className="w-full md:pl-8 md:pr-8 max-w-screen-3xl">
+        <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
           <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-5">
             <div className="flex flex-wrap gap-4">
               <TabButton
@@ -229,7 +225,7 @@ export default function TeamPage({
             </div>
 
             {loading && activeTab.length === 4 && (
-              <p className="mt-5 text-gray-400">
+              <p className="text-gray-400 mt-5">
                 Loading {activeTab} Season...
               </p>
             )}
@@ -291,7 +287,7 @@ export default function TeamPage({
                             <Link href={`/events/${event.key}`} legacyBehavior>
                               <a>
                                 <h1
-                                  className="text-2xl font-black text-primary hover:text-white"
+                                  className="font-black text-primary text-2xl hover:text-white"
                                   key={key}
                                 >
                                   {event.name}
@@ -312,7 +308,7 @@ export default function TeamPage({
                               {convertDate(event.start_date)} -{" "}
                               {convertDate(event.end_date)}, {activeTab}
                             </span>
-                            <div className="block mt-5 md:hidden">
+                            <div className="md:hidden block mt-5">
                               {isLive(event.start_date, event.end_date) <=
                                 event.end_date &&
                                 event.webcasts.length > 0 && (
@@ -322,14 +318,14 @@ export default function TeamPage({
                                     target="_blank"
                                   >
                                     <div className="flex bg-[#6441a5] text-white hover:bg-white hover:text-primary py-1 px-5 rounded-lg font-bold">
-                                      <FaTwitch className="mt-1 mr-2 text-md" />{" "}
+                                      <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                       {event.webcasts[0].channel}
                                     </div>
                                   </a>
                                 )}
                             </div>
                           </div>
-                          <div className="hidden md:block">
+                          <div className="md:block hidden">
                             {isLive(event.start_date, event.end_date) &&
                               event.webcasts.length > 0 && (
                                 <a
@@ -338,7 +334,7 @@ export default function TeamPage({
                                   target="_blank"
                                 >
                                   <div className="flex bg-[#6441a5] text-white hover:bg-gray-600 hover:text-primary py-1 px-5 rounded-lg font-bold">
-                                    <FaTwitch className="mt-1 mr-2 text-md" />{" "}
+                                    <FaTwitch className="text-md mt-1 mr-2" />{" "}
                                     {event.webcasts[0].channel}
                                   </div>
                                 </a>

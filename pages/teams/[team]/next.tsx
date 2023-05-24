@@ -6,7 +6,7 @@ import {
   formatEpochSecondsToDate,
   formatRelativeTime,
 } from "@/utils/time";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import {
   FaArrowAltCircleDown,
   FaArrowAltCircleUp,
@@ -19,11 +19,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-export default function NextTeamMatch({
-  next,
-  avatars,
-  epas,
-}: InferGetServerSidePropsType<GetServerSideProps>) {
+export default function NextTeamMatch({ next, avatars, epas }: any) {
   const router = useRouter();
   const teamQuery = router.query.team;
   const [refreshIcon, setRefreshIcon] = useState(false);
@@ -98,7 +94,7 @@ export default function NextTeamMatch({
       <>
         <Navbar />
 
-        <div className="pl-4 pr-4 mt-10 md:pr-8 md:pl-8 max-w-screen-3xl">
+        <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-10">
           <div className="bg-card mb-5 p-5 rounded-lg border dark:border-[#2A2A2A]">
             <p className="text-center text-red-500">
               Oh no... we tried our hardest but we&apos;re unable to process{" "}
@@ -119,13 +115,13 @@ export default function NextTeamMatch({
     <>
       <Navbar />
 
-      <div className="pl-4 pr-4 mt-10 md:pr-8 md:pl-8 max-w-screen-3xl">
+      <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-10">
         <div className="bg-card mb-5 p-5 rounded-lg border dark:border-[#2A2A2A]">
-          <p className="text-center text-lightGray">
+          <p className="text-lightGray text-center">
             {formatEpochSecondsToDate(toEpochSeconds, true)} •{" "}
             {next.match?.tournamentLevel} Match
           </p>
-          <h1 className="text-2xl text-center text-black dark:text-lightGray">
+          <h1 className="text-black dark:text-lightGray text-2xl text-center">
             <b>
               {isTimeInPast(next.match?.startTime)
                 ? "Last Match:"
@@ -137,7 +133,7 @@ export default function NextTeamMatch({
               {epochSecondsToTime(toEpochSeconds, true)}
             </span>
           </h1>
-          <p className="text-center text-lightGray">
+          <p className="text-lightGray text-center">
             {next.event.name} at{" "}
             <b>
               {next.event.location_name}, {next.event.state_prov},{" "}
@@ -145,7 +141,7 @@ export default function NextTeamMatch({
             </b>
           </p>
 
-          <div className="flex flex-row items-center justify-center gap-3">
+          <div className="flex flex-row gap-3 items-center justify-center">
             {COMP_SEASON && (
               <button
                 onClick={refreshData}
@@ -170,7 +166,7 @@ export default function NextTeamMatch({
             </span>
           </div>
 
-          <p className="mt-2 text-center text-lightGray">
+          <p className="text-center text-lightGray mt-2">
             <b>Team {teamQuery}</b> is on the{" "}
             <span
               className={`${
@@ -181,11 +177,11 @@ export default function NextTeamMatch({
             </span>{" "}
           </p>
         </div>
-        <div className="flex flex-col gap-3 md:grid md:grid-cols-2">
-          <div className="p-5 bg-red-500 rounded-md">
-            <h1 className="mb-4 text-3xl font-bold text-center text-red-200">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-3">
+          <div className="bg-red-500 rounded-md p-5">
+            <h1 className="text-3xl font-bold mb-4 text-red-200 text-center">
               Red Alliance{" "}
-              <button className="px-3 py-1 text-sm text-white align-middle bg-red-600 rounded-lg cursor-default">
+              <button className="cursor-default bg-red-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
                 <span className="flex">
                   Win Avg (
                   {((Number(redAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(
@@ -201,7 +197,7 @@ export default function NextTeamMatch({
               </button>
             </h1>
 
-            <div className="flex flex-col gap-3 md:grid md:grid-cols-3">
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
               {redAlliance.map((team: any, key: number) => {
                 return (
                   <Link key={key} href={`/teams/${team.teamNumber}`}>
@@ -212,7 +208,7 @@ export default function NextTeamMatch({
                           : "bg-red-400"
                       } hover:bg-red-600 rounded-lg py-5`}
                     >
-                      <p className="mb-1 text-sm font-semibold text-center text-red-200">
+                      <p className="text-center text-sm font-semibold text-red-200 mb-1">
                         {epas[team.teamNumber].name}
                       </p>
                       <h1
@@ -222,7 +218,7 @@ export default function NextTeamMatch({
                       >
                         {avatars[team.teamNumber] ? (
                           <Image
-                            className="mr-4 rounded-lg w-7"
+                            className="rounded-lg mr-4 w-7"
                             alt={`Team ${team.teamNumber} Avatar`}
                             height="50"
                             width="50"
@@ -233,7 +229,7 @@ export default function NextTeamMatch({
                           />
                         ) : (
                           <Image
-                            className="w-8 mr-2"
+                            className="mr-2 w-8"
                             alt="FIRST Logo"
                             height="50"
                             width="50"
@@ -243,7 +239,7 @@ export default function NextTeamMatch({
                         )}{" "}
                         Team {team.teamNumber}
                       </h1>
-                      <p className="mt-1 text-xs text-center text-red-200">
+                      <p className="text-red-200 text-center text-xs mt-1">
                         {epas[team.teamNumber].winrate.toFixed(2)}% WR,{" "}
                         {epas[team.teamNumber].wins} Ws, &{" "}
                         {epas[team.teamNumber].losses} Ls
@@ -255,10 +251,10 @@ export default function NextTeamMatch({
             </div>
           </div>
 
-          <div className="p-5 rounded-md bg-sky-500">
-            <h1 className="mb-4 text-3xl font-bold text-center text-sky-200">
+          <div className="bg-sky-500 rounded-md p-5">
+            <h1 className="text-3xl font-bold mb-4 text-sky-200 text-center">
               Blue Alliance{" "}
-              <button className="px-3 py-1 text-sm text-white align-middle rounded-lg cursor-default bg-sky-600">
+              <button className="cursor-default bg-sky-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
                 <span className="flex">
                   Win Avg (
                   {((Number(blueAllianceWinRate.toFixed(2)) / 3) * 100).toFixed(
@@ -274,7 +270,7 @@ export default function NextTeamMatch({
               </button>
             </h1>
 
-            <div className="flex flex-col gap-3 md:grid md:grid-cols-3">
+            <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
               {blueAlliance.map((team: any, key: number) => {
                 return (
                   <Link key={key} href={`/teams/${team.teamNumber}`}>
@@ -285,7 +281,7 @@ export default function NextTeamMatch({
                           : "bg-sky-400"
                       } hover:bg-sky-600 rounded-lg py-5`}
                     >
-                      <p className="mb-1 text-sm font-semibold text-center text-sky-200">
+                      <p className="text-center text-sm font-semibold text-sky-200 mb-1">
                         {epas[team.teamNumber].name}
                       </p>
                       <h1
@@ -295,7 +291,7 @@ export default function NextTeamMatch({
                       >
                         {avatars[team.teamNumber] ? (
                           <Image
-                            className="mr-4 rounded-lg w-7"
+                            className="rounded-lg mr-4 w-7"
                             alt={`Team ${team.teamNumber} Avatar`}
                             height="50"
                             width="50"
@@ -306,7 +302,7 @@ export default function NextTeamMatch({
                           />
                         ) : (
                           <Image
-                            className="w-8 mr-2"
+                            className="mr-2 w-8"
                             alt="FIRST Logo"
                             height="50"
                             width="50"
@@ -316,7 +312,7 @@ export default function NextTeamMatch({
                         )}{" "}
                         Team {team.teamNumber}
                       </h1>
-                      <p className="mt-1 text-xs text-center text-sky-200">
+                      <p className="text-sky-200 text-center text-xs mt-1">
                         {epas[team.teamNumber].winrate.toFixed(2)}% WR,{" "}
                         {epas[team.teamNumber].wins} Ws, &{" "}
                         {epas[team.teamNumber].losses} Ls

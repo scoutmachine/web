@@ -5,12 +5,10 @@ import { EventsScreen } from "@/components/screens/EventsScreen";
 import { CURR_YEAR } from "@/lib/constants";
 import { useState, JSX } from "react";
 import Head from "next/head";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import db from "@/lib/db";
 
-export default function EventsPage({
-  events,
-}: InferGetServerSidePropsType<GetServerSideProps>): JSX.Element {
+export default function EventsPage({ events }: any): JSX.Element {
   const [year, setYear] = useState<number>(CURR_YEAR);
   const [allEvents, setAllEvents] = useState(events);
 

@@ -1,12 +1,10 @@
 import { Navbar } from "@/components/navbar";
 import { API_URL } from "@/lib/constants";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { JSX } from "react";
 
-export default function MatchPage({
-  match,
-}: InferGetServerSidePropsType<GetServerSideProps>): JSX.Element {
+export default function MatchPage({ match }: any): JSX.Element {
   const title = `Match ${match.match_number} / ${match.event_key
     .slice(4)
     .toUpperCase()} | Scout Machine`;
@@ -19,8 +17,8 @@ export default function MatchPage({
 
       <Navbar />
 
-      <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl">
-        <h1 className="mt-5 text-white">Match {match.match_number}</h1>
+      <div className="pr-4 pl-4 md:pr-8 md:pl-8 max-w-screen-3xl">
+        <h1 className="text-white mt-5">Match {match.match_number}</h1>
       </div>
     </>
   );
