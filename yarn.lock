@@ -4104,6 +4104,11 @@ ndarray@^1.0.13:
     iota-array "^1.0.0"
     is-buffer "^1.0.2"
 
+next-api-handler@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/next-api-handler/-/next-api-handler-0.4.10.tgz#ff41a28af653ff4f912ace11504bf38ed4693a17"
+  integrity sha512-hC8s+nJK/eIPNPcvT2r72EysfZa9vuVKOgJV1118lbLRx1o8fgm70uUlF6jl7EIbcoGAf0X7DbNY3x9dCLIHzg==
+
 next-auth@^4.22.1:
   version "4.22.1"
   resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.22.1.tgz#1ea5084e38867966dc6492a71c6729c8f5cfa96b"

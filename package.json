@@ -34,6 +34,7 @@
     "framer-motion": "^10.12.14",
     "haversine-distance": "^1.2.1",
     "next": "13.4.3",
+    "next-api-handler": "^0.4.10",
     "next-auth": "^4.22.1",
     "next-s3-upload": "^0.3.0",
     "nsfwjs": "^2.4.2",

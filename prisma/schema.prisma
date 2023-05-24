@@ -120,27 +120,28 @@ model FavouritedEvent {
 }
 
 model Team {
-  team_number    Int      @id @unique
-  address        String?
-  city           String?
-  country        String?
-  gmaps_place_id String?
-  gmaps_url      String?
-  key            String
-  lat            Int?
-  lng            Int?
-  location_name  String?
-  motto          String?
-  name           String?
-  nickname       String
-  postal_code    String?
-  rookie_year    Int?
-  school_name    String?
-  state_prov     String?
-  website        String?
-  socials        Social[]
-  Event          Event?   @relation(fields: [eventKey], references: [key])
-  eventKey       String?
+  team_number        Int                  @id @unique
+  address            String?
+  city               String?
+  country            String?
+  gmaps_place_id     String?
+  gmaps_url          String?
+  key                String
+  lat                Int?
+  lng                Int?
+  location_name      String?
+  motto              String?
+  name               String?
+  nickname           String?
+  postal_code        String?
+  rookie_year        Int?
+  school_name        String?
+  state_prov         String?
+  website            String?
+  socials            Social[]
+  Event              Event?               @relation(fields: [eventKey], references: [key])
+  eventKey           String?
+  TeamAttendingEvent TeamAttendingEvent[]
 }
 
 model Social {
@@ -154,13 +155,13 @@ model Social {
 }
 
 model Event {
-  key                 String   @id
+  key                 String               @id
   name                String
   event_code          String
   event_type          Int
-  city                String
-  state_prov          String
-  country             String
+  city                String?
+  state_prov          String?
+  country             String?
   start_date          String
   end_date            String
   year                Int
@@ -185,6 +186,15 @@ model Event {
   playoff_type_string String?
   matches             Match[]
   teams               Team[]
+  TeamAttendingEvent  TeamAttendingEvent[]
+}
+
+model TeamAttendingEvent {
+  id       Int    @id @default(autoincrement())
+  teamId   Int
+  team     Team   @relation(fields: [teamId], references: [team_number])
+  eventKey String
+  event    Event  @relation(fields: [eventKey], references: [key])
 }
 
 model Match {
