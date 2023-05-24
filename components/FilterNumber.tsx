@@ -1,5 +1,4 @@
-import router from "next/router";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 export const FilterNumber = (props: {
   range: string;
@@ -8,7 +7,6 @@ export const FilterNumber = (props: {
   setTeamNumberRange: (range: string) => void;
   setButtonClicked: any;
   buttonClicked: any;
-
 }) => {
   return (
     <button
@@ -18,9 +16,9 @@ export const FilterNumber = (props: {
       }}
       className={`${
         props.buttonClicked === props.range
-          ? "border border-solid bg-gray-100 dark:bg-[#191919]"
-          : "bg-white dark:bg-card hover:bg-gray-100 dark:hover:bg-[#191919]"
-      } px-3 py-1 text-lightGray text-sm rounded-lg border border-solid dark:border-[#2A2A2A]`}
+          ? "border border-solid bg-gray-100 dark:bg-[#191919] text-white font-bold"
+          : "bg-white dark:bg-card hover:bg-gray-100 dark:hover:bg-[#191919] hover:text-white"
+      } px-3 py-1 text-lightGray text-sm rounded-lg border border-solid dark:border-[#2A2A2A] transition-all duration-150`}
     >
       {props.name}
     </button>

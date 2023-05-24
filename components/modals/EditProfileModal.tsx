@@ -13,6 +13,7 @@ import Image from "next/image";
 import { DragEvent } from "react";
 import { IconType } from "react-icons";
 import router from "next/router";
+import { MdAlternateEmail } from "react-icons/md";
 
 type Props = {
   isOpen: boolean;
@@ -73,6 +74,8 @@ const ModalBody = (props: {
   avatar: string;
 }) => {
   const { data: session } = useSession();
+  // @ts-ignore
+  const [username, setUsername] = useState<string>(session?.user?.username);
   const [displayName, setDisplayName] = useState<string>(
     session?.user?.name as string
   );
@@ -84,7 +87,7 @@ const ModalBody = (props: {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [deletedHover, setDeletedHover] = useState(false);
 
-  useEffect((): void => {
+  useEffect(() => {
     setAvatarURL(props.avatar);
   }, [props.avatar]);
 
@@ -103,33 +106,40 @@ const ModalBody = (props: {
     document.dispatchEvent(event);
   };
 
-  const updateField = async (
-    fieldName: string,
-    fieldValue: string | number
-  ): Promise<void> => {
-    const data: { [p: string]: string | number } = { [fieldName]: fieldValue };
-    if (!fieldValue) {
-      setErrorMessage(`${fieldName} left blank`);
+  const updateInfo = async (): Promise<void> => {
+    //@ts-ignore
+    const existingUsername = session.user?.username;
+    //@ts-ignore
+    const existingDisplayName = session.user?.name;
+    //@ts-ignore
+    const existingAvatarURL = session.user?.image;
+
+    if (!username || !displayName || !avatarURL) {
+      return setErrorMessage("Fields left blank");
     } else if (
-      session?.user &&
-      (session.user as { [key: string]: string })[fieldName] === fieldValue
+      existingUsername === username &&
+      existingDisplayName === displayName &&
+      existingAvatarURL === avatarURL
     ) {
-      setErrorMessage(`That already is your ${fieldName}!`);
-    } else if (fieldName === "image") {
-      const urlRegex =
-        /^(https?:\/\/(?:lh3\.googleusercontent\.com|avatars\.githubusercontent\.com))/;
-      const linkRegex = /^https?:\/\/\S+$/;
-      if (
-        fieldValue !== null &&
-        (!urlRegex.test(fieldValue as string) ||
-          !linkRegex.test(fieldValue as string))
-      ) {
-        setErrorMessage(
-          "Invalid avatar URL. Please provide a Discord or GitHub link."
-        );
-        return;
-      }
+      return setErrorMessage("You already have that data updated.");
     }
+
+    const urlRegex =
+      /^(https?:\/\/(?:lh3\.googleusercontent\.com|avatars\.githubusercontent\.com))/;
+    const linkRegex = /^https?:\/\/\S+$/;
+
+    if (avatarURL && !urlRegex.test(avatarURL) && !linkRegex.test(avatarURL)) {
+      return setErrorMessage(
+        "Invalid avatar URL. Please provide a Discord or GitHub link."
+      );
+    }
+
+    const data = {
+      username,
+      name: displayName,
+      image: avatarURL,
+      teamNumber: Number(teamNumber),
+    };
 
     await fetchUpdate(data);
   };
@@ -139,7 +149,6 @@ const ModalBody = (props: {
       method: "DELETE",
     });
   };
-
   return (
     <div className="mt-5">
       {errorMessage && (
@@ -154,11 +163,22 @@ const ModalBody = (props: {
         <div>
           <p className="uppercase text-xs text-lightGray mb-2">Email</p>
           <Input
-            placeholder={session?.user?.email as string}
+            placeholder={session?.user?.email || ""}
             icon={FaEnvelope}
             className="cursor-not-allowed"
             disabled
           />
+        </div>
+
+        <div>
+          <p className="uppercase text-xs text-lightGray mb-2">Username</p>
+          <div className="flex gap-x-2">
+            <Input
+              placeholder={username}
+              icon={MdAlternateEmail}
+              state={setUsername}
+            />
+          </div>
         </div>
 
         <div>
@@ -169,12 +189,6 @@ const ModalBody = (props: {
               icon={FaSignature}
               state={setDisplayName}
             />
-            <button
-              onClick={() => updateField("name", displayName)}
-              className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
-            >
-              Update
-            </button>
           </div>
         </div>
 
@@ -182,34 +196,37 @@ const ModalBody = (props: {
           <p className="uppercase text-xs text-lightGray mb-2">Avatar</p>
           <div className="flex gap-x-2">
             <Input
-              placeholder={avatarURL as string}
+              placeholder={avatarURL}
               icon={FaUserCircle}
               state={setAvatarURL}
             />
-            <button
-              onClick={() => updateField("image", avatarURL as string)}
-              className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
-            >
-              Update
-            </button>
           </div>
         </div>
 
         <div>
           <p className="uppercase text-xs text-lightGray mb-2">Team Number</p>
           <div className="flex gap-x-2">
-            <Input
-              placeholder={teamNumber as string}
-              icon={FaBolt}
-              state={setTeamNumber}
-            />
-            <button
-              onClick={() => updateField("teamNumber", Number(teamNumber))}
-              className="border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
-            >
-              Update
-            </button>
+            {teamNumber ? (
+              <Input
+                placeholder={teamNumber}
+                icon={FaBolt}
+                state={setTeamNumber}
+              />
+            ) : (
+              <Input
+                primaryPlaceholder="Unknown Team"
+                icon={FaBolt}
+                state={setTeamNumber}
+              />
+            )}
           </div>
+
+          <button
+            onClick={updateInfo}
+            className="mt-5 w-full border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+          >
+            Update Info
+          </button>
 
           <button
             onClick={async (): Promise<void> => {
@@ -218,7 +235,7 @@ const ModalBody = (props: {
             }}
             onMouseEnter={() => setDeletedHover(true)}
             onMouseLeave={() => setDeletedHover(false)}
-            className="text-black dark:text-white bg-red-500 rounded-lg px-3 w-full py-1 mt-5 hover:bg-red-600 text-sm font-bold"
+            className="text-black dark:text-white bg-red-500 rounded-lg px-3 w-full py-1 mt-2 hover:bg-red-600 text-sm font-bold"
           >
             {deletedHover ? "Are you sure?" : "Delete Account"}
           </button>
