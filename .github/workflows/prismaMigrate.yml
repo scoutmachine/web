@@ -6,8 +6,7 @@ on:
     branches: [staging]
     paths:
       - "./prisma/**/*.*"
-  workflow_dispatch:
-    branches: [staging]
+  pull_request:
 
 jobs:
   install:
@@ -48,26 +47,26 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-  migrate:
-    runs-on: ubuntu-latest
+  # migrate:
+  #   runs-on: ubuntu-latest
 
-    needs: install
+  #   needs: install
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Setup Nodejs
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-          cache: "yarn"
+  #     - name: Setup Nodejs
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 16.x
+  #         cache: "yarn"
 
-      - name: Install
-        run: yarn install
+  #     - name: Install
+  #       run: yarn install
 
-      - run: rm -rf node_modules/.prisma
+  #     - run: rm -rf node_modules/.prisma
 
-      - name: Deploy Migrations
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+  #     - name: Deploy Migrations
+  #       run: npx prisma migrate deploy
+  #       env:
+  #         DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
