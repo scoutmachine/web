@@ -17,10 +17,8 @@ const handleTeamsETL = async () => {
       break;
     }
     console.log(
-      `Parsing Teams page ${pageNum++}. Found ${
-        teamsRequest.data.length
-      } Teams. [${teamsRequest.data[0].team_number}/${
-        teamsRequest.data[teamsRequest.data.length - 1].team_number
+      `Parsing Teams page ${pageNum++}. Found ${teamsRequest.data.length
+      } Teams. [${teamsRequest.data[0].team_number}/${teamsRequest.data[teamsRequest.data.length - 1].team_number
       }]`
     );
 
@@ -142,7 +140,7 @@ const handleEventsETL = async () => {
         division_keys: event.divison_keys ?? [],
         address: event.address ?? null,
         event_code: event.event_code,
-        webcasts: (JSON.stringify(event.webcasts) as Prisma.JsonValue) ?? null,
+        webcasts: (event.webcasts as Prisma.JsonArray) ?? null,
       };
     });
 
@@ -206,8 +204,7 @@ const addTeamsToEvents = async () => {
       eventPromise.map((fn: Function) => fn())
     );
     console.log(
-      `Event Chunk: ${index + 1}/${
-        chunkedPromises.length
+      `Event Chunk: ${index + 1}/${chunkedPromises.length
       }. Added the following events: ${allEvents
         .filter((event) => event !== undefined)
         .join(", ")}`

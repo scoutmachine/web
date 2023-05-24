@@ -177,7 +177,7 @@ model Event {
   website             String?
   first_event_id      String?
   first_event_code    String?
-  webcasts            Json?
+  webcasts            Json[]
   division_keys       String[]
   parent_event_key    String?
   playoff_type        Int?
