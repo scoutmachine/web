@@ -62,6 +62,7 @@ model User {
   posts            Post[]
   favouritedTeams  FavouritedTeam[]
   favouritedEvents FavouritedEvent[]
+  apiKeys          ApiKey[]
   createdAt        DateTime?         @default(now())
   updatedAt        DateTime?         @updatedAt
 }
@@ -202,4 +203,11 @@ model Match {
   score_breakdown  Json?
   videos           Json?
   Event            Event  @relation(fields: [event_key], references: [key])
+}
+
+model ApiKey {
+  id     Int    @default(autoincrement())
+  key    String @unique
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
