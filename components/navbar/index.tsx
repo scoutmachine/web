@@ -44,6 +44,7 @@ const links: { title: string; href: string; icon: JSX.Element }[] = [
   { title: "Rookie Teams", href: "/rookies", icon: <FaBolt /> },
   { title: "Insights", href: "/insights", icon: <FaChartLine /> },
   { title: "Marketplace", href: "/marketplace", icon: <FaTags /> },
+	{ title: 'Utils', href: '/utils', icon: <FaUndo /> },
 ];
 
 export const Navbar = (props: {
