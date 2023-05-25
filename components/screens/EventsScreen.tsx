@@ -213,14 +213,6 @@ export const EventsScreen = (props: any): JSX.Element => {
     </div>
   );
 
-  if (props.events.length === 0) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  }
-
   return (
     <div className="w-full pl-4 pr-4 md:pl-8 md:pr-8 max-w-screen-3xl">
       <div className="flex flex-wrap gap-x-3">

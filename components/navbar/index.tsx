@@ -99,8 +99,6 @@ export const Navbar = (props: {
     window.addEventListener("click", () => setSearchTerm(""));
   });
 
-  if (status === "loading" || !teams) return <Loading />;
-
   return (
     <>
       <div
@@ -241,7 +239,9 @@ export const Navbar = (props: {
                 className="md:mt-0 mt-3 text-sm border border-[#2A2A2A] bg-card hover:border-gray-600 px-3 py-[6px] text-lightGray font-medium rounded-lg md:ml-[-10px] ml-4"
               >
                 <FaUserCircle className="text-lg mr-1 inline-block" /> Sign{" "}
-                {localStorage.getItem("signUpState") ?? "up"}
+                {(status !== "loading" &&
+                  localStorage.getItem("signUpState")) ??
+                  "up"}
               </button>
             )}
           </div>
