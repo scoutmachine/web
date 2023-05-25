@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/navbar";
-import { API_URL } from "@/lib/constants";
+import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { JSX } from "react";
@@ -31,9 +31,19 @@ export const getServerSideProps: GetServerSideProps = async (
 }> => {
   const { event, match }: any = context.params;
 
-  const matchData = await fetch(
-    `${API_URL}/api/v2/event/match?match=${event}_${match}`
-  ).then((res) => res.json());
+  const matchData = await db.match.findUnique({
+    where: {
+      key: `${event}_${match}`,
+    },
+  });
 
-  return { props: { match: matchData } };
+  return {
+    props: {
+      match: JSON.parse(
+        JSON.stringify(matchData, (key, value) =>
+          typeof value === "bigint" ? value.toString() : value
+        )
+      ),
+    },
+  };
 };

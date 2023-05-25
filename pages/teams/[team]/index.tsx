@@ -426,7 +426,11 @@ export const getServerSideProps: GetServerSideProps = async (
           teamMembers: JSON.parse(JSON.stringify(teamMembers)),
           teamInfo,
           teamEvents,
-          eventMatches,
+          eventMatches: JSON.parse(
+            JSON.stringify(eventMatches, (key, value) =>
+              typeof value === "bigint" ? value.toString() : value
+            )
+          ),
           teamSocials,
         },
       };
@@ -436,7 +440,13 @@ export const getServerSideProps: GetServerSideProps = async (
       props: {
         teamInfo,
         teamEvents,
-        eventMatches,
+        eventMatches: JSON.parse(
+          JSON.stringify(
+            eventMatches,
+            (key, value) =>
+              typeof value === "bigint" ? value.toString() : value // return everything else unchanged
+          )
+        ),
         teamMembers: JSON.parse(JSON.stringify(teamMembers)),
         teamSocials,
       },

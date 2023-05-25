@@ -197,10 +197,10 @@ model Match {
   alliances        Json?
   winning_alliance String?
   event_key        String
-  time             Int?
-  actual_time      Int?
-  predicted_time   Int?
-  post_result_time Int?
+  time             BigInt?
+  actual_time      BigInt?
+  predicted_time   BigInt?
+  post_result_time BigInt?
   score_breakdown  Json?
   videos           Json?
   Event            Event   @relation(fields: [event_key], references: [key])
