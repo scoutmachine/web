@@ -1,0 +1,72 @@
+name: Prisma Migrate
+# https://blog.henriktech.com/deploying-prisma-migrations-via-github-actions
+
+on:
+  push:
+    branches: [staging]
+    paths:
+      - "./prisma/**/*.*"
+  pull_request:
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: "yarn"
+
+      - name: Install
+        run: yarn install
+      - name: Rerun Install
+        run: yarn install
+
+  generate:
+    runs-on: ubuntu-latest
+
+    needs: install
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: "yarn"
+
+      - name: Install
+        run: yarn install
+
+      - run: rm -rf node_modules/.prisma
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+  # migrate:
+  #   runs-on: ubuntu-latest
+
+  #   needs: install
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: Setup Nodejs
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 16.x
+  #         cache: "yarn"
+
+  #     - name: Install
+  #       run: yarn install
+
+  #     - run: rm -rf node_modules/.prisma
+
+  #     - name: Deploy Migrations
+  #       run: npx prisma migrate deploy
+  #       env:
+  #         DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
