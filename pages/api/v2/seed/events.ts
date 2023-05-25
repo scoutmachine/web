@@ -2,7 +2,7 @@ import { tbaAxios, TBAEvent } from "@/lib/fetchTBA";
 import { RouterBuilder } from "next-api-handler";
 import db from "@/lib/db";
 import _ from "lodash";
-import { Event, Prisma } from "@prisma/client";
+import { Award, Event, Prisma } from "@prisma/client";
 import { CURR_YEAR } from "@/lib/constants";
 
 const router = new RouterBuilder();
@@ -81,6 +81,15 @@ const addTeamsToEvents = async () => {
       const participatingTeams = await tbaAxios.get(
         `/event/${event.key}/teams/keys`
       );
+      //   const eventAlliances = await tbaAxios.get(
+      //     `/event/${event.key}/alliances`
+      //   );
+      const eventAwards = await tbaAxios.get(`/event/${event.key}/awards`);
+
+      await db.award.createMany({
+        data: eventAwards.data,
+        skipDuplicates: true,
+      });
 
       await db.event.update({
         where: {

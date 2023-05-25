@@ -153,7 +153,7 @@ model Social {
 }
 
 model Event {
-  key                 String   @id
+  key                 String     @id
   name                String
   event_code          String
   event_type          Int
@@ -183,6 +183,8 @@ model Event {
   playoff_type        Int?
   playoff_type_string String?
   matches             Match[]
+  awards              Award[]
+  alliances           Alliance[]
   teams               Team[]
 }
 
@@ -202,6 +204,27 @@ model Match {
   score_breakdown  Json?
   videos           Json?
   Event            Event   @relation(fields: [event_key], references: [key])
+}
+
+model Award {
+  id             Int     @unique @default(autoincrement())
+  award_type     Int
+  event_key      String
+  name           String
+  recipient_list Json?
+  year           Int
+  person         String?
+  Event          Event?  @relation(fields: [event_key], references: [key])
+}
+
+model Alliance {
+  id        Int      @unique @default(autoincrement())
+  event_key String
+  declines  String[]
+  name      String
+  picks     String[]
+  status    Json?
+  Event     Event?   @relation(fields: [event_key], references: [key])
 }
 
 model ApiKey {

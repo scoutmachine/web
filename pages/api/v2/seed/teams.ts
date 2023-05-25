@@ -43,7 +43,7 @@ const handleTeamsETL = async () => {
         gmaps_url: team.gmaps_url ?? null,
         motto: team.motto ?? null,
         key: team.key,
-        school_name: null,
+        school_name: team.school_name ?? null,
       };
     });
 

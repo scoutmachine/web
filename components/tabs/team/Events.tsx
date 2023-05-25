@@ -25,9 +25,7 @@ export const EventsTab = (props: any) => {
                   scope="row"
                   className="group-hover:text-primary px-6 py-4 whitespace-nowrap"
                 >
-                  <Link href={`/events/${event.event_code}`}>
-                    {event.event_code.substring(0, 4)}
-                  </Link>
+                  <Link href={`/events/${event.event_code}`}>{event.year}</Link>
                 </td>
                 <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap">
                   <Link href={`/events/${event.event_code}`}>{event.name}</Link>

@@ -135,15 +135,20 @@ export const getServerSideProps: GetServerSideProps = async (
     authOptions
   )) as Session;
 
-  const [matches, eventInfo, eventTeams] = await Promise.all([
+  const [eventInfo, matches, eventAwards, eventTeams] = await Promise.all([
+    await db.event.findUnique({
+      where: {
+        key: String(event),
+      },
+    }),
     await db.match.findMany({
       where: {
         event_key: String(event),
       },
     }),
-    await db.event.findUnique({
+    await db.award.findMany({
       where: {
-        key: String(event),
+        event_key: String(event),
       },
     }),
     await db.event
@@ -174,7 +179,7 @@ export const getServerSideProps: GetServerSideProps = async (
         eventInfo,
         eventTeams,
         eventAlliances: [],
-        eventAwards: [],
+        eventAwards,
       },
     };
   }
@@ -185,7 +190,7 @@ export const getServerSideProps: GetServerSideProps = async (
       eventInfo,
       eventTeams,
       eventAlliances: [],
-      eventAwards: [],
+      eventAwards,
     },
   };
 };

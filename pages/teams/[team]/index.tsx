@@ -35,14 +35,14 @@ const SubInfo = (props: any) => {
 export default function TeamPage({
   user,
   teamMembers,
+  teamInfo,
+  teamEvents,
   teamSocials,
-  teamData,
+  eventMatches,
 }: any) {
   const router: NextRouter = useRouter();
   const { team } = router.query;
   const [activeTab, setActiveTab] = useState<any>(1);
-  const [eventData, setEventData] = useState([]);
-  const [matchData, setMatchData] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
@@ -51,39 +51,13 @@ export default function TeamPage({
 
   useEffect(() => {
     const redirectToHome = async () => {
-      if (!teamData.teamData) {
+      if (!teamInfo) {
         await router.push("/404");
       }
     };
 
     redirectToHome();
-  }, [router, teamData.teamData]);
-
-  useEffect((): void => {
-    if (!router.isReady) return;
-
-    const getEventData = async (): Promise<void> => {
-      setLoading(true);
-      const fetchEventData = await fetch(
-        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
-      ).then((res: Response) => res.json());
-
-      const eventMatchData: any = {};
-
-      for (const event of fetchEventData) {
-        eventMatchData[event.event_code] = await fetch(
-          `${API_URL}/api/events/matches?team=${team}&year=${activeTab}&event=${event.event_code}`
-        ).then((res: Response) => res.json());
-      }
-      setMatchData(eventMatchData);
-      setEventData(fetchEventData);
-      setLoading(false);
-    };
-
-    if (activeTab.toString().length === 4) {
-      getEventData();
-    }
-  }, [activeTab, router.isReady, team]);
+  }, [router, teamInfo]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent): void => {
@@ -110,10 +84,15 @@ export default function TeamPage({
     setActiveTab(tabIndex);
   };
 
-  if (!teamData || !teamData.teamData) return <Loading />;
+  const yearsParticipated: any = [];
 
-  const year = teamData?.yearsParticipated
-    ? teamData?.yearsParticipated.map((year: any) => year)
+  teamEvents.map((event: any) => {
+    const year = event.year;
+    if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
+  });
+
+  const year = yearsParticipated
+    ? yearsParticipated.map((year: any) => year)
     : [];
 
   return (
@@ -126,11 +105,11 @@ export default function TeamPage({
 
       <div className="flex flex-wrap items-center justify-center pl-4 pr-4 md:pl-0 md:pr-0">
         <TeamScreen
-          team={teamData?.teamData}
-          years={teamData?.yearsParticipated}
+          team={teamInfo}
+          years={yearsParticipated}
           socials={teamSocials}
-          avatar={teamData?.teamAvatar}
-          district={teamData?.teamDistrict}
+          avatar={teamInfo?.teamAvatar}
+          district={teamInfo?.teamDistrict}
           user={user}
         />
 
@@ -149,7 +128,14 @@ export default function TeamPage({
                 tab={2}
                 onClick={() => setActiveTab(2)}
               >
-                Awards <SubInfo>{teamData?.teamAwards?.length}</SubInfo>
+                Awards <SubInfo>{teamInfo?.teamAwards?.length}</SubInfo>
+              </TabButton>
+              <TabButton
+                active={activeTab}
+                tab={4}
+                onClick={() => setActiveTab(4)}
+              >
+                Events <SubInfo>{teamEvents.length}</SubInfo>
               </TabButton>
               <TabButton
                 active={activeTab}
@@ -157,13 +143,6 @@ export default function TeamPage({
                 onClick={() => setActiveTab(3)}
               >
                 Team Members <SubInfo>{teamMembers.length}</SubInfo>
-              </TabButton>
-              <TabButton
-                active={activeTab}
-                tab={4}
-                onClick={() => setActiveTab(4)}
-              >
-                Events <SubInfo>{teamData?.teamEvents?.length}</SubInfo>
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
@@ -196,28 +175,26 @@ export default function TeamPage({
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
-                  {teamData?.yearsParticipated?.length > 0 ? (
+                  {yearsParticipated?.length > 0 ? (
                     <div className="grid grid-cols-3 gap-3">
-                      {teamData?.yearsParticipated?.map(
-                        (year: any, key: any) => (
-                          <div
-                            key={key}
-                            className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
-                            onClick={(): void => {
-                              handleTabClick(Number(year));
-                              setIsDropdownOpen(false);
-                              setCurrentYearTab(year);
-                            }}
-                          >
-                            {year}
-                          </div>
-                        )
-                      )}
+                      {yearsParticipated?.map((year: any, key: any) => (
+                        <div
+                          key={key}
+                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          onClick={(): void => {
+                            handleTabClick(Number(year));
+                            setIsDropdownOpen(false);
+                            setCurrentYearTab(year);
+                          }}
+                        >
+                          {year}
+                        </div>
+                      ))}
                     </div>
                   ) : (
                     <p className="px-2 text-lightGray">
-                      Looks like {teamData?.teamData?.team_number} hasn&apos;t
-                      competed, yet.
+                      Looks like {teamInfo?.team_number} hasn&apos;t competed,
+                      yet.
                     </p>
                   )}
                 </div>
@@ -230,52 +207,60 @@ export default function TeamPage({
               </p>
             )}
 
-            {activeTab === 1 && <AboutTab team={teamData} />}
+            {activeTab === 1 && <AboutTab team={teamInfo} />}
 
             {activeTab === 2 && (
               <AwardsTab
-                team={teamData}
+                team={teamInfo}
                 showAll={showAll}
                 setShowAll={setShowAll}
               />
             )}
 
             {activeTab === 3 && (
-              <TeamMembersTab members={teamMembers} team={teamData?.teamData} />
+              <TeamMembersTab members={teamMembers} team={teamInfo} />
             )}
 
-            {activeTab === 4 && <EventsTab events={teamData?.teamEvents} />}
+            {activeTab === 4 && <EventsTab events={teamEvents} />}
 
             <div className="flex flex-col gap-5">
               {year.includes(activeTab) &&
-                eventData
+                teamEvents
+                  .filter((event: any) => event.year === activeTab)
                   .sort((a: any, b: any) => {
                     const aTimestamp: number = new Date(a.start_date).getTime();
                     const bTimestamp: number = new Date(b.start_date).getTime();
                     return bTimestamp - aTimestamp;
                   })
                   .map((event: any, key: number) => {
+                    const allEventMatches = eventMatches.filter(
+                      (match: any) => match.event_key === event.key
+                    );
+
                     const playlists: any = {};
 
-                    eventData.forEach((event: any): void => {
-                      const eventCode = event.event_code;
+                    teamEvents
+                      .filter((event: any) => event.year === activeTab)
+                      .forEach((event: any): void => {
+                        const eventCode = event.event_code;
 
-                      matchData[eventCode].forEach((match: any): void => {
-                        if (!playlists[eventCode]) {
-                          playlists[eventCode] = [];
-                        }
-                        if (match.videos) {
-                          match.videos
-                            .filter(
-                              (video: any): boolean => video.type === "youtube"
-                            )
-                            .forEach((video: any): void => {
-                              if (video.key)
-                                playlists[eventCode].push(video.key);
-                            });
-                        }
+                        allEventMatches.forEach((match: any): void => {
+                          if (!playlists[eventCode]) {
+                            playlists[eventCode] = [];
+                          }
+                          if (match.videos) {
+                            match.videos
+                              .filter(
+                                (video: any): boolean =>
+                                  video.type === "youtube"
+                              )
+                              .forEach((video: any): void => {
+                                if (video.key)
+                                  playlists[eventCode].push(video.key);
+                              });
+                          }
+                        });
                       });
-                    });
 
                     return (
                       <div
@@ -342,11 +327,11 @@ export default function TeamPage({
                           </div>
                         </div>
 
-                        {matchData[event.event_code].length === 0 ? (
+                        {allEventMatches.length === 0 ? (
                           <ErrorMessage message="Looks like there's no data available for this event!" />
                         ) : (
                           <EventData
-                            data={matchData[event.event_code]}
+                            data={allEventMatches}
                             team={team}
                             isTeam={true}
                             setLoading={setLoading}
@@ -377,46 +362,51 @@ export const getServerSideProps: GetServerSideProps = async (
   )) as Session;
   const { team }: any = context.params;
 
-  const teamData = await fetch(`${API_URL}/api/team/all?team=${team}`).then(
-    (res: Response) => res.json()
-  );
+  const [teamInfo, teamSocials] = await Promise.all([
+    await db.team.findUnique({
+      where: {
+        team_number: Number(team),
+      },
+    }),
+    await fetch(`${API_URL}/api/v2/teams/socials?team=${team}`).then((res) =>
+      res.json()
+    ),
+  ]);
 
-  if (teamData.teamData) {
+  if (teamInfo) {
+    const teamEvents: any = await db.team
+      .findUnique({
+        where: {
+          team_number: Number(team),
+        },
+      })
+      .events({
+        orderBy: {
+          year: "desc",
+        },
+      });
+
+    let eventMatches: any[] = [];
+
+    for (const event of teamEvents) {
+      const eventWithMatches = await db.event
+        .findUnique({
+          where: {
+            key: event.key,
+          },
+        })
+        .matches();
+
+      if (eventWithMatches) {
+        eventMatches.push(...eventWithMatches);
+      }
+    }
+
     const teamMembers: User[] = await db.user.findMany({
       where: {
         teamNumber: Number(team),
       },
     });
-
-    const tbaSocials: any | void | AxiosResponse<any, any> = await fetchTBA(
-      `team/frc${team}/social_media`
-    );
-
-    const data = await db.team.findMany({
-      where: {
-        team_number: Number(team),
-      },
-      include: {
-        socials: true,
-      },
-    });
-
-    const newFormattedTBASocials = tbaSocials?.map(
-      (social: any): { handle: any; type: any } => ({
-        type: social.type.replace("-profile", "").replace("-channel", ""),
-        handle: social.foreign_key,
-      })
-    );
-
-    const allSocials = data.flatMap((team: any) =>
-      team.socials
-        .filter((social: any) => social.verified)
-        .map((social: any) => ({
-          type: social.type,
-          handle: social.handle,
-          verified: social.verified,
-        }))
-    );
 
     if (session) {
       const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
@@ -434,30 +424,28 @@ export const getServerSideProps: GetServerSideProps = async (
         props: {
           user: JSON.parse(JSON.stringify(user)),
           teamMembers: JSON.parse(JSON.stringify(teamMembers)),
-          teamSocials: newFormattedTBASocials
-            ? [...allSocials, ...newFormattedTBASocials]
-            : null,
-          teamData,
+          teamInfo,
+          teamEvents,
+          eventMatches,
+          teamSocials,
         },
       };
     }
 
     return {
       props: {
+        teamInfo,
+        teamEvents,
+        eventMatches,
         teamMembers: JSON.parse(JSON.stringify(teamMembers)),
-        teamSocials: newFormattedTBASocials
-          ? [...allSocials, ...newFormattedTBASocials]
-          : null,
-        teamData,
+        teamSocials,
       },
     };
   }
 
   return {
     props: {
-      teamData: {
-        teamData: null,
-      },
+      teamInfo: [],
     },
   };
 };

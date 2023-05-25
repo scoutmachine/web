@@ -26,8 +26,21 @@ export default async function getDistricts(
       res.status(200).send("Successfully deleted Matches");
       await db.match.deleteMany();
 
+    case "awards":
+      res.status(200).send("Successfully deleted Awards");
+      await db.award.deleteMany();
+
     case "teams":
       res.status(200).send("Successfully deleted Teams");
       await db.team.deleteMany();
+
+    default:
+      res
+        .status(200)
+        .send("Successfully deleted teams, matches, events, & award tables");
+      await db.team.deleteMany();
+      await db.match.deleteMany();
+      await db.event.deleteMany();
+      await db.award.deleteMany();
   }
 }

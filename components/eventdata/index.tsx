@@ -112,7 +112,7 @@ export const EventData = (props: any) => {
       {isClient && (
         <div className="relative overflow-x-auto">
           <div className="flex flex-col md:flex-row gap-3 w-full mt-3 md:mt-5 whitespace-nowrap">
-            {props.isTeam &&
+            {/* {props.isTeam &&
               props.playlists[props.event.event_code].length > 0 && (
                 <div className="border border-[#2a2a2a] bg-[#191919] text-red-500 px-5 py-3 rounded-lg">
                   <a
@@ -126,7 +126,7 @@ export const EventData = (props: any) => {
                     Watch All Matches
                   </a>
                 </div>
-              )}
+              )} */}
             <div className="border border-[#2a2a2a] bg-[#191919] text-lightGray px-5 py-3 rounded-lg w-full">
               <span className="text-green-400">Win</span> /{" "}
               <span className="text-red-400">Loss</span> /{" "}

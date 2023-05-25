@@ -42,6 +42,7 @@ export type TBATeam = {
   website?: string;
   rookie_year?: number;
   motto?: string;
+  school_name?: string;
 };
 
 export type TBAEvent = {
