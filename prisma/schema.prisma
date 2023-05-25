@@ -132,15 +132,14 @@ model Team {
   location_name  String?
   motto          String?
   name           String?
-  nickname       String
+  nickname       String?
   postal_code    String?
   rookie_year    Int?
   school_name    String?
   state_prov     String?
   website        String?
   socials        Social[]
-  Event          Event?   @relation(fields: [eventKey], references: [key])
-  eventKey       String?
+  events         Event[]
 }
 
 model Social {
@@ -158,9 +157,9 @@ model Event {
   name                String
   event_code          String
   event_type          Int
-  city                String
-  state_prov          String
-  country             String
+  city                String?
+  state_prov          String?
+  country             String?
   start_date          String
   end_date            String
   year                Int
@@ -178,7 +177,7 @@ model Event {
   website             String?
   first_event_id      String?
   first_event_code    String?
-  webcasts            Json?
+  webcasts            Json[]
   division_keys       String[]
   parent_event_key    String?
   playoff_type        Int?
