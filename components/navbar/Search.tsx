@@ -1,4 +1,4 @@
-import { unfavouriteTeam, favouriteTeam } from "@/utils/favourites";
+import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
 import Link from "next/link";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";

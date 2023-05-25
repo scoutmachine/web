@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "@/lib/db";
-import { Session, getServerSession, User } from "next-auth";
+import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
 

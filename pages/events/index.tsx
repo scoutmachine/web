@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Navbar } from "@/components/navbar";
 import { EventsScreen } from "@/components/screens/EventsScreen";
 import { CURR_YEAR } from "@/lib/constants";
-import { useState, JSX } from "react";
+import { JSX, useState } from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import db from "@/lib/db";

@@ -5,7 +5,7 @@ import { Feature } from "@/components/misc/Feature";
 import { BMAC_URL, CURR_YEAR, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 import { developers } from "@/lib/lists/developers";
 import Image from "next/image";
-import { FaGithub, FaDiscord, FaCoffee } from "react-icons/fa";
+import { FaCoffee, FaDiscord, FaGithub } from "react-icons/fa";
 
 const IssueTemplate = (props: any) => {
   return (

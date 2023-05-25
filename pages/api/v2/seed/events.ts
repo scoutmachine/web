@@ -2,7 +2,7 @@ import { tbaAxios, TBAEvent } from "@/lib/fetchTBA";
 import { RouterBuilder } from "next-api-handler";
 import db from "@/lib/db";
 import _ from "lodash";
-import { Award, Event, Prisma } from "@prisma/client";
+import { Event, Prisma } from "@prisma/client";
 import { CURR_YEAR } from "@/lib/constants";
 
 const router = new RouterBuilder();

@@ -1,16 +1,16 @@
 import {
+  FaDiscord,
   FaEnvelope,
-  FaInstagram,
   FaFacebook,
-  FaTwitter,
   FaGithub,
   FaGitlab,
-  FaYoutube,
-  FaTiktok,
-  FaTwitch,
+  FaInstagram,
   FaLinkedin,
   FaPinterest,
-  FaDiscord,
+  FaTiktok,
+  FaTwitch,
+  FaTwitter,
+  FaYoutube,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 

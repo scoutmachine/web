@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { fetchTBA } from "@/lib/fetchTBA";
 import db from "@/lib/db";
 
 export default async function getMatches(

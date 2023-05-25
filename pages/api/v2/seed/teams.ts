@@ -1,7 +1,6 @@
 import { tbaAxios, TBATeam } from "@/lib/fetchTBA";
 import { RouterBuilder } from "next-api-handler";
 import db from "@/lib/db";
-import _ from "lodash";
 import { Team } from "@prisma/client";
 
 const router = new RouterBuilder();

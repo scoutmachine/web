@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Search } from "../Search";
 import React, { JSX, ReactNode, useEffect, useRef, useState } from "react";
 import haversine from "haversine-distance";
-import { GeoData } from "@/utils/geo";
+import { GeoData, getGeoData } from "@/utils/geo";
 import {
   FaArrowUp,
   FaCrosshairs,
@@ -12,10 +12,8 @@ import {
   FaGlobe,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import { getGeoData } from "@/utils/geo";
 import exportFromJSON from "export-from-json";
 import { getStorage } from "@/utils/localStorage";
-import { Loading } from "../Loading";
 
 const Event = (props: any) => {
   return (

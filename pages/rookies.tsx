@@ -6,7 +6,7 @@ import { TeamCard } from "@/components/TeamCard";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { formatTime } from "@/utils/time";
-import { useState, useEffect, JSX } from "react";
+import { JSX, useEffect, useState } from "react";
 import { FaBolt } from "react-icons/fa";
 import Head from "next/head";
 import { log } from "@/utils/log";
