@@ -3,6 +3,7 @@ import { RouterBuilder } from "next-api-handler";
 import db from "@/lib/db";
 import _ from "lodash";
 import { Team, Event, Prisma } from "@prisma/client";
+import { CURR_YEAR } from "@/lib/constants";
 
 const router = new RouterBuilder();
 
@@ -62,51 +63,11 @@ const handleTeamsETL = async () => {
 const handleEventsETL = async () => {
   console.log("Starting Events ETL");
 
-  const startYear = 2019;
-  const endYear = 2023;
+  const startYear = 1992;
 
   let numEventsInserted = 0;
 
-  // "address": "700 Monroe St SW, Huntsville, AL 35801, USA",
-  //   "city": "Huntsville",
-  //   "country": "USA",
-  //   "district": null,
-  //   "division_keys": [],
-  //   "end_date": "2023-04-08",
-  //   "event_code": "alhu",
-  //   "event_type": 0,
-  //   "event_type_string": "Regional",
-  //   "first_event_code": "alhu",
-  //   "first_event_id": null,
-  //   "gmaps_place_id": "ChIJBwUw_FdrYogRMsP0V0W5Zqk",
-  //   "gmaps_url": "https://maps.google.com/?q=700+Monroe+St+SW,+Huntsville,+AL+35801,+USA&ftid=0x88626b57fc300507:0xa966b94557f4c332",
-  //   "key": "2023alhu",
-  //   "lat": 34.72671,
-  //   "lng": -86.5903795,
-  //   "location_name": "700 Monroe St SW",
-  //   "name": "Rocket City Regional",
-  //   "parent_event_key": null,
-  //   "playoff_type": 10,
-  //   "playoff_type_string": "Double Elimination Bracket (8 Alliances)",
-  //   "postal_code": "35801",
-  //   "short_name": "Rocket City",
-  //   "start_date": "2023-04-05",
-  //   "state_prov": "AL",
-  //   "timezone": "America/Chicago",
-  //   "webcasts": [
-  //     {
-  //       "channel": "firstinspires13",
-  //       "type": "twitch"
-  //     },
-  //     {
-  //       "channel": "firstinspires14",
-  //       "type": "twitch"
-  //     }
-  //   ],
-  //   "website": "http://firstinalabama.org/events/frc-events/",
-  //   "week": 5,
-  //   "year": 2023
-  for (let year = startYear; year <= endYear; year++) {
+  for (let year = startYear; year <= CURR_YEAR; year++) {
     console.log(`Parsing Events for ${year}`);
     const eventsRequest = await tbaAxios.get<TBAEvent[]>(`/events/${year}`);
     console.log(`Found ${eventsRequest.data.length} Events for ${year}`);
@@ -218,7 +179,6 @@ const addTeamsToEvents = async () => {
 };
 
 router.post(async (req, res) => {
-  // First download all teams
   try {
     const teamsInserted = await handleTeamsETL();
     const eventsInserted = await handleEventsETL();
@@ -228,7 +188,6 @@ router.post(async (req, res) => {
       message: "Success",
       teamsInserted,
       eventsInserted,
-      // teamsInserted
     });
   } catch (error) {
     console.log("error: ", error);
