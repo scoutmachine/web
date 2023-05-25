@@ -1,7 +1,7 @@
 import { tbaAxios, TBAEvent, TBATeam } from "@/lib/fetchTBA";
 import { RouterBuilder } from "next-api-handler";
 import db from "@/lib/db";
-import chunk from "lodash/chunk";
+import _ from "lodash";
 import { Team, Event, Prisma } from "@prisma/client";
 
 const router = new RouterBuilder();
@@ -197,7 +197,7 @@ const addTeamsToEvents = async () => {
   });
 
   // Chunk the promises to avoid overloading the DB
-  const chunkedPromises = chunk(eventPromiseArr, 50);
+  const chunkedPromises = _.chunk(eventPromiseArr, 50);
   console.log(`Splitting Events into ${chunkedPromises.length} chunks`);
 
   // loop over chunkedPromises with index
