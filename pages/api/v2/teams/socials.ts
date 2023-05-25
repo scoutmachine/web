@@ -64,34 +64,33 @@ export default async function addSocials(
     res.status(200).send("Successfully created social");
   }
 
-    const tbaSocials = await tbaAxios(`team/frc${team}/social_media`);
+  const tbaSocials = await tbaAxios(`team/frc${team}/social_media`);
 
-    const data = await db.team.findMany({
-      where: {
-        team_number: Number(team),
-      },
-      include: {
-        socials: true,
-      },
-    });
+  const data = await db.team.findMany({
+    where: {
+      team_number: Number(team),
+    },
+    include: {
+      socials: true,
+    },
+  });
 
-    const newFormattedTBASocials = tbaSocials?.data?.map(
-      (social: any): { handle: any; type: any } => ({
-        type: social.type.replace("-profile", "").replace("-channel", ""),
-        handle: social.foreign_key,
-      })
-    );
+  const newFormattedTBASocials = tbaSocials?.data?.map(
+    (social: any): { handle: any; type: any } => ({
+      type: social.type.replace("-profile", "").replace("-channel", ""),
+      handle: social.foreign_key,
+    })
+  );
 
-    const allSocials = data.flatMap((team: any) =>
-      team.socials
-        .filter((social: any) => social.verified)
-        .map((social: any) => ({
-          type: social.type,
-          handle: social.handle,
-          verified: social.verified,
-        }))
-    );
+  const allSocials = data.flatMap((team: any) =>
+    team.socials
+      .filter((social: any) => social.verified)
+      .map((social: any) => ({
+        type: social.type,
+        handle: social.handle,
+        verified: social.verified,
+      }))
+  );
 
-    res.status(200).send([...allSocials, ...newFormattedTBASocials]);
-  
+  res.status(200).send([...allSocials, ...newFormattedTBASocials]);
 }

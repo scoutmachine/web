@@ -51,7 +51,7 @@ router.post(async (req, res) => {
 
     res.status(200).json({
       message: "Success",
-      matchesInserted
+      matchesInserted,
     });
   } catch (error) {
     console.log("error: ", error);
