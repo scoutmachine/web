@@ -15,7 +15,7 @@ export default async function getMatches(
       },
     });
 
-		return res.status(200).send(eventMatches);
+    return res.status(200).send(eventMatches);
   } catch {
     res.status(400).send("Error");
   }

@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (): Promise<{
   props: { events: any };
 }> => {
   const events = await db.event.findMany();
-  console.log(events)
+  console.log(events);
   const sortedEvents = events.sort((a: any, b: any) =>
     a.start_date.localeCompare(b.start_date)
   );
