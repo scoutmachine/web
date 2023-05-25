@@ -6,7 +6,6 @@ import { TabButton } from "@/components/TabButton";
 import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
-import { API_URL } from "@/lib/constants";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import Head from "next/head";
@@ -16,7 +15,6 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession, Session, User } from "next-auth";
 import { AwardsTab } from "@/components/tabs/event/Awards";
 import { FavouritedTeam } from "@prisma/client";
-import router from "next/router";
 
 export default function EventsPage({
   matches,

@@ -1,5 +1,5 @@
 import { ListingType } from "@/types/ListingType";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { MarketplacePost } from "./marketplace/MarketplacePost";
 
 export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {

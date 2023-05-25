@@ -9,7 +9,6 @@ import { convertDate, isLive } from "@/utils/date";
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { TeamScreen } from "@/components/screens/TeamScreen";
-import { Loading } from "@/components/Loading";
 import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
@@ -19,9 +18,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
-import { fetchTBA } from "@/lib/fetchTBA";
 import { EventsTab } from "@/components/tabs/team/Events";
-import { AxiosResponse } from "axios";
 import { FavouritedTeam } from "@prisma/client";
 
 const SubInfo = (props: any) => {

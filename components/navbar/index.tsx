@@ -2,19 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import {
+  FaBars,
+  FaBolt,
+  FaChartLine,
+  FaCoffee,
+  FaDiscord,
+  FaGithub,
+  FaHammer,
   FaMedal,
   FaRobot,
-  FaHammer,
-  FaGithub,
-  FaDiscord,
-  FaCoffee,
   FaSignOutAlt,
-  FaUserCircle,
   FaTags,
-  FaBolt,
-  FaBars,
-  FaChartLine,
   FaUndo,
+  FaUserCircle,
 } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { Dropdown } from "../Dropdown";
@@ -24,8 +24,7 @@ import { SignoutModal } from "../modals/SignoutModal";
 import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
-import { fetchTeamsData } from "@/utils/team";
-import { GITHUB_URL, DISCORD_URL, BMAC_URL, API_URL } from "@/lib/constants";
+import { API_URL, BMAC_URL, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 import router from "next/router";
 
 const Social = (props: { icon: ReactNode }) => {

@@ -1,7 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
 import { CURR_YEAR } from "@/lib/constants";
-import { useState, useEffect, JSX } from "react";
+import { JSX, useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";

@@ -17,7 +17,7 @@ import { GoPrimitiveDot } from "react-icons/go";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function NextTeamMatch({ next, avatars, epas }: any) {
   const router = useRouter();

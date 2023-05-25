@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Session, getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function getDistricts(

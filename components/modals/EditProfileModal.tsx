@@ -1,6 +1,7 @@
 import {
   ChangeEvent,
   Dispatch,
+  DragEvent,
   SetStateAction,
   useEffect,
   useState,
@@ -10,7 +11,6 @@ import { useSession } from "next-auth/react";
 import { API_URL } from "@/lib/constants";
 import { FaBolt, FaEnvelope, FaSignature, FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
-import { DragEvent } from "react";
 import { IconType } from "react-icons";
 import router from "next/router";
 import { MdAlternateEmail } from "react-icons/md";
