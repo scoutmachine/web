@@ -129,74 +129,31 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<any> => {
   const { event }: any = context.params;
-
-  const t1 = performance.now();
-
   const session: Session = (await getServerSession(
     context.req,
     context.res,
     authOptions
   )) as Session;
 
-  const t2 = performance.now();
-
-  console.log(`Took ${t2 - t1}ms to get session`);
-
-  const [matches, eventInfo, eventTeams, eventAlliances] = await Promise.all([
-    fetch(`${API_URL}/api/v2/event/matches?event=${event}`).then((res) =>
-      res.json()
-    ),
-    db.event.findUnique({
+  const [matches, eventInfo, eventTeams] = await Promise.all([
+    await db.match.findMany({
+      where: {
+        event_key: String(event),
+      },
+    }),
+    await db.event.findUnique({
       where: {
         key: String(event),
       },
     }),
-    fetch(`${API_URL}/api/events/infoTeams?event=${event}`).then((res) =>
-      res.json()
-    ),
-    fetch(`${API_URL}/api/events/alliances?event=${event}`).then((res) =>
-      res.json()
-    ),
+    await db.event
+      .findUnique({
+        where: {
+          key: String(event),
+        },
+      })
+      .teams(),
   ]);
-  // const matches = await fetch(
-  //   `${API_URL}/api/v2/event/matches?event=${event}`
-  // ).then((res) => res.json());
-
-  const t3 = performance.now();
-
-  console.log(`Took ${t3 - t2}ms to get matches`);
-
-  // const eventInfo = await ;
-
-  const t4 = performance.now();
-
-  console.log(`Took ${t4 - t3}ms to get event info`);
-
-  // const eventTeams = await fetch(
-  //   `${API_URL}/api/events/infoTeams?event=${event}`
-  // ).then((res: Response) => res.json());
-
-  const t5 = performance.now();
-
-  console.log(`Took ${t5 - t4}ms to get event teams`);
-
-  // const eventAlliances = await fetch(
-  //   `${API_URL}/api/events/alliances?event=${event}`
-  // )
-  //   .then((res: Response) => res.json())
-  //   .catch((): null => null);
-
-  const t6 = performance.now();
-
-  console.log(`Took ${t6 - t5}ms to get event alliances`);
-
-  // const eventAwards = await fetch(
-  //   `${API_URL}/api/events/awards?event=${event.substring(4)}`
-  // ).then((res: Response) => res.json());
-
-  const t7 = performance.now();
-
-  console.log(`Took ${t7 - t6}ms to get event awards`);
 
   if (session) {
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
@@ -216,7 +173,7 @@ export const getServerSideProps: GetServerSideProps = async (
         matches,
         eventInfo,
         eventTeams,
-        eventAlliances,
+        eventAlliances: [],
         eventAwards: [],
       },
     };
@@ -227,7 +184,7 @@ export const getServerSideProps: GetServerSideProps = async (
       matches,
       eventInfo,
       eventTeams,
-      eventAlliances,
+      eventAlliances: [],
       eventAwards: [],
     },
   };

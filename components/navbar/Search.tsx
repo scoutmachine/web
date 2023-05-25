@@ -29,7 +29,8 @@ export const Search = (props: any) => {
           props.searchTerm && "z-50 border border-[#2A2A2A]"
         } rounded-lg`}
       >
-        {props.teams && props.filteredOptions.length > 0 ? (
+        {props.teams &&
+          props.filteredOptions.length > 0 &&
           props.filteredOptions.map((team: any, key: number) => {
             const isFavourited = props.favourites?.some(
               (favouritedTeam: any): boolean =>
@@ -81,8 +82,9 @@ export const Search = (props: any) => {
                 )}
               </div>
             );
-          })
-        ) : (
+          })}
+
+        {props.teams && props.filteredOptions.length === 0 && (
           <div className="bg-card">
             <p className="text-lightGray px-2 py-2 text-sm">
               No results found.

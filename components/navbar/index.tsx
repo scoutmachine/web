@@ -16,7 +16,6 @@ import {
   FaChartLine,
   FaUndo,
 } from "react-icons/fa";
-import { Loading } from "../Loading";
 import { useSession } from "next-auth/react";
 import { Dropdown } from "../Dropdown";
 import { SignupModal } from "../modals/SignupModal";

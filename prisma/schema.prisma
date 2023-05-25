@@ -187,21 +187,21 @@ model Event {
 }
 
 model Match {
-  id               Int    @id @default(autoincrement())
-  key              String @unique
-  comp_level       String
-  set_number       Int
-  match_number     Int
+  id               Int     @id @default(autoincrement())
+  key              String? @unique
+  comp_level       String?
+  set_number       Int?
+  match_number     Int?
   alliances        Json?
-  winning_alliance String
+  winning_alliance String?
   event_key        String
-  time             Int
-  actual_time      Int
-  predicted_time   Int
-  post_result_time Int
+  time             Int?
+  actual_time      Int?
+  predicted_time   Int?
+  post_result_time Int?
   score_breakdown  Json?
   videos           Json?
-  Event            Event  @relation(fields: [event_key], references: [key])
+  Event            Event   @relation(fields: [event_key], references: [key])
 }
 
 model ApiKey {
