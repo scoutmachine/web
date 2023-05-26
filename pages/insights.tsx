@@ -16,14 +16,18 @@ export default function InsightsPage({
   top10Teams,
 }: any): JSX.Element {
   const [avatars, setAvatars] = useState([]);
-  console.log(top10Teams);
 
   useEffect((): void => {
     const fetchAvatars = async (): Promise<void> => {
       const teamAvatars: any = {};
 
       await Promise.all(
-        insights.top.map(async (team: any): Promise<void> => {
+        [
+          ...top10Teams.map((team: any) => ({
+            teamNumber: team.teamNumber.substring(3),
+          })),
+          ...insights.top,
+        ].map(async (team: any): Promise<void> => {
           const data = await fetch(
             `${API_URL}/api/team/avatar?team=${team.teamNumber}`
           ).then((res: Response) => res.json());
@@ -40,7 +44,9 @@ export default function InsightsPage({
     };
 
     fetchAvatars();
-  }, [insights]);
+  }, [insights, top10Teams]);
+
+  console.log(avatars);
 
   if (!avatars) return <Loading />;
 
@@ -110,11 +116,22 @@ export default function InsightsPage({
                       scope="row"
                       className="group-hover:text-primary px-6 py-4 whitespace-nowrap text-xl font-semibold text-lightGray"
                     >
-                      <Link href={`/teams/${team.team.substring(3)}`}>
-                        <span className="text-white">
-                          {team.team.substring(3)}
-                        </span>{" "}
-                        | {team.name}
+                      <Link href={`/teams/${team.teamNumber.substring(3)}`}>
+                        <div className="flex">
+                          <img
+                            src={`data:image/jpeg;base64,${
+                              avatars[team.teamNumber.substring(3)]
+                            }`}
+                            alt={`${team.teamNumber} Avatar`}
+                            className="h-8 w-8 mr-2"
+                          />{" "}
+                          <p>
+                            <span className="text-white">
+                              {team.teamNumber.substring(3)}
+                            </span>{" "}
+                            | {team.name}
+                          </p>
+                        </div>
                       </Link>
                     </td>
                     <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap text-xl text-lightGray">
@@ -244,7 +261,7 @@ export async function getServerSideProps() {
       });
 
       top10Teams.push({
-        team: teamKey,
+        teamNumber: teamKey,
         name: team?.nickname,
         numAwards: teamCounts[teamKey],
       });
