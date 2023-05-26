@@ -102,7 +102,7 @@ postgres://username:password@host:port/database
 - `yarn studio` - Opens the Prisma studio on port 5555.
 - `yarn semantic-commit` - HUSKY GIT stuff.
 
-## 2: GitHub Actions
+## 3: GitHub Actions
 
 GitHub Actions are used to automate the build and deployment process. The GitHub Actions are located in the
 [.github/workflows](./.github/workflows) directory. The GitHub Actions are configured to run on every push to the main
@@ -111,21 +111,21 @@ branch. The GitHub Actions are configured to run the following jobs:
 - Linting the code for formatting issues including Markdown files
 - Running security checks and reporting any vulnerabilities
 
-## 3: Security Vulnerabilities
+## 4: Security Vulnerabilities
 
-### 3.1: Discovering Simple Vulnerabilities
+### 4.1: Discovering Simple Vulnerabilities
 
 GitHub Actions are used to run security checks on the code. The security checks are run on every push to the main
 and generate a report of any vulnerabilities. The security checks are run using the following GitHub Action:
 [codeql.yml](./.github/workflows/codeql.yml)
 
-### 3.2: Dependabot Package Vulnerabilities
+### 4.2: Dependabot Package Vulnerabilities
 
 Dependencies are checked for vulnerabilities using dependabot. Dependabot is configured to check for vulnerabilities in
 packages used by the project and generate a report of any vulnerabilities. Dependabot is configured to check for
 vulnerabilities every 24 hours and will generate a PR to bump the version of any packages with vulnerabilities.
 
-### 3.3: Reporting Vulnerabilities
+### 4.3: Reporting Vulnerabilities
 
 Vulnerabilities are also reported by users through GitHub issues. If you find a vulnerability, please
 [create a security report](../../../issues/new/choose) or join the
