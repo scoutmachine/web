@@ -102,8 +102,6 @@ postgres://username:password@host:port/database
 - `yarn studio` - Opens the Prisma studio on port 5555.
 - `yarn semantic-commit` - HUSKY GIT stuff.
 
-**Note**: Running `yarn lint` while having a TS-docs folder will take a while as it will lint the documentation as well.
-
 ## 2: GitHub Actions
 
 GitHub Actions are used to automate the build and deployment process. The GitHub Actions are located in the
