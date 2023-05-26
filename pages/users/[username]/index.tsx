@@ -5,7 +5,7 @@ import db from "@/lib/db";
 import Image from "next/image";
 import { User } from "next-auth";
 import { formatEpochSecondsToDate } from "@/utils/time";
-import { FaCopy } from "react-icons/fa";
+import { FaCheck, FaCopy, FaTimes } from "react-icons/fa";
 import router from "next/router";
 import { API_URL } from "@/lib/constants";
 import toast, { Toaster } from "react-hot-toast";
@@ -15,10 +15,11 @@ export default function UserProfilePage({ user }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
   const [apiKeys, setApiKeys] = useState<string[]>(user.apiKeys || []);
 
-  const notify = () =>
+  const notify = (message: string, icon?: React.ReactNode) =>
     toast.custom(() => (
-      <div className={`flex bg-card px-6 py-4 rounded-lg text-lightGray`}>
-        <FaCopy className="mr-2 mt-[3px]" /> Successfully copied to clipboard
+      <div className="flex bg-card px-6 py-4 rounded-lg text-lightGray">
+        {icon && <span className="mr-2 mt-[3px]">{icon}</span>}
+        {message}
       </div>
     ));
 
@@ -26,18 +27,18 @@ export default function UserProfilePage({ user }: any) {
     try {
       const newApiKey = "fefewfwefefwef";
       setApiKeys([...apiKeys, newApiKey]);
-      toast.success("API key generated successfully!");
+      notify("API key generated successfully!", <FaCheck />);
     } catch (error) {
-      toast.error("Failed to generate API key.");
+      notify("Failed to generate API key.", <FaTimes/>);
     }
   };
 
   const handleDeleteApiKey = async (apiKey: string) => {
     try {
-      setApiKeys(apiKeys.filter((key) => key !== apiKey));
-      toast.success("API key deleted successfully!");
+      setApiKeys(apiKeys.filter((key) => key !== apiKey)); 
+      notify("API key deleted successfully!", <FaCheck />);
     } catch (error) {
-      toast.error("Failed to delete API key.");
+      notify("Failed to delete API key.", <FaTimes />);
     }
   };
 
@@ -76,7 +77,7 @@ export default function UserProfilePage({ user }: any) {
                   <FaCopy
                     className="ml-2 mt-[3px] text-xs cursor-pointer hover:text-white"
                     onClick={(): void => {
-                      notify();
+                      notify("Successfully copied to clipboard", <FaCopy />);
                       navigator.clipboard.writeText(
                         `${API_URL}${router.asPath}`
                       );
