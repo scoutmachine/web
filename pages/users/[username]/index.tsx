@@ -90,12 +90,12 @@ export default function UserProfilePage({ user }: any) {
         <div className="flex items-center mt-8">
           <h2 className="text-xl font-semibold text-white">API Keys</h2>
 
-        <button
-          className="ml-auto flex-items-center border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
-          onClick={handleGenerateApiKey}
-        >
-        Generate API Key
-        </button>
+          <button
+            className="ml-auto flex-items-center border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+            onClick={handleGenerateApiKey}
+          >
+            Generate API Key
+          </button>
         </div>
         {apiKeys.length > 0 ? (
           <ul className="mt-4 space-y-2">

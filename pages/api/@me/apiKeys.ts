@@ -27,5 +27,23 @@ export default async function handler(
     });
 
     return res.status(200).json({ apiKey: apiKey.key });
+  } else if (req.method === "DELETE") {
+    const { apiKeyId } = req.body;
+    if (!apiKeyId) {
+      return res.status(400).json({ message: "Missing API key ID" });
+    }
+
+    const apiKey = await db.apiKey.findUnique({
+      // @ts-ignore
+      where: { id: Number(apiKeyId) },
+    });
+
+    if (!apiKey) {
+      return res.status(404).json({ message: "API key not found" });
+    }
+    // @ts-ignore
+    await db.apiKey.delete({ where: { id: Number(apiKeyId) } });
+
+    return res.status(200).json({ message: "API key deleted" });
   }
 }

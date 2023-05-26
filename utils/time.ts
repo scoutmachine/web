@@ -40,15 +40,7 @@ export function formatEpochSecondsToDate(
 ): string {
   const date: Date = new Date(noMultiply ? epochSeconds : epochSeconds * 1000);
 
-  const days: string[] = [
-    "Sun",
-    "Mon",
-    "Tues",
-    "Wed",
-    "Thurs",
-    "Fri",
-    "Sat",
-  ];
+  const days: string[] = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
   const months: string[] = [
     "Jan",
