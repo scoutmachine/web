@@ -66,7 +66,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
       <Navbar />
 
       <div className="pl-4 pr-4 md:pl-8 md:pr-8 w-full max-w-screen-3xl">
-        <div className="border border-[#2a2a2a] bg-[#191919] rounded-lg px-10 py-10 flex flex-col mt-10">
+        <div className="border border-gray-300 bg-[#f7f7f7s] rounded-lg px-10 py-10 flex flex-col mt-10">
           <div className="md:flex">
             <Image
               className="mr-5 mb-5 md:mb-0 rounded-lg"
