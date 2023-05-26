@@ -28,4 +28,10 @@ export const developers: {
     avatar_url: "https://avatars.githubusercontent.com/u/64022614?v=4",
     login: "NebuDev14",
   },
+  {
+    id: 7979621,
+    html_url: "https://github.com/adamgarcia4",
+    avatar_url: "https://avatars.githubusercontent.com/u/7979621?v=4",
+    login: "adamgarcia4",
+  },
 ];
