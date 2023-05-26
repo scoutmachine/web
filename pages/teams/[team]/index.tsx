@@ -34,6 +34,7 @@ export default function TeamPage({
   teamMembers,
   teamInfo,
   teamEvents,
+  teamAwards,
   teamSocials,
   eventMatches,
 }: any) {
@@ -46,6 +47,8 @@ export default function TeamPage({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
   const { data: session } = useSession();
+
+  console.log(teamAwards);
 
   useEffect(() => {
     const redirectToHome = async () => {
@@ -123,7 +126,7 @@ export default function TeamPage({
                 tab={2}
                 onClick={() => setActiveTab(2)}
               >
-                Awards <SubInfo>{teamInfo?.teamAwards?.length}</SubInfo>
+                Awards <SubInfo>{teamAwards?.length}</SubInfo>
               </TabButton>
               <TabButton
                 active={activeTab}
@@ -206,13 +209,15 @@ export default function TeamPage({
               <AboutTab
                 teamInfo={teamInfo}
                 teamEvents={teamEvents}
+                teamAwards={teamAwards}
                 yearsParticipated={yearsParticipated}
               />
             )}
 
             {activeTab === 2 && (
               <AwardsTab
-                team={teamInfo}
+                teamInfo={teamInfo}
+                teamAwards={teamAwards}
                 showAll={showAll}
                 setShowAll={setShowAll}
               />
@@ -363,10 +368,17 @@ export const getServerSideProps: GetServerSideProps = async (
   )) as Session;
   const { team }: any = context.params;
 
-  const [teamInfo, teamSocials] = await Promise.all([
+  const [teamInfo, teamAwards, teamSocials] = await Promise.all([
     await db.team.findUnique({
       where: {
         team_number: Number(team),
+      },
+    }),
+    await db.award.findMany({
+      where: {
+        recipient_list: {
+          array_contains: [{ awardee: null, team_key: `frc${team}` }],
+        },
       },
     }),
     await fetch(`${API_URL}/api/v2/teams/socials?team=${team}`).then((res) =>
@@ -424,6 +436,7 @@ export const getServerSideProps: GetServerSideProps = async (
       props: {
         teamInfo,
         teamEvents,
+        teamAwards,
         eventMatches: JSON.parse(
           JSON.stringify(
             eventMatches,

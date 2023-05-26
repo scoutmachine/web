@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const AwardsTab = (props: any) => {
-  const filteredAwards = props.team.teamAwards.filter(
+  const filteredAwards = props.teamAwards.filter(
     (award: any) =>
       award.name.includes("Winner") ||
       award.name.includes("Winners") ||
@@ -15,13 +15,13 @@ export const AwardsTab = (props: any) => {
 
   return (
     <div className="flex flex-col mt-5">
-      {props.team.teamAwards.length > 0 ? (
+      {props.teamAwards.length > 0 ? (
         <>
           <div className="flex flex-wrap md:flex-row gap-3">
             <AnimatePresence>
               {filteredAwards
                 .reverse()
-                .slice(0, props.showAll ? props.team.teamAwards.length : 20)
+                .slice(0, props.showAll ? props.teamAwards.length : 20)
                 .map((award: any, key: number) => {
                   return (
                     <motion.div
@@ -43,11 +43,11 @@ export const AwardsTab = (props: any) => {
                       <Link
                         href={`/events/${
                           award.year
-                        }${award.eventCode.toLowerCase()}`}
+                        }${award.event_key.toLowerCase()}`}
                       >
                         <div className="award-name mt-3 mb-3 group text-black dark:text-white">
                           <span className="text-xs group-hover:text-primary">
-                            {award.eventCode}
+                            {award.event_key.substring(4).toUpperCase()}
                           </span>{" "}
                           <br />
                           <span className="italic font-black group-hover:text-primary">
@@ -80,7 +80,7 @@ export const AwardsTab = (props: any) => {
           )}
 
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {props.team.teamAwards
+            {props.teamAwards
               .filter(
                 (award: any) =>
                   !award.name.includes("Winner") &&
@@ -94,7 +94,7 @@ export const AwardsTab = (props: any) => {
                 return (
                   <a
                     key={key}
-                    href={`https://frc-events.firstinspires.org/${award.year}/${award.eventCode}`}
+                    href={`https://frc-events.firstinspires.org/${award.year}/${award.event_key}`}
                     rel="noopener noreferrer"
                     target="_blank"
                     className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
@@ -110,7 +110,7 @@ export const AwardsTab = (props: any) => {
         </>
       ) : (
         <ErrorMessage
-          message={` Looks like ${props.team.teamData.team_number} hasn't received any
+          message={` Looks like ${props.teamInfo.team_number} hasn't received any
         awards, yet.`}
         />
       )}

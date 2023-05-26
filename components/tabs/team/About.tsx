@@ -59,7 +59,7 @@ function countUniqueChampionshipTeams(events: any): number {
 
 export const AboutTab = (props: any) => {
   const avgAwards: string = (
-    props.team?.teamAwards?.length / props.team?.yearsParticipated?.length
+    props.teamAwards?.length / props.yearsParticipated?.length
   ).toFixed(1);
 
   const avgEvents: string = (
@@ -67,10 +67,10 @@ export const AboutTab = (props: any) => {
   ).toFixed(1);
 
   const avgAwardsPerEvent: string = (
-    props.team?.teamAwards?.length / props.teamEvents?.length
+    props.teamAwards?.length / props.teamEvents?.length
   ).toFixed(1);
 
-  const eventsWon = props.team?.teamAwards?.filter((award: any) =>
+  const eventsWon = props.teamAwards?.filter((award: any) =>
     award.name.includes("Winner")
   ).length;
 
@@ -206,9 +206,7 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Awards Won
         </h1>
-        <p className="text-lightGray">
-          {props.team?.teamAwards?.length} awards
-        </p>
+        <p className="text-lightGray">{props.teamAwards?.length} awards</p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
