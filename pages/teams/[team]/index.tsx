@@ -13,13 +13,9 @@ import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
 import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
-import { getServerSession, Session, User } from "next-auth";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
-import { FavouritedTeam } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 const SubInfo = (props: any) => {
@@ -361,90 +357,26 @@ export default function TeamPage({
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<any> => {
-  const session: Session = (await getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  )) as Session;
   const { team }: any = context.params;
-
-  const [teamInfo, teamAwards, teamSocials] = await Promise.all([
-    await db.team.findUnique({
-      where: {
-        team_number: Number(team),
-      },
-    }),
-    await db.award.findMany({
-      where: {
-        recipient_list: {
-          array_contains: [{ awardee: null, team_key: `frc${team}` }],
-        },
-      },
-    }),
-    await fetch(`${API_URL}/api/v2/teams/socials?team=${team}`).then((res) =>
-      res.json()
-    ),
-  ]);
+  const {
+    teamInfo,
+    teamEvents,
+    teamAwards,
+    eventMatches,
+    teamSocials,
+    teamMembers,
+  } = await fetch(`${API_URL}/api/v2/teams?team=${team}`).then((res) =>
+    res.json()
+  );
 
   if (teamInfo) {
-    const teamEvents: any = await db.team
-      .findUnique({
-        where: {
-          team_number: Number(team),
-        },
-      })
-      .events({
-        orderBy: {
-          year: "desc",
-        },
-      });
-
-    let eventMatches: any[] = [];
-
-    for (const event of teamEvents) {
-      const eventWithMatches = await db.match.findMany({
-        where: {
-          OR: [
-            {
-              event_key: event.key,
-              alliances: {
-                path: ["red", "team_keys"],
-                array_contains: `frc${team}`,
-              },
-            },
-            {
-              event_key: event.key,
-              alliances: {
-                path: ["blue", "team_keys"],
-                array_contains: `frc${team}`,
-              },
-            },
-          ],
-        },
-      });
-
-      if (eventWithMatches) eventMatches.push(...eventWithMatches);
-    }
-
-    const teamMembers: User[] = await db.user.findMany({
-      where: {
-        teamNumber: Number(team),
-      },
-    });
-
     return {
       props: {
         teamInfo,
         teamEvents,
         teamAwards,
-        eventMatches: JSON.parse(
-          JSON.stringify(
-            eventMatches,
-            (key, value) =>
-              typeof value === "bigint" ? value.toString() : value // return everything else unchanged
-          )
-        ),
-        teamMembers: JSON.parse(JSON.stringify(teamMembers)),
+        eventMatches,
+        teamMembers,
         teamSocials,
       },
     };
