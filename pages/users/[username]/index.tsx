@@ -42,7 +42,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
       await fetch(`/api/@me/apiKeys?apiKey=${encodeURIComponent(apiKey)}`, {
         method: "DELETE",
       });
-  
+
       setUserApiKeys(userApiKeys.filter((key) => key !== apiKey));
       notify("API key deleted successfully!", <FaCheck />);
     } catch (error) {
