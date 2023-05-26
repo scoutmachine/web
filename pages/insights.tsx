@@ -15,10 +15,12 @@ export default function InsightsPage({
   totalTeams,
   top10Teams,
 }: any): JSX.Element {
+  const [loading, setLoading] = useState(false);
   const [avatars, setAvatars] = useState([]);
 
   useEffect((): void => {
     const fetchAvatars = async (): Promise<void> => {
+      setLoading(true);
       const teamAvatars: any = {};
 
       await Promise.all(
@@ -29,7 +31,7 @@ export default function InsightsPage({
           ...insights.top,
         ].map(async (team: any): Promise<void> => {
           const data = await fetch(
-            `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+            `${API_URL}/api/v2/teams/avatar?team=${team.teamNumber}`
           ).then((res: Response) => res.json());
 
           try {
@@ -41,12 +43,13 @@ export default function InsightsPage({
       );
 
       setAvatars(teamAvatars);
+      setLoading(false);
     };
 
     fetchAvatars();
   }, [insights, top10Teams]);
 
-  if (!avatars) return <Loading />;
+  if (loading) return <Loading />;
 
   return (
     <>
