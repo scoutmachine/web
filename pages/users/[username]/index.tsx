@@ -1,19 +1,19 @@
 import { Navbar } from "@/components/navbar";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import db from "@/lib/db";
 import Image from "next/image";
 import { User } from "next-auth";
 import { formatEpochSecondsToDate } from "@/utils/time";
 import { FaCheck, FaCopy, FaTimes } from "react-icons/fa";
-import router from "next/router";
 import { API_URL } from "@/lib/constants";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import router from 'next/router'
+import db from "@/lib/db";
 
-export default function UserProfilePage({ user }: any) {
+export default function UserProfilePage({ user, apiKeys }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
-  const [apiKeys, setApiKeys] = useState<string[]>(user.apiKeys || []);
+  const [userApiKeys, setUserApiKeys] = useState<string[]>(apiKeys || []);
 
   const notify = (message: string, icon?: React.ReactNode) =>
     toast.custom(() => (
@@ -25,17 +25,27 @@ export default function UserProfilePage({ user }: any) {
 
   const handleGenerateApiKey = async () => {
     try {
-      const newApiKey = "fefewfwefefwef";
-      setApiKeys([...apiKeys, newApiKey]);
+      const response = await fetch("/api/@me/apiKeys", { method: "POST" });
+      const { apiKey } = await response.json();
+
+      setUserApiKeys([...userApiKeys, apiKey]);
       notify("API key generated successfully!", <FaCheck />);
     } catch (error) {
-      notify("Failed to generate API key.", <FaTimes/>);
+      notify("Failed to generate API key.", <FaTimes />);
     }
   };
 
   const handleDeleteApiKey = async (apiKey: string) => {
     try {
-      setApiKeys(apiKeys.filter((key) => key !== apiKey)); 
+      await fetch("/api/@me/apiKeys", {
+        method: "DELETE",
+        body: JSON.stringify({ apiKeyId: apiKey }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      setUserApiKeys(userApiKeys.filter((key) => key !== apiKey));
       notify("API key deleted successfully!", <FaCheck />);
     } catch (error) {
       notify("Failed to delete API key.", <FaTimes />);
@@ -76,9 +86,9 @@ export default function UserProfilePage({ user }: any) {
                   @{user.username}{" "}
                   <FaCopy
                     className="ml-2 mt-[3px] text-xs cursor-pointer hover:text-white"
-                    onClick={(): void => {
+                    onClick={async (): Promise<void> => {
                       notify("Successfully copied to clipboard", <FaCopy />);
-                      navigator.clipboard.writeText(
+                      await navigator.clipboard.writeText(
                         `${API_URL}${router.asPath}`
                       );
                     }}
@@ -98,9 +108,9 @@ export default function UserProfilePage({ user }: any) {
             Generate API Key
           </button>
         </div>
-        {apiKeys.length > 0 ? (
+        {userApiKeys.length > 0 ? (
           <ul className="mt-4 space-y-2">
-            {apiKeys.map((apiKey) => (
+            {userApiKeys.map((apiKey) => (
               <li key={apiKey} className="flex items-center">
                 <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
                   {apiKey}
@@ -139,5 +149,17 @@ export const getServerSideProps: GetServerSideProps = async (
     return { props: {} };
   }
 
-  return { props: { user: JSON.parse(JSON.stringify(fetchUserData)) } };
+  const response = await fetch(`${API_URL}/api/apiKey`, {
+    headers: {
+      Cookie: context.req.headers.cookie || "", // Pass the user session cookie for authentication
+    },
+  });
+  const { apiKeys } = await response.json();
+
+  return {
+    props: {
+      user: JSON.parse(JSON.stringify(fetchUserData)),
+      apiKeys,
+    },
+  };
 };
