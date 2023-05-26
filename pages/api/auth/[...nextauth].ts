@@ -28,6 +28,7 @@ export const authOptions: AuthOptions = {
       session.user.username = user.username;
       session.user.teamNumber = user.teamNumber;
       session.user.admin = user.admin;
+      session.user.favouritedTeams = user.favouritedTeams;
       return session;
     },
   },

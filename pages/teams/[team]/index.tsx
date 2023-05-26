@@ -20,6 +20,7 @@ import db from "@/lib/db";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
 import { FavouritedTeam } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 const SubInfo = (props: any) => {
   return (
@@ -30,7 +31,6 @@ const SubInfo = (props: any) => {
 };
 
 export default function TeamPage({
-  user,
   teamMembers,
   teamInfo,
   teamEvents,
@@ -45,6 +45,7 @@ export default function TeamPage({
   const [showAll, setShowAll] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const redirectToHome = async () => {
@@ -88,12 +89,6 @@ export default function TeamPage({
     if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
   });
 
-  console.log(eventMatches);
-
-  const year = yearsParticipated
-    ? yearsParticipated.map((year: any) => year)
-    : [];
-
   return (
     <>
       <Head>
@@ -109,7 +104,8 @@ export default function TeamPage({
           socials={teamSocials}
           avatar={teamInfo?.teamAvatar}
           district={teamInfo?.teamDistrict}
-          user={user}
+          // @ts-ignore
+          user={session?.user?.favouritedTeams}
         />
 
         <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
@@ -206,7 +202,13 @@ export default function TeamPage({
               </p>
             )}
 
-            {activeTab === 1 && <AboutTab team={teamInfo} />}
+            {activeTab === 1 && (
+              <AboutTab
+                teamInfo={teamInfo}
+                teamEvents={teamEvents}
+                yearsParticipated={yearsParticipated}
+              />
+            )}
 
             {activeTab === 2 && (
               <AwardsTab
@@ -223,7 +225,7 @@ export default function TeamPage({
             {activeTab === 4 && <EventsTab events={teamEvents} />}
 
             <div className="flex flex-col gap-5">
-              {year.includes(activeTab) &&
+              {yearsParticipated.includes(activeTab) &&
                 teamEvents
                   .filter((event: any) => event.year === activeTab)
                   .sort((a: any, b: any) => {
@@ -409,9 +411,7 @@ export const getServerSideProps: GetServerSideProps = async (
         },
       });
 
-      if (eventWithMatches) {
-        eventMatches.push(...eventWithMatches);
-      }
+      if (eventWithMatches) eventMatches.push(...eventWithMatches);
     }
 
     const teamMembers: User[] = await db.user.findMany({
@@ -419,34 +419,6 @@ export const getServerSideProps: GetServerSideProps = async (
         teamNumber: Number(team),
       },
     });
-
-    if (session) {
-      const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
-        await db.user.findUnique({
-          where: {
-            // @ts-ignore
-            id: session.user.id,
-          },
-          include: {
-            favouritedTeams: true,
-          },
-        });
-
-      return {
-        props: {
-          user: JSON.parse(JSON.stringify(user)),
-          teamMembers: JSON.parse(JSON.stringify(teamMembers)),
-          teamInfo,
-          teamEvents,
-          eventMatches: JSON.parse(
-            JSON.stringify(eventMatches, (key, value) =>
-              typeof value === "bigint" ? value.toString() : value
-            )
-          ),
-          teamSocials,
-        },
-      };
-    }
 
     return {
       props: {

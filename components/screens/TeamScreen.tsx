@@ -31,11 +31,11 @@ export const TeamScreen = (props: any) => {
   const [isAddSocialModalOpen, setIsAddSocialModelOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
-  const isFavourited = props.user?.favouritedTeams?.some(
+  const isFavourited = props.favouritedTeams?.some(
     (favouritedTeam: any): boolean =>
       favouritedTeam.team_number === props.team?.team_number
   );
-  const favouritedTeam = props.user?.favouritedTeams?.filter(
+  const favouritedTeam = props.favouritedTeams?.filter(
     (favouritedTeam: any): boolean =>
       favouritedTeam.team_number === props.team?.team_number
   );
