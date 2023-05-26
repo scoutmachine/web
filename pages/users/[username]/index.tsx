@@ -10,10 +10,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import router from 'next/router'
 import db from "@/lib/db";
+import { useSession } from "next-auth/react";
 
 export default function UserProfilePage({ user, apiKeys }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
   const [userApiKeys, setUserApiKeys] = useState<string[]>(apiKeys || []);
+  const { data: session } = useSession();
 
   const notify = (message: string, icon?: React.ReactNode) =>
     toast.custom(() => (
@@ -51,6 +53,9 @@ export default function UserProfilePage({ user, apiKeys }: any) {
       notify("Failed to delete API key.", <FaTimes />);
     }
   };
+
+  // @ts-ignore
+  const isOwnProfile = session && user.username == session.user.username
 
   return (
     <>
@@ -98,7 +103,9 @@ export default function UserProfilePage({ user, apiKeys }: any) {
             </div>
           </div>
         </div>
-        <div className="flex items-center mt-8">
+        {isOwnProfile && (
+          <>
+          <div className="flex items-center mt-8">
           <h2 className="text-xl font-semibold text-white">API Keys</h2>
 
           <button
@@ -127,6 +134,8 @@ export default function UserProfilePage({ user, apiKeys }: any) {
         ) : (
           <p className="mt-4 text-gray-400">No API keys generated.</p>
         )}
+          </>
+        )}
       </div>
 
       <Toaster position="bottom-right" />
@@ -149,13 +158,9 @@ export const getServerSideProps: GetServerSideProps = async (
     return { props: {} };
   }
 
-  const response = await fetch(`${API_URL}/api/apiKey`);
-  const { apiKeys } = await response.json();
-
   return {
     props: {
       user: JSON.parse(JSON.stringify(fetchUserData)),
-      apiKeys,
     },
   };
 };
