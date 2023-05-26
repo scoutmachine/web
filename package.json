@@ -21,7 +21,7 @@
     "@prisma/client": "^4.14.1",
     "@tensorflow/tfjs": "^4.6.0",
     "@tippyjs/react": "^4.2.6",
-    "@types/node": "20.2.3",
+    "@types/node": "20.2.4",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "@vercel/analytics": "^1.0.1",
