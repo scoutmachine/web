@@ -39,14 +39,10 @@ export default function UserProfilePage({ user, apiKeys }: any) {
 
   const handleDeleteApiKey = async (apiKey: string) => {
     try {
-      await fetch("/api/@me/apiKeys", {
+      await fetch(`/api/@me/apiKeys?apiKey=${encodeURIComponent(apiKey)}`, {
         method: "DELETE",
-        body: JSON.stringify({ apiKeyId: apiKey }),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
-
+  
       setUserApiKeys(userApiKeys.filter((key) => key !== apiKey));
       notify("API key deleted successfully!", <FaCheck />);
     } catch (error) {

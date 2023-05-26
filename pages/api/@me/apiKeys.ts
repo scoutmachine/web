@@ -31,7 +31,7 @@ export default async function handler(
 
   if (req.method === "DELETE") {
     const { apiKey } = req.query;
-
+    
     try {
       await db.apiKey.delete({
         where: { key: apiKey as string },
@@ -39,6 +39,7 @@ export default async function handler(
 
       res.status(200).json({ message: "API key deleted successfully" });
     } catch (error) {
+      console.error(error)
       res.status(500).json({ message: "Failed to delete API key" });
     }
   } else {
