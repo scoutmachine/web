@@ -4,10 +4,16 @@ import { Header } from "@/components/Header";
 import { Loading } from "@/components/Loading";
 import { Navbar } from "@/components/navbar";
 import { API_URL, CURR_YEAR } from "@/lib/constants";
+import db from "@/lib/db";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 
-export default function InsightsPage({ insights }: any): JSX.Element {
+export default function InsightsPage({
+  insights,
+  totalMatches,
+  totalEvents,
+  totalTeams,
+}: any): JSX.Element {
   const [avatars, setAvatars] = useState([]);
 
   useEffect((): void => {
@@ -45,7 +51,35 @@ export default function InsightsPage({ insights }: any): JSX.Element {
       />
 
       <div className="pr-4 pl-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full">
-        <h1 className="font-bold text-2xl mt-5">
+        <h1 className="font-bold text-2xl mt-5 text-white">
+          Overall Insights{" "}
+          <span className="text-lightGray text-sm font-medium">
+            (since 1992)
+          </span>
+        </h1>
+        <div className="grid grid-cols-3 mt-3 gap-3">
+          <div className="text-lightGray rounded-lg bg-card py-5 px-8 border border-[#2A2A2A] ">
+            <h1 className="text-2xl font-bold text-white">
+              {totalTeams.toLocaleString()}
+            </h1>{" "}
+            teams registered
+          </div>
+
+          <div className="text-lightGray rounded-lg bg-card py-5 px-8 border border-[#2A2A2A] ">
+            <h1 className="text-2xl font-bold text-white">
+              {totalEvents.toLocaleString()}
+            </h1>{" "}
+            events hosted
+          </div>
+          <div className="text-lightGray rounded-lg bg-card py-5 px-8 border border-[#2A2A2A] ">
+            <h1 className="text-2xl font-bold text-white">
+              {totalMatches.toLocaleString()}
+            </h1>{" "}
+            matches played
+          </div>
+        </div>
+
+        <h1 className="font-bold text-2xl mt-5 text-white">
           Top Performing Teams{" "}
           <span className="text-lightGray text-sm font-medium">
             (per district)
@@ -56,7 +90,7 @@ export default function InsightsPage({ insights }: any): JSX.Element {
             return (
               <div
                 key={key}
-                className="rounded-lg bg-card py-10 px-10 border border-[#2A2A2A] hover:border-gray-600"
+                className="rounded-lg bg-card py-10 px-10 border border-[#2A2A2A] "
               >
                 <Link href={`/teams/${team.teamNumber}`} className="flex mb-1">
                   <img
@@ -64,7 +98,9 @@ export default function InsightsPage({ insights }: any): JSX.Element {
                     alt={`${team.teamNumber} Avatar`}
                     className="rounded-full h-8 w-8 mr-2"
                   />
-                  <h1 className="text-2xl font-bold">Team {team.teamNumber}</h1>
+                  <h1 className="text-2xl font-bold text-white">
+                    Team {team.teamNumber}
+                  </h1>
                 </Link>
                 <p className="text-lightGray">
                   #1 in the{" "}
@@ -105,12 +141,18 @@ export default function InsightsPage({ insights }: any): JSX.Element {
   );
 }
 
-export async function getServerSideProps(): Promise<{
-  props: { insights: any };
-}> {
+export async function getServerSideProps() {
   const insightsData = await fetch(`${API_URL}/api/insights`).then(
     (res: Response) => res.json()
   );
 
-  return { props: { insights: insightsData } };
+  const [totalMatches, totalEvents, totalTeams] = await Promise.all([
+    await db.match.count(),
+    await db.event.count(),
+    await db.team.count(),
+  ]);
+
+  return {
+    props: { insights: insightsData, totalMatches, totalEvents, totalTeams },
+  };
 }
