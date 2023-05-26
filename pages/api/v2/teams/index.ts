@@ -34,38 +34,7 @@ export default async function getDistricts(
           team_number: Number(team),
         },
       })
-      .events({
-        orderBy: {
-          year: "desc",
-        },
-      });
-
-    let eventMatches: any[] = [];
-
-    for (const event of teamEvents) {
-      const eventWithMatches = await db.match.findMany({
-        where: {
-          OR: [
-            {
-              event_key: event.key,
-              alliances: {
-                path: ["red", "team_keys"],
-                array_contains: `frc${team}`,
-              },
-            },
-            {
-              event_key: event.key,
-              alliances: {
-                path: ["blue", "team_keys"],
-                array_contains: `frc${team}`,
-              },
-            },
-          ],
-        },
-      });
-
-      if (eventWithMatches) eventMatches.push(...eventWithMatches);
-    }
+      .events();
 
     const teamMembers: User[] = await db.user.findMany({
       where: {
@@ -73,16 +42,18 @@ export default async function getDistricts(
       },
     });
 
+    const yearsParticipated: any = [];
+
+    teamEvents.map((event: any) => {
+      const year = event.year;
+      if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
+    });
+
     res.status(200).json({
       teamInfo,
-      teamEvents,
       teamAwards,
-      eventMatches: JSON.parse(
-        JSON.stringify(
-          eventMatches,
-          (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
-        )
-      ),
+      teamEvents,
+      yearsParticipated,
       teamMembers: JSON.parse(JSON.stringify(teamMembers)),
       teamSocials,
     });

@@ -46,8 +46,6 @@ export default function InsightsPage({
     fetchAvatars();
   }, [insights, top10Teams]);
 
-  console.log(avatars);
-
   if (!avatars) return <Loading />;
 
   return (

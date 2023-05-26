@@ -17,6 +17,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
 import { useSession } from "next-auth/react";
+import { Loading } from "@/components/Loading";
 
 const SubInfo = (props: any) => {
   return (
@@ -29,10 +30,10 @@ const SubInfo = (props: any) => {
 export default function TeamPage({
   teamMembers,
   teamInfo,
-  teamEvents,
   teamAwards,
   teamSocials,
-  eventMatches,
+  teamEvents,
+  yearsParticipated,
 }: any) {
   const router: NextRouter = useRouter();
   const { team } = router.query;
@@ -42,6 +43,7 @@ export default function TeamPage({
   const [showAll, setShowAll] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
+  const [eventData, setEventData] = useState<any>();
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -71,6 +73,24 @@ export default function TeamPage({
     };
   }, [dropdownRef]);
 
+  useEffect((): void => {
+    if (!router.isReady) return;
+
+    const getEventData = async (): Promise<void> => {
+      setLoading(true);
+      const fetchEventData = await fetch(
+        `${API_URL}/api/v2/teams/events?team=${team}&year=${activeTab}`
+      ).then((res: Response) => res.json());
+
+      setEventData(fetchEventData);
+      setLoading(false);
+    };
+
+    if (activeTab.toString().length === 4) {
+      getEventData();
+    }
+  }, [activeTab, router.isReady, team]);
+
   const toggleDropdown = (): void => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -78,13 +98,6 @@ export default function TeamPage({
   const handleTabClick = (tabIndex: number): void => {
     setActiveTab(tabIndex);
   };
-
-  const yearsParticipated: any = [];
-
-  teamEvents.map((event: any) => {
-    const year = event.year;
-    if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
-  });
 
   const title = `Team ${team} | Scout Machine`;
 
@@ -195,7 +208,7 @@ export default function TeamPage({
               </div>
             </div>
 
-            {loading && activeTab.length === 4 && (
+            {loading && (
               <p className="text-gray-400 mt-5">
                 Loading {activeTab} Season...
               </p>
@@ -227,42 +240,41 @@ export default function TeamPage({
 
             <div className="flex flex-col gap-5">
               {yearsParticipated.includes(activeTab) &&
-                teamEvents
-                  .filter((event: any) => event.year === activeTab)
+                eventData &&
+                eventData.teamEvents &&
+                !loading &&
+                eventData.teamEvents
                   .sort((a: any, b: any) => {
                     const aTimestamp: number = new Date(a.start_date).getTime();
                     const bTimestamp: number = new Date(b.start_date).getTime();
                     return bTimestamp - aTimestamp;
                   })
                   .map((event: any, key: number) => {
-                    const allEventMatches = eventMatches.filter(
+                    const allEventMatches = eventData.eventMatches.filter(
                       (match: any) => match.event_key === event.key
                     );
 
                     const playlists: any = {};
 
-                    teamEvents
-                      .filter((event: any) => event.year === activeTab)
-                      .forEach((event: any): void => {
-                        const eventCode = event.event_code;
+                    eventData.teamEvents.forEach((event: any): void => {
+                      const eventCode = event.event_code;
 
-                        allEventMatches.forEach((match: any): void => {
-                          if (!playlists[eventCode]) {
-                            playlists[eventCode] = [];
-                          }
-                          if (match.videos) {
-                            match.videos
-                              .filter(
-                                (video: any): boolean =>
-                                  video.type === "youtube"
-                              )
-                              .forEach((video: any): void => {
-                                if (video.key)
-                                  playlists[eventCode].push(video.key);
-                              });
-                          }
-                        });
+                      allEventMatches.forEach((match: any): void => {
+                        if (!playlists[eventCode]) {
+                          playlists[eventCode] = [];
+                        }
+                        if (match.videos) {
+                          match.videos
+                            .filter(
+                              (video: any): boolean => video.type === "youtube"
+                            )
+                            .forEach((video: any): void => {
+                              if (video.key)
+                                playlists[eventCode].push(video.key);
+                            });
+                        }
                       });
+                    });
 
                     return (
                       <div
@@ -360,11 +372,11 @@ export const getServerSideProps: GetServerSideProps = async (
   const { team }: any = context.params;
   const {
     teamInfo,
-    teamEvents,
     teamAwards,
-    eventMatches,
     teamSocials,
     teamMembers,
+    yearsParticipated,
+    teamEvents,
   } = await fetch(`${API_URL}/api/v2/teams?team=${team}`).then((res) =>
     res.json()
   );
@@ -373,11 +385,11 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
       props: {
         teamInfo,
-        teamEvents,
         teamAwards,
-        eventMatches,
         teamMembers,
         teamSocials,
+        teamEvents,
+        yearsParticipated,
       },
     };
   }

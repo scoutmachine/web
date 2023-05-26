@@ -3,7 +3,6 @@ import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 
 export const AwardsTab = (props: { awards: any }) => {
-  console.log(JSON.stringify(props.awards));
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-5">
       {props.awards.map((award: any, key: number) => {
