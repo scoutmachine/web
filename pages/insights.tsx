@@ -13,8 +13,10 @@ export default function InsightsPage({
   totalMatches,
   totalEvents,
   totalTeams,
+  top10Teams,
 }: any): JSX.Element {
   const [avatars, setAvatars] = useState([]);
+  console.log(top10Teams);
 
   useEffect((): void => {
     const fetchAvatars = async (): Promise<void> => {
@@ -57,7 +59,7 @@ export default function InsightsPage({
             (since 1992)
           </span>
         </h1>
-        <div className="grid grid-cols-3 mt-3 gap-3">
+        <div className="flex flex-col md:grid md:grid-cols-3 mt-3 gap-3">
           <div className="text-lightGray rounded-lg bg-card py-5 px-8 border border-[#2A2A2A] ">
             <h1 className="text-2xl font-bold text-white">
               {totalTeams.toLocaleString()}
@@ -77,6 +79,49 @@ export default function InsightsPage({
             </h1>{" "}
             matches played
           </div>
+        </div>
+
+        <h1 className="font-bold text-2xl mt-5 text-white">
+          Most Banners Won{" "}
+          <span className="text-lightGray text-sm font-medium">
+            (championship wins, woodie flowers, & impact/chairmans award)
+          </span>
+        </h1>
+        <div className="overflow-x-auto">
+          <table className="w-full mt-5 text-sm text-left bg-[#191919] border border-[#2A2A2A]">
+            <thead className="text-xs text-black dark:text-white uppercase">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Team #
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  # of Awards
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {top10Teams.map((team: any, key: number) => {
+                return (
+                  <tr
+                    key={key}
+                    className="group text-lightGray border border-[#2A2A2A] bg-card hover:bg-[#191919]"
+                  >
+                    <td
+                      scope="row"
+                      className="group-hover:text-primary px-6 py-4 whitespace-nowrap"
+                    >
+                      <Link href={`/team/${team.team.substring(3)}`}>
+                        {team.team.substring(3)}
+                      </Link>
+                    </td>
+                    <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap">
+                      {team.numAwards}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
 
         <h1 className="font-bold text-2xl mt-5 text-white">
@@ -146,13 +191,60 @@ export async function getServerSideProps() {
     (res: Response) => res.json()
   );
 
-  const [totalMatches, totalEvents, totalTeams] = await Promise.all([
+  const [totalMatches, totalEvents, totalTeams, awards] = await Promise.all([
     await db.match.count(),
     await db.event.count(),
     await db.team.count(),
+    await db.award.findMany(),
   ]);
 
+  const awardNamesToCount = [
+    "Winner",
+    "Winners",
+    "Impact Award",
+    "Chairman's Award",
+    "Woodie Flowers",
+  ];
+
+  const teamCounts: { [teamKey: string]: number } = {};
+
+  for (const award of awards) {
+    const recipients: any = award.recipient_list;
+
+    if (
+      recipients &&
+      awardNamesToCount.some((name) => award.name.includes(name))
+    ) {
+      for (const recipient of recipients) {
+        const teamKey = recipient.team_key;
+        if (teamCounts[teamKey]) {
+          teamCounts[teamKey]++;
+        } else {
+          teamCounts[teamKey] = 1;
+        }
+      }
+    }
+  }
+
+  const sortedTeams = Object.keys(teamCounts).sort(
+    (a, b) => teamCounts[b] - teamCounts[a]
+  );
+
+  const top10Teams = [];
+
+  for (const teamKey of sortedTeams.slice(0, 11)) {
+    if (teamKey !== "null") {
+      top10Teams.push({ team: teamKey, numAwards: teamCounts[teamKey] });
+    }
+  }
+
   return {
-    props: { insights: insightsData, totalMatches, totalEvents, totalTeams },
+    props: {
+      insights: insightsData,
+      totalMatches,
+      totalEvents,
+      totalTeams,
+      top10Teams,
+    },
   };
 }
