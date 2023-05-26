@@ -39,3 +39,6 @@ yarn-error.log*
 next-env.d.ts
 
 docker-compose.yml
+
+# TS Docs
+/TS-docs

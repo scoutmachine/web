@@ -7,6 +7,7 @@
     "build": "yarn generate && yarn push && next build",
     "start": "next start",
     "lint": "next lint && prettier --write .",
+    "document": "yarn typedoc --out TS-docs",
     "generate": "npx prisma generate",
     "format": "npx prisma format",
     "check-code-format": "prettier --check .",
@@ -58,7 +59,8 @@
     "@commitlint/config-conventional": "^17.6.3",
     "@types/lodash": "^4.14.194",
     "husky": "^8.0.3",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typedoc": "^0.24.7"
   },
   "husky": {
     "hooks": {
