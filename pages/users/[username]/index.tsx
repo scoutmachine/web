@@ -50,6 +50,16 @@ export default function UserProfilePage({ user, apiKeys }: any) {
     }
   };
 
+  const handleCopyApiKey = (apiKey: string) => {
+    navigator.clipboard.writeText(apiKey)
+      .then(() => {
+        notify("API key copied to clipboard!", <FaCheck />);
+      })
+      .catch(() => {
+        notify("Failed to copy API key.", <FaTimes />);
+      });
+  };
+
   const isOwnProfile = session && user.username == session.user.username;
 
   return (
@@ -116,16 +126,21 @@ export default function UserProfilePage({ user, apiKeys }: any) {
               <ul className="mt-4 space-y-2">
                 {userApiKeys.map((apiKey) => (
                   <li key={apiKey} className="flex items-center">
-                    <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
-                      {apiKey}
-                    </code>
+                                      <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
+                    {apiKey}
                     <button
+                      className="ml-2 bg-transparent border-none p-1 cursor-pointer"
+                      onClick={() => handleCopyApiKey(apiKey)}
+                    >
+                      <FaCopy />
+                    </button>
+                  </code><button
                       className="ml-2 flex items-center bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-md px-2 py-1 transition-colors duration-300 focus:outline-none"
                       onClick={() => handleDeleteApiKey(apiKey)}
                     >
                       Delete
                     </button>
-                  </li>
+                    </li>
                 ))}
               </ul>
             ) : (
