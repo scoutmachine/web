@@ -64,10 +64,10 @@ instance. The development instance will be available at [localhost:3000](http://
 
 ## 5: Make Changes & PR
 
-Once you have made your changes, commit them to your fork and create a pull request to the main repository. Your changes
-will be reviewed and merged into the main repository if they are approved. If you have any questions the
-[Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) is available and members of the development team will be
-available.
+Once you have made your changes, run `yarn lint` to pass formatting checks and then commit them to your fork and create
+a pull request to the main repository. Your changes will be reviewed and merged into the main repository if they are
+approved. If you have any questions the [Scout Machine discord](https://discord.com/invite/yYtc8gpsXK) is available and
+members of the development team will be available to help with any questions you may have.
 
 ## 6: Advanced Development
 
