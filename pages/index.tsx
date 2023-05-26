@@ -89,7 +89,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       await Promise.all(
         user.favouritedTeams.map(async (team: any): Promise<void> => {
           const data = await fetch(
-            `${API_URL}/api/team/avatar?team=${team.team_number}`
+            `${API_URL}/api/v2/teams/avatar?team=${team.team_number}`
           ).then((res: Response) => res.json());
 
           teamAvatars[team.team_number] = data.avatar;
