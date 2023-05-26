@@ -235,8 +235,7 @@ export const Navbar = (props: {
                 onClick={() => setShowLoginModal(true)}
                 className="md:mt-0 mt-3 text-sm border border-[#2A2A2A] bg-card hover:border-gray-600 px-3 py-[6px] text-lightGray font-medium rounded-lg md:ml-[-10px] ml-4"
               >
-                <FaUserCircle className="text-lg mr-1 inline-block" /> Sign Sign
-                in
+                <FaUserCircle className="text-lg mr-1 inline-block" /> Sign in
               </button>
             )}
           </div>
