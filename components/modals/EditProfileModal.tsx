@@ -113,13 +113,17 @@ const ModalBody = (props: {
     const existingDisplayName: string | null | undefined = session.user?.name;
     //@ts-ignore
     const existingAvatarURL: string | null | undefined = session.user?.image;
+    const existingTeamNumber: string | null | undefined =
+      //@ts-ignore
+      session.user?.teamNumber;
 
     if (!username || !displayName || !avatarURL) {
       return setErrorMessage("Fields left blank");
     } else if (
       existingUsername === username &&
       existingDisplayName === displayName &&
-      existingAvatarURL === avatarURL
+      existingAvatarURL === avatarURL &&
+      existingTeamNumber === teamNumber
     ) {
       return setErrorMessage("You already have that data updated.");
     }
