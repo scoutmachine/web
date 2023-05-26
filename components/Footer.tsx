@@ -1,21 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { GITHUB_URL } from "@/lib/constants";
 
 export const Footer = () => {
   const [latestCommit, setLatestCommit] = useState<string>();
 
-  useEffect((): void => {
-    const fetchLatestCommit = async (): Promise<void> => {
-      const data = await fetch(
-        `https://api.github.com/repos/scoutmachine/web/commits`
-      ).then((res: Response) => res.json());
-      setLatestCommit(data[0].sha);
-    };
+  const fetchLatestCommit = async (): Promise<void> => {
+    const data = await fetch(
+      `https://api.github.com/repos/scoutmachine/web/commits`
+    ).then((res: Response) => res.json());
+    setLatestCommit(data[0].sha);
+  };
 
+  if (!latestCommit) {
     fetchLatestCommit();
-  });
+  }
 
   return (
     <div className="px-4 py-2 pb-12 mt-10 rounded-lg flex flex-col items-center justify-center text-center">
@@ -27,18 +27,21 @@ export const Footer = () => {
           </a>
         </Link>
         <br />
-        <a
-          href={`${GITHUB_URL}/commit/${latestCommit}`}
-          className="text-xs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Commit # {latestCommit}
-        </a>
+        {latestCommit && (
+          <a
+            href={`${GITHUB_URL}/commit/${latestCommit}`}
+            className="text-xs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Commit # {latestCommit}
+          </a>
+        )}
         <div className="flex items-center justify-center">
           <a
             href="https://vercel.com/?utm_source=scoutmachine&utm_campaign=oss"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <Image
               src="/powered-by-vercel.svg"
