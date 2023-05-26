@@ -47,7 +47,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   useEffect(() => {
     setIsClient(true);
     const handleScroll = (): void => {
-      const scrollPosition: number = window.innerHeight + window.pageYOffset;
+      const scrollPosition: number = window.innerHeight + window.scrollY;
       const contentHeight: number = document.documentElement.scrollHeight;
 
       if (scrollPosition > contentHeight * 0.8) {
