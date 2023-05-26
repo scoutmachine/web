@@ -54,7 +54,6 @@ export default function UserProfilePage({ user, apiKeys }: any) {
     }
   };
 
-  // @ts-ignore
   const isOwnProfile = session && user.username == session.user.username
 
   return (
