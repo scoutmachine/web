@@ -108,13 +108,16 @@ export default function InsightsPage({
                   >
                     <td
                       scope="row"
-                      className="group-hover:text-primary px-6 py-4 whitespace-nowrap"
+                      className="group-hover:text-primary px-6 py-4 whitespace-nowrap text-xl font-semibold text-lightGray"
                     >
-                      <Link href={`/team/${team.team.substring(3)}`}>
-                        {team.team.substring(3)}
+                      <Link href={`/teams/${team.team.substring(3)}`}>
+                        <span className="text-white">
+                          {team.team.substring(3)}
+                        </span>{" "}
+                        | {team.name}
                       </Link>
                     </td>
-                    <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap">
+                    <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap text-xl text-lightGray">
                       {team.numAwards}
                     </td>
                   </tr>
@@ -234,7 +237,17 @@ export async function getServerSideProps() {
 
   for (const teamKey of sortedTeams.slice(0, 11)) {
     if (teamKey !== "null") {
-      top10Teams.push({ team: teamKey, numAwards: teamCounts[teamKey] });
+      const team = await db.team.findUnique({
+        where: {
+          team_number: Number(teamKey.substring(3)),
+        },
+      });
+
+      top10Teams.push({
+        team: teamKey,
+        name: team?.nickname,
+        numAwards: teamCounts[teamKey],
+      });
     }
   }
 
