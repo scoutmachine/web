@@ -125,7 +125,10 @@ const addTeamsToEvents = async (): Promise<boolean> => {
   );
 
   // Chunk the promises to avoid overloading the DB
-  const chunkedPromises: (() => Promise<string | undefined>)[][] = _.chunk(eventPromiseArr, 50);
+  const chunkedPromises: (() => Promise<string | undefined>)[][] = _.chunk(
+    eventPromiseArr,
+    50
+  );
   console.log(`Splitting Events into ${chunkedPromises.length} chunks`);
 
   // loop over chunkedPromises with index

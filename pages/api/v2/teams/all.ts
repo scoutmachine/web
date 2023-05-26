@@ -2,7 +2,7 @@ import db from "@/lib/db";
 import { fetchTBA } from "@/lib/fetchTBA";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Team } from "@prisma/client";
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 
 const TOTAL_PAGES: number = 21;
 
@@ -18,7 +18,9 @@ export default async function getAllTeams(
     return;
   }
 
-  const getTeams: any = async (page: string): Promise<AxiosResponse<any> | void> => await fetchTBA(`teams/${page}`);
+  const getTeams: any = async (
+    page: string
+  ): Promise<AxiosResponse<any> | void> => await fetchTBA(`teams/${page}`);
   const data: any[] = [];
 
   for (let page: number = 0; page < TOTAL_PAGES; ++page) {
