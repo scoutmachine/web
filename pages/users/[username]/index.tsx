@@ -101,7 +101,9 @@ export default function UserProfilePage({ user, apiKeys }: any) {
         {isOwnProfile && (
           <>
             <div className="flex items-center mt-8">
-              <h2 className="text-xl font-semibold text-black dark:text-white ">API Keys</h2>
+              <h2 className="text-xl font-semibold text-black dark:text-white ">
+                API Keys
+              </h2>
 
               <button
                 className="ml-auto flex-items-center border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
@@ -148,8 +150,8 @@ export const getServerSideProps: GetServerSideProps = async (
       username: username,
     },
     include: {
-      apiKeys: true
-    }
+      apiKeys: true,
+    },
   });
 
   if (!fetchUserData) {

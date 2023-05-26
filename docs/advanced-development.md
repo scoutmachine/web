@@ -73,6 +73,7 @@ following format:
 http://localhost:3000/api/auth
 ```
 
+[package.json](..%2Fpackage.json)
 But may be changed if you are running a production build.
 
 ### 1.7: Database URL
@@ -86,6 +87,22 @@ postgres://username:password@host:port/database
 ```
 
 **Note**: Be sure to run the `npx prisma db push` command afterward, to synchronize your Prisma schema with your database schema.
+
+## 2: Yarn Commands
+
+- `yarn dev` - Starts the development server.
+- `yarn build` - Builds the production environment.
+- `yarn start` - Starts the production server.
+- `yarn lint` - Lints the code for formatting issues.
+- `yarn document` - Generates the documentation.
+- `yarn generate` - Generates the Prisma client.
+- `yarn format` - Formats the prisma db
+- `yarn check-code-format` - Checks the code for formatting issues.
+- `yarn push` - Pushes the Prisma schema to the database & runs `yarn format`
+- `yarn studio` - Opens the Prisma studio on port 5555.
+- `yarn semantic-commit` - HUSKY GIT stuff.
+
+**Note**: Running `yarn lint` while having a TS-docs folder will take a while as it will lint the documentation as well.
 
 ## 2: GitHub Actions
 
