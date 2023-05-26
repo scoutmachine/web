@@ -188,7 +188,7 @@ export const TeamScreen = (props: any) => {
                   {props.socials?.length !== socials.length && (
                     <button
                       onClick={() => setIsAddSocialModelOpen(true)}
-                      className="text-sm text-lightGray hover:text-black dark:text-white transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
+                      className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
                     >
                       <FaPlus className="mr-2" />
                       <span>Add Social</span>

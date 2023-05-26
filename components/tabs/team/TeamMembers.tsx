@@ -9,14 +9,13 @@ export const TeamMembersTab = (props: any) => {
           {props.members.map((member: any, key: number) => {
             return (
               <Link key={key} href={`/users/${member.username}`}>
-                <div className="group flex bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg px-5 py-5">
-                  {" "}
+                <div className="group flex bg-card border border-[#2A2A2A] rounded-lg px-5 py-5">
                   <img
                     src={member.image}
                     className="rounded-full h-8 w-8 mr-2"
                     alt={`${member.name} Avatar`}
                   />
-                  <h1 className="font-bold text-2xl group-hover:text-primary whitespace-nowrap">
+                  <h1 className="font-bold text-2xl whitespace-nowrap text-lightGray group-hover:text-white transition-all duration-150">
                     {member.name}
                   </h1>
                 </div>

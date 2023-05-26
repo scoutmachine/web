@@ -9,12 +9,9 @@ import { TeamsTab } from "@/components/tabs/event/Teams";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { JSX, useState } from "react";
 import Head from "next/head";
-import { Loading } from "@/components/Loading";
 import db from "@/lib/db";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession, Session, User } from "next-auth";
 import { AwardsTab } from "@/components/tabs/event/Awards";
-import { FavouritedTeam } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 export default function EventsPage({
   matches,
@@ -23,16 +20,13 @@ export default function EventsPage({
   eventAlliances,
   eventAwards,
   matchEPAs,
-  user,
 }: any): JSX.Element {
   const [activeTab, setActiveTab] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
   const handleTabClick = (tabIndex: number): void => {
     setActiveTab(tabIndex);
   };
-
-  if (loading) return <Loading />;
 
   return (
     <>
@@ -96,7 +90,6 @@ export default function EventsPage({
                 <EventData
                   data={matches}
                   isTeam={false}
-                  setLoading={setLoading}
                   matchEPAs={matchEPAs}
                 />
               ) : (
@@ -113,7 +106,8 @@ export default function EventsPage({
             {activeTab == 4 && <AwardsTab awards={eventAwards} />}
 
             {activeTab === 5 && (
-              <TeamsTab teams={eventTeams} favourites={user?.favouritedTeams} />
+              // @ts-ignore
+              <TeamsTab teams={eventTeams} favourites={session?.user?.favouritedTeams} />
             )}
           </div>
         </div>
@@ -127,11 +121,6 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<any> => {
   const { event }: any = context.params;
-  const session: Session = (await getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  )) as Session;
 
   const [eventInfo, matches, eventAwards, eventTeams] = await Promise.all([
     await db.event.findUnique({
@@ -157,34 +146,6 @@ export const getServerSideProps: GetServerSideProps = async (
       })
       .teams(),
   ]);
-
-  if (session) {
-    const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
-      await db.user.findUnique({
-        where: {
-          // @ts-ignore
-          id: session.user.id,
-        },
-        include: {
-          favouritedTeams: true,
-        },
-      });
-
-    return {
-      props: {
-        user: JSON.parse(JSON.stringify(user)),
-        matches: JSON.parse(
-          JSON.stringify(matches, (key: string, value) =>
-            typeof value === "bigint" ? value.toString() : value
-          )
-        ),
-        eventInfo,
-        eventTeams,
-        eventAlliances: [],
-        eventAwards,
-      },
-    };
-  }
 
   return {
     props: {

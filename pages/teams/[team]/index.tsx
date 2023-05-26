@@ -48,7 +48,6 @@ export default function TeamPage({
   const [currentYearTab, setCurrentYearTab] = useState();
   const { data: session } = useSession();
 
-  console.log(teamAwards);
 
   useEffect(() => {
     const redirectToHome = async () => {
@@ -92,10 +91,12 @@ export default function TeamPage({
     if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
   });
 
+  const title = `Team ${team} | Scout Machine`;
+
   return (
     <>
       <Head>
-        <title>Team {team} | Scout Machine</title>
+        <title>{title}</title>
       </Head>
 
       <Navbar />

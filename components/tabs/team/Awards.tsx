@@ -40,11 +40,7 @@ export const AwardsTab = (props: any) => {
                           alt="FIRST Logo"
                         />
                       </div>
-                      <Link
-                        href={`/events/${
-                          award.year
-                        }${award.event_key.toLowerCase()}`}
-                      >
+                      <Link href={`/events/${award.event_key.toLowerCase()}`}>
                         <div className="award-name mt-3 mb-3 group text-black dark:text-white">
                           <span className="text-xs group-hover:text-primary">
                             {award.event_key.substring(4).toUpperCase()}
@@ -94,7 +90,9 @@ export const AwardsTab = (props: any) => {
                 return (
                   <a
                     key={key}
-                    href={`https://frc-events.firstinspires.org/${award.year}/${award.event_key}`}
+                    href={`https://frc-events.firstinspires.org/${
+                      award.year
+                    }/${award.event_key.substring(4)}`}
                     rel="noopener noreferrer"
                     target="_blank"
                     className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"

@@ -128,7 +128,7 @@ const ModalHeader = (props: { team: any; avatar: any }) => {
           className="mr-2"
           alt={`${props.team.team_number} Avatar`}
         />
-        <h1 className="font-semibold text-xl">
+        <h1 className="font-semibold text-xl text-white">
           Add Socials
           <p className="text-xs text-lightGray font-medium">
             {props.team.team_number} | {props.team.nickname}
