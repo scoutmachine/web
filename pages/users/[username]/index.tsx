@@ -12,9 +12,8 @@ import router from "next/router";
 import db from "@/lib/db";
 import { useSession } from "next-auth/react";
 
-export default function UserProfilePage({ user, apiKeys }: any) {
+export default function UserProfilePage({ user }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
-  const [userApiKeys, setUserApiKeys] = useState<string[]>(apiKeys || []);
   const { data: session } = useSession();
 
   const notify = (message: string, icon?: React.ReactNode) =>
@@ -27,10 +26,10 @@ export default function UserProfilePage({ user, apiKeys }: any) {
 
   const handleGenerateApiKey = async () => {
     try {
-      const response = await fetch("/api/@me/apiKeys", { method: "POST" });
-      const { apiKey } = await response.json();
-
-      setUserApiKeys([...userApiKeys, apiKey]);
+      await fetch("/api/@me/apiKeys", { method: "POST" }).then((res) =>
+        res.json()
+      );
+      router.push(router.asPath);
       notify("API key generated successfully!", <FaCheck />);
     } catch (error) {
       notify("Failed to generate API key.", <FaTimes />);
@@ -43,7 +42,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
         method: "DELETE",
       });
 
-      setUserApiKeys(userApiKeys.filter((key) => key !== apiKey));
+      router.push(router.asPath);
       notify("API key deleted successfully!", <FaCheck />);
     } catch (error) {
       notify("Failed to delete API key.", <FaTimes />);
@@ -112,7 +111,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
         {isOwnProfile && (
           <>
             <div className="flex items-center mt-8">
-              <h2 className="text-xl font-semibold text-black dark:text-white ">
+              <h2 className="text-xl font-bold text-black dark:text-white ">
                 API Keys
               </h2>
 
@@ -123,22 +122,22 @@ export default function UserProfilePage({ user, apiKeys }: any) {
                 Generate API Key
               </button>
             </div>
-            {userApiKeys.length > 0 ? (
+            {user.apiKeys.length > 0 ? (
               <ul className="mt-4 gap-3 gap-x-3 flex flex-wrap">
-                {userApiKeys.map((apiKey) => (
-                  <li key={apiKey} className="flex items-center">
+                {user.apiKeys.map((apiKey: any) => (
+                  <li key={apiKey.id} className="flex items-center">
                     <code className="border-[#2A2A2A] bg-card rounded-lg px-3 py-1 text-sm text-gray-300">
-                      {apiKey}
+                      {apiKey.key}
                       <button
                         className="ml-2 bg-transparent border-none p-1 cursor-pointer"
-                        onClick={() => handleCopyApiKey(apiKey)}
+                        onClick={() => handleCopyApiKey(apiKey.key)}
                       >
                         <FaCopy />
                       </button>
                     </code>
                     <button
                       className="ml-2 flex items-center bg-red-500 hover:bg-red-400 text-white text-sm font-medium rounded-md px-5 py-1 transition-colors duration-300 focus:outline-none"
-                      onClick={() => handleDeleteApiKey(apiKey)}
+                      onClick={() => handleDeleteApiKey(apiKey.key)}
                     >
                       Delete
                     </button>
@@ -146,7 +145,9 @@ export default function UserProfilePage({ user, apiKeys }: any) {
                 ))}
               </ul>
             ) : (
-              <p className="mt-4 text-gray-400">No API keys generated.</p>
+              <p className="mt-1 text-gray-400">
+                Looks like you haven&apos;t generated any API Keys, yet.
+              </p>
             )}
           </>
         )}
