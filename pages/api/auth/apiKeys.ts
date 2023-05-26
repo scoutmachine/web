@@ -19,11 +19,11 @@ export default async function handler(
   if (req.method === "POST") {
     const key = generateRandomString(32);
     const apiKey = await db.apiKey.create({
-    data: {
-      key: key,
-      // @ts-ignore
-      userId: session.user.id
-    }
+      data: {
+        key: key,
+        // @ts-ignore
+        userId: session.user.id,
+      },
     });
 
     return res.status(200).json({ apiKey: apiKey.key });

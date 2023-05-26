@@ -9,9 +9,11 @@ import { FaCopy } from "react-icons/fa";
 import router from "next/router";
 import { API_URL } from "@/lib/constants";
 import toast, { Toaster } from "react-hot-toast";
+import { useState } from "react";
 
 export default function UserProfilePage({ user }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
+  const [apiKeys, setApiKeys] = useState<string[]>(user.apiKeys || []);
 
   const notify = () =>
     toast.custom(() => (
@@ -19,6 +21,25 @@ export default function UserProfilePage({ user }: any) {
         <FaCopy className="mr-2 mt-[3px]" /> Successfully copied to clipboard
       </div>
     ));
+
+  const handleGenerateApiKey = async () => {
+    try {
+      const newApiKey = "fefewfwefefwef";
+      setApiKeys([...apiKeys, newApiKey]);
+      toast.success("API key generated successfully!");
+    } catch (error) {
+      toast.error("Failed to generate API key.");
+    }
+  };
+
+  const handleDeleteApiKey = async (apiKey: string) => {
+    try {
+      setApiKeys(apiKeys.filter((key) => key !== apiKey));
+      toast.success("API key deleted successfully!");
+    } catch (error) {
+      toast.error("Failed to delete API key.");
+    }
+  };
 
   return (
     <>
@@ -66,6 +87,35 @@ export default function UserProfilePage({ user }: any) {
             </div>
           </div>
         </div>
+        <div className="flex items-center mt-8">
+          <h2 className="text-xl font-semibold text-white">API Keys</h2>
+
+        <button
+          className="ml-auto flex-items-center border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+          onClick={handleGenerateApiKey}
+        >
+        Generate API Key
+        </button>
+        </div>
+        {apiKeys.length > 0 ? (
+          <ul className="mt-4 space-y-2">
+            {apiKeys.map((apiKey) => (
+              <li key={apiKey} className="flex items-center">
+                <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
+                  {apiKey}
+                </code>
+                <button
+                  className="ml-2 flex items-center bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-md px-2 py-1 transition-colors duration-300 focus:outline-none"
+                  onClick={() => handleDeleteApiKey(apiKey)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 text-gray-400">No API keys generated.</p>
+        )}
       </div>
 
       <Toaster position="bottom-right" />
