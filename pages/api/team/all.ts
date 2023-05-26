@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
-import { fetchTeamAvatar } from "./avatar";
+import { fetchTeamAvatar } from "../v2/teams/avatar";
 import { API_URL } from "@/lib/constants";
 import { AxiosResponse } from "axios";
 

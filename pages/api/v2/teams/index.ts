@@ -1,7 +1,8 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Team, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { API_URL } from "@/lib/constants";
+import { fetchTeamAvatar } from "./avatar";
 
 export default async function getDistricts(
   req: NextApiRequest,
@@ -9,12 +10,13 @@ export default async function getDistricts(
 ): Promise<void> {
   const { team } = req.query;
 
-  const [teamInfo, teamAwards, teamSocials] = await Promise.all([
+  const [teamInfo, teamAvatar, teamAwards, teamSocials] = await Promise.all([
     await db.team.findUnique({
       where: {
         team_number: Number(team),
       },
     }),
+    fetchTeamAvatar(req),
     await db.award.findMany({
       where: {
         recipient_list: {
@@ -51,6 +53,7 @@ export default async function getDistricts(
 
     res.status(200).json({
       teamInfo,
+      teamAvatar,
       teamAwards,
       teamEvents,
       yearsParticipated,

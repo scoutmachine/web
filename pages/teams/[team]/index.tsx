@@ -30,6 +30,7 @@ const SubInfo = (props: any) => {
 export default function TeamPage({
   teamMembers,
   teamInfo,
+  teamAvatar,
   teamAwards,
   teamSocials,
   teamEvents,
@@ -114,7 +115,7 @@ export default function TeamPage({
           team={teamInfo}
           years={yearsParticipated}
           socials={teamSocials}
-          avatar={teamInfo?.teamAvatar}
+          avatar={teamAvatar}
           district={teamInfo?.teamDistrict}
           // @ts-ignore
           user={session?.user?.favouritedTeams}
@@ -372,6 +373,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const { team }: any = context.params;
   const {
     teamInfo,
+    teamAvatar,
     teamAwards,
     teamSocials,
     teamMembers,
@@ -385,11 +387,12 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
       props: {
         teamInfo,
+        teamAvatar: teamAvatar.avatar,
         teamAwards,
         teamMembers,
         teamSocials,
         teamEvents,
-        yearsParticipated,
+        yearsParticipated: yearsParticipated.reverse(),
       },
     };
   }

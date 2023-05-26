@@ -14,7 +14,7 @@ import {
 
 const Card = (props: any) => {
   return (
-    <div className="px-5 py-5 rounded-lg border border-[#2A2A2A] hover:border-gray-600 bg-card">
+    <div className="px-5 py-5 rounded-lg border border-[#2A2A2A] bg-card">
       {props.children}
     </div>
   );
