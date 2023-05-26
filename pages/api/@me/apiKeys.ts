@@ -27,23 +27,22 @@ export default async function handler(
     });
 
     return res.status(200).json({ apiKey: apiKey.key });
-  } else if (req.method === "DELETE") {
-    const { apiKeyId } = req.body;
-    if (!apiKeyId) {
-      return res.status(400).json({ message: "Missing API key ID" });
+  } 
+
+  if (req.method === "DELETE") {
+    const { apiKey } = req.query;
+    
+    try {
+      await db.apiKey.delete({
+        where: { key: apiKey as string },
+      });
+
+      res.status(200).json({ message: "API key deleted successfully" });
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: "Failed to delete API key" });
     }
-
-    const apiKey = await db.apiKey.findUnique({
-      // @ts-ignore
-      where: { id: Number(apiKeyId) },
-    });
-
-    if (!apiKey) {
-      return res.status(404).json({ message: "API key not found" });
-    }
-    // @ts-ignore
-    await db.apiKey.delete({ where: { id: Number(apiKeyId) } });
-
-    return res.status(200).json({ message: "API key deleted" });
+  } else {
+    res.status(405).json({ message: "Method Not Allowed" });
   }
 }
