@@ -39,7 +39,7 @@ export default async function getAllTeamInfo(
       {
         next: { revalidate: 60 },
       }
-    ).then((res) => res.json());
+    ).then((res: Response) => res.json());
 
     res.status(200).json({
       teamData: {

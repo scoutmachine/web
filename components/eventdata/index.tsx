@@ -1,5 +1,4 @@
-import { useState, useEffect, JSX } from "react";
-import { FaYoutube } from "react-icons/fa";
+import { JSX, useEffect, useState } from "react";
 import { EventDisplay } from "./displays/Event";
 import { TeamDisplay } from "./displays/Team";
 

@@ -54,7 +54,7 @@ export default function UserProfilePage({ user }: any) {
                   @{user.username}{" "}
                   <FaCopy
                     className="ml-2 mt-[3px] text-xs cursor-pointer hover:text-white"
-                    onClick={() => {
+                    onClick={(): void => {
                       notify();
                       navigator.clipboard.writeText(
                         `${API_URL}${router.asPath}`

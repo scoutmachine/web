@@ -62,7 +62,7 @@ const handleEventsETL = async (): Promise<number> => {
       };
     });
 
-    const result = await db.event.createMany({
+    const result: Prisma.BatchPayload = await db.event.createMany({
       // Not sure why data mismatch
       data: data as any,
       skipDuplicates: true,
@@ -85,7 +85,7 @@ const addTeamsToEvents = async (): Promise<boolean> => {
   });
 
   const eventPromiseArr: (() => Promise<string | undefined>)[] = allEvents.map(
-    (event: { key: string }) => async () => {
+    (event: { key: string }) => async (): Promise<string | undefined> => {
       try {
         const participatingTeams: AxiosResponse<any, any> = await tbaAxios.get(
           `/event/${event.key}/teams/keys`
@@ -93,7 +93,9 @@ const addTeamsToEvents = async (): Promise<boolean> => {
         //   const eventAlliances = await tbaAxios.get(
         //     `/event/${event.key}/alliances`
         //   );
-        const eventAwards = await tbaAxios.get(`/event/${event.key}/awards`);
+        const eventAwards: AxiosResponse<any, any> = await tbaAxios.get(
+          `/event/${event.key}/awards`
+        );
 
         await db.award.createMany({
           data: eventAwards.data,

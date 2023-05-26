@@ -16,23 +16,30 @@ export default async function getTeamAwards(
   );
 
   const awards: ({ year: string; data: any } | null)[] = await Promise.all(
-    years.map(async (year: number) => {
-      try {
-        const response: void | AxiosResponse<any, any> = await fetchFIRST(
-          `/awards/team/${team}`,
-          year
-        );
-        return {
-          year: year.toString(),
-          data: response,
-        };
-      } catch {
-        return null;
+    years.map(
+      async (
+        year: number
+      ): Promise<{
+        data: void | AxiosResponse<any, any>;
+        year: string;
+      } | null> => {
+        try {
+          const response: void | AxiosResponse<any, any> = await fetchFIRST(
+            `/awards/team/${team}`,
+            year
+          );
+          return {
+            year: year.toString(),
+            data: response,
+          };
+        } catch {
+          return null;
+        }
       }
-    })
+    )
   );
 
-  const data = awards
+  const data: never[] = awards
     .filter(
       (award: { year: string; data: any } | null) =>
         award && award.data && award.data.Awards

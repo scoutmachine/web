@@ -7,7 +7,6 @@ import {
 import db from "@/lib/db";
 import { Prisma, Team } from "@prisma/client";
 import { AxiosResponse } from "axios";
-import Next from "next-auth/src";
 import { NextApiResponse } from "next";
 
 const router: RouterBuilder = new RouterBuilder();

@@ -1,4 +1,9 @@
-export const developers = [
+export const developers: {
+  id: number;
+  html_url: string;
+  avatar_url: string;
+  login: string;
+}[] = [
   {
     id: 68391329,
     html_url: "https://github.com/heybereket",

@@ -5,7 +5,7 @@ import {
   TypedObject,
 } from "next-api-handler";
 import db from "@/lib/db";
-import { Match, Event, Prisma } from "@prisma/client";
+import { Event, Match, Prisma } from "@prisma/client";
 import { NextApiResponse } from "next";
 
 const router: RouterBuilder = new RouterBuilder();

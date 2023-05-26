@@ -27,8 +27,7 @@ export function convertDate(dateParam: string): string {
 
   const dayOrdinal: string = getDayOrdinal(day);
 
-  const output: string = `${monthName} ${dayOrdinal}`;
-  return output;
+  return `${monthName} ${dayOrdinal}`;
 }
 
 export function isLive(start: string, end: string): boolean {

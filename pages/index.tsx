@@ -7,10 +7,12 @@ import { SignedInScreen } from "@/components/screens/landing/SignedIn";
 import { Loading } from "@/components/Loading";
 import db from "@/lib/db";
 import { GetServerSideProps } from "next";
-import { getServerSession, Session } from "next-auth";
+import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { API_URL } from "@/lib/constants";
 import { JSX } from "react";
+import { FavouritedTeam } from "@prisma/client";
+import { Post } from ".prisma/client";
 
 export default function LandingPage({ user, avatars }: any): JSX.Element {
   const { data: session, status } = useSession();
@@ -61,7 +63,12 @@ export const getServerSideProps: GetServerSideProps = async ({
   )) as Session;
 
   if (session) {
-    const user = await db.user.findUnique({
+    const user:
+      | (User & {
+          favouritedTeams: FavouritedTeam[];
+          posts: (Post & { author: User })[];
+        })
+      | null = await db.user.findUnique({
       where: {
         // @ts-ignore
         id: session.user.id,

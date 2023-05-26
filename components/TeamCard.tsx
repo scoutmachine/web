@@ -72,7 +72,7 @@ export const TeamCard = (props: any): JSX.Element => {
                           : `https://${props.team.website?.slice(7)}`
                       }/&size=64`
                 }
-                onError={() => {
+                onError={(): void => {
                   setError(true);
                 }}
                 height="40"

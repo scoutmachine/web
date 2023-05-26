@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { JSX } from "react";
+import { Match } from "@prisma/client";
 
 export default function MatchPage({ match }: any): JSX.Element {
   const title: string = `Match ${match.match_number} / ${match.event_key
@@ -31,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (
 }> => {
   const { event, match }: any = context.params;
 
-  const matchData = await db.match.findUnique({
+  const matchData: Match | null = await db.match.findUnique({
     where: {
       key: `${event}_${match}`,
     },

@@ -74,7 +74,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
           setTime(currentTime);
           setTeamExistsByTime(
             teams.filter(
-              (team: any) =>
+              (team: any): boolean =>
                 team.team_number === Number(currentTime.replace(":", ""))
             )[0]
           );
