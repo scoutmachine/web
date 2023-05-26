@@ -1,37 +1,46 @@
 import Link from "next/link";
+import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 
 export const AwardsTab = (props: { awards: any }) => {
+  console.log(JSON.stringify(props.awards));
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mt-5">
       {props.awards.map((award: any, key: number) => {
         return (
           <div
             key={key}
-            className="rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
+            className="group rounded-lg px-5 py-5 border border-[#2A2A2A] bg-card hover:border-gray-600"
           >
-            <a
-              href={`https://frc-events.firstinspires.org/2023/awards?id=${award.awardId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-black dark:text-white font-bold"
-            >
-              {award.name}
-            </a>
+            <h1 className="text-white font-bold">{award.name}</h1>
+
             <div>
               <div className="text-lightGray inline-block">
-                {award.person && (
-                  <span className="flex mt-1">
-                    <FaUserCircle className="mr-2 text-md mt-1" />
-                    {award.person}
-                  </span>
-                )}
+                {award.recipient_list.map((award: any, index: number) => (
+                  <div className="mb-2 mt-1" key={index}>
+                    {award.awardee && (
+                      <span className="flex">
+                        <FaUserCircle className="mr-2 text-md mt-1" />
+                        {award.awardee}
+                      </span>
+                    )}
+                  </div>
+                ))}
 
-                <Link href={`/teams/${award.teamNumber}`}>
-                  <p className="text-lightGray hover:text-primary inline-block">
-                    Team {award.teamNumber}
-                  </p>
-                </Link>
+                {award.recipient_list.map((team: any, index: number) => (
+                  <React.Fragment key={index}>
+                    <Link href={`/teams/${team.team_key.substring(3)}`}>
+                      <p className="text-lightGray group-hover:text-primary inline-block">
+                        {index === 0 && "Team"}{" "}
+                        {award.recipient_list.length > 1 &&
+                          index === award.recipient_list.length - 1 &&
+                          "&"}{" "}
+                        {team.team_key.substring(3)}
+                      </p>
+                    </Link>
+                    {index !== award.recipient_list.length - 1 && ", "}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           </div>

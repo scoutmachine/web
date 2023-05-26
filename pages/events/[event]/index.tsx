@@ -106,8 +106,11 @@ export default function EventsPage({
             {activeTab == 4 && <AwardsTab awards={eventAwards} />}
 
             {activeTab === 5 && (
-              // @ts-ignore
-              <TeamsTab teams={eventTeams} favourites={session?.user?.favouritedTeams} />
+              <TeamsTab
+                teams={eventTeams}
+                // @ts-ignore
+                favourites={session?.user?.favouritedTeams}
+              />
             )}
           </div>
         </div>
@@ -133,11 +136,13 @@ export const getServerSideProps: GetServerSideProps = async (
         event_key: String(event),
       },
     }),
-    await db.award.findMany({
-      where: {
-        event_key: String(event),
-      },
-    }),
+    await db.event
+      .findUnique({
+        where: {
+          key: String(event),
+        },
+      })
+      .awards(),
     await db.event
       .findUnique({
         where: {

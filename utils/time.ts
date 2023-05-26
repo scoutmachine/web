@@ -41,13 +41,13 @@ export function formatEpochSecondsToDate(
   const date: Date = new Date(noMultiply ? epochSeconds : epochSeconds * 1000);
 
   const days: string[] = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    "Sun",
+    "Mon",
+    "Tues",
+    "Wed",
+    "Thurs",
+    "Fri",
+    "Sat",
   ];
 
   const months: string[] = [

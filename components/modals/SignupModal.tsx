@@ -42,12 +42,7 @@ const ModalFooter = () => (
         <button
           type="button"
           className="flex rounded-lg bg-red-500 hover:bg-red-600 text-black dark:text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
-          onClick={async (): Promise<void> => {
-            localStorage.getItem("signUpState")
-              ? null
-              : localStorage.setItem("signUpState", "in");
-            await signIn("google");
-          }}
+          onClick={async () => await signIn("google")}
         >
           <FaGoogle className="text-xl mr-2" /> Continue with Google
         </button>
@@ -56,12 +51,7 @@ const ModalFooter = () => (
         <button
           type="button"
           className="flex rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
-          onClick={async (): Promise<void> => {
-            localStorage.getItem("signUpState")
-              ? null
-              : localStorage.setItem("signUpState", "in");
-            await signIn("github");
-          }}
+          onClick={async () => await signIn("github")}
         >
           <FaGithub className="text-xl mr-2" /> Continue with Github
         </button>

@@ -48,7 +48,6 @@ export default function TeamPage({
   const [currentYearTab, setCurrentYearTab] = useState();
   const { data: session } = useSession();
 
-
   useEffect(() => {
     const redirectToHome = async () => {
       if (!teamInfo) {
