@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import db from "@/lib/db";
+import { Team } from "@prisma/client";
 
 export default async function addSocials(
   req: NextApiRequest,
@@ -19,7 +20,7 @@ export default async function addSocials(
   if (req.method === "POST") {
     const body = req.body;
 
-    const teamExists = await db.team.findUnique({
+    const teamExists: Team | null = await db.team.findUnique({
       where: {
         team_number: Number(team),
       },

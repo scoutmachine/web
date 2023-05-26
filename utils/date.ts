@@ -1,10 +1,10 @@
-function getDayOrdinal(day: number) {
+function getDayOrdinal(day: number): string {
   const suffixes: string[] = ["th", "st", "nd", "rd"];
   const v: number = day % 100;
   return day + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
 }
 
-export function convertDate(dateParam: string) {
+export function convertDate(dateParam: string): string {
   const date: Date = new Date(dateParam);
   const month: number = date.getUTCMonth();
   const day: number = date.getUTCDate();
@@ -31,7 +31,7 @@ export function convertDate(dateParam: string) {
   return output;
 }
 
-export function isLive(start: string, end: string) {
+export function isLive(start: string, end: string): boolean {
   const today: Date = new Date();
   const newToday: string = today.toISOString().split("T")[0];
 

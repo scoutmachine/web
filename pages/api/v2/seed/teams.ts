@@ -1,17 +1,26 @@
 import { tbaAxios, TBATeam } from "@/lib/fetchTBA";
-import { RouterBuilder } from "next-api-handler";
+import {
+  NextApiRequestWithMiddleware,
+  RouterBuilder,
+  TypedObject,
+} from "next-api-handler";
 import db from "@/lib/db";
-import { Team } from "@prisma/client";
+import { Prisma, Team } from "@prisma/client";
+import { AxiosResponse } from "axios";
+import Next from "next-auth/src";
+import { NextApiResponse } from "next";
 
-const router = new RouterBuilder();
+const router: RouterBuilder = new RouterBuilder();
 
-const handleTeamsETL = async () => {
+const handleTeamsETL = async (): Promise<number> => {
   console.log("Starting Teams ETL");
 
-  let numTeamsInserted = 0;
-  let pageNum = 0;
+  let numTeamsInserted: number = 0;
+  let pageNum: number = 0;
   while (true) {
-    const teamsRequest = await tbaAxios.get<TBATeam[]>(`/teams/${pageNum}`);
+    const teamsRequest: AxiosResponse<TBATeam[], any> = await tbaAxios.get<
+      TBATeam[]
+    >(`/teams/${pageNum}`);
     if (teamsRequest.data.length === 0) {
       break;
     }
@@ -23,7 +32,7 @@ const handleTeamsETL = async () => {
       }]`
     );
 
-    const data = teamsRequest.data.map((team): Team => {
+    const data: Team[] = teamsRequest.data.map((team: TBATeam): Team => {
       return {
         team_number: team.team_number,
         city: team.city ?? null,
@@ -46,7 +55,7 @@ const handleTeamsETL = async () => {
       };
     });
 
-    const result = await db.team.createMany({
+    const result: Prisma.BatchPayload = await db.team.createMany({
       data,
       skipDuplicates: true,
     });
@@ -58,17 +67,22 @@ const handleTeamsETL = async () => {
   return numTeamsInserted;
 };
 
-router.post(async (req, res) => {
-  try {
-    const teamsInserted = await handleTeamsETL();
+router.post(
+  async (
+    req: NextApiRequestWithMiddleware<TypedObject>,
+    res: NextApiResponse
+  ): Promise<void> => {
+    try {
+      const teamsInserted: number = await handleTeamsETL();
 
-    res.status(200).json({
-      message: "Success",
-      teamsInserted,
-    });
-  } catch (error) {
-    console.log("error: ", error);
+      res.status(200).json({
+        message: "Success",
+        teamsInserted,
+      });
+    } catch (error) {
+      console.log("error: ", error);
+    }
   }
-});
+);
 
 export default router.build();

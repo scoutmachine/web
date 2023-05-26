@@ -7,7 +7,7 @@ import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import Head from "next/head";
 import { Loading } from "@/components/Loading";
 import db from "@/lib/db";
@@ -24,7 +24,7 @@ export default function EventsPage({
   eventAwards,
   matchEPAs,
   user,
-}: any) {
+}: any): JSX.Element {
   const [activeTab, setActiveTab] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -174,7 +174,7 @@ export const getServerSideProps: GetServerSideProps = async (
       props: {
         user: JSON.parse(JSON.stringify(user)),
         matches: JSON.parse(
-          JSON.stringify(matches, (key, value) =>
+          JSON.stringify(matches, (key: string, value) =>
             typeof value === "bigint" ? value.toString() : value
           )
         ),
@@ -189,7 +189,7 @@ export const getServerSideProps: GetServerSideProps = async (
   return {
     props: {
       matches: JSON.parse(
-        JSON.stringify(matches, (key, value) =>
+        JSON.stringify(matches, (key: string, value) =>
           typeof value === "bigint" ? value.toString() : value
         )
       ),

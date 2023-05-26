@@ -1,12 +1,12 @@
 import { API_URL } from "@/lib/constants";
-import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { NextRouter, useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function LiveFieldViewPage({ next }: any) {
-  const router = useRouter();
+export default function LiveFieldViewPage({ next }: any): null {
+  const router: NextRouter = useRouter();
 
-  useEffect(() => {
+  useEffect((): void => {
     const channel = next.event.webcasts.reduce((acc: string, item: any) => {
       return item.channel.length > acc.length ? item.channel : acc;
     }, "");
@@ -17,11 +17,13 @@ export default function LiveFieldViewPage({ next }: any) {
   return null;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const { team }: any = context.params;
 
   const nextMatch = await fetch(`${API_URL}/api/team/next?team=${team}`).then(
-    (res) => res.json()
+    (res: Response) => res.json()
   );
 
   return { props: { next: nextMatch } };

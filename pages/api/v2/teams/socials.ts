@@ -3,6 +3,8 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]";
 import db from "@/lib/db";
 import { tbaAxios } from "@/lib/fetchTBA";
+import { Social, Team } from "@prisma/client";
+import { AxiosResponse } from "axios";
 
 export default async function addSocials(
   req: NextApiRequest,
@@ -19,7 +21,7 @@ export default async function addSocials(
     if (!session) res.status(400).send("You are not logged in!");
     const body = req.body;
 
-    const teamExists = await db.team.findUnique({
+    const teamExists: Team | null = await db.team.findUnique({
       where: {
         team_number: Number(team),
       },
@@ -64,9 +66,11 @@ export default async function addSocials(
     res.status(200).send("Successfully created social");
   }
 
-  const tbaSocials = await tbaAxios(`team/frc${team}/social_media`);
+  const tbaSocials: AxiosResponse<any, any> = await tbaAxios(
+    `team/frc${team}/social_media`
+  );
 
-  const data = await db.team.findMany({
+  const data: (Team & { socials: Social[] })[] = await db.team.findMany({
     where: {
       team_number: Number(team),
     },
@@ -82,7 +86,7 @@ export default async function addSocials(
     })
   );
 
-  const allSocials = data.flatMap((team: any) =>
+  const allSocials: any[] = data.flatMap((team: any) =>
     team.socials
       .filter((social: any) => social.verified)
       .map((social: any) => ({

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "@/lib/db";
+import { Team } from "@prisma/client";
 
 export default async function getEventTeams(
   req: NextApiRequest,
@@ -7,7 +8,8 @@ export default async function getEventTeams(
 ): Promise<void> {
   const { event } = req.query;
 
-  const rest = await db.team.findMany({
+  // @ts-ignore
+  const rest: Team[] = await db.team.findMany({
     where: {
       events: {
         some: {

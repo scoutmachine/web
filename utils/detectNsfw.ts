@@ -4,13 +4,13 @@ export async function detectNsfw(imageUrl: string): Promise<boolean> {
   const img: HTMLImageElement = document.createElement("img");
   img.src = imageUrl;
 
-  const model = await nsfwjs.load();
+  const model: nsfwjs.NSFWJS = await nsfwjs.load();
 
-  const predictions = await model.classify(img);
+  const predictions: nsfwjs.predictionType[] = await model.classify(img);
   console.log("Predictions: ", predictions);
 
-  const nsfwProbability = predictions.find(
-    (p) =>
+  const nsfwProbability: number | undefined = predictions.find(
+    (p: nsfwjs.predictionType) =>
       p.className === "Porn" ||
       p.className === "Hentai" ||
       p.className == "Sexy"

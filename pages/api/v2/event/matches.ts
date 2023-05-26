@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "@/lib/db";
+import { Match } from "@prisma/client";
 
 export default async function getMatches(
   req: NextApiRequest,
@@ -8,7 +9,7 @@ export default async function getMatches(
   try {
     const { event } = req.query;
 
-    const eventMatches = await db.match.findMany({
+    const eventMatches: Match[] = await db.match.findMany({
       where: {
         event_key: String(event),
       },

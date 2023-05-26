@@ -110,9 +110,9 @@ const ModalBody = (props: {
     //@ts-ignore
     const existingUsername = session.user?.username;
     //@ts-ignore
-    const existingDisplayName = session.user?.name;
+    const existingDisplayName: string | null | undefined = session.user?.name;
     //@ts-ignore
-    const existingAvatarURL = session.user?.image;
+    const existingAvatarURL: string | null | undefined = session.user?.image;
 
     if (!username || !displayName || !avatarURL) {
       return setErrorMessage("Fields left blank");
@@ -134,7 +134,12 @@ const ModalBody = (props: {
       );
     }
 
-    const data = {
+    const data: {
+      username: string;
+      name: string;
+      image: string;
+      teamNumber: number;
+    } = {
       username,
       name: displayName,
       image: avatarURL,

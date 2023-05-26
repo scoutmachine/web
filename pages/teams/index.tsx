@@ -13,7 +13,7 @@ import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
-import { FavouritedTeam } from "@prisma/client";
+import { FavouritedTeam, Team } from "@prisma/client";
 import { teamNumberInRange } from "@/utils/team";
 
 const filterOptions = [
@@ -64,7 +64,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
     if (typeof window !== "undefined") {
       let previousTime: string = "";
 
-      const interval: NodeJS.Timer = setInterval(() => {
+      const interval: NodeJS.Timer = setInterval((): void => {
         const currentTime: string = new Date().toLocaleTimeString("en-GB", {
           hour: "numeric",
           minute: "2-digit",
@@ -86,7 +86,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
     }
   }, [teams]);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (query) {
       setAllTeams(
         teams.filter((team: any) =>
@@ -100,7 +100,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
     }
   }, [allTeams, query, teamNumberRange, teams]);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (teamNumberRange) {
       setAllTeams(
         [...teams]
@@ -114,7 +114,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
     }
   }, [teams, teamNumberRange]);
 
-  const changeSearch = (event: { target: { value: string } }) => {
+  const changeSearch = (event: { target: { value: string } }): void => {
     setQuery(event.target.value);
   };
 
@@ -146,21 +146,28 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                 </span>
               </div>
               <div className="mt-3 gap-2 flex flex-wrap">
-                {filterOptions.map((option, index) => (
-                  <FilterNumber
-                    key={index}
-                    name={option.name}
-                    range={option.range}
-                    setTeamNumberRange={setTeamNumberRange}
-                    setButtonClicked={setButtonClicked}
-                    buttonClicked={buttonClicked}
-                  />
-                ))}
+                {filterOptions.map(
+                  (
+                    option:
+                      | { name: JSX.Element; range: string }
+                      | { name: string; range: string },
+                    index: number
+                  ) => (
+                    <FilterNumber
+                      key={index}
+                      name={option.name}
+                      range={option.range}
+                      setTeamNumberRange={setTeamNumberRange}
+                      setButtonClicked={setButtonClicked}
+                      buttonClicked={buttonClicked}
+                    />
+                  )
+                )}
               </div>
               <div>
                 <button
                   className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white transition-all duration-150"
-                  onClick={() => {
+                  onClick={(): void => {
                     exportFromJSON({
                       data: teams,
                       fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
@@ -223,8 +230,8 @@ export const getServerSideProps: GetServerSideProps = async ({
     authOptions
   )) as Session;
 
-  const teams = await db.team.findMany();
-  const sortedTeams = [...teams].sort(() => Math.random() - 0.5);
+  const teams: Team[] = await db.team.findMany();
+  const sortedTeams: Team[] = [...teams].sort(() => Math.random() - 0.5);
   const teamAvatars: any = {};
 
   if (session) {

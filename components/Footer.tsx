@@ -6,11 +6,11 @@ import { GITHUB_URL } from "@/lib/constants";
 export const Footer = () => {
   const [latestCommit, setLatestCommit] = useState<string>();
 
-  useEffect(() => {
-    const fetchLatestCommit = async () => {
+  useEffect((): void => {
+    const fetchLatestCommit = async (): Promise<void> => {
       const data = await fetch(
         `https://api.github.com/repos/scoutmachine/web/commits`
-      ).then((res) => res.json());
+      ).then((res: Response) => res.json());
       setLatestCommit(data[0].sha);
     };
 

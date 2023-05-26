@@ -1,15 +1,20 @@
 import { tbaAxios } from "@/lib/fetchTBA";
-import { RouterBuilder } from "next-api-handler";
+import {
+  NextApiRequestWithMiddleware,
+  RouterBuilder,
+  TypedObject,
+} from "next-api-handler";
 import db from "@/lib/db";
-import { Match, Prisma } from "@prisma/client";
+import { Match, Event, Prisma } from "@prisma/client";
+import { NextApiResponse } from "next";
 
-const router = new RouterBuilder();
+const router: RouterBuilder = new RouterBuilder();
 
-const handleMatchesETL = async () => {
+const handleMatchesETL = async (): Promise<number> => {
   console.log("Starting Matches ETL");
 
-  const events = await db.event.findMany();
-  let numMatchesInserted = 0;
+  const events: Event[] = await db.event.findMany();
+  let numMatchesInserted: number = 0;
 
   for (const event of events) {
     console.log(`Parsing Matches for ${event.key}`);
@@ -33,7 +38,7 @@ const handleMatchesETL = async () => {
       };
     });
 
-    const result = await db.match.createMany({
+    const result: Prisma.BatchPayload = await db.match.createMany({
       data: data,
       skipDuplicates: true,
     });
@@ -45,16 +50,21 @@ const handleMatchesETL = async () => {
   return numMatchesInserted;
 };
 
-router.post(async (req, res) => {
-  try {
-    res.status(200).json({
-      message: "Success",
-    });
+router.post(
+  async (
+    req: NextApiRequestWithMiddleware<TypedObject>,
+    res: NextApiResponse
+  ): Promise<void> => {
+    try {
+      res.status(200).json({
+        message: "Success",
+      });
 
-    await handleMatchesETL();
-  } catch (error) {
-    console.log("error: ", error);
+      await handleMatchesETL();
+    } catch (error) {
+      console.log("error: ", error);
+    }
   }
-});
+);
 
 export default router.build();

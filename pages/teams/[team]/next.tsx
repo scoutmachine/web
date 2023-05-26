@@ -6,7 +6,7 @@ import {
   formatEpochSecondsToDate,
   formatRelativeTime,
 } from "@/utils/time";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import {
   FaArrowAltCircleDown,
   FaArrowAltCircleUp,
@@ -16,34 +16,38 @@ import {
 import { GoPrimitiveDot } from "react-icons/go";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { NextRouter, useRouter } from "next/router";
+import { JSX, useEffect, useState } from "react";
 
-export default function NextTeamMatch({ next, avatars, epas }: any) {
-  const router = useRouter();
-  const teamQuery = router.query.team;
+export default function NextTeamMatch({
+  next,
+  avatars,
+  epas,
+}: any): JSX.Element {
+  const router: NextRouter = useRouter();
+  const teamQuery: string | string[] | undefined = router.query.team;
   const [refreshIcon, setRefreshIcon] = useState(false);
 
-  const refreshData = () => {
+  const refreshData = (): void => {
     setRefreshIcon(true);
     router.replace(router.asPath);
   };
 
   useEffect(() => {
     if (COMP_SEASON) {
-      const refreshTimer = setTimeout(() => {
+      const refreshTimer: NodeJS.Timeout = setTimeout((): void => {
         setRefreshIcon(true);
         router.replace(router.asPath);
       }, 120000);
 
-      return () => {
+      return (): void => {
         setRefreshIcon(false);
         clearTimeout(refreshTimer);
       };
     }
   }, [router]);
 
-  const toEpochSeconds = new Date(next.match?.startTime).getTime();
+  const toEpochSeconds: number = new Date(next.match?.startTime).getTime();
   const redAlliance = next.match?.teams.filter((team: any) =>
     team.station.includes("Red")
   );
@@ -51,7 +55,7 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
     team.station.includes("Blue")
   );
   const teamAlliance = next.match?.teams
-    .find((team: any) => team.teamNumber === Number(teamQuery))
+    .find((team: any): boolean => team.teamNumber === Number(teamQuery))
     .station.replace(/[0-9]/g, "");
 
   const isTimeInPast = (time: string): boolean => {
@@ -63,15 +67,15 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
   const [redAllianceWinRate, setRedAllianceWinRate] = useState(0);
   const [blueAllianceWinRate, setBlueAllianceWinRate] = useState(0);
 
-  useEffect(() => {
-    let redWinRate = 0;
-    let blueWinRate = 0;
+  useEffect((): void => {
+    let redWinRate: number = 0;
+    let blueWinRate: number = 0;
 
-    redAlliance?.forEach((team: any) => {
+    redAlliance?.forEach((team: any): void => {
       redWinRate += epas[team.teamNumber].winrate;
     });
 
-    blueAlliance?.forEach((team: any) => {
+    blueAlliance?.forEach((team: any): void => {
       blueWinRate += epas[team.teamNumber].winrate;
     });
 
@@ -331,11 +335,13 @@ export default function NextTeamMatch({ next, avatars, epas }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const { team }: any = context.params;
 
   const nextMatch = await fetch(`${API_URL}/api/team/next?team=${team}`).then(
-    (res) => res.json()
+    (res: Response) => res.json()
   );
 
   const teamAvatars: any = {};
@@ -349,7 +355,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         ).then((res: Response) => res.json());
         const epa = await fetch(
           `https://api.statbotics.io/v2/team/${team.teamNumber}`
-        ).then((res) => res.json());
+        ).then((res: Response) => res.json());
 
         try {
           teamAvatars[team.teamNumber] = data.avatar;

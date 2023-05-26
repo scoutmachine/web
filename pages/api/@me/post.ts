@@ -7,7 +7,7 @@ import { Post } from ".prisma/client";
 export default async function marketplaceAPI(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   const session: Session = (await getServerSession(
     req,
     res,

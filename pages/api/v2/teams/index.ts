@@ -1,5 +1,6 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Team } from "@prisma/client";
 
 export default async function getDistricts(
   req: NextApiRequest,
@@ -7,7 +8,7 @@ export default async function getDistricts(
 ): Promise<void> {
   const { team } = req.query;
 
-  const fetchTeam = await db.team.findUnique({
+  const fetchTeam: Team | null = await db.team.findUnique({
     where: {
       team_number: Number(team),
     },

@@ -13,13 +13,13 @@ export default async function getTeamInfo(
     `team/frc${team}/events/${CURR_YEAR}`
   );
   const currentEvent = events
-    .filter((event: any) => {
-      const eventDate = new Date(event.start_date || event.end_date);
+    .filter((event: any): boolean => {
+      const eventDate: Date = new Date(event.start_date || event.end_date);
       return eventDate <= new Date();
     })
     .sort((a: any, b: any) => {
-      const aDate = new Date(a.start_date || a.end_date);
-      const bDate = new Date(b.start_date || b.end_date);
+      const aDate: Date = new Date(a.start_date || a.end_date);
+      const bDate: Date = new Date(b.start_date || b.end_date);
       return bDate.getTime() - aDate.getTime();
     })[0];
 
@@ -28,8 +28,8 @@ export default async function getTeamInfo(
   );
 
   const lastMatch = schedule.Schedule.sort((a: any, b: any) => {
-    const aDate = new Date(a.startTime);
-    const bDate = new Date(b.startTime);
+    const aDate: Date = new Date(a.startTime);
+    const bDate: Date = new Date(b.startTime);
     return bDate.getTime() - aDate.getTime();
   });
 

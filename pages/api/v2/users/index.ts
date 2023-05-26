@@ -1,5 +1,6 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
+import { User } from "next-auth";
 
 export default async function getDistricts(
   req: NextApiRequest,
@@ -7,7 +8,7 @@ export default async function getDistricts(
 ): Promise<void> {
   const { user } = req.query;
 
-  const fetchUser = await db.user.findUnique({
+  const fetchUser: User | null = await db.user.findUnique({
     where: {
       username: String(user),
     },

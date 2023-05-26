@@ -1,4 +1,4 @@
-export function formatTime(ms: number) {
+export function formatTime(ms: number): string {
   const date: Date = new Date(ms);
 
   return `${date.getMinutes()}mins ${date.getSeconds()}s`;
@@ -74,12 +74,14 @@ export function formatEpochSecondsToDate(
 }
 
 export function formatRelativeTime(timestamp: string): string {
-  const currentTime = new Date();
-  const targetTime = new Date(timestamp);
+  const currentTime: Date = new Date();
+  const targetTime: Date = new Date(timestamp);
 
-  const timeDifference = currentTime.getTime() - targetTime.getTime();
-  const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
-  const secondsDifference = Math.floor(timeDifference / 1000);
+  const timeDifference: number = currentTime.getTime() - targetTime.getTime();
+  const daysDifference: number = Math.floor(
+    timeDifference / (1000 * 3600 * 24)
+  );
+  const secondsDifference: number = Math.floor(timeDifference / 1000);
 
   if (daysDifference > 0) {
     if (daysDifference === 1) {
@@ -88,14 +90,14 @@ export function formatRelativeTime(timestamp: string): string {
       return `${daysDifference} days ago`;
     }
   } else if (secondsDifference >= 3600) {
-    const hoursDifference = Math.floor(secondsDifference / 3600);
+    const hoursDifference: number = Math.floor(secondsDifference / 3600);
     if (hoursDifference === 1) {
       return "1 hour ago";
     } else {
       return `${hoursDifference} hours ago`;
     }
   } else if (secondsDifference >= 60) {
-    const minutesDifference = Math.floor(secondsDifference / 60);
+    const minutesDifference: number = Math.floor(secondsDifference / 60);
     if (minutesDifference === 1) {
       return "1 minute ago";
     } else {

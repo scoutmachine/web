@@ -7,6 +7,7 @@ import { JSX, useState } from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import db from "@/lib/db";
+import { Event } from "@prisma/client";
 
 export default function EventsPage({ events }: any): JSX.Element {
   const [year, setYear] = useState<number>(CURR_YEAR);
@@ -37,9 +38,9 @@ export default function EventsPage({ events }: any): JSX.Element {
 export const getServerSideProps: GetServerSideProps = async (): Promise<{
   props: { events: any };
 }> => {
-  const events = await db.event.findMany();
+  const events: Event[] = await db.event.findMany();
   console.log(events);
-  const sortedEvents = events.sort((a: any, b: any) =>
+  const sortedEvents: Event[] = events.sort((a: any, b: any) =>
     a.start_date.localeCompare(b.start_date)
   );
 

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTBA } from "@/lib/fetchTBA";
 import db from "@/lib/db";
+import { Match } from "@prisma/client";
 
 export default async function getEventRankings(
   req: NextApiRequest,
@@ -8,7 +9,7 @@ export default async function getEventRankings(
 ): Promise<void> {
   const { match } = req.query;
 
-  const matchData = await db.match.findFirst({
+  const matchData: Match | null = await db.match.findFirst({
     where: {
       key: String(match),
     },
@@ -18,7 +19,7 @@ export default async function getEventRankings(
     const fetchMatchData: any = await fetchTBA(`match/${String(match)}`);
     if (!fetchMatchData) res.status(400).send("Invalid Match");
 
-    const createdMatchData = await db.match.create({
+    const createdMatchData: Match = await db.match.create({
       data: {
         ...fetchMatchData,
       },

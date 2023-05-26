@@ -1,11 +1,10 @@
 import { Navbar } from "@/components/navbar";
-import db from "@/lib/db";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { JSX } from "react";
 
 export default function MatchPage({ match }: any): JSX.Element {
-  const title = `Match ${match.match_number} / ${match.event_key
+  const title: string = `Match ${match.match_number} / ${match.event_key
     .slice(4)
     .toUpperCase()} | Scout Machine`;
 
@@ -25,7 +24,7 @@ export default function MatchPage({ match }: any): JSX.Element {
 }
 
 export const getServerSideProps: GetServerSideProps = async (
-  context
+  context: GetServerSidePropsContext
 ): Promise<{
   props: { match: any };
 }> => {
@@ -40,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (
   return {
     props: {
       match: JSON.parse(
-        JSON.stringify(matchData, (key, value) =>
+        JSON.stringify(matchData, (key: string, value) =>
           typeof value === "bigint" ? value.toString() : value
         )
       ),

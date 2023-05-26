@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchFIRST } from "@/lib/fetchFIRST";
+import { AxiosResponse } from "axios";
 
 export default async function getTeamAwards(
   req: NextApiRequest,
@@ -17,7 +18,10 @@ export default async function getTeamAwards(
   const awards: ({ year: string; data: any } | null)[] = await Promise.all(
     years.map(async (year: number) => {
       try {
-        const response = await fetchFIRST(`/awards/team/${team}`, year);
+        const response: void | AxiosResponse<any, any> = await fetchFIRST(
+          `/awards/team/${team}`,
+          year
+        );
         return {
           year: year.toString(),
           data: response,
