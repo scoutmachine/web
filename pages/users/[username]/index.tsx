@@ -8,7 +8,7 @@ import { FaCheck, FaCopy, FaTimes } from "react-icons/fa";
 import { API_URL } from "@/lib/constants";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
-import router from 'next/router'
+import router from "next/router";
 import db from "@/lib/db";
 import { useSession } from "next-auth/react";
 
@@ -54,7 +54,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
     }
   };
 
-  const isOwnProfile = session && user.username == session.user.username
+  const isOwnProfile = session && user.username == session.user.username;
 
   return (
     <>
@@ -104,35 +104,35 @@ export default function UserProfilePage({ user, apiKeys }: any) {
         </div>
         {isOwnProfile && (
           <>
-          <div className="flex items-center mt-8">
-          <h2 className="text-xl font-semibold text-white">API Keys</h2>
+            <div className="flex items-center mt-8">
+              <h2 className="text-xl font-semibold text-white">API Keys</h2>
 
-          <button
-            className="ml-auto flex-items-center border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
-            onClick={handleGenerateApiKey}
-          >
-            Generate API Key
-          </button>
-        </div>
-        {userApiKeys.length > 0 ? (
-          <ul className="mt-4 space-y-2">
-            {userApiKeys.map((apiKey) => (
-              <li key={apiKey} className="flex items-center">
-                <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
-                  {apiKey}
-                </code>
-                <button
-                  className="ml-2 flex items-center bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-md px-2 py-1 transition-colors duration-300 focus:outline-none"
-                  onClick={() => handleDeleteApiKey(apiKey)}
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-4 text-gray-400">No API keys generated.</p>
-        )}
+              <button
+                className="ml-auto flex-items-center border border-[#2A2A2A] bg-card px-3 rounded-lg py-1 text-lightGray text-sm hover:border-gray-600"
+                onClick={handleGenerateApiKey}
+              >
+                Generate API Key
+              </button>
+            </div>
+            {userApiKeys.length > 0 ? (
+              <ul className="mt-4 space-y-2">
+                {userApiKeys.map((apiKey) => (
+                  <li key={apiKey} className="flex items-center">
+                    <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
+                      {apiKey}
+                    </code>
+                    <button
+                      className="ml-2 flex items-center bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-md px-2 py-1 transition-colors duration-300 focus:outline-none"
+                      onClick={() => handleDeleteApiKey(apiKey)}
+                    >
+                      Delete
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-4 text-gray-400">No API keys generated.</p>
+            )}
           </>
         )}
       </div>

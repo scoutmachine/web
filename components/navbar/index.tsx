@@ -15,6 +15,7 @@ import {
   FaTags,
   FaUndo,
   FaUserCircle,
+  FaEdit,
 } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { Dropdown } from "../Dropdown";
@@ -200,11 +201,21 @@ export const Navbar = (props: {
                   <p
                     className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
                     onClick={(): void => {
+                      router.push(`/users/${session.user.username}`);
+                    }}
+                  >
+                    <FaUserCircle className="text-lg mr-1 inline-block" /> View
+                    Profile
+                  </p>
+
+                  <p
+                    className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
+                    onClick={(): void => {
                       setShowEditProfileModal(true);
                       setProfileDropdown(false);
                     }}
                   >
-                    <FaUserCircle className="text-lg mr-1 inline-block" /> Edit
+                    <FaEdit className="text-lg mr-1 inline-block" /> Edit
                     Profile
                   </p>
 
