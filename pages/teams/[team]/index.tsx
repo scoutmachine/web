@@ -88,6 +88,8 @@ export default function TeamPage({
     if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
   });
 
+  console.log(eventMatches);
+
   const year = yearsParticipated
     ? yearsParticipated.map((year: any) => year)
     : [];
@@ -386,13 +388,26 @@ export const getServerSideProps: GetServerSideProps = async (
     let eventMatches: any[] = [];
 
     for (const event of teamEvents) {
-      const eventWithMatches = await db.event
-        .findUnique({
-          where: {
-            key: event.key,
-          },
-        })
-        .matches();
+      const eventWithMatches = await db.match.findMany({
+        where: {
+          OR: [
+            {
+              event_key: event.key,
+              alliances: {
+                path: ["red", "team_keys"],
+                array_contains: `frc${team}`,
+              },
+            },
+            {
+              event_key: event.key,
+              alliances: {
+                path: ["blue", "team_keys"],
+                array_contains: `frc${team}`,
+              },
+            },
+          ],
+        },
+      });
 
       if (eventWithMatches) {
         eventMatches.push(...eventWithMatches);
