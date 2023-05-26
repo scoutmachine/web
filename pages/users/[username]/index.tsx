@@ -149,11 +149,7 @@ export const getServerSideProps: GetServerSideProps = async (
     return { props: {} };
   }
 
-  const response = await fetch(`${API_URL}/api/apiKey`, {
-    headers: {
-      Cookie: context.req.headers.cookie || "", // Pass the user session cookie for authentication
-    },
-  });
+  const response = await fetch(`${API_URL}/api/apiKey`);
   const { apiKeys } = await response.json();
 
   return {
