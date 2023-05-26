@@ -147,6 +147,9 @@ export const getServerSideProps: GetServerSideProps = async (
     where: {
       username: username,
     },
+    include: {
+      apiKeys: true
+    }
   });
 
   if (!fetchUserData) {
