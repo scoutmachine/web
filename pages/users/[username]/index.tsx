@@ -72,7 +72,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
       <Navbar />
 
       <div className="pl-4 pr-4 md:pl-8 md:pr-8 w-full max-w-screen-3xl">
-        <div className="border border-gray-300 bg-[#f7f7f7s] rounded-lg px-10 py-10 flex flex-col mt-10">
+        <div className="border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card rounded-lg px-10 py-10 flex flex-col mt-10">
           <div className="md:flex">
             <Image
               className="mr-5 mb-5 md:mb-0 rounded-lg"
@@ -124,10 +124,10 @@ export default function UserProfilePage({ user, apiKeys }: any) {
               </button>
             </div>
             {userApiKeys.length > 0 ? (
-              <ul className="mt-4 space-y-2">
+              <ul className="mt-4 gap-3 gap-x-3 flex flex-wrap">
                 {userApiKeys.map((apiKey) => (
                   <li key={apiKey} className="flex items-center">
-                    <code className="bg-gray-800 rounded-lg px-3 py-1 text-sm text-gray-300">
+                    <code className="border-[#2A2A2A] bg-card rounded-lg px-3 py-1 text-sm text-gray-300">
                       {apiKey}
                       <button
                         className="ml-2 bg-transparent border-none p-1 cursor-pointer"
@@ -137,7 +137,7 @@ export default function UserProfilePage({ user, apiKeys }: any) {
                       </button>
                     </code>
                     <button
-                      className="ml-2 flex items-center bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-md px-2 py-1 transition-colors duration-300 focus:outline-none"
+                      className="ml-2 flex items-center bg-red-500 hover:bg-red-400 text-white text-sm font-medium rounded-md px-5 py-1 transition-colors duration-300 focus:outline-none"
                       onClick={() => handleDeleteApiKey(apiKey)}
                     >
                       Delete
