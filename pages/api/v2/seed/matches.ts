@@ -56,7 +56,7 @@ router.post(
     res: NextApiResponse
   ): Promise<void> => {
     try {
-      const matchesInserted = await handleMatchesETL();
+      const matchesInserted: number = await handleMatchesETL();
 
       res.status(200).json({
         message: "Success",
