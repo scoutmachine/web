@@ -51,16 +51,14 @@ export const Search = (props: any) => {
                   props.setSearchTerm(`${team.nickname} - ${team.team_number}`)
                 }
               >
-                <Link
+                <a
                   key={key}
                   href={`/teams/${team.team_number}`}
-                  legacyBehavior
+                  onClick={() => props.setSearchTerm("")}
                 >
-                  <a onClick={() => props.setSearchTerm("")}>
-                    <span className="font-medium">{team.team_number} |</span>{" "}
-                    {team.nickname}{" "}
-                  </a>
-                </Link>
+                  <span className="font-medium">{team.team_number} |</span>{" "}
+                  {team.nickname}{" "}
+                </a>
 
                 {props.session && (
                   <FaStar

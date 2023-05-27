@@ -57,8 +57,8 @@ export const TeamCard = (props: any): JSX.Element => {
       avatar={props.avatars && props.avatars[props.team.team_number]}
     >
       <div className="relative px-5 py-8 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg">
-        <Link href={`/teams/${props.team.team_number}`} legacyBehavior>
-          <a className="cursor-pointer">
+        <a href={`/teams/${props.team.team_number}`}>
+          <p className="cursor-pointer">
             {!error ? (
               <Image
                 src={
@@ -110,8 +110,8 @@ export const TeamCard = (props: any): JSX.Element => {
             <p className="absolute bottom-3 text-lightGray font-medium text-base sm:text-lg">
               # {props.team.team_number}
             </p>
-          </a>
-        </Link>
+          </p>
+        </a>
         {session && (
           <FaStar
             onClick={(): void => {
