@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import Link from "next/link";
 import Image from "next/image";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
@@ -126,16 +127,14 @@ export const Navbar = (props: {
           } bg-[#f7f7f7] border border-gray-300 dark:bg-card dark:border-[#2A2A2A] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between`}
         >
           <div className="flex relative space-x-1">
-            <Link href="/" legacyBehavior>
-              <a>
-                <h1 className="font-extrabold text-black dark:text-white text-2xl mr-2 hidden md:block">
-                  sm
-                </h1>
-                <h1 className="font-black text-black dark:text-white text-2xl mr-2 md:hidden">
-                  sm
-                </h1>
-              </a>
-            </Link>
+            <a href="/">
+              <h1 className="font-extrabold text-black dark:text-white text-2xl mr-2 hidden md:block">
+                sm
+              </h1>
+              <h1 className="font-black text-black dark:text-white text-2xl mr-2 md:hidden">
+                sm
+              </h1>
+            </a>
 
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
               <Social icon={<FaGithub />} />
@@ -170,8 +169,8 @@ export const Navbar = (props: {
                 key: number
               ) => {
                 return (
-                  <Link href={link.href} key={key} legacyBehavior>
-                    <a
+                  <a href={link.href} key={key}>
+                    <p
                       className={`block md:inline-block text-[0.9rem] ${
                         props.active === link.title
                           ? "text-primary"
@@ -182,8 +181,8 @@ export const Navbar = (props: {
                         <span className="text-lg mr-2">{link.icon}</span>
                         <span>{link.title}</span>
                       </div>
-                    </a>
-                  </Link>
+                    </p>
+                  </a>
                 );
               }
             )}
