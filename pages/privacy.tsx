@@ -22,7 +22,7 @@ export default function PrivacyPage(): JSX.Element {
             Information from your web browser that most websites collect such as
             IP for rough region, browser type, and operating system. We use this
             information to help us understand how people use our website, and to
-            help us improve our website. We rely upon Vercel&aposs website
+            help us improve our website. We rely upon Vercel&apos;s website
             analytics to collect this information.
           </p>
 
@@ -34,7 +34,7 @@ export default function PrivacyPage(): JSX.Element {
           <p className="text-lightGray">
             We use Google sign-in & GitHub sign-in to authenticate users. Only
             the email address is stored in our database, your password and
-            personal information is stored on Google or GitHub&aposs servers. We
+            personal information is stored on Google or GitHub&apos;s servers. We
             use the email address to identify users and allow for users to
             request contact within in the marketplace for listings you may
             create, and to reach users in the event of an issue with their
@@ -77,9 +77,9 @@ export default function PrivacyPage(): JSX.Element {
             Our use of cookies and tracking
           </h1>
           <p className="text-lightGray">
-            Our site currently relies wholly upon Vercel&aposs website
+            Our site currently relies wholly upon Vercel&apos;s website
             analytics, and does not use any other cookies or tracking outside
-            what Vercel uses, Vercel&aposs website analytics can be found at
+            what Vercel uses, Vercel&apos;s website analytics can be found at
             https://vercel.com/docs/concepts/analytics/privacy-policy).
           </p>
 
@@ -97,7 +97,7 @@ export default function PrivacyPage(): JSX.Element {
 
           <h1 className="text-white font-bold text-2xl">License</h1>
           <p className="text-lightGray">
-            This Privacy Policy is adapted from GitHub&aposs Privacy Statement
+            This Privacy Policy is adapted from GitHub&apos;s Privacy Statement
             at
             https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement)
             and is licensed under the Creative Commons Attribution available at
