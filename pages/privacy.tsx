@@ -34,8 +34,8 @@ export default function PrivacyPage(): JSX.Element {
           <p className="text-lightGray">
             We use Google sign-in & GitHub sign-in to authenticate users. Only
             the email address is stored in our database, your password and
-            personal information is stored on Google or GitHub&apos;s servers. We
-            use the email address to identify users and allow for users to
+            personal information is stored on Google or GitHub&apos;s servers.
+            We use the email address to identify users and allow for users to
             request contact within in the marketplace for listings you may
             create, and to reach users in the event of an issue with their
             account or a security breach. We do not share your email address
