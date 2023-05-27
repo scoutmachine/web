@@ -36,6 +36,10 @@ export const Footer = () => {
           All Match, Event, & Team Data is provided by TBA via their API.
         </a>
         <br />
+        <a href="./privacy" className="text-xs">
+          Privacy Policy
+        </a>
+        <br />
         {latestCommit && (
           <a
             href={`${GITHUB_URL}/commit/${latestCommit}`}
