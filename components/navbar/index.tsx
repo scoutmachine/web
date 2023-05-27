@@ -25,8 +25,16 @@ import { SignoutModal } from "../modals/SignoutModal";
 import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
-import { API_URL, BMAC_URL, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
+import {
+  API_URL,
+  BMAC_URL,
+  CURR_YEAR,
+  DISCORD_URL,
+  GITHUB_URL,
+} from "@/lib/constants";
 import router from "next/router";
+import { getStorage, setStorage } from "@/utils/localStorage";
+import { Loading } from "../Loading";
 
 const Social = (props: { icon: ReactNode }) => {
   return (
@@ -67,13 +75,19 @@ export const Navbar = (props: {
 
   useEffect((): void => {
     async function fetchData(): Promise<void> {
+      const teamsData = getStorage(`teams`);
+      if (teamsData) setTeams(teamsData);
+
       const data = await fetch(`${API_URL}/api/v2/teams/all`).then(
         (res: Response) => res.json()
       );
-      if (data) setTeams(data);
+
+      setTeams(data);
+      setStorage(`teams`, data, 60 * 60 * 24 * 7 * 4); // 4 weeks (28 days)
     }
+
     fetchData();
-  }, []);
+  }, [teams]);
 
   const filteredOptions =
     teams &&
@@ -96,6 +110,8 @@ export const Navbar = (props: {
   useEffect((): void => {
     window.addEventListener("click", () => setSearchTerm(""));
   });
+
+  if (status === "loading") return <Loading />;
 
   return (
     <>
