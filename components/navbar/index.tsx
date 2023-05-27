@@ -76,7 +76,7 @@ export const Navbar = (props: {
   useEffect((): void => {
     async function fetchData(): Promise<void> {
       const teamsData = getStorage(`teams`);
-      if (teamsData) setTeams(teamsData);
+      if (teamsData) return setTeams(teamsData);
 
       const data = await fetch(`${API_URL}/api/v2/teams/all`).then(
         (res: Response) => res.json()
