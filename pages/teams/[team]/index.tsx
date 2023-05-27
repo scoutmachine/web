@@ -391,7 +391,7 @@ export const getServerSideProps: GetServerSideProps = async (
         teamAwards,
         teamMembers,
         teamSocials,
-        teamEvents,
+        teamEvents: teamEvents.reverse(),
         yearsParticipated: yearsParticipated.reverse(),
       },
     };
