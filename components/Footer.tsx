@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { GITHUB_URL } from "@/lib/constants";
+import { FaInfo, FaInfoCircle } from "react-icons/fa";
 
 export const Footer = () => {
   const [latestCommit, setLatestCommit] = useState<string>();
@@ -27,19 +28,6 @@ export const Footer = () => {
           </a>
         </Link>
         <br />
-        <a
-          href="https://thebluealliance.com"
-          target="_blank"
-          className="text-xs"
-          rel="noopener noreferrer"
-        >
-          All Match, Event, & Team Data is provided by TBA via their API.
-        </a>
-        <br />
-        <a href="./privacy" className="text-xs">
-          Privacy Policy
-        </a>
-        <br />
         {latestCommit && (
           <a
             href={`${GITHUB_URL}/commit/${latestCommit}`}
@@ -50,6 +38,15 @@ export const Footer = () => {
             Commit # {latestCommit}
           </a>
         )}
+        <p className="text-xs flex justify-center items-center mb-3">
+          <FaInfoCircle className="mr-1 mt-[2px]" /> All Data provided via FIRST
+          & TBA API
+        </p>
+        <Link href="/privacy">
+          <p className="uppercase text-primary text-xs font-bold hover:text-white">
+            Privacy Policy
+          </p>
+        </Link>
         <div className="flex items-center justify-center">
           <a
             href="https://vercel.com/?utm_source=scoutmachine&utm_campaign=oss"
