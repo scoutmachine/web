@@ -36,24 +36,37 @@ export default async function getUserFavourites(
     if (req.method === "POST") {
       if (req.body) {
         const body = JSON.parse(req.body);
-        const data: FavouritedTeam = await db.favouritedTeam.create({
-          data: {
+
+        const existingTeam = await db.favouritedTeam.findUnique({
+          where: {
             // @ts-ignore
             userId: session?.user.id,
             team_number: body.team_number,
-            nickname: body.nickname,
-            city: body.city,
-            state_prov: body.state_prov,
-            country: body.country,
-            website: body.website ?? "",
-            rookie_year: body.rookie_year,
           },
         });
 
-        if (data) {
-          res.status(200).send("Success");
+        if (existingTeam) {
+          res.status(200).send("Team already favorited");
         } else {
-          res.status(400).send("Error while favouriting team");
+          const data: FavouritedTeam = await db.favouritedTeam.create({
+            data: {
+              // @ts-ignore
+              userId: session?.user.id,
+              team_number: body.team_number,
+              nickname: body.nickname,
+              city: body.city,
+              state_prov: body.state_prov,
+              country: body.country,
+              website: body.website ?? "",
+              rookie_year: body.rookie_year,
+            },
+          });
+
+          if (data) {
+            res.status(200).send("Success");
+          } else {
+            res.status(400).send("Error while favoriting team");
+          }
         }
       } else {
         res.status(400).send("Invalid body");
