@@ -14,6 +14,8 @@ export default function InsightsPage({
   totalEvents,
   totalTeams,
   top10Teams,
+  mostQualMatchPts,
+  mostPlayoffMatchPts,
 }: any): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [avatars, setAvatars] = useState([]);
@@ -219,6 +221,65 @@ export async function getServerSideProps() {
     await db.award.findMany(),
   ]);
 
+  const getMatchData = async (
+    eventKey: string,
+    compLevels: string[],
+    take: number
+  ) => {
+    const data = await db.match.findMany({
+      where: {
+        event_key: {
+          contains: eventKey,
+        },
+        comp_level: {
+          in: compLevels,
+        },
+        AND: [
+          {
+            score_breakdown: {
+              path: ["red", "foulPoints"],
+              equals: 0,
+            },
+          },
+          {
+            score_breakdown: {
+              path: ["blue", "foulPoints"],
+              equals: 0,
+            },
+          },
+        ],
+      },
+      orderBy: {
+        alliances: "desc",
+      },
+      take,
+    });
+
+    return JSON.parse(
+      JSON.stringify(
+        data,
+        (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+      )
+    );
+  };
+
+  const eventKey = "2023";
+  const takeCount = 2;
+
+  const qualCompLevels = ["qm"];
+  const mostQualMatchPts = await getMatchData(
+    eventKey,
+    qualCompLevels,
+    takeCount
+  );
+
+  const playoffCompLevels = ["sf", "f", "qf"];
+  const mostPlayoffMatchPts = await getMatchData(
+    eventKey,
+    playoffCompLevels,
+    takeCount
+  );
+
   const awardNamesToCount = [
     "Winner",
     "Winners",
@@ -276,6 +337,8 @@ export async function getServerSideProps() {
       totalEvents,
       totalTeams,
       top10Teams,
+      mostQualMatchPts,
+      mostPlayoffMatchPts,
     },
   };
 }
