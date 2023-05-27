@@ -27,6 +27,15 @@ export const Footer = () => {
           </a>
         </Link>
         <br />
+        <a
+          href="https://thebluealliance.com"
+          target="_blank"
+          className="text-xs"
+          rel="noopener noreferrer"
+        >
+          All Match, Event, & Team Data is provided by TBA via their API.
+        </a>
+        <br />
         {latestCommit && (
           <a
             href={`${GITHUB_URL}/commit/${latestCommit}`}
