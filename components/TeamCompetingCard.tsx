@@ -49,13 +49,14 @@ export const TeamCompetingCard = (props: {
         </div>
 
         <p className="text-lightGray text-sm mt-2">
-          Team {props.favourite.team_number} is next up in{" "}
-          <b className="text-white">{props.team.match.description}</b> on field{" "}
-          <b className="text-white">{props.team.match.field}</b> at{" "}
-          {props.team.event.name} estimated at{" "}
+          Up next in{" "}
+          <b className="text-white">{props.team.match.description}</b> at{" "}
+          {props.team.event.name}, Team {props.favourite.team_number} is
+          estimated to compete around{" "}
           <b className="text-white">
             {epochSecondsToTime(toEpochSeconds, true)}
           </b>
+          .
         </p>
       </div>
     </a>
