@@ -2,21 +2,39 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { GITHUB_URL } from "@/lib/constants";
-import { FaInfo, FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle } from "react-icons/fa";
 
 export const Footer = () => {
-  const [latestCommit, setLatestCommit] = useState<string>();
+  const [latestCommit, setLatestCommit] = useState<string | undefined>();
+  const [retryCount, setRetryCount] = useState<number>(0);
+  const maxRetries = 3;
 
   const fetchLatestCommit = async (): Promise<void> => {
-    const data = await fetch(
-      `https://api.github.com/repos/scoutmachine/web/commits`
-    ).then((res: Response) => res.json());
-    setLatestCommit(data[0].sha);
+    try {
+      const response = await fetch(
+        `https://api.github.com/repos/scoutmachine/web/commits`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch latest commit");
+      }
+
+      const data = await response.json();
+      setLatestCommit(data[0].sha);
+    } catch (error) {
+      console.error(error);
+
+      // Retry logic
+      if (retryCount < maxRetries) {
+        setRetryCount(retryCount + 1);
+        setTimeout(fetchLatestCommit, 2000);
+      }
+    }
   };
 
-  if (!latestCommit) {
+  useEffect(() => {
     fetchLatestCommit();
-  }
+  });
 
   return (
     <div className="px-4 py-2 pb-12 mt-10 rounded-lg flex flex-col items-center justify-center text-center">
