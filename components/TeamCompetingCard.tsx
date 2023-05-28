@@ -20,9 +20,17 @@ export const TeamCompetingCard = (props: {
   );
 
   return (
-    <a href={`/teams/${props.favourite.team_number}/next`} target="_blank">
+    <a
+      href={`/teams/${props.favourite.team_number}/next`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className="relative px-5 py-5 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg">
-        <a href={`https://twitch.tv/${channel}`} target="_blank">
+        <a
+          href={`https://twitch.tv/${channel}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FaTwitch className="absolute top-6 right-5 text-purple-400 hover:text-purple-500" />
         </a>
 
