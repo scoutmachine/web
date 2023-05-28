@@ -140,10 +140,10 @@ export const SignedOutScreen = () => {
             <Feature name="favourite teams" />
             <Feature name="discover teams" href="/teams" />
             <Feature name={`all ${CURR_YEAR} events`} href="/events" />
-            <Feature name="event pages" href="/events/2023cmptx" />
-            <Feature name="team pages" href="/teams/6070" />
+            <Feature name="event pages" href="/event/2023cmptx" />
+            <Feature name="team pages" href="/team/6070" />
             <Feature name="match pages" />
-            <Feature name="team awards" href="/teams/6070" />
+            <Feature name="team awards" href="/team/6070" />
             <Feature name="hall of fame teams" href="/fame" />
             <Feature name={`${CURR_YEAR} rookie teams`} href="/rookies" />
             <Feature name="game day" href="/gameday" />

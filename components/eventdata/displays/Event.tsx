@@ -43,7 +43,7 @@ export const EventDisplay = (props: any) => {
 
       <th scope="row" className={`px-6 py-4 whitespace-nowrap`}>
         <Link
-          href={`/events/${props.match.key.replace("_", "/")}`}
+          href={`/event/${props.match.key.replace("_", "/")}`}
           legacyBehavior
         >
           <a>
@@ -131,7 +131,7 @@ export const EventDisplay = (props: any) => {
                 (team: any, i: number) => (
                   <>
                     {i > 0 && ", "}
-                    <Link href={`/teams/${team.substring(3)}`}>
+                    <Link href={`/team/${team.substring(3)}`}>
                       <span
                         className={`hover:text-primary ${
                           team.substring(3) === props.team &&
@@ -207,7 +207,7 @@ export const EventDisplay = (props: any) => {
                 (team: any, i: number) => (
                   <>
                     {i > 0 && ", "}
-                    <Link href={`/teams/${team.substring(3)}`}>
+                    <Link href={`/team/${team.substring(3)}`}>
                       <span
                         className={`hover:text-primary ${
                           team.substring(3) === props.team &&

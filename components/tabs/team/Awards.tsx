@@ -40,7 +40,7 @@ export const AwardsTab = (props: any) => {
                           alt="FIRST Logo"
                         />
                       </div>
-                      <Link href={`/events/${award.event_key.toLowerCase()}`}>
+                      <Link href={`/event/${award.event_key.toLowerCase()}`}>
                         <div className="award-name mt-3 mb-3 group text-black dark:text-white">
                           <span className="text-xs group-hover:text-primary">
                             {award.event_key.substring(4).toUpperCase()}

@@ -146,7 +146,7 @@ export const AboutTab = (props: any) => {
                     & {district?.event1Points}pts at{" "}
                     <Link
                       className="text-black dark:text-white hover:text-primary"
-                      href={`/events/${CURR_YEAR}${district?.event1Code?.toLowerCase()}`}
+                      href={`/event/${CURR_YEAR}${district?.event1Code?.toLowerCase()}`}
                     >
                       {district?.event1Code}
                     </Link>{" "}
@@ -157,7 +157,7 @@ export const AboutTab = (props: any) => {
                     & {district?.event2Points}pts at{" "}
                     <Link
                       className="text-black dark:text-white hover:text-primary"
-                      href={`/events/${CURR_YEAR}${district?.event2Code?.toLowerCase()}`}
+                      href={`/event/${CURR_YEAR}${district?.event2Code?.toLowerCase()}`}
                     >
                       {district?.event2Code}
                     </Link>

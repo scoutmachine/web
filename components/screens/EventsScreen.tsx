@@ -17,7 +17,7 @@ import { getStorage } from "@/utils/localStorage";
 
 const Event = (props: any) => {
   return (
-    <Link href={`/events/${props.event.key}`} legacyBehavior>
+    <Link href={`/event/${props.event.key}`} legacyBehavior>
       <a>
         <div
           className={`hover:cursor-pointer border border-[#2A2A2A] bg-card hover:border-gray-600 px-5 py-5 h-40 rounded-lg relative w-full`}

@@ -28,7 +28,7 @@ export const AwardsTab = (props: { awards: any }) => {
 
                 {award.recipient_list.map((team: any, index: number) => (
                   <React.Fragment key={index}>
-                    <Link href={`/teams/${team.team_key.substring(3)}`}>
+                    <Link href={`/team/${team.team_key.substring(3)}`}>
                       <p className="text-lightGray group-hover:text-primary inline-block">
                         {index === 0 && "Team"}{" "}
                         {award.recipient_list.length > 1 &&

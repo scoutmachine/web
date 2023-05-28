@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { team }: any = context.params;
 
-  const nextMatch = await fetch(`${API_URL}/api/v2/teams/next?team=${team}`).then(
+  const nextMatch = await fetch(`${API_URL}/api/v2/team/next?team=${team}`).then(
     (res: Response) => res.json()
   );
 

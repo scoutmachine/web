@@ -21,7 +21,7 @@ export const TeamCompetingCard = (props: {
 
   return (
     <a
-      href={`/teams/${props.favourite.team_number}/next`}
+      href={`/team/${props.favourite.team_number}/next`}
       target="_blank"
       rel="noopener noreferrer"
     >

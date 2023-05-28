@@ -25,10 +25,10 @@ export const EventsTab = (props: any) => {
                   scope="row"
                   className="group-hover:text-primary px-6 py-4 whitespace-nowrap"
                 >
-                  <Link href={`/events/${event.key}`}>{event.year}</Link>
+                  <Link href={`/event/${event.key}`}>{event.year}</Link>
                 </td>
                 <td className="group-hover:text-primary px-6 py-4 whitespace-nowrap">
-                  <Link href={`/events/${event.key}`}>{event.name}</Link>
+                  <Link href={`/event/${event.key}`}>{event.name}</Link>
                 </td>
               </tr>
             );

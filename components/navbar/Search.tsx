@@ -53,7 +53,7 @@ export const Search = (props: any) => {
               >
                 <a
                   key={key}
-                  href={`/teams/${team.team_number}`}
+                  href={`/team/${team.team_number}`}
                   onClick={() => props.setSearchTerm("")}
                 >
                   <span className="font-medium">{team.team_number} |</span>{" "}

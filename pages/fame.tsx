@@ -52,7 +52,7 @@ export default function HOFPage(): JSX.Element {
         <div className="bg-card border border-[#2A2A2A] py-5 rounded-lg flex flex-wrap gap-5 justify-center items-center flex">
           {HOFTeams.map((team: any, key: number) => {
             return (
-              <Link key={key} href={`/teams/${team.name}`}>
+              <Link key={key} href={`/team/${team.name}`}>
                 <div className="banner text-black dark:text-white hover:text-primary cursor-pointer">
                   <div className="flex items-center justify-center mt-3">
                     <Image

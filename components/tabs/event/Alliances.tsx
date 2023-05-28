@@ -35,7 +35,7 @@ export const AlliancesTab = (props: any) => {
 
                 <td className="px-6 py-4">
                   <Link
-                    href={`/teams/${alliance.picks[0].slice(3)}`}
+                    href={`/team/${alliance.picks[0].slice(3)}`}
                     legacyBehavior
                   >
                     <a>{alliance.picks[0].slice(3)}</a>
@@ -44,7 +44,7 @@ export const AlliancesTab = (props: any) => {
 
                 <td className="px-6 py-4">
                   <Link
-                    href={`/teams/${alliance.picks[1].slice(3)}`}
+                    href={`/team/${alliance.picks[1].slice(3)}`}
                     legacyBehavior
                   >
                     <a>{alliance.picks[1].slice(3)}</a>
@@ -53,7 +53,7 @@ export const AlliancesTab = (props: any) => {
 
                 <td className="px-6 py-4">
                   <Link
-                    href={`/teams/${alliance.picks[2].slice(3)}`}
+                    href={`/team/${alliance.picks[2].slice(3)}`}
                     legacyBehavior
                   >
                     <a>{alliance.picks[2].slice(3)}</a>
@@ -62,7 +62,7 @@ export const AlliancesTab = (props: any) => {
                 <td className="px-6 py-4">
                   {alliance.picks[3] ? (
                     <Link
-                      href={`/teams/${alliance.picks[3].slice(3)}`}
+                      href={`/team/${alliance.picks[3].slice(3)}`}
                       legacyBehavior
                     >
                       <a>{alliance.picks[3].slice(3)}</a>

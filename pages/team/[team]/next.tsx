@@ -204,7 +204,7 @@ export default function NextTeamMatch({
             <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
               {redAlliance.map((team: any, key: number) => {
                 return (
-                  <Link key={key} href={`/teams/${team.teamNumber}`}>
+                  <Link key={key} href={`/team/${team.teamNumber}`}>
                     <div
                       className={`${
                         Number(teamQuery) === team.teamNumber
@@ -277,7 +277,7 @@ export default function NextTeamMatch({
             <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
               {blueAlliance.map((team: any, key: number) => {
                 return (
-                  <Link key={key} href={`/teams/${team.teamNumber}`}>
+                  <Link key={key} href={`/team/${team.teamNumber}`}>
                     <div
                       className={`${
                         Number(teamQuery) === team.teamNumber
@@ -340,7 +340,7 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { team }: any = context.params;
 
-  const nextMatch = await fetch(`${API_URL}/api/v2/teams/next?team=${team}`).then(
+  const nextMatch = await fetch(`${API_URL}/api/v2/team/next?team=${team}`).then(
     (res: Response) => res.json()
   );
 
@@ -351,7 +351,7 @@ export const getServerSideProps: GetServerSideProps = async (
     await Promise.all(
       nextMatch.match.teams.map(async (team: any): Promise<void> => {
         const data = await fetch(
-          `${API_URL}/api/v2/teams/avatar?team=${team.teamNumber}`
+          `${API_URL}/api/v2/team/avatar?team=${team.teamNumber}`
         ).then((res: Response) => res.json());
         const epa = await fetch(
           `https://api.statbotics.io/v2/team/${team.teamNumber}`

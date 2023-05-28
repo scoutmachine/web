@@ -60,7 +60,7 @@ export const MarketplacePost = (props: any) => {
             </h1>
             {props.marketplacePost.author?.teamNumber ? (
               <Link
-                href={`/teams/${props.marketplacePost.author.teamNumber}`}
+                href={`/team/${props.marketplacePost.author.teamNumber}`}
                 legacyBehavior
               >
                 <a className="text-sm text-lightGray">

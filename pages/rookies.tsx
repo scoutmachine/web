@@ -54,7 +54,7 @@ async function fetchRookieTeamsData(): Promise<{ teams: any; avatars: any }> {
   const getTeamAvatars = data.map(async (team: any): Promise<void> => {
     try {
       const response: Response = await fetch(
-        `${API_URL}/api/v2/teams/avatar?team=${team.team_number}`
+        `${API_URL}/api/v2/team/avatar?team=${team.team_number}`
       );
       const data = await response.json();
       teamAvatars[team.team_number] = data.avatar;

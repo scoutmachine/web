@@ -12,7 +12,7 @@ import Link from "next/link";
 import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]";
+import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam, Team } from "@prisma/client";
 import { teamNumberInRange } from "@/utils/team";
 
@@ -188,7 +188,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                   </b>{" "}
                   <Link
                     className="text-lightGray hover:text-primary"
-                    href={`/teams/${teamExistsByTime.team_number}`}
+                    href={`/team/${teamExistsByTime.team_number}`}
                   >
                     Why don&apos;t ya check out {teamExistsByTime.team_number} |{" "}
                     {teamExistsByTime.nickname}?

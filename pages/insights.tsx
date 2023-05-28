@@ -34,7 +34,7 @@ export default function InsightsPage({
           ...insights.top,
         ].map(async (team: any): Promise<void> => {
           const data = await fetch(
-            `${API_URL}/api/v2/teams/avatar?team=${team.teamNumber}`
+            `${API_URL}/api/v2/team/avatar?team=${team.teamNumber}`
           ).then((res: Response) => res.json());
 
           try {
@@ -120,7 +120,7 @@ export default function InsightsPage({
                       scope="row"
                       className="group-hover:text-primary px-6 py-4 whitespace-nowrap text-xl font-semibold text-lightGray"
                     >
-                      <Link href={`/teams/${team.teamNumber.substring(3)}`}>
+                      <Link href={`/team/${team.teamNumber.substring(3)}`}>
                         <div className="flex">
                           <img
                             src={`data:image/jpeg;base64,${
@@ -166,7 +166,7 @@ export default function InsightsPage({
                 key={key}
                 className="rounded-lg bg-card py-10 px-10 border border-[#2A2A2A] "
               >
-                <Link href={`/teams/${team.teamNumber}`} className="flex mb-1">
+                <Link href={`/team/${team.teamNumber}`} className="flex mb-1">
                   <img
                     src={`data:image/jpeg;base64,${avatars[team.teamNumber]}`}
                     alt={`${team.teamNumber} Avatar`}
@@ -190,14 +190,14 @@ export default function InsightsPage({
                   {team.event1Points + team.event2Points} points at their 2
                   competitions. In{" "}
                   <Link
-                    href={`/events/2023${team.event1Code.toLowerCase()}`}
+                    href={`/event/2023${team.event1Code.toLowerCase()}`}
                     className="text-black dark:text-white"
                   >
                     {team.event1Code}
                   </Link>
                   , scoring {team.event1Points} points, and in{" "}
                   <Link
-                    href={`/events/2023${team.event2Code.toLowerCase()}`}
+                    href={`/event/2023${team.event2Code.toLowerCase()}`}
                     className="text-black dark:text-white"
                   >
                     {team.event2Code}

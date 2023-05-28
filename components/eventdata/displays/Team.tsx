@@ -52,7 +52,7 @@ export const TeamDisplay = (props: any) => {
       props.match?.alliances?.red?.surrogate_team_keys.includes(team);
 
     return (
-      <a href={`/teams/${team}`}>
+      <a href={`/team/${team}`}>
         <span
           className={`hover:text-primary ${teamColor} ${
             team === props.team && "text-white font-semibold"
@@ -110,7 +110,7 @@ export const TeamDisplay = (props: any) => {
       </td>
 
       <th scope="row" className="px-6 py-4 whitespace-nowrap">
-        <a href={`/events/${props.match.key.replace("_", "/")}`}>
+        <a href={`/event/${props.match.key.replace("_", "/")}`}>
           <a>
             <span
               className={`hover:text-primary ${

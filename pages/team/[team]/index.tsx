@@ -80,7 +80,7 @@ export default function TeamPage({
     const getEventData = async (): Promise<void> => {
       setLoading(true);
       const fetchEventData = await fetch(
-        `${API_URL}/api/v2/teams/events?team=${team}&year=${activeTab}`
+        `${API_URL}/api/v2/team/events?team=${team}&year=${activeTab}`
       ).then((res: Response) => res.json());
 
       setEventData(fetchEventData);
@@ -284,7 +284,7 @@ export default function TeamPage({
                       >
                         <div className="flex justify-between">
                           <div>
-                            <Link href={`/events/${event.key}`} legacyBehavior>
+                            <Link href={`/event/${event.key}`} legacyBehavior>
                               <a>
                                 <h1
                                   className="font-black text-primary text-2xl hover:text-white"

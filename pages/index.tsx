@@ -95,7 +95,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       await Promise.all(
         user.favouritedTeams.map(async (team: any): Promise<void> => {
           const data = await fetch(
-            `${API_URL}/api/v2/teams/avatar?team=${team.team_number}`
+            `${API_URL}/api/v2/team/avatar?team=${team.team_number}`
           ).then((res: Response) => res.json());
 
           teamAvatars[team.team_number] = data.avatar;
@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         user?.favouritedTeams.map(async (team) => {
           try {
             const data = await fetch(
-              `${API_URL}/api/v2/teams/next?team=${team.team_number}`
+              `${API_URL}/api/v2/team/next?team=${team.team_number}`
             ).then((res) => res.json());
 
             teamsCurrentlyCompeting[team.team_number] = data;
