@@ -7,6 +7,7 @@ import { API_URL, CURR_YEAR } from "@/lib/constants";
 import db from "@/lib/db";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
+import { MostPointsTable } from "../components/insights/MostPointsTable";
 
 export default function InsightsPage({
   insights,
@@ -52,6 +53,9 @@ export default function InsightsPage({
   }, [insights, top10Teams]);
 
   if (loading) return <Loading />;
+
+  console.log("playoff", mostPlayoffMatchPts);
+  console.log("qual", mostQualMatchPts);
 
   return (
     <>
@@ -147,6 +151,11 @@ export default function InsightsPage({
           </table>
         </div>
 
+        <MostPointsTable
+          qualMatches={mostQualMatchPts}
+          playoffMatches={mostPlayoffMatchPts}
+        />
+
         <h1 className="font-bold text-2xl mt-5 text-white">
           Top Performing Teams{" "}
           <span className="text-lightGray text-sm font-medium">
@@ -226,7 +235,7 @@ export async function getServerSideProps() {
     compLevels: string[],
     take: number
   ) => {
-    const data = await db.match.findMany({
+    const withoutPenaltyData = await db.match.findMany({
       where: {
         event_key: {
           contains: eventKey,
@@ -255,16 +264,31 @@ export async function getServerSideProps() {
       take,
     });
 
+    const withPenaltyData = await db.match.findMany({
+      where: {
+        event_key: {
+          contains: eventKey,
+        },
+        comp_level: {
+          in: compLevels,
+        },
+      },
+      orderBy: {
+        alliances: "desc",
+      },
+      take,
+    });
+
     return JSON.parse(
       JSON.stringify(
-        data,
+        { withPenaltyData, withoutPenaltyData },
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );
   };
 
   const eventKey = "2023";
-  const takeCount = 2;
+  const takeCount = 1;
 
   const qualCompLevels = ["qm"];
   const mostQualMatchPts = await getMatchData(
