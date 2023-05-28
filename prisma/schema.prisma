@@ -214,7 +214,7 @@ model Award {
   recipient_list Json?
   year           Int
   person         String?
-  Event          Event?  @relation(fields: [event_key], references: [key])
+  Event          Event?  @relation(fields: [event_key], references: [key], onDelete: Cascade)
 }
 
 model Alliance {
@@ -224,12 +224,12 @@ model Alliance {
   name      String
   picks     String[]
   status    Json?
-  Event     Event?   @relation(fields: [event_key], references: [key])
+  Event     Event?   @relation(fields: [event_key], references: [key], onDelete: Cascade)
 }
 
 model ApiKey {
   id     Int    @id @default(autoincrement())
   key    String @unique
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
