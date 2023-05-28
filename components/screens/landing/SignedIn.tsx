@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { formatEpochSecondsToDate } from "@/utils/time";
 import { NextRouter, useRouter } from "next/router";
 import Link from "next/link";
+import { HiStatusOnline } from "react-icons/hi";
+import { TeamCompetingCard } from "@/components/TeamCompetingCard";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -13,10 +15,12 @@ export const SignedInScreen = (props: {
   posts: any;
   avatars: any;
   user: any;
+  competing: any;
 }) => {
   const [timeLeft, setTimeLeft] = useState<any>({});
   const kickoffTime: number = 1704542400;
   const router: NextRouter = useRouter();
+  const currentTime = new Date();
 
   function calculateTimeLeft(distance: any): {
     weeks: number;
@@ -46,6 +50,17 @@ export const SignedInScreen = (props: {
     }, 1000);
     return () => clearInterval(interval);
   }, [kickoffTime]);
+
+  const filteredTeams = Object.entries(props.competing).reduce(
+    (teams: any, [teamKey, teamData]: any) => {
+      const startTime = new Date(teamData.match.startTime);
+      if (startTime > currentTime) {
+        teams[teamKey] = teamData;
+      }
+      return teams;
+    },
+    {}
+  );
 
   return (
     <>
@@ -88,6 +103,37 @@ export const SignedInScreen = (props: {
 
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
           <p className="flex font-bold text-lightGray text-md">
+            <HiStatusOnline className="text-[25px] mr-2 text-primary" />{" "}
+            CURRENTLY COMPETING
+            <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
+              {Object.keys(filteredTeams).length}{" "}
+              {Object.keys(filteredTeams).length === 1 ? "team" : "teams"}
+            </span>
+          </p>
+
+          {Object.values(filteredTeams).length > 0 ? (
+            <div className="flex flex-col gap-3 mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4">
+              {Object.values(filteredTeams)
+                .reverse()
+                .map((team: any, key: number) => {
+                  return (
+                    <TeamCompetingCard
+                      favourite={props.favourites[key]}
+                      team={team}
+                      key={key}
+                      avatars={props.avatars}
+                    />
+                  );
+                })}
+            </div>
+          ) : (
+            <span className="text-sm font-medium text-lightGray">
+              Looks like you none of your favourited teams are currently
+              competing.
+            </span>
+          )}
+
+          <p className="flex font-bold text-lightGray text-md mt-8 md:mt-16">
             <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.favourites.length}{" "}

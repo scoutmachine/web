@@ -54,9 +54,6 @@ export default function InsightsPage({
 
   if (loading) return <Loading />;
 
-  console.log("playoff", mostPlayoffMatchPts);
-  console.log("qual", mostQualMatchPts);
-
   return (
     <>
       <Navbar />

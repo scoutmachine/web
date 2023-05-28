@@ -3,17 +3,25 @@ import { fetchTBA } from "@/lib/fetchTBA";
 import { AxiosResponse } from "axios";
 import { CURR_YEAR } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
+import db from "@/lib/db";
 
 export default async function getTeamInfo(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   const { team } = req.query;
-  const events: any | void | AxiosResponse<any, any> = await fetchTBA(
-    `team/frc${team}/events/${CURR_YEAR}`
-  );
+  const teamEvents = await db.team.findUnique({
+    where: { team_number: Number(team) },
+    include: {
+      events: {
+        where: { year: CURR_YEAR },
+      },
+    },
+  });
+  const events = teamEvents?.events;
+
   const currentEvent = events
-    .filter((event: any): boolean => {
+    ?.filter((event: any): boolean => {
       const eventDate: Date = new Date(event.start_date || event.end_date);
       return eventDate <= new Date();
     })
@@ -24,7 +32,7 @@ export default async function getTeamInfo(
     })[0];
 
   const schedule: any | void | AxiosResponse<any, any> = await fetchFIRST(
-    `/schedule/${currentEvent.first_event_code}?teamNumber=${team}`
+    `/schedule/${currentEvent?.first_event_code}?teamNumber=${team}`
   );
 
   const lastMatch = schedule.Schedule.sort((a: any, b: any) => {
@@ -35,11 +43,12 @@ export default async function getTeamInfo(
 
   res.status(200).json({
     event: {
-      city: currentEvent.city,
-      country: currentEvent.country,
-      state_prov: currentEvent.state_prov,
-      name: currentEvent.name,
-      location_name: currentEvent.location_name,
+      city: currentEvent?.city,
+      country: currentEvent?.country,
+      state_prov: currentEvent?.state_prov,
+      name: currentEvent?.name,
+      location_name: currentEvent?.location_name,
+      webcasts: currentEvent?.webcasts,
     },
     match: lastMatch[0] ?? null,
     previous: lastMatch[1] ? { description: lastMatch[1].description } : null,

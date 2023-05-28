@@ -14,7 +14,11 @@ import { JSX } from "react";
 import { FavouritedTeam } from "@prisma/client";
 import { Post } from ".prisma/client";
 
-export default function LandingPage({ user, avatars }: any): JSX.Element {
+export default function LandingPage({
+  user,
+  avatars,
+  teamsCurrentlyCompeting,
+}: any): JSX.Element {
   const { data: session, status } = useSession();
 
   if (status === "loading") return <Loading />;
@@ -30,6 +34,7 @@ export default function LandingPage({ user, avatars }: any): JSX.Element {
         <SignedInScreen
           session={session}
           favourites={user.favouritedTeams}
+          competing={teamsCurrentlyCompeting}
           posts={user.posts}
           avatars={avatars}
           user={user}
@@ -83,6 +88,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     });
 
+    const teamsCurrentlyCompeting: any = {};
     const teamAvatars: any = {};
 
     if (user?.favouritedTeams) {
@@ -95,10 +101,28 @@ export const getServerSideProps: GetServerSideProps = async ({
           teamAvatars[team.team_number] = data.avatar;
         })
       );
+
+      await Promise.all(
+        user?.favouritedTeams.map(async (team) => {
+          try {
+            const data = await fetch(
+              `${API_URL}/api/v2/teams/next?team=${team.team_number}`
+            ).then((res) => res.json());
+
+            teamsCurrentlyCompeting[team.team_number] = data;
+          } catch {
+            teamsCurrentlyCompeting[team.team_number] = null;
+          }
+        })
+      );
     }
 
     return {
-      props: { user: JSON.parse(JSON.stringify(user)), avatars: teamAvatars },
+      props: {
+        user: JSON.parse(JSON.stringify(user)),
+        avatars: teamAvatars,
+        teamsCurrentlyCompeting,
+      },
     };
   }
 
