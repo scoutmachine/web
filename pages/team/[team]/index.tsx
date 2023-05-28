@@ -80,7 +80,7 @@ export default function TeamPage({
     const getEventData = async (): Promise<void> => {
       setLoading(true);
       const fetchEventData = await fetch(
-        `${API_URL}/api/v2/team/events?team=${team}&year=${activeTab}`
+        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
       ).then((res: Response) => res.json());
 
       setEventData(fetchEventData);
@@ -378,7 +378,7 @@ export const getServerSideProps: GetServerSideProps = async (
     teamMembers,
     yearsParticipated,
     teamEvents,
-  } = await fetch(`${API_URL}/api/v2/teams?team=${team}`).then((res) =>
+  } = await fetch(`${API_URL}/api/teams?team=${team}`).then((res) =>
     res.json()
   );
 

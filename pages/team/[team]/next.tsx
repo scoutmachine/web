@@ -340,7 +340,7 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { team }: any = context.params;
 
-  const nextMatch = await fetch(`${API_URL}/api/v2/team/next?team=${team}`).then(
+  const nextMatch = await fetch(`${API_URL}/api/teams/next?team=${team}`).then(
     (res: Response) => res.json()
   );
 
@@ -351,7 +351,7 @@ export const getServerSideProps: GetServerSideProps = async (
     await Promise.all(
       nextMatch.match.teams.map(async (team: any): Promise<void> => {
         const data = await fetch(
-          `${API_URL}/api/v2/team/avatar?team=${team.teamNumber}`
+          `${API_URL}/api/teams/avatar?team=${team.teamNumber}`
         ).then((res: Response) => res.json());
         const epa = await fetch(
           `https://api.statbotics.io/v2/team/${team.teamNumber}`

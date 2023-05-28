@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function getDistricts(
   req: NextApiRequest,

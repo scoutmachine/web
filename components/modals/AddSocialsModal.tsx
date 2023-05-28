@@ -69,7 +69,7 @@ const AddSocialButton = (props: any) => {
       );
 
       await fetch(
-        `${API_URL}/api/team/socials?team=${props.team.team_number}`,
+        `${API_URL}/api/teams/socials?team=${props.team.team_number}`,
         {
           method: "POST",
           body: JSON.stringify(requestData),

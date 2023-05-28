@@ -24,7 +24,7 @@ export default async function getDistricts(
         },
       },
     }),
-    await fetch(`${API_URL}/api/v2/teams/socials?team=${team}`).then((res) =>
+    await fetch(`${API_URL}/api/teams/socials?team=${team}`).then((res) =>
       res.json()
     ),
   ]);
