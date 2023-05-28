@@ -138,6 +138,7 @@ model Team {
   school_name    String?
   state_prov     String?
   website        String?
+  district       String?
   socials        Social[]
   events         Event[]
 }
@@ -147,7 +148,7 @@ model Social {
   handle   String
   type     String
   verified Boolean @default(false)
-  Team     Team?   @relation(fields: [teamId], references: [team_number], onDelete: Cascade)
+  Team     Team?   @relation(fields: [teamId], references: [team_number])
   teamId   Int?
   userId   String?
 }

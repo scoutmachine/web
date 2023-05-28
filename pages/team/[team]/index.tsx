@@ -116,7 +116,6 @@ export default function TeamPage({
           years={yearsParticipated}
           socials={teamSocials}
           avatar={teamAvatar}
-          district={teamInfo?.teamDistrict}
           // @ts-ignore
           user={session?.user?.favouritedTeams}
         />

@@ -161,20 +161,22 @@ export const TeamScreen = (props: any) => {
 
             <p className="text-black dark:text-white text-sm">
               <span className="font-bold"> District: </span>
-              {currentDistrict && (
+              {props.team?.district && (
                 <a
-                  href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${currentDistrict.districtCode}`}
+                  href={`https://frc-events.firstinspires.org/${CURR_YEAR}/district/${props.team?.district.toUpperCase()}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
                   {searchDistrict(
                     districtCodeToName,
-                    currentDistrict.districtCode
+                    props.team.district.toUpperCase()
                   )}{" "}
                 </a>
               )}
               <span className="text-lightGray">
-                {currentDistrict ? `(${currentDistrict.districtCode}) ` : "N/A"}
+                {props.team?.district
+                  ? `(${props.team?.district.toUpperCase()}) `
+                  : "N/A"}
               </span>
             </p>
 
