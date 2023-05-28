@@ -5,7 +5,7 @@ export const COMP_SEASON: boolean = false;
 
 export const API_URL: string = dev
   ? "http://localhost:3000"
-  : "https://machine.frc6070.ca";
+  : "https://www.scoutmachine.io";
 
 export const GITHUB_URL: string = "https://www.github.com/scoutmachine/web";
 export const BMAC_URL: string = "https://www.buymeacoffee.com/scoutmachine";
