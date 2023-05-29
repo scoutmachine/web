@@ -80,7 +80,7 @@ export default function TeamPage({
     const getEventData = async (): Promise<void> => {
       setLoading(true);
       const fetchEventData = await fetch(
-        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+        `${API_URL}/api/teams/events?team=${team}&year=${activeTab}`
       ).then((res: Response) => res.json());
 
       setEventData(fetchEventData);

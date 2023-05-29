@@ -29,7 +29,7 @@ async function fetchRookieTeamsData(): Promise<{ teams: any; avatars: any }> {
 
   const start: number = performance.now();
   const getRookies = async (pageNum: string): Promise<any> =>
-    await fetch(`${API_URL}/api/team/teams?page=${pageNum}`, {
+    await fetch(`${API_URL}/api/teams/teams?page=${pageNum}`, {
       next: { revalidate: 60 },
     }).then((res: Response) => res.json());
   const pageNumbers: string[] = [...Array(20).keys()].map((i: number) =>
@@ -54,7 +54,7 @@ async function fetchRookieTeamsData(): Promise<{ teams: any; avatars: any }> {
   const getTeamAvatars = data.map(async (team: any): Promise<void> => {
     try {
       const response: Response = await fetch(
-        `${API_URL}/api/team/avatar?team=${team.team_number}`
+        `${API_URL}/api/teams/avatar?team=${team.team_number}`
       );
       const data = await response.json();
       teamAvatars[team.team_number] = data.avatar;

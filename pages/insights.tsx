@@ -34,7 +34,7 @@ export default function InsightsPage({
           ...insights.top,
         ].map(async (team: any): Promise<void> => {
           const data = await fetch(
-            `${API_URL}/api/team/avatar?team=${team.teamNumber}`
+            `${API_URL}/api/teams/avatar?team=${team.teamNumber}`
           ).then((res: Response) => res.json());
 
           try {

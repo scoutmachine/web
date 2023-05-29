@@ -79,7 +79,7 @@ export const Navbar = (props: {
       const teamsData = getStorage(`teams`);
       if (teamsData) return setTeams(teamsData);
 
-      const data = await fetch(`${API_URL}/api/team/all`).then(
+      const data = await fetch(`${API_URL}/api/teams/all`).then(
         (res: Response) => res.json()
       );
 
