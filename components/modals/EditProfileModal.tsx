@@ -74,7 +74,9 @@ const ModalBody = (props: {
   avatar: string;
 }) => {
   const { data: session } = useSession();
-  const [username, setUsername] = useState<string>(session?.user?.username as string);
+  const [username, setUsername] = useState<string>(
+    session?.user?.username as string
+  );
   const [displayName, setDisplayName] = useState<string>(
     session?.user?.name as string
   );

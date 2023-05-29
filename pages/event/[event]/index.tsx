@@ -109,10 +109,7 @@ export default function EventsPage({
             {activeTab == 4 && <AwardsTab awards={eventAwards} />}
 
             {activeTab === 5 && (
-              <TeamsTab
-                teams={eventTeams}
-                favourites={user?.favouritedTeams}
-              />
+              <TeamsTab teams={eventTeams} favourites={user?.favouritedTeams} />
             )}
           </div>
         </div>
