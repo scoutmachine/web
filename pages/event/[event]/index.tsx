@@ -6,6 +6,7 @@ import { TabButton } from "@/components/TabButton";
 import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
+import { MatchScout } from "@/components/tabs/event/MatchScout";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { JSX, useState } from "react";
 import Head from "next/head";
@@ -83,6 +84,14 @@ export default function EventsPage({
                   {eventTeams.length}
                 </span>
               </TabButton>
+              <TabButton
+                active={activeTab}
+                tab={6}
+                onClick={() => handleTabClick(6)}
+                className="group"
+              >
+                Match Scout
+              </TabButton>
             </div>
 
             {activeTab === 1 &&
@@ -110,6 +119,11 @@ export default function EventsPage({
                 teams={eventTeams}
                 // @ts-ignore
                 favourites={session?.user?.favouritedTeams}
+              />
+            )}
+            {activeTab === 6 && (
+              <MatchScout
+								
               />
             )}
           </div>
