@@ -9,7 +9,7 @@ import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { API_URL } from "@/lib/constants";
+import { API_URL, COMP_SEASON } from "@/lib/constants";
 import { JSX } from "react";
 import { FavouritedTeam } from "@prisma/client";
 import { Post } from ".prisma/client";
@@ -102,19 +102,21 @@ export const getServerSideProps: GetServerSideProps = async ({
         })
       );
 
-      await Promise.all(
-        user?.favouritedTeams.map(async (team) => {
-          try {
-            const data = await fetch(
-              `${API_URL}/api/teams/next?team=${team.team_number}`
-            ).then((res) => res.json());
+      if (COMP_SEASON) {
+        await Promise.all(
+          user?.favouritedTeams.map(async (team) => {
+            try {
+              const data = await fetch(
+                `${API_URL}/api/teams/next?team=${team.team_number}`
+              ).then((res) => res.json());
 
-            teamsCurrentlyCompeting[team.team_number] = data;
-          } catch {
-            teamsCurrentlyCompeting[team.team_number] = null;
-          }
-        })
-      );
+              teamsCurrentlyCompeting[team.team_number] = data;
+            } catch {
+              teamsCurrentlyCompeting[team.team_number] = null;
+            }
+          })
+        );
+      }
     }
 
     return {
