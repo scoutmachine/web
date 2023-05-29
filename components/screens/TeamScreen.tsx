@@ -25,7 +25,6 @@ export function searchDistrict(array: any, valuetofind: any) {
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
   const isHOF = findTeam(String(props.team?.team_number));
-  const currentDistrict = props.district ? props.district.team : null;
   const [isStarFilled, setIsStarFilled] = useState(false);
   const { data: session } = useSession();
   const [isAddSocialModalOpen, setIsAddSocialModelOpen] = useState(false);

@@ -18,6 +18,9 @@ import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
 import { useSession } from "next-auth/react";
 import { Loading } from "@/components/Loading";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { Session, getServerSession } from "next-auth";
+import db from "@/lib/db";
 
 const SubInfo = (props: any) => {
   return (
@@ -28,6 +31,7 @@ const SubInfo = (props: any) => {
 };
 
 export default function TeamPage({
+  user,
   teamMembers,
   teamInfo,
   teamAvatar,
@@ -116,8 +120,7 @@ export default function TeamPage({
           years={yearsParticipated}
           socials={teamSocials}
           avatar={teamAvatar}
-          // @ts-ignore
-          user={session?.user?.favouritedTeams}
+          favouritedTeams={user?.favouritedTeams}
         />
 
         <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
@@ -370,6 +373,12 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<any> => {
   const { team }: any = context.params;
+  const session: Session = (await getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  )) as Session;
+
   const {
     teamInfo,
     teamAvatar,
@@ -383,6 +392,29 @@ export const getServerSideProps: GetServerSideProps = async (
   );
 
   if (teamInfo) {
+    if (session) {
+      const user = await db.user.findUnique({
+        where: {
+          id: session.user.id,
+        },
+        include: {
+          favouritedTeams: true,
+        },
+      });
+
+      return {
+        props: {
+          user: JSON.parse(JSON.stringify(user)),
+          teamInfo,
+          teamAvatar: teamAvatar.avatar,
+          teamAwards,
+          teamMembers,
+          teamSocials,
+          teamEvents: teamEvents.reverse(),
+          yearsParticipated: yearsParticipated.reverse(),
+        },
+      };
+    }
     return {
       props: {
         teamInfo,

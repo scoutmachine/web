@@ -12,8 +12,11 @@ import Head from "next/head";
 import db from "@/lib/db";
 import { AwardsTab } from "@/components/tabs/event/Awards";
 import { useSession } from "next-auth/react";
+import { Session, getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export default function EventsPage({
+  user,
   matches,
   eventInfo,
   eventTeams,
@@ -109,7 +112,7 @@ export default function EventsPage({
               <TeamsTab
                 teams={eventTeams}
                 // @ts-ignore
-                favourites={session?.user?.favouritedTeams}
+                favourites={user?.favouritedTeams}
               />
             )}
           </div>
@@ -124,6 +127,11 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<any> => {
   const { event }: any = context.params;
+  const session: Session = (await getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  )) as Session;
 
   const [eventInfo, matches, eventAwards, eventTeams] = await Promise.all([
     await db.event.findUnique({
@@ -151,6 +159,32 @@ export const getServerSideProps: GetServerSideProps = async (
       })
       .teams(),
   ]);
+
+  if (session) {
+    const user = await db.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+      include: {
+        favouritedTeams: true,
+      }
+    });
+
+    return {
+      props: {
+        user: JSON.parse(JSON.stringify(user)),
+        matches: JSON.parse(
+          JSON.stringify(matches, (key: string, value) =>
+            typeof value === "bigint" ? value.toString() : value
+          )
+        ),
+        eventInfo,
+        eventTeams,
+        eventAlliances: [],
+        eventAwards,
+      },
+    };
+  }
 
   return {
     props: {
