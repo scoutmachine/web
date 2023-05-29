@@ -111,7 +111,6 @@ export default function EventsPage({
             {activeTab === 5 && (
               <TeamsTab
                 teams={eventTeams}
-                // @ts-ignore
                 favourites={user?.favouritedTeams}
               />
             )}
@@ -167,7 +166,7 @@ export const getServerSideProps: GetServerSideProps = async (
       },
       include: {
         favouritedTeams: true,
-      }
+      },
     });
 
     return {

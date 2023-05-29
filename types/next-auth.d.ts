@@ -7,5 +7,7 @@ declare module "next-auth" {
 
   interface ScoutMachineUser extends User {
     username: string;
+    admin: boolean;
+    teamNumber: number | string | null | undefined;
   }
 }

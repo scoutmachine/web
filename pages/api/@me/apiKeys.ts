@@ -21,7 +21,6 @@ export default async function handler(
     const apiKey = await db.apiKey.create({
       data: {
         key: key,
-        // @ts-ignore
         userId: session.user.id,
       },
     });

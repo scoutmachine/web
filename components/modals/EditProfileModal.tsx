@@ -74,15 +74,13 @@ const ModalBody = (props: {
   avatar: string;
 }) => {
   const { data: session } = useSession();
-  // @ts-ignore
-  const [username, setUsername] = useState<string>(session?.user?.username);
+  const [username, setUsername] = useState<string>(session?.user?.username as string);
   const [displayName, setDisplayName] = useState<string>(
     session?.user?.name as string
   );
   const [avatarURL, setAvatarURL] = useState<string>();
   const [teamNumber, setTeamNumber] = useState<string>(
-    // @ts-ignore
-    session?.user?.teamNumber as string
+    session?.user.teamNumber as string
   );
   const [errorMessage, setErrorMessage] = useState<string>();
   const [deletedHover, setDeletedHover] = useState(false);
@@ -107,15 +105,11 @@ const ModalBody = (props: {
   };
 
   const updateInfo = async (): Promise<void> => {
-    //@ts-ignore
-    const existingUsername = session.user?.username;
-    //@ts-ignore
-    const existingDisplayName: string | null | undefined = session.user?.name;
-    //@ts-ignore
-    const existingAvatarURL: string | null | undefined = session.user?.image;
-    const existingTeamNumber: string | null | undefined =
-      //@ts-ignore
-      session.user?.teamNumber;
+    const existingUsername = session?.user.username;
+    const existingDisplayName: string | null | undefined = session?.user.name;
+    const existingAvatarURL: string | null | undefined = session?.user.image;
+    const existingTeamNumber: string | number | null | undefined =
+      session?.user.teamNumber;
 
     if (!username || !displayName || !avatarURL) {
       return setErrorMessage("Fields left blank");

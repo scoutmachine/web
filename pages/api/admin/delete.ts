@@ -14,7 +14,6 @@ export default async function getDistricts(
     authOptions
   )) as Session;
 
-  // @ts-ignore
   if (!session.user.admin) res.status(200).send("You can't run this action!");
 
   switch (table) {

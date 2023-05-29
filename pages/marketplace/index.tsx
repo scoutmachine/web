@@ -71,8 +71,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (session) {
     user = await db.user.findUnique({
       where: {
-        // @ts-ignore
-        id: session.user?.id,
+        id: session.user.id,
       },
     });
   }

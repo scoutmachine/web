@@ -22,7 +22,6 @@ export default async function getUserFavourites(
       const data: (User & { favouritedTeams: FavouritedTeam[] }) | null =
         await db.user.findUnique({
           where: {
-            // @ts-ignore
             id: session?.user?.id,
           },
           include: {
@@ -40,7 +39,7 @@ export default async function getUserFavourites(
         const existingTeam = await db.favouritedTeam.findUnique({
           where: {
             // @ts-ignore
-            userId: session?.user.id,
+            userId: session.user.id,
             team_number: body.team_number,
           },
         });
@@ -50,8 +49,7 @@ export default async function getUserFavourites(
         } else {
           const data: FavouritedTeam = await db.favouritedTeam.create({
             data: {
-              // @ts-ignore
-              userId: session?.user.id,
+              userId: session.user.id,
               team_number: body.team_number,
               nickname: body.nickname,
               city: body.city,

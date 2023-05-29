@@ -165,7 +165,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
       await db.user.findUnique({
         where: {
-          // @ts-ignore
           id: session.user.id,
         },
         include: {

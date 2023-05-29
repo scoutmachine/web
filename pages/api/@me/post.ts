@@ -21,7 +21,6 @@ export default async function marketplaceAPI(
 
     const post: Post = await db.post.create({
       data: {
-        // @ts-ignore
         authorId: session.user?.id,
         title: body.title,
         content: body.content,

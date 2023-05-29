@@ -18,8 +18,7 @@ export default async function getUserData(
   if (req.method === "GET") {
     const me: User | null = await db.user.findUnique({
       where: {
-        // @ts-ignore
-        id: session.user?.id,
+        id: session.user.id,
       },
     });
 
@@ -29,7 +28,6 @@ export default async function getUserData(
   if (req.method === "DELETE") {
     await db.user.delete({
       where: {
-        // @ts-ignore
         id: session.user?.id,
       },
     });
