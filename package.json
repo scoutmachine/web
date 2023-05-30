@@ -38,6 +38,7 @@
     "next": "13.4.4",
     "next-api-handler": "^0.4.10",
     "next-auth": "^4.22.1",
+    "next-pwa": "^5.6.0",
     "next-s3-upload": "^0.3.0",
     "nsfwjs": "^2.4.2",
     "postcss": "8.4.24",

@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+const withPWA = require("next-pwa")({
+  dest: "public",
+  disable: process.env.NODE_ENV !== "production",
+});
+
+module.exports = withPWA({
   images: {
     remotePatterns: [
       {
@@ -11,6 +17,4 @@ const nextConfig = {
   env: {
     GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY,
   },
-};
-
-module.exports = nextConfig;
+});
