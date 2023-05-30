@@ -8,6 +8,8 @@ import { NextRouter, useRouter } from "next/router";
 import Link from "next/link";
 import { HiStatusOnline } from "react-icons/hi";
 import { TeamCompetingCard } from "@/components/TeamCompetingCard";
+import { convertDate } from "@/utils/date";
+import { CURR_YEAR } from "@/lib/constants";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -16,6 +18,7 @@ export const SignedInScreen = (props: {
   avatars: any;
   user: any;
   competing: any;
+  eventsThisWeek: any;
 }) => {
   const [timeLeft, setTimeLeft] = useState<any>({});
   const kickoffTime: number = 1704542400;
@@ -95,13 +98,46 @@ export const SignedInScreen = (props: {
               <p className="text-lightGray">
                 <b className="text-black dark:text-white">Current Season</b>
                 <br />
-                2023 CHARGED UP
+                <b>2023 CHARGED UP</b>
               </p>
             </div>
           </div>
         </div>
 
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
+          <h1 className="flex flex-wrap text-2xl font-bold text-black dark:text-white mb-3">
+            This Week&apos;s Events
+          </h1>
+
+          <div className="bg-card border border-[#2A2A2A] rounded-md px-5 py-5">
+            {props.eventsThisWeek.map((event: any, key: number) => {
+              return (
+                <a key={key} href={`/event/${event.key}`} target="blank">
+                  <div className="group flex items-center mb-4 p-2 hover:bg-[#191919] hover:rounded-lg hover:px-5">
+                    <div className="w-1/2 pr-2">
+                      <span className="font-bold text-white group-hover:text-primary">
+                        {event.name}{" "}
+                      </span>{" "}
+                      <br />
+                      <span className="text-lightGray">
+                        {event.location_name} • {event.city}, {event.state_prov}
+                        , {event.country}
+                      </span>
+                    </div>
+                    <div className="w-1/2 pl-2">
+                      <span className="text-lightGray">
+                        {convertDate(event.start_date)} -{" "}
+                        {convertDate(event.end_date)}, {event.year}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="border border-[#2A2A2A] bg-[#191919] mt-5 rounded-lg px-10 py-10">
           <p className="flex font-bold text-lightGray text-md">
             <HiStatusOnline className="text-[25px] mr-2 text-primary" />{" "}
             CURRENTLY COMPETING

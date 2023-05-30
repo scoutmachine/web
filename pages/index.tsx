@@ -18,6 +18,7 @@ export default function LandingPage({
   user,
   avatars,
   teamsCurrentlyCompeting,
+  eventsThisWeek,
 }: any): JSX.Element {
   const { data: session, status } = useSession();
 
@@ -38,6 +39,7 @@ export default function LandingPage({
           posts={user.posts}
           avatars={avatars}
           user={user}
+          eventsThisWeek={eventsThisWeek}
         />
         <Footer />
       </>
@@ -118,11 +120,30 @@ export const getServerSideProps: GetServerSideProps = async ({
       }
     }
 
+    const currentDate = new Date();
+
+    const formattedDate = currentDate.toISOString().slice(0, 10);
+
+    const nextWeekDate = new Date(
+      currentDate.getTime() + 7 * 24 * 60 * 60 * 1000
+    );
+    const formattedNextWeekDate = nextWeekDate.toISOString().slice(0, 10);
+
+    const eventsThisWeek = await db.event.findMany({
+      where: {
+        start_date: {
+          lte: formattedNextWeekDate,
+          gte: formattedDate,
+        },
+      },
+    });
+
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),
         avatars: teamAvatars,
         teamsCurrentlyCompeting,
+        eventsThisWeek,
       },
     };
   }
