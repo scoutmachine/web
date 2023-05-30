@@ -178,7 +178,8 @@ export const AboutTab = (props: any) => {
           {props.yearsParticipated?.length} seasons
         </p>
         <p className="text-lightGray flex-wrap text-sm">
-          ({props.yearsParticipated?.join(", ")})
+          {props.yearsParticipated.length > 0 &&
+            `(${props.yearsParticipated?.join(", ")})`}
         </p>
       </Card>
       <Card>
@@ -194,7 +195,9 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaMapMarkedAlt className="mr-1 inline-block" /> Avg Events per Season
         </h1>
-        <p className="text-lightGray">{avgEvents} events</p>
+        <p className="text-lightGray">
+          {isNaN(Number(avgEvents)) ? 0 : avgEvents} events
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
@@ -212,13 +215,17 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Avg Awards per Season
         </h1>
-        <p className="text-lightGray">{avgAwards} awards</p>
+        <p className="text-lightGray">
+          {isNaN(Number(avgAwards)) ? 0 : avgAwards} awards
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Avg Awards per Event
         </h1>
-        <p className="text-lightGray">{avgAwardsPerEvent} awards</p>
+        <p className="text-lightGray">
+          {isNaN(Number(avgAwardsPerEvent)) ? 0 : avgAwardsPerEvent} awards
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">

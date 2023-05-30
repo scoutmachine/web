@@ -136,8 +136,10 @@ export const TeamScreen = (props: any) => {
               message={
                 <span className="flex">
                   <FaInfoCircle className="mr-2 text-xl mt-[2px]" /> Team{" "}
-                  {props.team?.team_number} was last seen competing in{" "}
-                  {props.years?.[0]}
+                  {props.team?.team_number}{" "}
+                  {props.years.length > 0
+                    ? `was last seen competing in ${props.years?.[0]}`
+                    : "has never competed before"}
                 </span>
               }
             />
