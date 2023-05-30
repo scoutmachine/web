@@ -166,7 +166,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
               </div>
               <div>
                 <button
-                  className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white transition-all duration-150"
+                  className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white "
                   onClick={(): void => {
                     exportFromJSON({
                       data: teams,

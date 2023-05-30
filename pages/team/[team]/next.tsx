@@ -149,7 +149,7 @@ export default function NextTeamMatch({
             {COMP_SEASON && (
               <button
                 onClick={refreshData}
-                className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-lightGray hover:text-white transition-all duration-150 py-2 px-5 rounded-lg"
+                className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-lightGray hover:text-white  py-2 px-5 rounded-lg"
               >
                 <FaRedo
                   className={`mr-2 text-xs mt-[4px] ${refreshIcon && "spin"}`}

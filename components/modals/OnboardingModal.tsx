@@ -145,7 +145,7 @@ const OnboardingBody = () => {
         <div className="flex gap-3">
           {currentPage !== 0 && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray "
               onClick={handlePrevPage}
               disabled={currentPage === 0}
             >
@@ -154,7 +154,7 @@ const OnboardingBody = () => {
           )}
           {!isLastPage && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray "
               onClick={handleNextPage}
             >
               Next

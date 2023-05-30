@@ -15,7 +15,7 @@ export const TeamMembersTab = (props: any) => {
                     className="rounded-full h-8 w-8 mr-2"
                     alt={`${member.name} Avatar`}
                   />
-                  <h1 className="font-bold text-2xl whitespace-nowrap text-lightGray group-hover:text-white transition-all duration-150">
+                  <h1 className="font-bold text-2xl whitespace-nowrap text-lightGray group-hover:text-white ">
                     {member.name}
                   </h1>
                 </div>

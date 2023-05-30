@@ -18,12 +18,12 @@ export const FAQ = (props: {
         <h3
           className={`${
             open && "text-white"
-          } text-lightGray dark:hover:text-white text-lg font-medium transition-all duration-150`}
+          } text-lightGray dark:hover:text-white text-lg font-medium `}
         >
           {props.question}
         </h3>
         <FaArrowUp
-          className={`text-md transform transition-transform text-lightGray group-hover:text-black dark:group-hover:text-white transition-all duration-150 ${
+          className={`text-md transform transition-transform text-lightGray group-hover:text-black dark:group-hover:text-white  ${
             open && "rotate-180 text-white"
           }`}
         />

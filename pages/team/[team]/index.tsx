@@ -164,7 +164,7 @@ export default function TeamPage({
                   onClick={toggleDropdown}
                 >
                   <span
-                    className={`font-bold group-hover:text-white transition-all duration-150 ${
+                    className={`font-bold group-hover:text-white ${
                       activeTab === currentYearTab
                         ? "text-white"
                         : "text-lightGray"
@@ -175,7 +175,7 @@ export default function TeamPage({
                       : <span>Select a Season <SubInfo>{yearsParticipated.length}</SubInfo> </span>}
                   </span>
                   <FaArrowUp
-                    className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
+                    className={`transform text-lightGray group-hover:text-white ${
                       isDropdownOpen ? "-rotate-180 text-white" : ""
                     }`}
                   />
@@ -190,7 +190,7 @@ export default function TeamPage({
                       {yearsParticipated?.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          className="cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={(): void => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);

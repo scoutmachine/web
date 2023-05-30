@@ -191,7 +191,7 @@ export const TeamScreen = (props: any) => {
                   {props.socials?.length !== socials.length && (
                     <button
                       onClick={() => setIsAddSocialModelOpen(true)}
-                      className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
+                      className="text-sm text-lightGray hover:text-white  inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
                     >
                       <FaPlus className="mr-2" />
                       <span>Add Social</span>
@@ -199,7 +199,7 @@ export const TeamScreen = (props: any) => {
                   )}
 
                   <button
-                    className="group text-primary text-sm transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
+                    className="group text-primary text-sm  inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
                     onClick={(): void => {
                       if (isFavourited) {
                         unfavouriteTeam(favouritedTeam, true);
