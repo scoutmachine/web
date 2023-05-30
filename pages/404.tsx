@@ -10,7 +10,7 @@ export default function Page404(): JSX.Element {
         <title>404 | Scout Machine</title>
       </Head>
       <Navbar />
-      <div className="flex items-center justify-center flex-col mt-16">
+      <div className="flex items-center justify-center flex-col mt-32">
         <h1 className="text-5xl text-primary font-black">
           404 - Page Not Found
         </h1>
