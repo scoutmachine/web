@@ -175,7 +175,8 @@ export const AboutTab = (props: any) => {
           <FaBolt className="mr-1 inline-block" /> Seasons Completed
         </h1>
         <p className="text-lightGray">
-          {props.yearsParticipated?.length} seasons
+          {props.yearsParticipated?.length}{" "}
+          {props.yearsParticipated?.length === 1 ? "season" : "seasons"}
         </p>
         <p className="text-lightGray flex-wrap text-sm">
           {props.yearsParticipated.length > 0 &&
@@ -203,13 +204,18 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaTrophy className="mr-1 inline-block" /> Events Won
         </h1>
-        <p className="text-lightGray">{eventsWon} events</p>
+        <p className="text-lightGray">
+          {eventsWon} {eventsWon === 1 ? "event" : "events"}
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Awards Won
         </h1>
-        <p className="text-lightGray">{props.teamAwards?.length} awards</p>
+        <p className="text-lightGray">
+          {props.teamAwards?.length}{" "}
+          {props.teamAwards?.length === 1 ? "award" : "awards"}
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
