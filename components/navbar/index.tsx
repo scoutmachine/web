@@ -175,7 +175,7 @@ export const Navbar = (props: {
                         props.active === link.title
                           ? "text-primary"
                           : "text-lightGray"
-                      } font-medium mb-2 md:mb-0`}
+                      } font-medium mb-2 md:mb-0 hover:text-primary`}
                     >
                       <div className="flex items-center">
                         <span className="text-lg mr-2">{link.icon}</span>

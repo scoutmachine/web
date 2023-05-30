@@ -156,11 +156,11 @@ export default function TeamPage({
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
-                  className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
+                  className={`group bg-card border w-[300px] text-white  ${
                     isDropdownOpen
-                      ? "rounded-t-lg border-2 border-b-[#2A2A2A] border-transparent"
-                      : "rounded-lg border-b-[5px] border-[#2A2A2A]"
-                  } px-5 py-2 flex items-center justify-between cursor-pointer active:translate-y-1  active:[box-shadow:0_0px_0_0_#19999,0_0px_0_0_#19999] active:border-b-[0px] transition-all duration-150 [box-shadow:0_10px_0_0_#19999,0_15px_0_0_#19999]`}
+                      ? "rounded-t-lg border-2 border-[#2A2A2A]"
+                      : "rounded-lg border border-[#2A2A2A]"
+                  } px-5 py-2 flex items-center justify-between cursor-pointer`}
                   onClick={toggleDropdown}
                 >
                   <span
@@ -172,7 +172,7 @@ export default function TeamPage({
                   >
                     {String(activeTab).length >= 4
                       ? `${activeTab} Season`
-                      : "Select a Season"}
+                      : <span>Select a Season <SubInfo>{yearsParticipated.length}</SubInfo> </span>}
                   </span>
                   <FaArrowUp
                     className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
