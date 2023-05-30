@@ -121,11 +121,7 @@ export default function EventsPage({
                 favourites={session?.user?.favouritedTeams}
               />
             )}
-            {activeTab === 6 && (
-              <MatchScout
-								
-              />
-            )}
+            {activeTab === 6 && <MatchScout />}
           </div>
         </div>
       </div>
