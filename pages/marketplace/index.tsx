@@ -36,9 +36,9 @@ export default function MarketplacePage({ posts, user }: any) {
             {session && (
               <button
                 onClick={() => setShowCreateListingModal(true)}
-                className="flex bg-card border border-[#2a2a2a] rounded-lg text-md px-5 py-1 mt-5 transition-all delay-100 text-lightGray hover:text-black dark:text-white"
+                className="flex bg-card border border-[#2a2a2a] rounded-lg text-md px-5 py-1 mt-5 transition-all delay-100 text-lightGray hover:text-primary dark:text-white"
               >
-                <FaMoneyBill className="text-3xl mr-2" /> Sell your parts
+                <FaMoneyBill className="mr-2 text-3xl" /> Sell your parts
               </button>
             )}
           </>

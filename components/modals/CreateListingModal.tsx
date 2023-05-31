@@ -31,12 +31,13 @@ const Input = (props: {
   placeholder: string;
   state?: (e: string) => void;
   icon: IconType;
+  type: "text" | "number";
 }) => {
   return (
     <div className="relative w-full">
       <input
         className={`${props.className} w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8`}
-        type="text"
+        type={props.type}
         placeholder={props.placeholder}
         spellCheck={false}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -52,8 +53,9 @@ const Input = (props: {
 
 const ModalHeader = () => {
   return (
-    <h1 className="font-semibold text-xl">
-      Create a Listing <span className="text-primary">/ Marketplace</span>
+    <h1 className="text-xl font-semibold">
+      <span className="text-primary">Marketplace / </span>
+      <span className="text-white">Create a Listing</span>
     </h1>
   );
 };
@@ -124,7 +126,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
     <div className="mt-5">
       {errorMessage && (
         <div className="border border-[#2A2A2A] bg-card rounded-lg px-2 py-2 mt-[-5px] mb-5">
-          <p className="text-red-500 text-xs">
+          <p className="text-xs text-red-500">
             <b>ERROR:</b> {errorMessage}
           </p>
         </div>
@@ -132,18 +134,24 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
 
       <div className="flex flex-col space-y-4">
         <div>
-          <p className="uppercase text-xs text-lightGray mb-2">Listing Title</p>
+          <p className="mb-2 text-xs uppercase text-lightGray">Listing Title</p>
           <div className="flex gap-x-2">
-            <Input placeholder="Title" icon={FaFire} state={setTitle} />
+            <Input
+              type="text"
+              placeholder="Title"
+              icon={FaFire}
+              state={setTitle}
+            />
           </div>
         </div>
 
         <div>
-          <p className="uppercase text-xs text-lightGray mb-2">
+          <p className="mb-2 text-xs uppercase text-lightGray">
             Listing Description
           </p>
           <div className="flex gap-x-2">
             <Input
+              type="text"
               placeholder="Description"
               icon={FaBolt}
               state={setDescription}
@@ -152,7 +160,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         </div>
         <div>
           <div>
-            <p className="uppercase text-xs text-lightGray mb-2">
+            <p className="mb-2 text-xs uppercase text-lightGray">
               Listing Type
             </p>
             <div className="flex gap-x-2">
@@ -174,14 +182,19 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         </div>
 
         <div>
-          <p className="uppercase text-xs text-lightGray mb-2">Listing Price</p>
+          <p className="mb-2 text-xs uppercase text-lightGray">Listing Price</p>
           <div className="flex gap-x-2">
-            <Input placeholder="Price" icon={FaDollarSign} state={setPrice} />
+            <Input
+              type="number"
+              placeholder="Price"
+              icon={FaDollarSign}
+              state={setPrice}
+            />
           </div>
         </div>
 
         <div>
-          <p className="uppercase text-xs text-lightGray mb-2">Currency Type</p>
+          <p className="mb-2 text-xs uppercase text-lightGray">Currency Type</p>
           <div className="flex gap-x-2">
             <select
               className="w-full border border-[#2A2A2A] bg-card outline-none rounded-lg placeholder-lightGray text-lightGray px-3 py-[6px] text-sm pl-8"
@@ -200,7 +213,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         </div>
         <div>
           <div>
-            <p className="uppercase text-xs text-lightGray mb-2">Location</p>
+            <p className="mb-2 text-xs uppercase text-lightGray">Location</p>
             <div className="flex gap-x-2">
               <div className="relative w-full">
                 <GoogleAutocomplete
@@ -230,7 +243,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
         </div>
         <div>
           <div>
-            <p className="uppercase text-xs text-lightGray mb-2">Image</p>
+            <p className="mb-2 text-xs uppercase text-lightGray">Image</p>
             <div className="flex flex-col">
               <div className="relative mt-1">
                 <FileInput
@@ -247,7 +260,7 @@ const ModalBody = (props: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={imageUrl}
-                    className="mt-2 rounded-lg w-full h-fullo object-cover"
+                    className="object-cover w-full mt-2 rounded-lg h-fullo"
                     alt="Uploaded Image"
                   />
                 )}
