@@ -392,9 +392,11 @@ export const getServerSideProps: GetServerSideProps = async (
     teamMembers,
     yearsParticipated,
     teamEvents,
-  } = await fetch(`${API_URL}/api/teams?team=${team}`).then((res) =>
-    res.json()
-  );
+  } = await fetch(`${API_URL}/api/teams?team=${team}`, {
+    next: {
+      revalidate: 3600,
+    },
+  }).then((res) => res.json());
 
   if (teamInfo) {
     if (session) {
