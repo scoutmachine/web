@@ -26,8 +26,8 @@ export default function Document(): JSX.Element {
         <meta name="apple-mobile-web-app-title" content="Scout Machine" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="180x180" href="/smLogo180.png" />
-        <meta name='format-detection' content='telephone=no' />
-        <meta name='mobile-web-app-capable' content='yes' />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
       </Head>
 
       <body className="bg-[#f7f7f7] dark:bg-[#141414]">

@@ -105,8 +105,12 @@ export const SignedInScreen = (props: {
         </div>
 
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
-          <h1 className="flex flex-wrap text-2xl font-bold text-black dark:text-white mb-3">
-            This Week&apos;s Events
+          <h1 className="flex flex-wrap mb-3 text-2xl font-bold text-black dark:text-white">
+            {`This Week's Events (${
+              props.eventsThisWeek[0].week
+                ? "Week" + props.eventsThisWeek[0].week
+                : "Offseason"
+            })`}
           </h1>
 
           <div className="bg-card border border-[#2A2A2A] rounded-md px-5 py-5">
@@ -169,7 +173,7 @@ export const SignedInScreen = (props: {
             </span>
           )}
 
-          <p className="flex font-bold text-lightGray text-md mt-8 md:mt-16">
+          <p className="flex mt-8 font-bold text-lightGray text-md md:mt-16">
             <FaStar className="text-[22px] mr-2 text-primary" /> FAVOURITED
             <span className="border border-[#2A2A2A] text-lightGray text-md px-2 mt-[-1px] ml-1 rounded-full font-semibold">
               {props.favourites.length}{" "}

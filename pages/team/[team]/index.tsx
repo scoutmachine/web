@@ -170,9 +170,14 @@ export default function TeamPage({
                         : "text-lightGray"
                     } ${isDropdownOpen && "text-white"}`}
                   >
-                    {String(activeTab).length >= 4
-                      ? `${activeTab} Season`
-                      : <span>Select a Season <SubInfo>{yearsParticipated.length}</SubInfo> </span>}
+                    {String(activeTab).length >= 4 ? (
+                      `${activeTab} Season`
+                    ) : (
+                      <span>
+                        Select a Season{" "}
+                        <SubInfo>{yearsParticipated.length}</SubInfo>{" "}
+                      </span>
+                    )}
                   </span>
                   <FaArrowUp
                     className={`transform text-lightGray group-hover:text-white ${
