@@ -1,15 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { TBAEvent, tbaAxios } from "@/lib/fetchTBA";
+import { tbaAxios } from "@/lib/fetchTBA";
 import db from "@/lib/db";
 import { Match, Prisma } from "@prisma/client";
+import {AxiosResponse} from "axios";
 
 export default async function getDistricts(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   const { event } = req.query;
-  const eventData = await tbaAxios.get(`/event/${event}`);
-  const matches = await tbaAxios.get(`/event/${event}/matches`);
+  const eventData: AxiosResponse<any, any> = await tbaAxios.get(`/event/${event}`);
+  const matches: AxiosResponse<any, any> = await tbaAxios.get(`/event/${event}/matches`);
 
   const formattedMatchesData = matches.data.map((match: Match) => {
     return {
@@ -29,18 +30,18 @@ export default async function getDistricts(
     };
   });
 
-  const existingMatches = await db.match.findMany({
+  const existingMatches: Match[] = await db.match.findMany({
     where: { key: String(event) },
   });
 
-  const existingMatchKeys = new Set(existingMatches.map((match) => match.key));
+  const existingMatchKeys: Set<string | null> = new Set(existingMatches.map((match: Match) => match.key));
   const newMatches = formattedMatchesData.filter(
     (match: any) => !existingMatchKeys.has(match.key)
   );
 
-  const updatePromises = existingMatches.map((existingMatch) => {
+  const updatePromises: (Prisma.Prisma__MatchClient<Match> | undefined)[] = existingMatches.map((existingMatch: Match) => {
     const newMatchData = formattedMatchesData.find(
-      (match: any) => match.key === existingMatch.key
+      (match: any): boolean => match.key === existingMatch.key
     );
     if (newMatchData) {
       return db.match.update({

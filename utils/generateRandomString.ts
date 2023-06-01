@@ -1,10 +1,10 @@
 export function generateRandomString(length: number): string {
-  const characters =
+  const characters: string =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let randomString = "";
+  let randomString: string = "";
 
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
+  for (let i: number = 0; i < length; i++) {
+    const randomIndex: number = Math.floor(Math.random() * characters.length);
     randomString += characters.charAt(randomIndex);
   }
 

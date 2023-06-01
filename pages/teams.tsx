@@ -41,7 +41,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   const [endIndex, setEndIndex] = useState(50);
   const [buttonClicked, setButtonClicked] = useState("");
 
-  const itemsPerPage = 50;
+  const itemsPerPage: number = 50;
   const displayedTeams = allTeams.slice(0, endIndex);
 
   useEffect(() => {

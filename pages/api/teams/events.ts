@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { CURR_YEAR } from "@/lib/constants";
+import {Match, Team} from "@prisma/client";
 
 export default async function getDistricts(
   req: NextApiRequest,
@@ -8,7 +9,7 @@ export default async function getDistricts(
 ): Promise<void> {
   const { team, year = CURR_YEAR } = req.query;
 
-  const teamInfo = await db.team.findUnique({
+  const teamInfo: Team | null = await db.team.findUnique({
     where: {
       team_number: Number(team),
     },
@@ -33,7 +34,7 @@ export default async function getDistricts(
     let eventMatches: any[] = [];
 
     for (const event of teamEvents) {
-      const eventWithMatches = await db.match.findMany({
+      const eventWithMatches: Match[] = await db.match.findMany({
         where: {
           OR: [
             {
@@ -62,7 +63,7 @@ export default async function getDistricts(
       eventMatches: JSON.parse(
         JSON.stringify(
           eventMatches,
-          (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+          (key: string, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
         )
       ),
     });

@@ -7,7 +7,6 @@ import { formatEpochSecondsToDate } from "@/utils/time";
 import { FaCheck, FaCopy, FaTimes } from "react-icons/fa";
 import { API_URL } from "@/lib/constants";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
 import router from "next/router";
 import db from "@/lib/db";
 import { useSession } from "next-auth/react";
@@ -24,9 +23,9 @@ export default function UserProfilePage({ user }: any) {
       </div>
     ));
 
-  const handleGenerateApiKey = async () => {
+  const handleGenerateApiKey = async (): Promise<void> => {
     try {
-      await fetch("/api/@me/apiKeys", { method: "POST" }).then((res) =>
+      await fetch("/api/@me/apiKeys", { method: "POST" }).then((res: Response) =>
         res.json()
       );
       router.push(router.asPath);
@@ -36,7 +35,7 @@ export default function UserProfilePage({ user }: any) {
     }
   };
 
-  const handleDeleteApiKey = async (apiKey: string) => {
+  const handleDeleteApiKey = async (apiKey: string): Promise<void> => {
     try {
       await fetch(`/api/@me/apiKeys?apiKey=${encodeURIComponent(apiKey)}`, {
         method: "DELETE",
@@ -49,18 +48,18 @@ export default function UserProfilePage({ user }: any) {
     }
   };
 
-  const handleCopyApiKey = (apiKey: string) => {
+  const handleCopyApiKey = (apiKey: string): void => {
     navigator.clipboard
       .writeText(apiKey)
-      .then(() => {
+      .then((): void => {
         notify("API key copied to clipboard!", <FaCheck />);
       })
-      .catch(() => {
+      .catch((): void => {
         notify("Failed to copy API key.", <FaTimes />);
       });
   };
 
-  const isOwnProfile = session && user.username == session.user.username;
+  const isOwnProfile: boolean | null = session && user.username == session.user.username;
 
   return (
     <>

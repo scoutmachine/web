@@ -36,7 +36,7 @@ export default async function getUserFavourites(
       if (req.body) {
         const body = JSON.parse(req.body);
 
-        const existingTeam = await db.favouritedTeam.findUnique({
+        const existingTeam: FavouritedTeam | null = await db.favouritedTeam.findUnique({
           where: {
             // @ts-ignore
             userId: session.user.id,

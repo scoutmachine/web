@@ -17,10 +17,10 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
 import { useSession } from "next-auth/react";
-import { Loading } from "@/components/Loading";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { Session, getServerSession } from "next-auth";
+import {Session, getServerSession, User} from "next-auth";
 import db from "@/lib/db";
+import {FavouritedTeam} from "@prisma/client";
 
 const SubInfo = (props: any) => {
   return (
@@ -51,8 +51,8 @@ export default function TeamPage({
   const [eventData, setEventData] = useState<any>();
   const { data: session } = useSession();
 
-  useEffect(() => {
-    const redirectToHome = async () => {
+  useEffect((): void => {
+    const redirectToHome = async (): Promise<void> => {
       if (!teamInfo) {
         await router.push("/404");
       }
@@ -104,7 +104,7 @@ export default function TeamPage({
     setActiveTab(tabIndex);
   };
 
-  const title = `Team ${team} | Scout Machine`;
+  const title: string = `Team ${team} | Scout Machine`;
 
   return (
     <>
@@ -396,11 +396,11 @@ export const getServerSideProps: GetServerSideProps = async (
     next: {
       revalidate: 3600,
     },
-  }).then((res) => res.json());
+  }).then((res: Response) => res.json());
 
   if (teamInfo) {
     if (session) {
-      const user = await db.user.findUnique({
+      const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
         where: {
           id: session.user.id,
         },

@@ -11,7 +11,7 @@ import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { API_URL, COMP_SEASON } from "@/lib/constants";
 import { JSX } from "react";
-import { FavouritedTeam } from "@prisma/client";
+import { FavouritedTeam, Event } from "@prisma/client";
 import { Post } from ".prisma/client";
 
 export default function LandingPage({
@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
       if (COMP_SEASON) {
         await Promise.all(
-          user?.favouritedTeams.map(async (team) => {
+          user?.favouritedTeams.map(async (team: FavouritedTeam): Promise<void> => {
             try {
               const data = await fetch(
                 `${API_URL}/api/teams/next?team=${team.team_number}`,
@@ -119,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async ({
                     revalidate: 3600,
                   },
                 }
-              ).then((res) => res.json());
+              ).then((res: Response) => res.json());
 
               teamsCurrentlyCompeting[team.team_number] = data;
             } catch {
@@ -130,16 +130,16 @@ export const getServerSideProps: GetServerSideProps = async ({
       }
     }
 
-    const currentDate = new Date();
+    const currentDate: Date = new Date();
 
-    const formattedDate = currentDate.toISOString().slice(0, 10);
+    const formattedDate: string = currentDate.toISOString().slice(0, 10);
 
-    const nextWeekDate = new Date(
+    const nextWeekDate: Date = new Date(
       currentDate.getTime() + 7 * 24 * 60 * 60 * 1000
     );
-    const formattedNextWeekDate = nextWeekDate.toISOString().slice(0, 10);
+    const formattedNextWeekDate:string = nextWeekDate.toISOString().slice(0, 10);
 
-    const eventsThisWeek = await db.event.findMany({
+    const eventsThisWeek: Event[] = await db.event.findMany({
       where: {
         start_date: {
           lte: formattedNextWeekDate,

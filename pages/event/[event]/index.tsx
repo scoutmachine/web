@@ -12,8 +12,9 @@ import Head from "next/head";
 import db from "@/lib/db";
 import { AwardsTab } from "@/components/tabs/event/Awards";
 import { useSession } from "next-auth/react";
-import { Session, getServerSession } from "next-auth";
+import {Session, getServerSession, User} from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import {FavouritedTeam} from "@prisma/client";
 
 export default function EventsPage({
   user,
@@ -157,7 +158,7 @@ export const getServerSideProps: GetServerSideProps = async (
   ]);
 
   if (session) {
-    const user = await db.user.findUnique({
+    const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
       where: {
         id: session.user.id,
       },

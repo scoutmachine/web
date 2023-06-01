@@ -24,7 +24,7 @@ export default async function getDistricts(
         },
       },
     }),
-    await fetch(`${API_URL}/api/teams/socials?team=${team}`).then((res) =>
+    await fetch(`${API_URL}/api/teams/socials?team=${team}`).then((res: Response) =>
       res.json()
     ),
   ]);
@@ -46,7 +46,7 @@ export default async function getDistricts(
 
     const yearsParticipated: any = [];
 
-    teamEvents.map((event: any) => {
+    teamEvents.map((event: any): void => {
       const year = event.year;
       if (yearsParticipated.indexOf(year) === -1) yearsParticipated.push(year);
     });

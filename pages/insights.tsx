@@ -8,6 +8,7 @@ import db from "@/lib/db";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 import { MostPointsTable } from "../components/insights/MostPointsTable";
+import {Award, Match, Team} from "@prisma/client";
 
 export default function InsightsPage({
   insights,
@@ -215,7 +216,7 @@ export default function InsightsPage({
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps():  Promise<{props: {insights: any, totalMatches: number, totalEvents: number, totalTeams: number, top10Teams: {teamNumber: string, name: string | null | undefined, numAwards: number}[], mostQualMatchPts: any, mostPlayoffMatchPts: any}}> {
   const insightsData = await fetch(`${API_URL}/api/insights`).then(
     (res: Response) => res.json()
   );
@@ -231,8 +232,8 @@ export async function getServerSideProps() {
     eventKey: string,
     compLevels: string[],
     take: number
-  ) => {
-    const withoutPenaltyData = await db.match.findMany({
+  ): Promise<any> => {
+    const withoutPenaltyData: Match[] = await db.match.findMany({
       where: {
         event_key: {
           contains: eventKey,
@@ -261,7 +262,7 @@ export async function getServerSideProps() {
       take,
     });
 
-    const withPenaltyData = await db.match.findMany({
+    const withPenaltyData: Match[] = await db.match.findMany({
       where: {
         event_key: {
           contains: eventKey,
@@ -279,29 +280,29 @@ export async function getServerSideProps() {
     return JSON.parse(
       JSON.stringify(
         { withPenaltyData, withoutPenaltyData },
-        (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+        (key: string, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );
   };
 
-  const eventKey = "2023";
-  const takeCount = 1;
+  const eventKey: string = "2023";
+  const takeCount: number = 1;
 
-  const qualCompLevels = ["qm"];
+  const qualCompLevels: string[] = ["qm"];
   const mostQualMatchPts = await getMatchData(
     eventKey,
     qualCompLevels,
     takeCount
   );
 
-  const playoffCompLevels = ["sf", "f", "qf"];
+  const playoffCompLevels: string[] = ["sf", "f", "qf"];
   const mostPlayoffMatchPts = await getMatchData(
     eventKey,
     playoffCompLevels,
     takeCount
   );
 
-  const awardNamesToCount = [
+  const awardNamesToCount: string[] = [
     "Winner",
     "Winners",
     "Impact Award",
@@ -316,7 +317,7 @@ export async function getServerSideProps() {
 
     if (
       recipients &&
-      awardNamesToCount.some((name) => award.name.includes(name))
+      awardNamesToCount.some((name: string) => award.name.includes(name))
     ) {
       for (const recipient of recipients) {
         const teamKey = recipient.team_key;
@@ -329,15 +330,15 @@ export async function getServerSideProps() {
     }
   }
 
-  const sortedTeams = Object.keys(teamCounts).sort(
-    (a, b) => teamCounts[b] - teamCounts[a]
+  const sortedTeams: string[] = Object.keys(teamCounts).sort(
+    (a: string, b: string) => teamCounts[b] - teamCounts[a]
   );
 
-  const top10Teams = [];
+  const top10Teams: any[] = [];
 
   for (const teamKey of sortedTeams.slice(0, 11)) {
     if (teamKey !== "null") {
-      const team = await db.team.findUnique({
+      const team: Team | null = await db.team.findUnique({
         where: {
           team_number: Number(teamKey.substring(3)),
         },
