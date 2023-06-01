@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { CURR_YEAR } from "@/lib/constants";
-import {Match, Team} from "@prisma/client";
+import { Match, Team } from "@prisma/client";
 
 export default async function getDistricts(
   req: NextApiRequest,
@@ -63,7 +63,8 @@ export default async function getDistricts(
       eventMatches: JSON.parse(
         JSON.stringify(
           eventMatches,
-          (key: string, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+          (key: string, value) =>
+            typeof value === "bigint" ? value.toString() : value // return everything else unchanged
         )
       ),
     });

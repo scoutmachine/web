@@ -19,7 +19,7 @@ export default function LiveFieldViewPage({ next }: any): null {
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
-):  Promise<{props: {next: any}}> => {
+): Promise<{ props: { next: any } }> => {
   const { team }: any = context.params;
 
   const nextMatch = await fetch(`${API_URL}/api/teams/next?team=${team}`).then(

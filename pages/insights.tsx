@@ -8,7 +8,7 @@ import db from "@/lib/db";
 import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 import { MostPointsTable } from "../components/insights/MostPointsTable";
-import {Award, Match, Team} from "@prisma/client";
+import { Award, Match, Team } from "@prisma/client";
 
 export default function InsightsPage({
   insights,
@@ -216,7 +216,21 @@ export default function InsightsPage({
   );
 }
 
-export async function getServerSideProps():  Promise<{props: {insights: any, totalMatches: number, totalEvents: number, totalTeams: number, top10Teams: {teamNumber: string, name: string | null | undefined, numAwards: number}[], mostQualMatchPts: any, mostPlayoffMatchPts: any}}> {
+export async function getServerSideProps(): Promise<{
+  props: {
+    insights: any;
+    totalMatches: number;
+    totalEvents: number;
+    totalTeams: number;
+    top10Teams: {
+      teamNumber: string;
+      name: string | null | undefined;
+      numAwards: number;
+    }[];
+    mostQualMatchPts: any;
+    mostPlayoffMatchPts: any;
+  };
+}> {
   const insightsData = await fetch(`${API_URL}/api/insights`).then(
     (res: Response) => res.json()
   );
@@ -280,7 +294,8 @@ export async function getServerSideProps():  Promise<{props: {insights: any, tot
     return JSON.parse(
       JSON.stringify(
         { withPenaltyData, withoutPenaltyData },
-        (key: string, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+        (key: string, value) =>
+          typeof value === "bigint" ? value.toString() : value // return everything else unchanged
       )
     );
   };

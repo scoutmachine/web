@@ -25,8 +25,8 @@ export default function UserProfilePage({ user }: any) {
 
   const handleGenerateApiKey = async (): Promise<void> => {
     try {
-      await fetch("/api/@me/apiKeys", { method: "POST" }).then((res: Response) =>
-        res.json()
+      await fetch("/api/@me/apiKeys", { method: "POST" }).then(
+        (res: Response) => res.json()
       );
       router.push(router.asPath);
       notify("API key generated successfully!", <FaCheck />);
@@ -59,7 +59,8 @@ export default function UserProfilePage({ user }: any) {
       });
   };
 
-  const isOwnProfile: boolean | null = session && user.username == session.user.username;
+  const isOwnProfile: boolean | null =
+    session && user.username == session.user.username;
 
   return (
     <>

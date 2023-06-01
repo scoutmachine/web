@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Navbar } from "@/components/navbar";
 import { JSX } from "react";
 import { Card } from "@/components/misc/Card";
-import {DISCORD_URL, GITHUB_URL} from "@/lib/constants";
+import { DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 
 export default function PrivacyPage(): JSX.Element {
   return (
@@ -126,17 +126,11 @@ export default function PrivacyPage(): JSX.Element {
           <p className="text-lightGray">
             If you have any questions about this Privacy Policy, please contact
             us on the{" "}
-            <a
-              href={GITHUB_URL}
-              className="text-white"
-            >
+            <a href={GITHUB_URL} className="text-white">
               Scout Machine GitHub Repository
             </a>
             , or reach out to us on the{" "}
-            <a
-              href={DISCORD_URL}
-              className="text-white"
-            >
+            <a href={DISCORD_URL} className="text-white">
               {" "}
               Scout Machine Discord{" "}
             </a>

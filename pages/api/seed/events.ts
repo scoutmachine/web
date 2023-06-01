@@ -108,11 +108,13 @@ const addTeamsToEvents = async (): Promise<boolean> => {
           },
           data: {
             teams: {
-              connect: participatingTeams.data.map((teamKey: string): {team_number : number} => {
-                return {
-                  team_number: parseInt(teamKey.substring(3)),
-                };
-              }),
+              connect: participatingTeams.data.map(
+                (teamKey: string): { team_number: number } => {
+                  return {
+                    team_number: parseInt(teamKey.substring(3)),
+                  };
+                }
+              ),
             },
           },
         });

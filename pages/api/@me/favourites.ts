@@ -36,13 +36,14 @@ export default async function getUserFavourites(
       if (req.body) {
         const body = JSON.parse(req.body);
 
-        const existingTeam: FavouritedTeam | null = await db.favouritedTeam.findUnique({
-          where: {
-            // @ts-ignore
-            userId: session.user.id,
-            team_number: body.team_number,
-          },
-        });
+        const existingTeam: FavouritedTeam | null =
+          await db.favouritedTeam.findUnique({
+            where: {
+              // @ts-ignore
+              userId: session.user.id,
+              team_number: body.team_number,
+            },
+          });
 
         if (existingTeam) {
           res.status(200).send("Team already favorited");

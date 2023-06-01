@@ -3,21 +3,22 @@ import { AxiosResponse } from "axios";
 import { CURR_YEAR } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 import db from "@/lib/db";
-import {Team, Event} from "@prisma/client";
+import { Team, Event } from "@prisma/client";
 
 export default async function getTeamInfo(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   const { team } = req.query;
-  const teamEvents: (Team & {events: Event[]}) | null = await db.team.findUnique({
-    where: { team_number: Number(team) },
-    include: {
-      events: {
-        where: { year: CURR_YEAR },
+  const teamEvents: (Team & { events: Event[] }) | null =
+    await db.team.findUnique({
+      where: { team_number: Number(team) },
+      include: {
+        events: {
+          where: { year: CURR_YEAR },
+        },
       },
-    },
-  });
+    });
   const events: Event[] | undefined = teamEvents?.events;
 
   const currentEvent: Event | undefined = events

@@ -18,9 +18,9 @@ import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
 import { useSession } from "next-auth/react";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import {Session, getServerSession, User} from "next-auth";
+import { Session, getServerSession, User } from "next-auth";
 import db from "@/lib/db";
-import {FavouritedTeam} from "@prisma/client";
+import { FavouritedTeam } from "@prisma/client";
 
 const SubInfo = (props: any) => {
   return (
@@ -400,14 +400,15 @@ export const getServerSideProps: GetServerSideProps = async (
 
   if (teamInfo) {
     if (session) {
-      const user: (User & {favouritedTeams: FavouritedTeam[]}) | null = await db.user.findUnique({
-        where: {
-          id: session.user.id,
-        },
-        include: {
-          favouritedTeams: true,
-        },
-      });
+      const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
+        await db.user.findUnique({
+          where: {
+            id: session.user.id,
+          },
+          include: {
+            favouritedTeams: true,
+          },
+        });
 
       return {
         props: {

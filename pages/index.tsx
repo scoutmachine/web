@@ -110,22 +110,24 @@ export const getServerSideProps: GetServerSideProps = async ({
 
       if (COMP_SEASON) {
         await Promise.all(
-          user?.favouritedTeams.map(async (team: FavouritedTeam): Promise<void> => {
-            try {
-              const data = await fetch(
-                `${API_URL}/api/teams/next?team=${team.team_number}`,
-                {
-                  next: {
-                    revalidate: 3600,
-                  },
-                }
-              ).then((res: Response) => res.json());
+          user?.favouritedTeams.map(
+            async (team: FavouritedTeam): Promise<void> => {
+              try {
+                const data = await fetch(
+                  `${API_URL}/api/teams/next?team=${team.team_number}`,
+                  {
+                    next: {
+                      revalidate: 3600,
+                    },
+                  }
+                ).then((res: Response) => res.json());
 
-              teamsCurrentlyCompeting[team.team_number] = data;
-            } catch {
-              teamsCurrentlyCompeting[team.team_number] = null;
+                teamsCurrentlyCompeting[team.team_number] = data;
+              } catch {
+                teamsCurrentlyCompeting[team.team_number] = null;
+              }
             }
-          })
+          )
         );
       }
     }
@@ -137,7 +139,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     const nextWeekDate: Date = new Date(
       currentDate.getTime() + 7 * 24 * 60 * 60 * 1000
     );
-    const formattedNextWeekDate:string = nextWeekDate.toISOString().slice(0, 10);
+    const formattedNextWeekDate: string = nextWeekDate
+      .toISOString()
+      .slice(0, 10);
 
     const eventsThisWeek: Event[] = await db.event.findMany({
       where: {
