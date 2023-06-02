@@ -31,7 +31,7 @@ export default async function handler(request: Request) {
         }}
       >
         <div tw="flex relative">
-          <div tw="flex flex-col md:flex-row w-full py-12 px-12 md:items-center justify-between">
+          <div tw="flex flex-col md:flex-row w-full py-12 px-16 md:items-center justify-between">
             <h2 tw="flex flex-col font-bold tracking-tight text-gray-900 text-left">
               <div tw="flex">
                 {/*  eslint-disable-next-line @next/next/no-img-element*/}
@@ -54,9 +54,7 @@ export default async function handler(request: Request) {
                   {teamData.team_number}
                 </span>
               </div>
-              <span tw="text-7xl text-white">
-                {teamData.nickname}
-              </span>
+              <span tw="text-7xl text-white">{teamData.nickname}</span>
             </h2>
           </div>
         </div>

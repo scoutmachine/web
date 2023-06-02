@@ -9,6 +9,6 @@ export default async function getStatus(
   const fetchAvatar = await fetchTeamAvatar(req);
   const avatar = fetchAvatar.avatar;
 
-  res.setHeader('Content-Type', 'image/jpeg');
-  res.end(Buffer.from(avatar, 'base64'));
+  res.setHeader("Content-Type", "image/jpeg");
+  res.end(Buffer.from(avatar, "base64"));
 }

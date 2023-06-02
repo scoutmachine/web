@@ -16,86 +16,11 @@ import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
 
-async function fetchRookieTeamsData(): Promise<{ teams: any; avatars: any }> {
-  const cacheDataTeams = getStorage(`rookieTeams_${CURR_YEAR}`);
-  const cacheDataAvatars = getStorage(`rookieTeamsAvatars_${CURR_YEAR}`);
-
-  if (cacheDataTeams && cacheDataAvatars) {
-    return {
-      teams: cacheDataTeams,
-      avatars: cacheDataAvatars,
-    };
-  }
-
-  const start: number = performance.now();
-  const getRookies = async (pageNum: string): Promise<any> =>
-    await fetch(`${API_URL}/api/teams/teams?page=${pageNum}`, {
-      next: { revalidate: 60 },
-    }).then((res: Response) => res.json());
-  const pageNumbers: string[] = [...Array(20).keys()].map((i: number) =>
-    i.toString()
-  );
-  const pages: any[] = await Promise.all(
-    pageNumbers.map((num: string) => getRookies(num))
-  );
-  const data: any = pages
-    .flatMap((page: any) => page)
-    .filter(
-      (team: any) =>
-        team.rookie_year === CURR_YEAR && !team.nickname.includes("Off-Season")
-    );
-  log(
-    "warning",
-    `Fetching [/team/teams] took ${formatTime(performance.now() - start)}`
-  );
-
-  const teamAvatars: any = {};
-
-  const getTeamAvatars = data.map(async (team: any): Promise<void> => {
-    try {
-      const response: Response = await fetch(
-        `${API_URL}/api/teams/avatar?team=${team.team_number}`
-      );
-      const data = await response.json();
-      teamAvatars[team.team_number] = data.avatar;
-    } catch (error) {
-      teamAvatars[team.team_number] = null;
-    }
-  });
-
-  await Promise.all(getTeamAvatars);
-
-  log(
-    "warning",
-    `Fetching [/team/avatar] took ${formatTime(performance.now() - start)}`
-  );
-
-  setStorage(`rookieTeams_${CURR_YEAR}`, data);
-  setStorage(`rookieTeamsAvatars_${CURR_YEAR}`, teamAvatars);
-
-  return {
-    teams: data,
-    avatars: teamAvatars,
-  };
-}
-
-export default function RookiesPage({ user }: any): JSX.Element {
-  const [rookieTeams, setRookieTeams] = useState<any>();
-  const [avatars, setAvatars] = useState<any>();
-
-  useEffect((): void => {
-    async function fetchData(): Promise<void> {
-      const teams = (await fetchRookieTeamsData()).teams;
-      const avatars = (await fetchRookieTeamsData()).avatars;
-
-      if (teams) setRookieTeams(teams);
-      if (avatars) setAvatars(avatars);
-    }
-
-    fetchData();
-  }, [setRookieTeams, setAvatars]);
-
-  if (!rookieTeams) return <Loading />;
+export default function RookiesPage({
+  user,
+  rookieTeams,
+  avatars,
+}: any): JSX.Element {
   return (
     <>
       <Head>
@@ -161,6 +86,28 @@ export const getServerSideProps: GetServerSideProps = async ({
     authOptions
   )) as Session;
 
+  const rookieTeams = await db.team.findMany({
+    where: {
+      rookie_year: CURR_YEAR,
+    },
+  });
+
+  const teamAvatars: any = {};
+
+  const getTeamAvatars = rookieTeams.map(async (team: any): Promise<void> => {
+    try {
+      const response: Response = await fetch(
+        `${API_URL}/api/teams/avatar?team=${team.team_number}`
+      );
+      const data = await response.json();
+      teamAvatars[team.team_number] = data.avatar;
+    } catch (error) {
+      teamAvatars[team.team_number] = null;
+    }
+  });
+
+  await Promise.all(getTeamAvatars);
+
   if (session) {
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
       await db.user.findUnique({
@@ -172,8 +119,14 @@ export const getServerSideProps: GetServerSideProps = async ({
         },
       });
 
-    return { props: { user: JSON.parse(JSON.stringify(user)) } };
+    return {
+      props: {
+        rookieTeams,
+        avatars: teamAvatars,
+        user: JSON.parse(JSON.stringify(user)),
+      },
+    };
   }
 
-  return { props: {} };
+  return { props: { rookieTeams, avatars: teamAvatars } };
 };
