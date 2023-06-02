@@ -104,7 +104,7 @@ export default function TeamPage({
   };
 
   const title: string = teamInfo
-    ? `${teamInfo.team_number} / ${teamInfo.nickname}`
+    ? `${teamInfo.team_number} / ${teamInfo.nickname} | Scout Machine`
     : `${team} | Scout Machine`;
 
   return (
