@@ -10,10 +10,9 @@ export default function Document(): JSX.Element {
           name="keywords"
           content="frc,robotics,scoutmachine,firstrobticscompetition,FIRST Robotics,FIRST Robotics Competition,robotics,first,firstrobotics,competition,team,regionals,matches,videos"
         />
-        <meta name="og:title" content="Scout Machine" />
         <meta name="og:description" content="Smarter FRC data insights" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Scout Machine" />
+      
         <meta name="twitter:description" content="Smarter FRC data insights" />
         <meta name="theme-color" content="#FBBB04" />
         <link rel="shortcut icon" href="/smLogo.png" />

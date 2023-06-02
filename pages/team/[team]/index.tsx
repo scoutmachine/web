@@ -110,6 +110,8 @@ export default function TeamPage({
     <>
       <Head>
         <title>{title}</title>
+        <meta name="og:title" content={title} />
+        <meta name="twitter:title" content={title} />
         <meta
           name="twitter:image"
           content={`${API_URL}/api/og/image?team=${team}`}
