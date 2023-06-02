@@ -49,7 +49,6 @@ export default function TeamPage({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
   const [eventData, setEventData] = useState<any>();
-  const { data: session } = useSession();
 
   useEffect((): void => {
     const redirectToHome = async (): Promise<void> => {
@@ -104,7 +103,9 @@ export default function TeamPage({
     setActiveTab(tabIndex);
   };
 
-  const title: string = `Team ${team} | Scout Machine`;
+  const title: string = teamInfo
+    ? `${teamInfo.team_number} / ${teamInfo.nickname}`
+    : `${team} | Scout Machine`;
 
   return (
     <>
