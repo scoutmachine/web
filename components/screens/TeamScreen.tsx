@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FaAward, FaInfoCircle, FaLink, FaPlus, FaStar } from "react-icons/fa";
 import { Socials } from "../tabs/team/Socials";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { findTeam } from "@/utils/team";
 import Link from "next/link";
 import { Social } from "../Social";
@@ -13,6 +13,7 @@ import { AddSocialsModal } from "../modals/AddSocialsModal";
 import { Socials as socials } from "@/lib/lists/socials";
 import { ErrorMessage } from "../ErrorMessage";
 import { LocationModal } from "../modals/LocationModal";
+import { findColor } from "@/utils/findColor";
 
 export function searchDistrict(array: any, valuetofind: any) {
   for (let i: number = 0; i < array.length; i++) {
@@ -29,6 +30,7 @@ export const TeamScreen = (props: any) => {
   const { data: session } = useSession();
   const [isAddSocialModalOpen, setIsAddSocialModelOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [teamColor, setTeamColor] = useState("");
 
   const isFavourited = props.favouritedTeams?.some(
     (favouritedTeam: any): boolean =>
@@ -38,6 +40,23 @@ export const TeamScreen = (props: any) => {
     (favouritedTeam: any): boolean =>
       favouritedTeam.team_number === props.team?.team_number
   );
+
+  const avatarURL = props.avatar
+    ? `data:image/jpeg;base64,${props.avatar}`
+    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+        props.team?.website?.startsWith("https")
+          ? props.team?.website
+          : `https://${props.team?.website?.slice(7)}`
+      }/&size=64`;
+
+  useEffect(() => {
+    const fetchTeamColor = async () => {
+      const teamColor = await findColor(avatarURL);
+      setTeamColor(teamColor);
+    };
+
+    fetchTeamColor();
+  }, [avatarURL]);
 
   return (
     <>
@@ -51,15 +70,7 @@ export const TeamScreen = (props: any) => {
                 height="50"
                 width="50"
                 priority={true}
-                src={
-                  props.avatar
-                    ? `data:image/jpeg;base64,${props.avatar}`
-                    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                        props.team?.website?.startsWith("https")
-                          ? props.team?.website
-                          : `https://${props.team?.website?.slice(7)}`
-                      }/&size=64`
-                }
+                src={avatarURL}
                 onError={(): void => {
                   setError(true);
                 }}
@@ -85,7 +96,7 @@ export const TeamScreen = (props: any) => {
 
               <h1 className="font-black text-black dark:text-white text-4xl">
                 Team {props.team?.team_number}:{" "}
-                <span className="text-primary">{props.team?.nickname}</span>
+                <span style={{ color: teamColor }}>{props.team?.nickname}</span>
               </h1>
 
               <p className="text-lightGray">
