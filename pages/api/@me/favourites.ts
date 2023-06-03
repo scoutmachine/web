@@ -36,36 +36,34 @@ export default async function getUserFavourites(
       if (req.body) {
         const body = JSON.parse(req.body);
 
-        const existingTeam: FavouritedTeam | null =
-          await db.favouritedTeam.findUnique({
-            where: {
-              // @ts-ignore
-              userId: session.user.id,
-              team_number: body.team_number,
-            },
-          });
+        const existingTeam: number = await db.favouritedTeam.count({
+          where: {
+            userId: session.user.id,
+            team_number: body.team_number,
+          },
+        });
 
-        if (existingTeam) {
+        if (existingTeam !== 0) {
           res.status(200).send("Team already favorited");
-        } else {
-          const data: FavouritedTeam = await db.favouritedTeam.create({
-            data: {
-              userId: session.user.id,
-              team_number: body.team_number,
-              nickname: body.nickname,
-              city: body.city,
-              state_prov: body.state_prov,
-              country: body.country,
-              website: body.website ?? "",
-              rookie_year: body.rookie_year,
-            },
-          });
+        }
 
-          if (data) {
-            res.status(200).send("Success");
-          } else {
-            res.status(400).send("Error while favoriting team");
-          }
+        const data: FavouritedTeam = await db.favouritedTeam.create({
+          data: {
+            userId: session.user.id,
+            team_number: body.team_number,
+            nickname: body.nickname,
+            city: body.city,
+            state_prov: body.state_prov,
+            country: body.country,
+            website: body.website ?? "",
+            rookie_year: body.rookie_year,
+          },
+        });
+
+        if (data) {
+          res.status(200).send("Success");
+        } else {
+          res.status(400).send("Error while favoriting team");
         }
       } else {
         res.status(400).send("Invalid body");

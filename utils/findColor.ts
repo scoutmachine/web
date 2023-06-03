@@ -72,8 +72,7 @@ const extractColors = async (imageUrl: string) => {
 
 export const findColor = async (imageUrl: string) => {
   const colors = await extractColors(imageUrl);
-
-  const darknessThreshold = 128;
+  const darknessThreshold = 80;
   let defaultColor = "#fbbb04";
 
   for (const color of colors) {
