@@ -1,6 +1,5 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { SignedOutScreen } from "@/components/screens/landing/SignedOut";
 import { SignedInScreen } from "@/components/screens/landing/SignedIn";
@@ -9,7 +8,7 @@ import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { API_URL, COMP_SEASON } from "@/lib/constants";
+import { API_URL, COMP_SEASON, CURR_YEAR } from "@/lib/constants";
 import { JSX } from "react";
 import { FavouritedTeam, Event } from "@prisma/client";
 import { Post } from ".prisma/client";
@@ -20,6 +19,9 @@ export default function LandingPage({
   avatars,
   teamsCurrentlyCompeting,
   eventsThisWeek,
+  totalMatches,
+  totalEvents,
+  totalRookieTeams,
 }: any): JSX.Element {
   const { data: session, status } = useSession();
 
@@ -30,7 +32,7 @@ export default function LandingPage({
       <>
         <SEO />
         <Navbar refresh />
-        
+
         <SignedInScreen
           session={session}
           favourites={user.favouritedTeams}
@@ -39,6 +41,9 @@ export default function LandingPage({
           avatars={avatars}
           user={user}
           eventsThisWeek={eventsThisWeek}
+          totalMatches={totalMatches}
+          totalEvents={totalEvents}
+          totalRookieTeams={totalRookieTeams}
         />
         <Footer />
       </>
@@ -149,12 +154,35 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     });
 
+    const totalMatches = await db.match.count({
+      where: {
+        event_key: {
+          contains: String(CURR_YEAR),
+        },
+      },
+    });
+
+    const totalEvents = await db.event.count({
+      where: {
+        year: CURR_YEAR,
+      },
+    });
+
+    const totalRookieTeams = await db.team.count({
+      where: {
+        rookie_year: CURR_YEAR,
+      },
+    });
+
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),
         avatars: teamAvatars,
         teamsCurrentlyCompeting,
         eventsThisWeek,
+        totalMatches,
+        totalEvents,
+        totalRookieTeams,
       },
     };
   }

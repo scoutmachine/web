@@ -10,6 +10,7 @@ import { HiStatusOnline } from "react-icons/hi";
 import { TeamCompetingCard } from "@/components/TeamCompetingCard";
 import { convertDate } from "@/utils/date";
 import { CURR_YEAR } from "@/lib/constants";
+import { SubInfo } from "@/pages/team/[team]";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -19,6 +20,9 @@ export const SignedInScreen = (props: {
   user: any;
   competing: any;
   eventsThisWeek: any;
+  totalMatches: number | string;
+  totalEvents: number | string;
+  totalRookieTeams: number | string;
 }) => {
   const [timeLeft, setTimeLeft] = useState<any>({});
   const kickoffTime: number = 1704542400;
@@ -96,28 +100,40 @@ export const SignedInScreen = (props: {
             </div>
             <div className="bg-card border border-[#2A2A2A] rounded-lg py-4 px-6 mt-5">
               <p className="text-lightGray">
-                <b className="text-black dark:text-white">Current Season</b>
+                <b className="text-black dark:text-white">2023 Season Recap</b>
                 <br />
-                <b>2023 CHARGED UP</b>
+                <b className="text-white">
+                  {props.totalEvents.toLocaleString()}
+                </b>{" "}
+                events hosted /{" "}
+                <b className="text-white">
+                  {props.totalMatches.toLocaleString()}
+                </b>{" "}
+                matches played /{" "}
+                <b className="text-white">{props.totalRookieTeams}</b> new
+                rookie teams
               </p>
             </div>
           </div>
         </div>
 
         <div className="border border-[#2a2a2a] bg-[#191919] mt-5 rounded-lg px-10 py-10">
-          <h1 className="flex flex-wrap mb-3 text-2xl font-bold text-black dark:text-white">
-            {`This Week's Events (${
-              props.eventsThisWeek[0].week
-                ? "Week" + props.eventsThisWeek[0].week
-                : "Offseason"
-            })`}
+          <h1 className="mb-3 text-2xl font-bold text-black dark:text-white">
+            Upcoming Events{" "}
+            <SubInfo>
+              <span className="text-xl">
+                {props.eventsThisWeek[0].week
+                  ? "Week" + props.eventsThisWeek[0].week
+                  : "Offseason"}
+              </span>
+            </SubInfo>
           </h1>
 
           <div className="bg-card border border-[#2A2A2A] rounded-md px-5 py-5">
             {props.eventsThisWeek.map((event: any, key: number) => {
               return (
                 <a key={key} href={`/event/${event.key}`} target="blank">
-                  <div className="group flex items-center mb-4 p-2 hover:bg-[#191919] hover:rounded-lg hover:px-5">
+                  <div className="group flex items-center mb-4 p-2 hover:bg-[#191919] hover:rounded-lg">
                     <div className="w-1/2 pr-2">
                       <span className="font-bold text-white group-hover:text-primary">
                         {event.name}{" "}

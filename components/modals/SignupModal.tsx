@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { Modal } from "./Modal";
 
@@ -37,25 +37,33 @@ const ModalBody = () => (
 
 const ModalFooter = () => (
   <>
-    <div className="flex flex-row justify-center items-center gap-2">
-      <div className="mt-4">
-        <button
-          type="button"
-          className="flex rounded-lg bg-red-500 hover:bg-red-600 text-black dark:text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
-          onClick={async () => await signIn("google")}
-        >
-          <FaGoogle className="text-xl mr-2" /> Continue with Google
-        </button>
-      </div>
-      <div className="mt-4">
-        <button
-          type="button"
-          className="flex rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
-          onClick={async () => await signIn("github")}
-        >
-          <FaGithub className="text-xl mr-2" /> Continue with Github
-        </button>
-      </div>
+    <div className="mt-4 w-full">
+      <button
+        type="button"
+        className="justify-center items-center w-full flex rounded-lg bg-red-500 hover:bg-red-600 text-black dark:text-white px-4 py-2 text-sm font-medium whitespace-nowrap"
+        onClick={async () => await signIn("google")}
+      >
+        <FaGoogle className="text-xl mr-2" /> Continue with Google
+      </button>
+    </div>
+    <div className="mt-2 w-full">
+      <button
+        type="button"
+        className="justify-center items-center w-full flex rounded-lg bg-gray-100 hover:bg-gray-300 text-black px-4 py-2 text-sm font-medium whitespace-nowrap"
+        onClick={async () => await signIn("github")}
+      >
+        <FaGithub className="text-xl mr-2" /> Continue with Github
+      </button>
+    </div>
+
+    <div className="mt-2">
+      <button
+        type="button"
+        className="flex justify-center items-center w-full rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 text-sm font-medium"
+        onClick={async () => await signIn("discord")}
+      >
+        <FaDiscord className="text-xl mr-2" /> Continue with Discord
+      </button>
     </div>
     <p className="text-xs text-lightGray mt-2 text-center">
       All data collected will be kept private at all times.

@@ -213,15 +213,12 @@ export const Navbar = (props: {
                 }
               >
                 <div className="py-2 gap-y-2 flex flex-col items-center">
-                  <p
-                    className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={(): void => {
-                      router.push(`/users/${session.user.username}`);
-                    }}
-                  >
-                    <FaUserCircle className="text-lg mr-1 inline-block" /> View
-                    Profile
-                  </p>
+                  <a href={`/users/${session.user.username}`}>
+                    <p className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary">
+                      <FaUserCircle className="text-lg mr-1 inline-block" />{" "}
+                      View Profile
+                    </p>
+                  </a>
 
                   <p
                     className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"

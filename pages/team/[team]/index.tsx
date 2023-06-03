@@ -22,7 +22,7 @@ import db from "@/lib/db";
 import { FavouritedTeam } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 
-const SubInfo = (props: any) => {
+export const SubInfo = (props: any) => {
   return (
     <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
       {props.children}

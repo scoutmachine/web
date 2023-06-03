@@ -1,4 +1,3 @@
-import router from "next/router";
 import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
@@ -161,12 +160,12 @@ const OnboardingBody = () => {
             </button>
           )}
           {isLastPage && (
-            <button
-              className="outline-none bg-green-500 hover:bg-green-700 text-black dark:text-white font-bold py-2 px-4 rounded-lg"
-              onClick={() => router.push("/")}
-            >
-              Finish
-            </button>
+            // eslint-disable-next-line @next/next/no-html-link-for-pages
+            <a href="/">
+              <button className="outline-none bg-green-500 hover:bg-green-700 text-black dark:text-white font-bold py-2 px-4 rounded-lg">
+                Finish
+              </button>
+            </a>
           )}
         </div>
       </div>
