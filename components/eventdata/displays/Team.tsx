@@ -86,6 +86,8 @@ export const TeamDisplay = (props: any) => {
           <span className="text-green-400">Win</span>
         </>
       );
+    } else if (matchWinner() === "Tie") {
+      return <span className="text-lightGray">Tie</span>;
     } else {
       return <span className="text-red-400">Loss</span>;
     }
