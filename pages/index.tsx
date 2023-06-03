@@ -13,6 +13,7 @@ import { API_URL, COMP_SEASON } from "@/lib/constants";
 import { JSX } from "react";
 import { FavouritedTeam, Event } from "@prisma/client";
 import { Post } from ".prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function LandingPage({
   user,
@@ -27,11 +28,9 @@ export default function LandingPage({
   if (session) {
     return (
       <>
-        <Head>
-          <title>Scout Machine</title>
-        </Head>
-
+        <SEO />
         <Navbar refresh />
+        
         <SignedInScreen
           session={session}
           favourites={user.favouritedTeams}
@@ -47,9 +46,7 @@ export default function LandingPage({
   } else {
     return (
       <>
-        <Head>
-          <title>Scout Machine</title>
-        </Head>
+        <SEO />
 
         <Navbar />
         <SignedOutScreen />

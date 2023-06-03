@@ -12,6 +12,7 @@ const InterFont = fetch(
 export default async function handler(request: Request) {
   const url = new URL(request.url);
   const team = url.searchParams.get("team");
+  const mode = url.searchParams.get("mode");
 
   const { teamData, avatar } = await fetch(
     `${API_URL}/api/og/team?team=${team}`
@@ -27,7 +28,7 @@ export default async function handler(request: Request) {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#141414",
+          backgroundColor: mode === "light" ? "#FFFFFF" : "#141414",
         }}
       >
         <div tw="flex relative">
@@ -54,7 +55,13 @@ export default async function handler(request: Request) {
                   {teamData.team_number}
                 </span>
               </div>
-              <span tw="text-7xl text-white">{teamData.nickname}</span>
+              <span
+                tw={`text-7xl ${
+                  mode === "light" ? "text-black" : "text-white"
+                }`}
+              >
+                {teamData.nickname}
+              </span>
             </h2>
           </div>
         </div>

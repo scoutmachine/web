@@ -4,17 +4,16 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { JSX } from "react";
 import { Match } from "@prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function MatchPage({ match }: any): JSX.Element {
   const title: string = `Match ${match.match_number} / ${match.event_key
     .slice(4)
-    .toUpperCase()} | Scout Machine`;
+    .toUpperCase()} / Scout Machine`;
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-      </Head>
+      <SEO title={title} />
 
       <Navbar />
 

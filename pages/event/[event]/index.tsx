@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { Session, getServerSession, User } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function EventsPage({
   user,
@@ -32,12 +33,11 @@ export default function EventsPage({
     setActiveTab(tabIndex);
   };
 
+  const title = `${eventInfo.name} / Scout Machine`;
+
   return (
     <>
-      <Head>
-        <title>{eventInfo.name} | Scout Machine</title>
-      </Head>
-
+      <SEO title={title} />
       <Navbar />
 
       <div className="flex flex-wrap items-center justify-center mt-10 pl-4 pr-4 md:pr-8 md:pl-8">

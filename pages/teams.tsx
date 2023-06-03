@@ -15,6 +15,7 @@ import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam, Team } from "@prisma/client";
 import { teamNumberInRange } from "@/utils/team";
+import { SEO } from "@/components/SEO";
 
 const filterOptions = [
   { name: <FaHome />, range: "" },
@@ -122,9 +123,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
     <>
       {isClient && (
         <>
-          <Head>
-            <title>Teams | Scout Machine</title>
-          </Head>
+          <SEO title="Teams / Scout Machine" />
           <Navbar active="Teams" />
 
           <div className="flex flex-col">

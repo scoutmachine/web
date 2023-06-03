@@ -6,15 +6,16 @@ import Head from "next/head";
 import db from "@/lib/db";
 import { Post } from ".prisma/client";
 import { User } from "next-auth";
+import { SEO } from "@/components/SEO";
 
 export default function MarketplacePostPage({ post }: any) {
+  const title = `${post.title} | Marketplace / Scout Machine`;
+
   return (
     <>
-      <Head>
-        <title>{post.title} | Marketplace / Scout Machine</title>
-      </Head>
-
+      <SEO title={title} />
       <Navbar />
+      
       <MarketplacePage marketplacePost={post} />
       <Footer />
     </>

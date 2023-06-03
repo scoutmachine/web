@@ -12,6 +12,7 @@ import { useState } from "react";
 import { FaMoneyBill } from "react-icons/fa";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { Post } from ".prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function MarketplacePage({ posts, user }: any) {
   const { data: session } = useSession();
@@ -19,9 +20,7 @@ export default function MarketplacePage({ posts, user }: any) {
 
   return (
     <>
-      <Head>
-        <title>Marketplace | Scout Machine</title>
-      </Head>
+      <SEO title="Marketplace / Scout Machine" />
 
       <Navbar active="Marketplace" />
 

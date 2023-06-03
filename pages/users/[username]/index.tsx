@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import router from "next/router";
 import db from "@/lib/db";
 import { useSession } from "next-auth/react";
+import { SEO } from "@/components/SEO";
 
 export default function UserProfilePage({ user }: any) {
   const toEpochSeconds: number = new Date(user.createdAt).getTime();
@@ -62,11 +63,11 @@ export default function UserProfilePage({ user }: any) {
   const isOwnProfile: boolean | null =
     session && user.username == session.user.username;
 
+  const title = `${user.name} / Scout Machine`;
+
   return (
     <>
-      <Head>
-        <title>{user.name} | Scout Machine</title>
-      </Head>
+      <SEO title={title} />
 
       <Navbar />
 

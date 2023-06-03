@@ -1,14 +1,13 @@
 import { Navbar } from "@/components/navbar";
 import Link from "next/link";
-import Head from "next/head";
 import { JSX } from "react";
+import { SEO } from "@/components/SEO";
 
 export default function Page404(): JSX.Element {
   return (
     <>
-      <Head>
-        <title>404 | Scout Machine</title>
-      </Head>
+      <SEO title="404 / Scout Machine" />
+      
       <Navbar />
       <div className="flex items-center justify-center flex-col mt-32">
         <h1 className="text-5xl text-primary font-black">

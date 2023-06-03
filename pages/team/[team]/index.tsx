@@ -11,7 +11,6 @@ import { Navbar } from "@/components/navbar";
 import { TeamScreen } from "@/components/screens/TeamScreen";
 import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
-import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
@@ -21,6 +20,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { Session, getServerSession, User } from "next-auth";
 import db from "@/lib/db";
 import { FavouritedTeam } from "@prisma/client";
+import { SEO } from "@/components/SEO";
 
 const SubInfo = (props: any) => {
   return (
@@ -104,24 +104,18 @@ export default function TeamPage({
   };
 
   const title: string = teamInfo
-    ? `${teamInfo.team_number} / ${teamInfo.nickname} | Scout Machine`
-    : `${team} | Scout Machine`;
+    ? `${teamInfo.team_number} / ${teamInfo.nickname} / Scout Machine`
+    : `${team} / Scout Machine`;
+
+  const description = `A FIRST Robotics Competition team from ${teamInfo.city}, ${teamInfo.state_prov}, ${teamInfo.country} competing since ${teamInfo.rookie_year}`;
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-        <meta name="og:title" content={title} />
-        <meta name="twitter:title" content={title} />
-        <meta
-          name="twitter:image"
-          content={`${API_URL}/api/og/image?team=${team}`}
-        />
-        <meta
-          name="og:image"
-          content={`${API_URL}/api/og/image?team=${team}`}
-        />
-      </Head>
+      <SEO
+        title={title}
+        description={description}
+        image={`${API_URL}/api/og/image?team=${team}`}
+      />
 
       <Navbar />
 

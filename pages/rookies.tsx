@@ -15,6 +15,7 @@ import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam } from "@prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function RookiesPage({
   user,
@@ -23,9 +24,7 @@ export default function RookiesPage({
 }: any): JSX.Element {
   return (
     <>
-      <Head>
-        <title>Rookies | Scout Machine</title>
-      </Head>
+      <SEO title="Rookies / Scout Machine" />
 
       <Navbar active="Rookie Teams" />
 
