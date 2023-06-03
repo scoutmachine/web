@@ -11,11 +11,10 @@ const rgbToHex = (r: number, g: number, b: number) => {
   return "#" + red + green + blue;
 };
 
-const extractColors = async (imageUrl: string) => {
+const extractColours = async (imageUrl: string) => {
   const img = new Image();
   img.crossOrigin = "Anonymous";
 
-  // Wait for the image to load
   await new Promise((resolve, reject) => {
     img.onload = resolve;
     img.onerror = reject;
@@ -37,26 +36,25 @@ const extractColors = async (imageUrl: string) => {
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   const pixels = imageData.data;
 
-  const colorCounts: any = {};
+  const ColourCounts: any = {};
 
   for (let i = 0; i < pixels.length; i += 4) {
     const r = pixels[i];
     const g = pixels[i + 1];
     const b = pixels[i + 2];
 
-    const color = rgbToHex(r, g, b);
+    const Colour = rgbToHex(r, g, b);
 
-    if (colorCounts[color]) {
-      colorCounts[color] += 1;
+    if (ColourCounts[Colour]) {
+      ColourCounts[Colour] += 1;
     } else {
-      colorCounts[color] = 1;
+      ColourCounts[Colour] = 1;
     }
   }
 
-  const sortedColors: any = Object.keys(colorCounts)
-    .filter((color: any) => {
-      const [r, g, b] = color
-        .slice(1)
+  const sortedColours: any = Object.keys(ColourCounts)
+    .filter((Colour: any) => {
+      const [r, g, b] = Colour.slice(1)
         .match(/.{2}/g)
         .map((component: any) => parseInt(component, 16));
 
@@ -65,29 +63,28 @@ const extractColors = async (imageUrl: string) => {
 
       return !isBlack && !isWhite;
     })
-    .sort((a, b) => colorCounts[b] - colorCounts[a]);
+    .sort((a, b) => ColourCounts[b] - ColourCounts[a]);
 
-  return sortedColors;
+  return sortedColours;
 };
 
-export const findColor = async (imageUrl: string) => {
-  const colors = await extractColors(imageUrl);
+export const findColour = async (imageUrl: string) => {
+  const Colours = await extractColours(imageUrl);
   const darknessThreshold = 80;
-  let defaultColor = "#fbbb04";
+  let defaultColour = "#fbbb04"; // Scout Machine Yellow (text-primary - REFER TO: tailwind.config.js);
 
-  for (const color of colors) {
-    const [r, g, b] = color
-      .slice(1)
+  for (const Colour of Colours) {
+    const [r, g, b] = Colour.slice(1)
       .match(/.{2}/g)
       .map((component: any) => parseInt(component, 16));
 
     const lightness = (Math.max(r, g, b) + Math.min(r, g, b)) / 2;
 
     if (lightness > darknessThreshold) {
-      defaultColor = color;
+      defaultColour = Colour;
       break;
     }
   }
 
-  return defaultColor;
+  return defaultColour;
 };

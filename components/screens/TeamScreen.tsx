@@ -13,7 +13,7 @@ import { AddSocialsModal } from "../modals/AddSocialsModal";
 import { Socials as socials } from "@/lib/lists/socials";
 import { ErrorMessage } from "../ErrorMessage";
 import { LocationModal } from "../modals/LocationModal";
-import { findColor } from "@/utils/findColor";
+import { findColour } from "@/utils/findColour";
 
 export function searchDistrict(array: any, valuetofind: any) {
   for (let i: number = 0; i < array.length; i++) {
@@ -51,7 +51,7 @@ export const TeamScreen = (props: any) => {
 
   useEffect(() => {
     const fetchTeamColor = async () => {
-      const teamColor = await findColor(avatarURL);
+      const teamColor = await findColour(avatarURL);
       setTeamColor(teamColor);
     };
 
