@@ -1,13 +1,10 @@
 import { ImageResponse } from "next/server";
 import { API_URL } from "@/lib/constants";
-import { FaMapMarker } from "react-icons/fa";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
-const InterFont = fetch(
-  new URL("/public/fonts/Inter-Bold.ttf", import.meta.url)
+const interBlack = fetch(
+  new URL("/public/fonts/Inter-Black.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
 export default async function handler(request: Request) {
@@ -35,7 +32,7 @@ export default async function handler(request: Request) {
         {/*  eslint-disable-next-line @next/next/no-img-element*/}
         <img
           src={`${API_URL}/api/og/smLogo`}
-          tw="absolute top-10 left-15"
+          tw="absolute top-5 left-15"
           height="75"
           width="75"
           alt="Scout Machine Logo"
@@ -96,7 +93,8 @@ export default async function handler(request: Request) {
       fonts: [
         {
           name: "Inter",
-          data: await InterFont,
+          data: await interBlack,
+          weight: 900,
           style: "normal",
         },
       ],
