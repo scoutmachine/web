@@ -10,5 +10,7 @@ export default async function getStatus(
   const avatar = fetchAvatar.avatar;
 
   res.setHeader("Content-Type", "image/jpeg");
+  res.setHeader("Cache-Control", "public, max-age=604800"); // 1 week
+
   res.end(Buffer.from(avatar, "base64"));
 }
