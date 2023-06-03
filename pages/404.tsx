@@ -7,7 +7,7 @@ export default function Page404(): JSX.Element {
   return (
     <>
       <SEO title="404 / Scout Machine" />
-      
+
       <Navbar />
       <div className="flex items-center justify-center flex-col mt-32">
         <h1 className="text-5xl text-primary font-black">

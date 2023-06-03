@@ -15,7 +15,7 @@ export default function MarketplacePostPage({ post }: any) {
     <>
       <SEO title={title} />
       <Navbar />
-      
+
       <MarketplacePage marketplacePost={post} />
       <Footer />
     </>

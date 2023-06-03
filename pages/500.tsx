@@ -7,7 +7,7 @@ export default function Page500(): JSX.Element {
     <>
       <SEO title="500 - Server Error / Scout Machine" />
       <Navbar />
-      
+
       <div className="flex items-center justify-center flex-col mt-32">
         <h1 className="text-5xl text-primary font-black">500 - Server Error</h1>
         <p className="text-lightGray">
