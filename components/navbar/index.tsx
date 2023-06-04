@@ -29,7 +29,6 @@ import { Team } from "@/types/Team";
 import {
   API_URL,
   BMAC_URL,
-  CURR_YEAR,
   DISCORD_URL,
   GITHUB_URL,
 } from "@/lib/constants";
@@ -71,8 +70,11 @@ export const Navbar = (props: {
   const [favourites, setFavourites] = useState<any>();
 
   useEffect((): void => {
-    getFavourites(setFavourites);
-  }, []);
+    if (session && searchTerm) {
+      getFavourites(setFavourites);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   useEffect((): void => {
     async function fetchData(): Promise<void> {

@@ -7,9 +7,11 @@ import { SEO } from "@/components/SEO";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaCube, FaTrophy } from "react-icons/fa";
+import { ImCross, ImCheckmark } from "react-icons/im";
 import { BsCone } from "react-icons/bs";
 import { Footer } from "@/components/Footer";
 import { GoPrimitiveDot } from "react-icons/go";
+import { API_URL } from "@/lib/constants";
 
 const AllianceComponent = ({ match, teams }: any) => {
   return (
@@ -44,9 +46,7 @@ const AllianceComponent = ({ match, teams }: any) => {
                       alt={`Team ${team.substring(3)} Avatar`}
                       height="50"
                       width="50"
-                      src={`http://localhost:3000/api/og/avatar?team=${team.substring(
-                        3
-                      )}`}
+                      src={`${API_URL}/api/og/avatar?team=${team.substring(3)}`}
                     />
                     Team {team.substring(3)}
                   </h1>
@@ -89,9 +89,7 @@ const AllianceComponent = ({ match, teams }: any) => {
                       alt={`Team ${team} Avatar`}
                       height="50"
                       width="50"
-                      src={`http://localhost:3000/api/og/avatar?team=${team.substring(
-                        3
-                      )}`}
+                      src={`${API_URL}/api/og/avatar?team=${team.substring(3)}`}
                     />
                     Team {team.substring(3)}
                   </h1>
@@ -161,7 +159,142 @@ const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
   );
 };
 
-const MatchData = ({ event, breakdown }: any) => {
+const StatsTable = ({ breakdown, teams }: any) => {
+  const data = [
+    {
+      category: "Mobility",
+      value: breakdown.autoMobilityPoints,
+    },
+    {
+      category: "Auto Game Piece Count",
+      value: breakdown.autoGamePieceCount,
+    },
+    {
+      category: "Auto Game Piece Points",
+      value: breakdown.autoGamePiecePoints,
+    },
+    {
+      category: `Robot 1 (${teams[0]}) Auto Charge Station`,
+      value: breakdown.autoChargeStationRobot1,
+    },
+    {
+      category: `Robot 2 (${teams[1]}) Auto Charge Station`,
+      value: breakdown.autoChargeStationRobot2,
+    },
+    {
+      category: `Robot 3 (${teams[2]}) Auto Charge Station`,
+      value: breakdown.autoChargeStationRobot3,
+    },
+    {
+      category: "Total Auto Points",
+      value: breakdown.autoPoints,
+      important: true,
+    },
+    {
+      category: "Teleop Game Piece Count",
+      value: breakdown.teleopGamePieceCount,
+    },
+    {
+      category: "Teleop Game Piece Points",
+      value: breakdown.teleopGamePiecePoints,
+    },
+    {
+      category: `Robot #1 (${teams[0]}) Endgame Charge Station`,
+      value: breakdown.endGameChargeStationRobot1,
+    },
+    {
+      category: `Robot #2 (${teams[1]}) Endgame Charge Station`,
+      value: breakdown.endGameChargeStationRobot2,
+    },
+    {
+      category: `Robot #3 (${teams[2]}) Endgame Charge Station`,
+      value: breakdown.endGameChargeStationRobot3,
+    },
+    {
+      category: "Total Teleop Points",
+      value: breakdown.teleopPoints,
+      important: true,
+    },
+    {
+      category: "Links",
+      value: breakdown.linkPoints,
+    },
+    {
+      category: "Cooperation Criteria Met?",
+      value: breakdown.coopertitionCriteriaMet ? (
+        <ImCheckmark className="text-green-400" />
+      ) : (
+        <ImCross className="text-red-400" />
+      ),
+    },
+    {
+      category: "Sustainability Bonus?",
+      value: breakdown.sustainabilityBonusAchieved ? (
+        <ImCheckmark className="text-green-400" />
+      ) : (
+        <ImCross className="text-red-400" />
+      ),
+    },
+    {
+      category: "Activation Bonus?",
+      value: breakdown.activationBonusAchieved ? (
+        <ImCheckmark className="text-green-400" />
+      ) : (
+        <ImCross className="text-red-400" />
+      ),
+    },
+    {
+      category: "Foul Points",
+      value: breakdown.foulPoints,
+    },
+    {
+      category: "Adjustments",
+      value: breakdown.adjustPoints,
+    },
+    {
+      category: "Total Points",
+      value: breakdown.totalPoints,
+      important: true,
+    },
+    {
+      category: "Ranking Points",
+      value: breakdown.rp,
+      important: true,
+    },
+  ];
+
+  return (
+    <div className="mt-5">
+      <div className="bg-card rounded-md p-4 w-full">
+        {data.map((item, index) => (
+          <div
+            key={index}
+            className={`flex items-center mb-4 text-white rounded py-1 px-2 ${
+              item.important && "bg-[#2A2A2A]"
+            }`}
+          >
+            <div className="w-1/2 pr-2">
+              <span
+                className={`${
+                  item.important
+                    ? "text-white font-bold"
+                    : "text-lightGray font-semibold"
+                }`}
+              >
+                {item.category}
+              </span>
+            </div>
+            <div className="w-1/2 pl-2">
+              <span className="text-lightGray">{item.value}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const MatchData = ({ event, breakdown, teams }: any) => {
   const redNodes = breakdown.red.teleopCommunity;
   const blueNodes = breakdown.blue.teleopCommunity;
   const redAutoNodes = breakdown.red.autoCommunity;
@@ -173,6 +306,32 @@ const MatchData = ({ event, breakdown }: any) => {
     case "2023":
       return (
         <>
+          <div className="relative mt-5">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-[#2A2A2A]" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <h1 className="bg-card py-1 px-5 rounded-lg text-center text-xl text-white font-bold">
+                Score Breakdown
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4">
+            <StatsTable
+              breakdown={breakdown.red}
+              teams={teams.red.team_keys.map((team: string) =>
+                team.substring(3)
+              )}
+            />
+            <StatsTable
+              breakdown={breakdown.blue}
+              teams={teams.blue.team_keys.map((team: string) =>
+                team.substring(3)
+              )}
+            />
+          </div>
+
           <div className="relative mt-5">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-[#2A2A2A]" />
@@ -283,6 +442,8 @@ export default function MatchPage({
     }
   };
 
+  console.log(match);
+
   return (
     <>
       <SEO title={title} />
@@ -301,7 +462,11 @@ export default function MatchPage({
         </div>
         <AllianceComponent match={match} teams={teamData} />
 
-        <MatchData event={event} breakdown={match.score_breakdown} />
+        <MatchData
+          event={event}
+          teams={match.alliances}
+          breakdown={match.score_breakdown}
+        />
       </div>
 
       <Footer />
