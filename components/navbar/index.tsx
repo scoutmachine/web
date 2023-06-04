@@ -26,12 +26,7 @@ import { SignoutModal } from "../modals/SignoutModal";
 import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
-import {
-  API_URL,
-  BMAC_URL,
-  DISCORD_URL,
-  GITHUB_URL,
-} from "@/lib/constants";
+import { API_URL, BMAC_URL, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 import router from "next/router";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "../Loading";
@@ -73,7 +68,7 @@ export const Navbar = (props: {
     if (session && searchTerm) {
       getFavourites(setFavourites);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   useEffect((): void => {

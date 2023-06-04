@@ -6,7 +6,7 @@ import { Match } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaCube, FaTrophy } from "react-icons/fa";
+import { FaCube, FaTrophy, FaYoutube } from "react-icons/fa";
 import { ImCross, ImCheckmark } from "react-icons/im";
 import { BsCone } from "react-icons/bs";
 import { Footer } from "@/components/Footer";
@@ -457,6 +457,14 @@ export default function MatchPage({
     match.match_number
   } / ${match.event_key.slice(4).toUpperCase()} / Scout Machine`;
 
+  const videos: string[] = [];
+
+  match.videos
+    .filter((video: any): boolean => video.type === "youtube")
+    .forEach((video: any): void => {
+      if (video.key) videos.push(video.key);
+    });
+
   return (
     <>
       <SEO title={title} />
@@ -472,6 +480,23 @@ export default function MatchPage({
           <p className="text-lightGray text-center">
             {eventData.name} {String(event).substring(0, 4)}
           </p>
+
+          {videos.length > 0 && (
+            <div className="flex justify-center items-center">
+              <a
+                href={`https://youtube.com/watch_videos?video_ids=${videos.join(
+                  ","
+                )}&title=${eventData.name}`}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <button className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-red-500 hover:text-white  py-2 px-5 rounded-lg">
+                  <FaYoutube className={`mr-2 text-lg mt-[1px]`} /> Watch Match
+                  Videos
+                </button>
+              </a>
+            </div>
+          )}
         </div>
         <AllianceComponent match={match} teams={teamData} />
 

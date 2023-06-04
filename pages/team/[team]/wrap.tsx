@@ -3,8 +3,6 @@ import db from "@/lib/db";
 import { Match } from "@prisma/client";
 
 export default function LiveFieldViewPage({ teamMatches }: any) {
-  console.log(teamMatches);
-
   return <h1>Testing</h1>;
 }
 
