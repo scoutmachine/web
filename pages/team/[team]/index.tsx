@@ -15,7 +15,6 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
-import { useSession } from "next-auth/react";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { Session, getServerSession, User } from "next-auth";
 import db from "@/lib/db";

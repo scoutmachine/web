@@ -7,7 +7,10 @@ export default async function getStatus(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const fetchAvatar = await fetchTeamAvatar(req);
+  const fetchAvatar:
+    | { avatar: null; status: any }
+    | { avatar: any; status: any }
+    | { avatar: null; status: number } = await fetchTeamAvatar(req);
   const avatar = fetchAvatar.avatar;
 
   if (!avatar) {

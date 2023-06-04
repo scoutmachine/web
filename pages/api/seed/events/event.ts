@@ -10,7 +10,7 @@ import { AxiosResponse } from "axios";
 
 const router: RouterBuilder = new RouterBuilder();
 
-const handleEventETL = async (req: NextApiRequest) => {
+const handleEventETL = async (req: NextApiRequest): Promise<void> => {
   const { event } = req.query;
 
   console.log(`Updating ${event}`);
