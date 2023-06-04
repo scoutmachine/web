@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { generateRandomString } from "@/utils/generateRandomString";
+import { generateAPIKey } from "@/utils/generateAPIKey";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
@@ -18,7 +18,7 @@ export default async function handler(
   if (!session) res.status(400).send("You are not logged in!");
 
   if (req.method === "POST") {
-    const key: string = generateRandomString(32);
+    const key: string = generateAPIKey();
     const apiKey: ApiKey = await db.apiKey.create({
       data: {
         key: key,
