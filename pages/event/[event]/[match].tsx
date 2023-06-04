@@ -6,16 +6,9 @@ import { Match } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaCube, FaRedo, FaTrophy, FaUndo } from "react-icons/fa";
-import { BsCone, BsDot } from "react-icons/bs";
+import { FaCube, FaTrophy } from "react-icons/fa";
+import { BsCone } from "react-icons/bs";
 import { Footer } from "@/components/Footer";
-import { COMP_SEASON } from "@/lib/constants";
-import { isTimeInPast } from "@/pages/team/[team]/next";
-import {
-  formatEpochSecondsToDate,
-  epochSecondsToTime,
-  formatRelativeTime,
-} from "@/utils/time";
 import { GoPrimitiveDot } from "react-icons/go";
 
 const AllianceComponent = ({ match, teams }: any) => {
@@ -37,7 +30,7 @@ const AllianceComponent = ({ match, teams }: any) => {
         <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
           {match.alliances.red.team_keys.map((team: any, key: number) => {
             return (
-              <Link key={key} href={`/team/${team}`}>
+              <Link key={key} href={`/team/${team.substring(3)}`}>
                 <div className={`bg-red-400 hover:bg-red-600 rounded-lg py-5`}>
                   <p className="text-center text-sm font-semibold text-red-200 mb-1">
                     {teams[team.substring(3)].nickname}
@@ -151,7 +144,7 @@ const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
           </span>
         ) : (
           <span role="img" aria-label="none">
-            <BsDot className="text-lightGray text-2xl" />
+            <GoPrimitiveDot className="text-lightGray text-xl" />
           </span>
         )}
       </div>
@@ -189,6 +182,14 @@ const MatchData = ({ event, breakdown }: any) => {
                 Scoring Location Breakdown
               </h1>
             </div>
+          </div>
+
+          <div className="text-lightGray rounded-lg py-2 flex items-center justify-center">
+            
+              <div className="h-6 w-6 border-2 border-red-400 rounded-md mr-2"></div>{" "} Red Alliance Nodes
+              <div className="h-6 w-6 border-2 border-sky-400 rounded-md ml-3 mr-2"></div>{" "} Blue Alliance Nodes
+              <div className="h-6 w-6 border-2 border-white rounded-md ml-3 mr-2"></div>{" "} Link
+              <div className="h-6 w-6 border-2 border-green-400 rounded-md ml-3 mr-2"></div>{" "} Autonomous Nodes
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-3">
