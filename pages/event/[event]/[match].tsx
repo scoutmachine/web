@@ -108,7 +108,6 @@ const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
   const linkIndices = linkNodes ? linkNodes.nodes : [];
   const levelKey = level.charAt(0).toUpperCase();
 
-  // Check if any of the boxes in the linkIndices array have a link
   const hasLinkInGroup = linkIndices.some(
     (index: number) => scoringData[index] !== "None"
   );
@@ -258,7 +257,7 @@ const StatsTable = ({ breakdown, teams }: any) => {
     },
     {
       category: "Ranking Points",
-      value: breakdown.rp,
+      value: `+${breakdown.rp} RP`,
       important: true,
     },
   ];
@@ -285,7 +284,22 @@ const StatsTable = ({ breakdown, teams }: any) => {
               </span>
             </div>
             <div className="w-1/2 pl-2">
-              <span className="text-lightGray">{item.value}</span>
+              <span
+                className={`flex ${
+                  item.important ? "text-white" : "text-lightGray"
+                }`}
+              >
+                {item.value === "None" ? (
+                  <ImCross className="mt-1 mr-2 text-red-400" />
+                ) : ["Docked", "Engaged", "Park"].includes(item.value) ? (
+                  <>
+                    <ImCheckmark className="mt-1 mr-2 text-green-400" />{" "}
+                    {item.value}
+                  </>
+                ) : (
+                  item.value
+                )}
+              </span>
             </div>
           </div>
         ))}
@@ -345,14 +359,14 @@ const MatchData = ({ event, breakdown, teams }: any) => {
 
           <div className="text-lightGray rounded-lg py-2 flex flex-wrap items-center justify-center">
             <div className="h-6 w-6 border-2 border-red-400 rounded-md mr-2"></div>{" "}
-            Red Alliance Nodes
+            Red Alliance
             <div className="h-6 w-6 border-2 border-sky-400 rounded-md ml-3 mr-2"></div>{" "}
-            Blue Alliance Nodes
+            Blue Alliance
             <div className="h-6 w-6 border-2 border-white rounded-md ml-3 mr-2"></div>{" "}
             Link
             <div className="flex mt-2 md:mt-0">
               <div className="h-6 w-6 border-2 border-green-400 rounded-md ml-3 mr-2"></div>{" "}
-              Autonomous Nodes
+              Scored in Auto
               <FaCube className="ml-3 mr-2 text-purple-400 text-2xl" /> Cube
               <BsCone className="ml-3 mr-2 text-yellow-400 text-2xl" /> Cone
             </div>
@@ -422,9 +436,6 @@ export default function MatchPage({
 }: any): JSX.Element {
   const router = useRouter();
   const { event } = router.query;
-  const title: string = `Match ${match.match_number} / ${match.event_key
-    .slice(4)
-    .toUpperCase()} / Scout Machine`;
 
   const findMatchName = () => {
     switch (match.comp_level) {
@@ -442,7 +453,9 @@ export default function MatchPage({
     }
   };
 
-  console.log(match);
+  const title: string = `${findMatchName()} #${
+    match.match_number
+  } / ${match.event_key.slice(4).toUpperCase()} / Scout Machine`;
 
   return (
     <>
