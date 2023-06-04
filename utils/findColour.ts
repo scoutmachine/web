@@ -52,20 +52,18 @@ const extractColours = async (imageUrl: string): Promise<any> => {
     }
   }
 
-  const sortedColours: any = Object.keys(ColourCounts)
-    .filter((Colour: any) => {
-      const [r, g, b] = Colour.slice(1)
-        .match(/.{2}/g)
-        .map((component: any) => parseInt(component, 16));
+  return Object.keys(ColourCounts)
+      .filter((Colour: any) => {
+        const [r, g, b] = Colour.slice(1)
+            .match(/.{2}/g)
+            .map((component: any) => parseInt(component, 16));
 
-      const isBlack: boolean = r === 0 && g === 0 && b === 0;
-      const isWhite: boolean = r === 255 && g === 255 && b === 255;
+        const isBlack: boolean = r === 0 && g === 0 && b === 0;
+        const isWhite: boolean = r === 255 && g === 255 && b === 255;
 
-      return !isBlack && !isWhite;
-    })
-    .sort((a: string, b: string) => ColourCounts[b] - ColourCounts[a]);
-
-  return sortedColours;
+        return !isBlack && !isWhite;
+      })
+      .sort((a: string, b: string) => ColourCounts[b] - ColourCounts[a]);
 };
 
 export const findColour = async (imageUrl: string): Promise<string> => {
