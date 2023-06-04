@@ -179,17 +179,24 @@ const MatchData = ({ event, breakdown }: any) => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <h1 className="bg-card py-1 px-5 rounded-lg text-center text-xl text-white font-bold">
-                Scoring Location Breakdown
+                Score Location Breakdown
               </h1>
             </div>
           </div>
 
-          <div className="text-lightGray rounded-lg py-2 flex items-center justify-center">
-            
-              <div className="h-6 w-6 border-2 border-red-400 rounded-md mr-2"></div>{" "} Red Alliance Nodes
-              <div className="h-6 w-6 border-2 border-sky-400 rounded-md ml-3 mr-2"></div>{" "} Blue Alliance Nodes
-              <div className="h-6 w-6 border-2 border-white rounded-md ml-3 mr-2"></div>{" "} Link
-              <div className="h-6 w-6 border-2 border-green-400 rounded-md ml-3 mr-2"></div>{" "} Autonomous Nodes
+          <div className="text-lightGray rounded-lg py-2 flex flex-wrap items-center justify-center">
+            <div className="h-6 w-6 border-2 border-red-400 rounded-md mr-2"></div>{" "}
+            Red Alliance Nodes
+            <div className="h-6 w-6 border-2 border-sky-400 rounded-md ml-3 mr-2"></div>{" "}
+            Blue Alliance Nodes
+            <div className="h-6 w-6 border-2 border-white rounded-md ml-3 mr-2"></div>{" "}
+            Link
+            <div className="flex mt-2 md:mt-0">
+              <div className="h-6 w-6 border-2 border-green-400 rounded-md ml-3 mr-2"></div>{" "}
+              Autonomous Nodes
+              <FaCube className="ml-3 mr-2 text-purple-400 text-2xl" /> Cube
+              <BsCone className="ml-3 mr-2 text-yellow-400 text-2xl" /> Cone
+            </div>
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-3">
