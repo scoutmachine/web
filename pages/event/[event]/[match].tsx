@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import db from "@/lib/db";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import Head from "next/head";
 import { JSX } from "react";
 import { Match } from "@prisma/client";
 import { SEO } from "@/components/SEO";

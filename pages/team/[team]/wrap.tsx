@@ -1,9 +1,8 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { NextRouter, useRouter } from "next/router";
 import db from "@/lib/db";
+import { Match } from "@prisma/client";
 
 export default function LiveFieldViewPage({ teamMatches }: any) {
-  const router: NextRouter = useRouter();
   console.log(teamMatches);
 
   return <h1>Testing</h1>;
@@ -36,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (
     },
   });
 
-  const highestScoringMatches = teamMatches
+  const highestScoringMatches: Match[] = teamMatches
     .sort((a: any, b: any) => {
       const scoreA = a.alliances.red.score + a.alliances.blue.score;
       const scoreB = b.alliances.red.score + b.alliances.blue.score;

@@ -7,7 +7,6 @@ import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useState } from "react";
 import { FaMoneyBill } from "react-icons/fa";
 import { authOptions } from "../api/auth/[...nextauth]";

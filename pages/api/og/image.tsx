@@ -1,20 +1,22 @@
 import { ImageResponse } from "next/server";
 import { API_URL } from "@/lib/constants";
 
-export const runtime = "edge";
+export const runtime: string = "edge";
 
-const interBlack = fetch(
+const interBlack: Promise<ArrayBuffer> = fetch(
   new URL("/public/fonts/Inter-Black.ttf", import.meta.url)
-).then((res) => res.arrayBuffer());
+).then((res: Response) => res.arrayBuffer());
 
-export default async function handler(request: Request) {
-  const url = new URL(request.url);
-  const team = url.searchParams.get("team");
-  const mode = url.searchParams.get("mode");
+export default async function handler(
+  request: Request
+): Promise<ImageResponse> {
+  const url: URL = new URL(request.url);
+  const team: string | null = url.searchParams.get("team");
+  const mode: string | null = url.searchParams.get("mode");
 
   const { teamData, avatar } = await fetch(
     `${API_URL}/api/og/team?team=${team}`
-  ).then((res) => res.json());
+  ).then((res: Response) => res.json());
 
   return new ImageResponse(
     (

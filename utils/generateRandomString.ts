@@ -1,3 +1,4 @@
+// TODO: NOT THIS PLEASE, also need to check to not create conflicting keys
 export function generateRandomString(length: number): string {
   const characters: string =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

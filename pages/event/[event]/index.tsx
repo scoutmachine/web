@@ -8,7 +8,6 @@ import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { JSX, useState } from "react";
-import Head from "next/head";
 import db from "@/lib/db";
 import { AwardsTab } from "@/components/tabs/event/Awards";
 import { useSession } from "next-auth/react";
