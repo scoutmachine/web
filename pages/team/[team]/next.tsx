@@ -19,6 +19,12 @@ import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
 import { JSX, useEffect, useState } from "react";
 
+export const isTimeInPast = (time: string): boolean => {
+  const currentTime: Date = new Date();
+  const targetTime: Date = new Date(time);
+  return targetTime < currentTime;
+};
+
 export default function NextTeamMatch({
   next,
   avatars,
@@ -57,12 +63,6 @@ export default function NextTeamMatch({
   const teamAlliance = next.match?.teams
     .find((team: any): boolean => team.teamNumber === Number(teamQuery))
     .station.replace(/[0-9]/g, "");
-
-  const isTimeInPast = (time: string): boolean => {
-    const currentTime: Date = new Date();
-    const targetTime: Date = new Date(time);
-    return targetTime < currentTime;
-  };
 
   const [redAllianceWinRate, setRedAllianceWinRate] = useState(0);
   const [blueAllianceWinRate, setBlueAllianceWinRate] = useState(0);

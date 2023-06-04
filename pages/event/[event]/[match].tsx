@@ -1,14 +1,22 @@
 import { Navbar } from "@/components/navbar";
 import db from "@/lib/db";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import next, { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { JSX } from "react";
 import { Match } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaCube, FaTrophy } from "react-icons/fa";
+import { FaCube, FaRedo, FaTrophy, FaUndo } from "react-icons/fa";
 import { BsCone, BsDot } from "react-icons/bs";
 import { Footer } from "@/components/Footer";
+import { COMP_SEASON } from "@/lib/constants";
+import { isTimeInPast } from "@/pages/team/[team]/next";
+import {
+  formatEpochSecondsToDate,
+  epochSecondsToTime,
+  formatRelativeTime,
+} from "@/utils/time";
+import { GoPrimitiveDot } from "react-icons/go";
 
 const AllianceComponent = ({ match, teams }: any) => {
   return (
@@ -236,18 +244,36 @@ const MatchData = ({ event, breakdown }: any) => {
       );
 
     default:
-      return <></>;
+      return <h1>In Progress...</h1>;
   }
 };
 
-export default function MatchPage({ match, teamData }: any): JSX.Element {
+export default function MatchPage({
+  match,
+  teamData,
+  eventData,
+}: any): JSX.Element {
   const router = useRouter();
   const { event } = router.query;
   const title: string = `Match ${match.match_number} / ${match.event_key
     .slice(4)
     .toUpperCase()} / Scout Machine`;
 
-  console.log(match);
+  const findMatchName = () => {
+    switch (match.comp_level) {
+      case "f":
+        return "Finals";
+
+      case "sf":
+        return "Semi Finals";
+
+      case "qf":
+        return "Quarter Finals";
+
+      case "qm":
+        return "Qualification Match";
+    }
+  };
 
   return (
     <>
@@ -256,9 +282,15 @@ export default function MatchPage({ match, teamData }: any): JSX.Element {
       <Navbar />
 
       <div className="pr-4 pl-4 md:pr-8 md:pl-8 max-w-screen-3xl">
-        <h1 className="text-white mt-10 text-5xl font-bold text-center mb-5">
-          Match {match.match_number}
-        </h1>
+        <div className="bg-card mb-5 mt-10 p-5 rounded-lg border dark:border-[#2A2A2A]">
+          <h1 className="text-black dark:text-lightGray text-2xl text-center">
+            {findMatchName()}{" "}
+            <b className="text-white">#{match.match_number}</b>
+          </h1>
+          <p className="text-lightGray text-center">
+            {eventData.name} {String(event).substring(0, 4)}
+          </p>
+        </div>
         <AllianceComponent match={match} teams={teamData} />
 
         <MatchData event={event} breakdown={match.score_breakdown} />
@@ -272,7 +304,7 @@ export default function MatchPage({ match, teamData }: any): JSX.Element {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<{
-  props: { match: any; teamData: any };
+  props: { match: any; teamData: any; eventData: any };
 }> => {
   const { event, match }: any = context.params;
   const teamData: any = {};
@@ -309,14 +341,22 @@ export const getServerSideProps: GetServerSideProps = async (
 
   await Promise.all([...redTeamPromises, ...blueTeamPromises]);
 
+  const formattedMatchData = JSON.parse(
+    JSON.stringify(matchData, (key: string, value) =>
+      typeof value === "bigint" ? value.toString() : value
+    )
+  );
+  const eventData = await db.event.findUnique({
+    where: {
+      key: formattedMatchData.event_key,
+    },
+  });
+
   return {
     props: {
-      match: JSON.parse(
-        JSON.stringify(matchData, (key: string, value) =>
-          typeof value === "bigint" ? value.toString() : value
-        )
-      ),
+      match: formattedMatchData,
       teamData,
+      eventData,
     },
   };
 };
