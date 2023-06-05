@@ -63,7 +63,7 @@
     "@types/lodash": "^4.14.195",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
-    "typedoc": "^0.24.7"
+    "typedoc": "^0.24.8"
   },
   "husky": {
     "hooks": {
