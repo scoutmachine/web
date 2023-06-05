@@ -32,7 +32,7 @@
     "chalk": "^5.2.0",
     "color-convert": "^2.0.1",
     "currency-codes": "^2.1.0",
-    "eslint": "8.41.0",
+    "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "export-from-json": "^1.7.2",
     "framer-motion": "^10.12.16",
@@ -66,7 +66,7 @@
     "@types/lodash": "^4.14.195",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
-    "typedoc": "^0.24.7"
+    "typedoc": "^0.24.8"
   },
   "husky": {
     "hooks": {

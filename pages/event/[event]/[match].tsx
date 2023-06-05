@@ -1,13 +1,13 @@
 import { Navbar } from "@/components/navbar";
 import db from "@/lib/db";
-import next, { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { JSX } from "react";
-import { Match } from "@prisma/client";
+import { Match, Event } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaCube, FaTrophy, FaYoutube } from "react-icons/fa";
-import { ImCross, ImCheckmark } from "react-icons/im";
+import { ImCheckmark, ImCross } from "react-icons/im";
 import { BsCone } from "react-icons/bs";
 import { Footer } from "@/components/Footer";
 import { GoPrimitiveDot } from "react-icons/go";
@@ -104,19 +104,19 @@ const AllianceComponent = ({ match, teams }: any) => {
 };
 
 const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
-  const linkNodes = links.find((link: any) => link.row === level);
+  const linkNodes = links.find((link: any): boolean => link.row === level);
   const linkIndices = linkNodes ? linkNodes.nodes : [];
   const levelKey = level.charAt(0).toUpperCase();
 
   const hasLinkInGroup = linkIndices.some(
-    (index: number) => scoringData[index] !== "None"
+    (index: number): boolean => scoringData[index] !== "None"
   );
 
   const boxes = scoringData.map((item: any, index: number) => {
     const hasLink = linkIndices.includes(index);
-    const isAutoScored = autoData[levelKey][index] !== "None";
+    const isAutoScored: boolean = autoData[levelKey][index] !== "None";
 
-    let boxClasses =
+    let boxClasses: string =
       "border-2 bg-card h-16 rounded-md flex justify-center items-center";
 
     if (alliance === "red" && !hasLink && !isAutoScored) {
@@ -159,7 +159,10 @@ const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
 };
 
 const StatsTable = ({ breakdown, teams }: any) => {
-  const data = [
+  const data: (
+    | { category: string; value: any; important?: undefined }
+    | { category: string; value: any; important: boolean }
+  )[] = [
     {
       category: "Mobility",
       value: breakdown.autoMobilityPoints,
@@ -308,7 +311,7 @@ const StatsTable = ({ breakdown, teams }: any) => {
   );
 };
 
-const MatchData = ({ event, breakdown, teams }: any) => {
+const MatchData = ({ event, breakdown, teams }: any): JSX.Element => {
   const redNodes = breakdown.red.teleopCommunity;
   const blueNodes = breakdown.blue.teleopCommunity;
   const redAutoNodes = breakdown.red.autoCommunity;
@@ -527,26 +530,22 @@ export const getServerSideProps: GetServerSideProps = async (
   });
 
   const redTeamPromises = matchData?.alliances.red.team_keys.map(
-    async (team: any) => {
-      const data = await db.team.findUnique({
+    async (team: any): Promise<void> => {
+      teamData[team.substring(3)] = await db.team.findUnique({
         where: {
           team_number: Number(team.substring(3)),
         },
       });
-
-      teamData[team.substring(3)] = data;
     }
   );
 
   const blueTeamPromises = matchData?.alliances.blue.team_keys.map(
-    async (team: any) => {
-      const data = await db.team.findUnique({
+    async (team: any): Promise<void> => {
+      teamData[team.substring(3)] = await db.team.findUnique({
         where: {
           team_number: Number(team.substring(3)),
         },
       });
-
-      teamData[team.substring(3)] = data;
     }
   );
 
@@ -557,7 +556,7 @@ export const getServerSideProps: GetServerSideProps = async (
       typeof value === "bigint" ? value.toString() : value
     )
   );
-  const eventData = await db.event.findUnique({
+  const eventData: Event | null = await db.event.findUnique({
     where: {
       key: formattedMatchData.event_key,
     },

@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import Link from "next/link";
 import Image from "next/image";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import {
