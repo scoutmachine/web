@@ -14,19 +14,26 @@ export default async function getStatus(
   const avatar = fetchAvatar.avatar;
 
   if (!avatar) {
-    const imagePath = path.join(process.cwd(), "public", "first-icon.svg");
+    const imagePath: string = path.join(
+      process.cwd(),
+      "public",
+      "first-icon.svg"
+    );
 
-    fs.readFile(imagePath, (err, data) => {
-      if (err) {
-        console.error(err);
-        res.status(500).end();
-        return;
+    fs.readFile(
+      imagePath,
+      (err: NodeJS.ErrnoException | null, data: Buffer): void => {
+        if (err) {
+          console.error(err);
+          res.status(500).end();
+          return;
+        }
+
+        res.setHeader("Content-Type", "image/svg+xml");
+        res.setHeader("Cache-Control", "public, max-age=604800"); // 1 week
+        res.end(data);
       }
-
-      res.setHeader("Content-Type", "image/svg+xml");
-      res.setHeader("Cache-Control", "public, max-age=604800"); // 1 week
-      res.end(data);
-    });
+    );
 
     return;
   }
