@@ -7,6 +7,7 @@ import { SpotifyPlayer } from "@/components/wrapped/spotify/SpotifyPlayer";
 import SpotifyFramePlayer from "@/components/wrapped/spotify/FramePlayer";
 import { useEffect, useState } from "react";
 import { IntroSlide } from "@/components/wrapped/slides/IntroSlide";
+import { SEO } from "@/components/SEO";
 
 export default function TeamWrapPage() {
   const router = useRouter();
@@ -24,8 +25,12 @@ export default function TeamWrapPage() {
     if (!spotify) loadSpotify();
   });
 
+  const title = `${team}'s Wrapped / Scout Machine`;
+
   return (
     <>
+      <SEO title={title} />
+      
       <SpotifyPlayer />
 
       {page === "main" && <IntroSlide team={team} setPage={setPage} />}

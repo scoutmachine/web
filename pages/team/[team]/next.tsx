@@ -18,6 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
 import { JSX, useEffect, useState } from "react";
+import { SEO } from "@/components/SEO";
 
 export const isTimeInPast = (time: string): boolean => {
   const currentTime: Date = new Date();
@@ -115,8 +116,11 @@ export default function NextTeamMatch({
     );
   }
 
+  const title = `${teamQuery}'s Upcoming Match / Scout Machine`
+
   return (
     <>
+      <SEO title={title} />
       <Navbar />
 
       <div className="pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl mt-10">
