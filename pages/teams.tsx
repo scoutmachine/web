@@ -17,6 +17,7 @@ import { teamNumberInRange } from "@/utils/team";
 import { SEO } from "@/components/SEO";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "@/components/Loading";
+import { TeamSlideover } from "@/components/slideovers/TeamSliveover";
 
 const filterOptions = [
   { name: <FaHome aria-label="Home Button" />, range: "" },
@@ -42,6 +43,8 @@ export default function TeamsPage({ user }: any): JSX.Element {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(50);
   const [buttonClicked, setButtonClicked] = useState("");
+  const [slideoverOpen, setSlideOverOpen] = useState(false);
+  const [openTeam, setOpenTeam] = useState(null);
 
   const itemsPerPage: number = 50;
 
@@ -226,12 +229,16 @@ export default function TeamsPage({ user }: any): JSX.Element {
                     key={key}
                     team={team}
                     favourites={user?.favouritedTeams}
+                    setOpen={setSlideOverOpen}
+                    setOpenTeam={setOpenTeam}
                   />
                 );
               })}
             </div>
           </div>
         </div>
+
+        <TeamSlideover isOpen={slideoverOpen} setOpen={setSlideOverOpen} openTeam={openTeam} />
 
         <Footer />
       </>
