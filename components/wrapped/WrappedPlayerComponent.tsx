@@ -5,10 +5,14 @@ import WrappedPlayer from "./WrappedPlayer";
 import { WrappedContainer } from "./WrappedContainer";
 import SpotifyFramePlayer from "./spotify/FramePlayer";
 
-type WrappedPlayerComponentProps = {
+interface WrappedPlayerComponentProps {
   spotify: SpotifyFramePlayer | null;
   team: any;
-};
+  teamMatches: any;
+  totalEvents: number;
+  totalAwards: number;
+  totalFavourited: number;
+}
 
 const LoadingPlayerComponent: React.FC = () => (
   <WrappedContainer>

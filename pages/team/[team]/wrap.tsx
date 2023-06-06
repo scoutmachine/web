@@ -1,7 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import WrappedPlayerComponent from "@/components/wrapped/WrappedPlayerComponent";
-// import db from "@/lib/db";
-// import { Match } from "@prisma/client";
+import db from "@/lib/db";
 import { useRouter } from "next/router";
 import { SpotifyPlayer } from "@/components/wrapped/spotify/SpotifyPlayer";
 import SpotifyFramePlayer from "@/components/wrapped/spotify/FramePlayer";
@@ -9,7 +8,12 @@ import { useEffect, useState } from "react";
 import { IntroSlide } from "@/components/wrapped/slides/IntroSlide";
 import { SEO } from "@/components/SEO";
 
-export default function TeamWrapPage() {
+export default function TeamWrapPage({
+  totalEvents,
+  totalAwards,
+  teamMatches,
+  totalFavourited,
+}: any) {
   const router = useRouter();
   const { team } = router.query;
   const [spotify, setSpotify] = useState<SpotifyFramePlayer | null>(null);
@@ -30,13 +34,20 @@ export default function TeamWrapPage() {
   return (
     <>
       <SEO title={title} />
-      
+
       <SpotifyPlayer />
 
       {page === "main" && <IntroSlide team={team} setPage={setPage} />}
 
       {page === "ready" && (
-        <WrappedPlayerComponent team={team} spotify={spotify} />
+        <WrappedPlayerComponent
+          team={team}
+          spotify={spotify}
+          teamMatches={teamMatches}
+          totalEvents={totalEvents}
+          totalAwards={totalAwards}
+          totalFavourited={totalFavourited}
+        />
       )}
     </>
   );
@@ -47,45 +58,67 @@ export const getServerSideProps: GetServerSideProps = async (
 ): Promise<{ props: any }> => {
   const { team }: any = context.params;
 
-  // const teamMatches = await db.match.findMany({
-  //   where: {
-  //     event_key: {
-  //       contains: "2023",
-  //     },
-  //     OR: [
-  //       {
-  //         alliances: {
-  //           path: ["red", "team_keys"],
-  //           array_contains: `frc${team}`,
-  //         },
-  //       },
-  //       {
-  //         alliances: {
-  //           path: ["blue", "team_keys"],
-  //           array_contains: `frc${team}`,
-  //         },
-  //       },
-  //     ],
-  //   },
-  // });
-
-  // const highestScoringMatches: Match[] = teamMatches
-  //   .sort((a: any, b: any) => {
-  //     const scoreA = a.alliances.red.score + a.alliances.blue.score;
-  //     const scoreB = b.alliances.red.score + b.alliances.blue.score;
-  //     return scoreB - scoreA;
-  //   })
-  //   .slice(0, 2);
+  const [teamMatches, totalEvents, totalAwards, totalFavourited] = await Promise.all([
+    await db.match.findMany({
+      where: {
+        event_key: {
+          contains: "2023",
+        },
+        OR: [
+          {
+            alliances: {
+              path: ["red", "team_keys"],
+              array_contains: `frc${team}`,
+            },
+          },
+          {
+            alliances: {
+              path: ["blue", "team_keys"],
+              array_contains: `frc${team}`,
+            },
+          },
+        ],
+      },
+    }),
+    await db.event.count({
+      where: {
+        key: {
+          contains: "2023"
+        },
+        teams: {
+          some: {
+            team_number: Number(team),
+          }
+        },
+      },
+    }),
+    await db.award.count({
+      where: {
+        recipient_list: {
+          array_contains: [{ awardee: null, team_key: `frc${team}` }],
+        },
+        year: 2023,
+      },
+    }),
+    await db.favouritedTeam.count({
+      where: {
+        team_number: Number(team),
+      },
+    }),
+  ]);
 
   return {
     props: {
-      // teamMatches: JSON.parse(
-      //   JSON.stringify(
-      //     highestScoringMatches,
-      //     (key: string, value) =>
-      //       typeof value === "bigint" ? value.toString() : value // return everything else unchanged
-      //   )
-      // ),
+      totalEvents,
+      totalAwards,
+      totalFavourited,
+      teamMatches: JSON.parse(
+        JSON.stringify(
+          teamMatches,
+          (key: string, value) =>
+            typeof value === "bigint" ? value.toString() : value // return everything else unchanged
+        )
+      ),
     },
   };
 };

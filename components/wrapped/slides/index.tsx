@@ -1,6 +1,7 @@
-import { FirstSlide } from "./FirstSlide";
-import { SecondSlide } from "./SecondSlide";
-import { ThirdSlide } from "./ThirdSlide";
+import { TotalMatches } from "./TotalMatches";
+import { TotalEvents } from "./TotalEvents";
+import { TotalAwards } from "./TotalAwards";
+import { TotalFavourited } from "./TotalFavourited";
 
 export interface Slide {
   name: string;
@@ -11,21 +12,25 @@ export interface Slide {
 
 export const SLIDES: Slide[] = [
   {
-    name: "First Slide",
-    component: FirstSlide,
+    name: "Total Events",
+    component: TotalEvents,
     duration: 6000,
-    spotify: "spotify:track:0RiRZpuVRbi7oqRdSMwhQY",
+    spotify: "spotify:track:42GOIiPxJQPPLupSqJUmSS",
   },
   {
-    name: "Second Slide",
-    component: SecondSlide,
+    name: "Total Awards",
+    component: TotalAwards,
     duration: 6000,
-    spotify: "spotify:track:47Mf1u67oqXtWBAaUHUSi7",
   },
   {
-    name: "Third Slide",
-    component: ThirdSlide,
+    name: "Total Matches",
+    component: TotalMatches,
     duration: 6000,
-    spotify: "spotify:track:14zDy9P7qf0oBDOtHMNoKV",
+    spotify: "spotify:track:3bidbhpOYeV4knp8AIu8Xn",
+  },
+  {
+    name: "Total Favourited",
+    component: TotalFavourited,
+    duration: 6000,
   },
 ];
