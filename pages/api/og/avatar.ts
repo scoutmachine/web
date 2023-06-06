@@ -2,6 +2,31 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { fetchTeamAvatar } from "../teams/avatar";
 import fs from "fs";
 import path from "path";
+import axios from "axios";
+
+const sendFIRSTImage = (res: NextApiResponse) => {
+  const imagePath: string = path.join(
+    process.cwd(),
+    "public",
+    "first-icon.svg"
+  );
+
+  fs.readFile(
+    imagePath,
+    (err: NodeJS.ErrnoException | null, data: Buffer): void => {
+      if (err) {
+        console.error(err);
+        res.status(500).end();
+        return;
+      }
+
+      res.setHeader("Content-Type", "image/svg+xml");
+      res.setHeader("Cache-Control", "public, max-age=604800"); // 1 week
+      res.end(data);
+      return;
+    }
+  );
+};
 
 export default async function getStatus(
   req: NextApiRequest,
@@ -12,30 +37,37 @@ export default async function getStatus(
     | { avatar: any; status: any }
     | { avatar: null; status: number } = await fetchTeamAvatar(req);
   const avatar = fetchAvatar.avatar;
+  const { website } = req.query;
 
   if (!avatar) {
-    const imagePath: string = path.join(
-      process.cwd(),
-      "public",
-      "first-icon.svg"
-    );
+    if (!website) return sendFIRSTImage(res);
 
-    fs.readFile(
-      imagePath,
-      (err: NodeJS.ErrnoException | null, data: Buffer): void => {
-        if (err) {
-          console.error(err);
-          res.status(500).end();
-          return;
-        }
+    const getWebsiteFavicon = `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+      String(website)?.startsWith("https")
+        ? website
+        : `https://${website?.slice(7)}`
+    }/&size=64`;
 
-        res.setHeader("Content-Type", "image/svg+xml");
-        res.setHeader("Cache-Control", "public, max-age=604800"); // 1 week
-        res.end(data);
+    try {
+      const response = await axios
+        .get(getWebsiteFavicon, {
+          responseType: "arraybuffer",
+        })
+        .then((response) =>
+          Buffer.from(response.data, "binary").toString("base64")
+        );
+
+      if (response) {
+        res.setHeader("Content-Type", "image/jpeg");
+        res.setHeader("Cache-Control", "public, max-age=604800");
+        res.end(Buffer.from(response, "base64"));
+        return;
+      } else {
+        return sendFIRSTImage(res);
       }
-    );
-
-    return;
+    } catch {
+      return sendFIRSTImage(res);
+    }
   }
 
   res.setHeader("Content-Type", "image/jpeg");

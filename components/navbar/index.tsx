@@ -114,7 +114,7 @@ export const Navbar = (props: {
     <>
       <div
         className={`sticky top-0 pl-4 pr-4 md:pr-8 md:pl-8 ${
-          isScrolled && "z-50"
+          isScrolled && "z-40"
         }`}
       >
         <div
@@ -132,15 +132,30 @@ export const Navbar = (props: {
               </h1>
             </a>
 
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Github"
+            >
               <Social icon={<FaGithub />} />
             </a>
 
-            <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
+            <a
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Discord"
+            >
               <Social icon={<FaDiscord />} />
             </a>
 
-            <a href={BMAC_URL} target="_blank" rel="noopener noreferrer">
+            <a
+              href={BMAC_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Buy Me a Coffee"
+            >
               <Social icon={<FaCoffee />} />
             </a>
 
@@ -150,7 +165,10 @@ export const Navbar = (props: {
               } rounded-lg py-2 px-[13px]`}
               onClick={() => setShowLinks(!showLinks)}
             >
-              <FaBars className="2xl:hidden text-black dark:text-white text-xl" />
+              <FaBars
+                className="2xl:hidden text-black dark:text-white text-xl"
+                aria-label="Hamburger Menu"
+              />
             </button>
           </div>
 

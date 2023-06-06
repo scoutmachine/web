@@ -87,6 +87,28 @@ a:hover {
   }
 }
 
+.fade-enter {
+  transform: translateY(100%);
+}
+
+.fade-enter-active {
+  transform: translateY(0%);
+  transition: transform 300ms;
+}
+
+.fade-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  transform: translateY(0%);
+}
+
+.fade-exit-active {
+  transform: translateY(-100%);
+  transition: transform 300ms;
+}
+
 ::-webkit-scrollbar {
   width: 2px;
 }

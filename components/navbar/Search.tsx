@@ -31,6 +31,7 @@ export const Search = (props: any) => {
       >
         {props.teams &&
           props.filteredOptions.length > 0 &&
+          props.searchTerm &&
           props.filteredOptions.map((team: any, key: number) => {
             const isFavourited = props.favourites?.some(
               (favouritedTeam: any): boolean =>

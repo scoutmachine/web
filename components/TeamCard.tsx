@@ -1,10 +1,8 @@
-import Link from "next/link";
-import { Tooltip } from "./Tooltip";
-import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { JSX, useState } from "react";
 import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
+import { API_URL } from "@/lib/constants";
 
 const PlaceholderTeamCard = () => {
   return (
@@ -52,84 +50,61 @@ export const TeamCard = (props: any): JSX.Element => {
   if (!isFavourited && props.showFavLoading) return <PlaceholderTeamCard />;
 
   return (
-    <Tooltip
-      team={props.team}
-      avatar={props.avatars && props.avatars[props.team.team_number]}
+    <div
+      onClick={() => {
+        props.setOpen(true);
+        props.setOpenTeam(props.team);
+      }}
+      className="relative px-5 py-8 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg"
     >
-      <div className="relative px-5 py-8 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg">
-        <a href={`/team/${props.team.team_number}`}>
-          <p className="cursor-pointer">
-            {!error ? (
-              <Image
-                src={
-                  props.avatars && props.avatars[props.team.team_number]
-                    ? `data:image/jpeg;base64,${
-                        props.avatars[props.team.team_number]
-                      }`
-                    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                        props.team.website?.startsWith("https")
-                          ? props.team.website
-                          : `https://${props.team.website?.slice(7)}`
-                      }/&size=64`
-                }
-                onError={(): void => {
-                  setError(true);
-                }}
-                height="40"
-                width="40"
-                alt={`Team ${props.team.team_number} Avatar`}
-                priority={true}
-                className="rounded-lg mb-2 absolute top-5 right-3"
-              />
-            ) : (
-              <Image
-                className="rounded-lg mb-2 absolute top-5 right-3"
-                height="40"
-                width="40"
-                alt={`Team ${props.team.team_number} Avatar`}
-                priority={true}
-                src="/first-icon.svg"
-              />
-            )}
+      <p className="cursor-pointer">
+        {/*  eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${API_URL}/api/og/avatar?team=${props.team.team_number}&website=${props.team.website}`}
+          height="40"
+          width="40"
+          alt={`Team ${props.team.team_number} Avatar`}
+          className="rounded-lg mb-2 absolute top-5 right-3"
+          loading="lazy"
+        />
 
-            <h1 className="flex-wrap flex mt-[-15px] text-black dark:text-gray-200 font-extrabold text-lg">
-              {props.team.nickname.length > 20
-                ? `${props.team.nickname.slice(0, 20)}...`
-                : props.team.nickname}
-            </h1>
-            <p className="text-lightGray text-sm">
-              {props.team.city
-                ? `${
-                    props.team.city.length > 20
-                      ? `${props.team.city.slice(0, 20)}`
-                      : props.team.city
-                  }, ${props.team.state_prov}, ${props.team.country}`
-                : "No location"}
-            </p>
+        <h1 className="flex-wrap flex mt-[-15px] text-black dark:text-gray-200 font-extrabold text-lg">
+          {props.team.nickname.length > 20
+            ? `${props.team.nickname.slice(0, 20)}...`
+            : props.team.nickname}
+        </h1>
+        <p className="text-lightGray text-sm">
+          {props.team.city
+            ? `${
+                props.team.city.length > 20
+                  ? `${props.team.city.slice(0, 20)}`
+                  : props.team.city
+              }, ${props.team.state_prov}, ${props.team.country}`
+            : "No location"}
+        </p>
 
-            <p className="absolute bottom-3 text-lightGray font-medium text-base sm:text-lg">
-              # {props.team.team_number}
-            </p>
-          </p>
-        </a>
-        {session && (
-          <FaStar
-            onClick={(): void => {
-              if (isFavourited) {
-                unfavouriteTeam(favouritedTeam);
-              } else {
-                setIsStarFilled(!isStarFilled);
-                favouriteTeam(data);
-              }
-            }}
-            className={`${
-              isFavourited || isStarFilled
-                ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px] transition duration-300 popStar"
-                : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary transition duration-300 popStar"
-            } ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer`}
-          />
-        )}
-      </div>
-    </Tooltip>
+        <p className="absolute bottom-3 text-lightGray font-medium text-base sm:text-lg">
+          # {props.team.team_number}
+        </p>
+      </p>
+
+      {session && (
+        <FaStar
+          onClick={(): void => {
+            if (isFavourited) {
+              unfavouriteTeam(favouritedTeam);
+            } else {
+              setIsStarFilled(!isStarFilled);
+              favouriteTeam(data);
+            }
+          }}
+          className={`${
+            isFavourited || isStarFilled
+              ? "fill-primary hover:fill-transparent hover:stroke-primary hover:stroke-[40px] transition duration-300 popStar"
+              : "fill-transparent stroke-primary stroke-[40px] hover:fill-primary transition duration-300 popStar"
+          } ml-2 text-xl mt-1 text-lightGray hover:text-primary absolute bottom-3 right-3 cursor-pointer`}
+        />
+      )}
+    </div>
   );
 };
