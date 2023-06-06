@@ -238,7 +238,11 @@ export default function TeamsPage({ user }: any): JSX.Element {
           </div>
         </div>
 
-        <TeamSlideover isOpen={slideoverOpen} setOpen={setSlideOverOpen} openTeam={openTeam} />
+        <TeamSlideover
+          isOpen={slideoverOpen}
+          setOpen={setSlideOverOpen}
+          openTeam={openTeam}
+        />
 
         <Footer />
       </>
