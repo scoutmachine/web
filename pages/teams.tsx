@@ -5,7 +5,6 @@ import { JSX, useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
 import { FaFileCsv, FaHome, FaSearch } from "react-icons/fa";
-import Head from "next/head";
 import { FilterNumber } from "@/components/FilterNumber";
 import exportFromJSON from "export-from-json";
 import Link from "next/link";
@@ -31,7 +30,7 @@ const filterOptions = [
   { name: "9000s", range: "9000-9999" },
 ];
 
-export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
+export default function TeamsPage({ user, teams }: any): JSX.Element {
   const [allTeams, setAllTeams] = useState(teams);
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
@@ -203,7 +202,6 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
                     <TeamCard
                       key={key}
                       team={team}
-                      avatars={avatars}
                       favourites={user?.favouritedTeams}
                     />
                   );
@@ -231,7 +229,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const teams: Team[] = await db.team.findMany();
   const sortedTeams: Team[] = [...teams].sort(() => Math.random() - 0.5);
-  const teamAvatars: any = {};
 
   if (session) {
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
@@ -248,7 +245,6 @@ export const getServerSideProps: GetServerSideProps = async ({
       props: {
         user: JSON.parse(JSON.stringify(user)),
         teams: sortedTeams,
-        avatars: teamAvatars,
       },
     };
   }
@@ -256,7 +252,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       teams: sortedTeams,
-      avatars: teamAvatars,
     },
   };
 };

@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { JSX, useState } from "react";
 import { favouriteTeam, unfavouriteTeam } from "@/utils/favourites";
+import { API_URL } from "@/lib/constants";
 
 const PlaceholderTeamCard = () => {
   return (
@@ -59,38 +60,15 @@ export const TeamCard = (props: any): JSX.Element => {
       <div className="relative px-5 py-8 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg">
         <a href={`/team/${props.team.team_number}`}>
           <p className="cursor-pointer">
-            {!error ? (
-              <Image
-                src={
-                  props.avatars && props.avatars[props.team.team_number]
-                    ? `data:image/jpeg;base64,${
-                        props.avatars[props.team.team_number]
-                      }`
-                    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                        props.team.website?.startsWith("https")
-                          ? props.team.website
-                          : `https://${props.team.website?.slice(7)}`
-                      }/&size=64`
-                }
-                onError={(): void => {
-                  setError(true);
-                }}
-                height="40"
-                width="40"
-                alt={`Team ${props.team.team_number} Avatar`}
-                priority={true}
-                className="rounded-lg mb-2 absolute top-5 right-3"
-              />
-            ) : (
-              <Image
-                className="rounded-lg mb-2 absolute top-5 right-3"
-                height="40"
-                width="40"
-                alt={`Team ${props.team.team_number} Avatar`}
-                priority={true}
-                src="/first-icon.svg"
-              />
-            )}
+            {/*  eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${API_URL}/api/og/avatar?team=${props.team.team_number}&website=${props.team.website}`}
+              height="40"
+              width="40"
+              alt={`Team ${props.team.team_number} Avatar`}
+              className="rounded-lg mb-2 absolute top-5 right-3"
+              loading="lazy"
+            />
 
             <h1 className="flex-wrap flex mt-[-15px] text-black dark:text-gray-200 font-extrabold text-lg">
               {props.team.nickname.length > 20
