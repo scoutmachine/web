@@ -1,6 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/navbar";
-import { CURR_YEAR } from "@/lib/constants";
+import { API_URL, CURR_YEAR } from "@/lib/constants";
 import { JSX, useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { TeamCard } from "@/components/TeamCard";
@@ -15,6 +15,8 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam, Team } from "@prisma/client";
 import { teamNumberInRange } from "@/utils/team";
 import { SEO } from "@/components/SEO";
+import { getStorage, setStorage } from "@/utils/localStorage";
+import { Loading } from "@/components/Loading";
 
 const filterOptions = [
   { name: <FaHome />, range: "" },
@@ -30,8 +32,9 @@ const filterOptions = [
   { name: "9000s", range: "9000-9999" },
 ];
 
-export default function TeamsPage({ user, teams }: any): JSX.Element {
-  const [allTeams, setAllTeams] = useState(teams);
+export default function TeamsPage({ user }: any): JSX.Element {
+  const [teams, setTeams] = useState<any>();
+  const [allTeams, setAllTeams] = useState<any>();
   const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
   const [time, setTime] = useState<any>();
@@ -42,7 +45,27 @@ export default function TeamsPage({ user, teams }: any): JSX.Element {
   const [buttonClicked, setButtonClicked] = useState("");
 
   const itemsPerPage: number = 50;
-  const displayedTeams = allTeams.slice(0, endIndex);
+
+  useEffect(() => {
+    const fetchTeamData = async () => {
+      const teamsFromStorage = getStorage("teams");
+      if (teamsFromStorage) {
+        setTeams(teamsFromStorage.sort(() => Math.random() - 0.5));
+        return setAllTeams(teamsFromStorage.sort(() => Math.random() - 0.5));
+      }
+
+      const teams: Team[] = await fetch(`${API_URL}/api/teams/all`).then(
+        (res) => res.json()
+      );
+
+      const sortedTeams: Team[] = [...teams].sort(() => Math.random() - 0.5);
+      setStorage("teams", teams as unknown as string);
+      setTeams(sortedTeams);
+      return setAllTeams(sortedTeams);
+    };
+
+    fetchTeamData();
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
@@ -73,7 +96,7 @@ export default function TeamsPage({ user, teams }: any): JSX.Element {
         if (currentTime !== previousTime) {
           setTime(currentTime);
           setTeamExistsByTime(
-            teams.filter(
+            teams?.filter(
               (team: any): boolean =>
                 team.team_number === Number(currentTime.replace(":", ""))
             )[0]
@@ -89,7 +112,7 @@ export default function TeamsPage({ user, teams }: any): JSX.Element {
   useEffect((): void => {
     if (query) {
       setAllTeams(
-        teams.filter((team: any) =>
+        teams?.filter((team: any) =>
           (team.team_number + team.nickname + team.city)
             .toLowerCase()
             .includes(query.toLowerCase())
@@ -117,6 +140,9 @@ export default function TeamsPage({ user, teams }: any): JSX.Element {
   const changeSearch = (event: { target: { value: string } }): void => {
     setQuery(event.target.value);
   };
+
+  if (!allTeams || !teams) return <Loading />;
+  const displayedTeams = allTeams.slice(0, endIndex);
 
   return (
     <>
@@ -227,9 +253,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     authOptions
   )) as Session;
 
-  const teams: Team[] = await db.team.findMany();
-  const sortedTeams: Team[] = [...teams].sort(() => Math.random() - 0.5);
-
   if (session) {
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
       await db.user.findUnique({
@@ -244,14 +267,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),
-        teams: sortedTeams,
       },
     };
   }
 
-  return {
-    props: {
-      teams: sortedTeams,
-    },
-  };
+  return { props: {} };
 };
