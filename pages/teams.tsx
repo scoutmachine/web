@@ -19,7 +19,7 @@ import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "@/components/Loading";
 
 const filterOptions = [
-  { name: <FaHome />, range: "" },
+  { name: <FaHome aria-label="Home Button" />, range: "" },
   { name: "999s", range: "1-999" },
   { name: "1000s", range: "1000-2000" },
   { name: "2000s", range: "2000-3000" },
@@ -35,7 +35,6 @@ const filterOptions = [
 export default function TeamsPage({ user }: any): JSX.Element {
   const [teams, setTeams] = useState<any>();
   const [allTeams, setAllTeams] = useState<any>();
-  const [isClient, setIsClient] = useState(false);
   const [teamExistsByTime, setTeamExistsByTime] = useState<any>({});
   const [time, setTime] = useState<any>();
   const [query, setQuery] = useState("");
@@ -68,7 +67,6 @@ export default function TeamsPage({ user }: any): JSX.Element {
   }, []);
 
   useEffect(() => {
-    setIsClient(true);
     const handleScroll = (): void => {
       const scrollPosition: number = window.innerHeight + window.scrollY;
       const contentHeight: number = document.documentElement.scrollHeight;
@@ -146,99 +144,97 @@ export default function TeamsPage({ user }: any): JSX.Element {
 
   return (
     <>
-      {isClient && (
-        <>
-          <SEO title="Teams / Scout Machine" />
-          <Navbar active="Teams" />
+      <>
+        <SEO title="Teams / Scout Machine" />
+        <Navbar active="Teams" />
 
-          <div className="flex flex-col">
-            <Header
-              title="Teams"
-              desc="Unleash the excitement of FRC with a new way to discover teams"
-            >
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search teams (team #, location, name)..."
-                  value={query}
-                  onChange={changeSearch}
-                  spellCheck="false"
-                  className="border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
-                />
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
-                  <FaSearch className="text-sm text-lightGray" />
-                </span>
-              </div>
-              <div className="mt-3 gap-2 flex flex-wrap">
-                {filterOptions.map(
-                  (
-                    option:
-                      | { name: JSX.Element; range: string }
-                      | { name: string; range: string },
-                    index: number
-                  ) => (
-                    <FilterNumber
-                      key={index}
-                      name={option.name}
-                      range={option.range}
-                      setTeamNumberRange={setTeamNumberRange}
-                      setButtonClicked={setButtonClicked}
-                      buttonClicked={buttonClicked}
-                    />
-                  )
-                )}
-              </div>
-              <div>
-                <button
-                  className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white "
-                  onClick={(): void => {
-                    exportFromJSON({
-                      data: teams,
-                      fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
-                      exportType: exportFromJSON.types.csv,
-                    });
-                  }}
-                >
-                  <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" />{" "}
-                  Export Data (CSV)
-                </button>
-              </div>
-
-              {teamExistsByTime && (
-                <div className="mt-5">
-                  <b className="text-black dark:text-white">
-                    Looks like the time is{" "}
-                    <span className="text-primary">{time}.</span>
-                  </b>{" "}
-                  <Link
-                    className="text-lightGray hover:text-primary"
-                    href={`/team/${teamExistsByTime.team_number}`}
-                  >
-                    Why don&apos;t ya check out {teamExistsByTime.team_number} |{" "}
-                    {teamExistsByTime.nickname}?
-                  </Link>
-                </div>
+        <div className="flex flex-col">
+          <Header
+            title="Teams"
+            desc="Unleash the excitement of FRC with a new way to discover teams"
+          >
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search teams (team #, location, name)..."
+                value={query}
+                onChange={changeSearch}
+                spellCheck="false"
+                className="border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card outline-none rounded-lg text-lightGray px-3 py-[6px] px-5 text-sm pl-8 md:w-[450px] mt-5"
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 mt-5">
+                <FaSearch className="text-sm text-lightGray" />
+              </span>
+            </div>
+            <div className="mt-3 gap-2 flex flex-wrap">
+              {filterOptions.map(
+                (
+                  option:
+                    | { name: JSX.Element; range: string }
+                    | { name: string; range: string },
+                  index: number
+                ) => (
+                  <FilterNumber
+                    key={index}
+                    name={option.name}
+                    range={option.range}
+                    setTeamNumberRange={setTeamNumberRange}
+                    setButtonClicked={setButtonClicked}
+                    buttonClicked={buttonClicked}
+                  />
+                )
               )}
-            </Header>
+            </div>
+            <div>
+              <button
+                className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white "
+                onClick={(): void => {
+                  exportFromJSON({
+                    data: teams,
+                    fileName: `Teams_ScoutMachine_${CURR_YEAR}`,
+                    exportType: exportFromJSON.types.csv,
+                  });
+                }}
+              >
+                <FaFileCsv className="mr-1 inline-block text-xs mb-[3px]" />{" "}
+                Export Data (CSV)
+              </button>
+            </div>
 
-            <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
-              <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {displayedTeams.map((team: any, key: number) => {
-                  return (
-                    <TeamCard
-                      key={key}
-                      team={team}
-                      favourites={user?.favouritedTeams}
-                    />
-                  );
-                })}
+            {teamExistsByTime && (
+              <div className="mt-5">
+                <b className="text-black dark:text-white">
+                  Looks like the time is{" "}
+                  <span className="text-primary">{time}.</span>
+                </b>{" "}
+                <Link
+                  className="text-lightGray hover:text-primary"
+                  href={`/team/${teamExistsByTime.team_number}`}
+                >
+                  Why don&apos;t ya check out {teamExistsByTime.team_number} |{" "}
+                  {teamExistsByTime.nickname}?
+                </Link>
               </div>
+            )}
+          </Header>
+
+          <div className="w-full mx-auto pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
+            <div className="flex flex-col w-full sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {displayedTeams.map((team: any, key: number) => {
+                return (
+                  <TeamCard
+                    key={key}
+                    team={team}
+                    favourites={user?.favouritedTeams}
+                  />
+                );
+              })}
             </div>
           </div>
+        </div>
 
-          <Footer />
-        </>
-      )}
+        <Footer />
+      </>
     </>
   );
 }

@@ -58,54 +58,55 @@ export const getServerSideProps: GetServerSideProps = async (
 ): Promise<{ props: any }> => {
   const { team }: any = context.params;
 
-  const [teamMatches, totalEvents, totalAwards, totalFavourited] = await Promise.all([
-    await db.match.findMany({
-      where: {
-        event_key: {
-          contains: "2023",
+  const [teamMatches, totalEvents, totalAwards, totalFavourited] =
+    await Promise.all([
+      await db.match.findMany({
+        where: {
+          event_key: {
+            contains: "2023",
+          },
+          OR: [
+            {
+              alliances: {
+                path: ["red", "team_keys"],
+                array_contains: `frc${team}`,
+              },
+            },
+            {
+              alliances: {
+                path: ["blue", "team_keys"],
+                array_contains: `frc${team}`,
+              },
+            },
+          ],
         },
-        OR: [
-          {
-            alliances: {
-              path: ["red", "team_keys"],
-              array_contains: `frc${team}`,
+      }),
+      await db.event.count({
+        where: {
+          key: {
+            contains: "2023",
+          },
+          teams: {
+            some: {
+              team_number: Number(team),
             },
           },
-          {
-            alliances: {
-              path: ["blue", "team_keys"],
-              array_contains: `frc${team}`,
-            },
+        },
+      }),
+      await db.award.count({
+        where: {
+          recipient_list: {
+            array_contains: [{ awardee: null, team_key: `frc${team}` }],
           },
-        ],
-      },
-    }),
-    await db.event.count({
-      where: {
-        key: {
-          contains: "2023"
+          year: 2023,
         },
-        teams: {
-          some: {
-            team_number: Number(team),
-          }
+      }),
+      await db.favouritedTeam.count({
+        where: {
+          team_number: Number(team),
         },
-      },
-    }),
-    await db.award.count({
-      where: {
-        recipient_list: {
-          array_contains: [{ awardee: null, team_key: `frc${team}` }],
-        },
-        year: 2023,
-      },
-    }),
-    await db.favouritedTeam.count({
-      where: {
-        team_number: Number(team),
-      },
-    }),
-  ]);
+      }),
+    ]);
 
   return {
     props: {

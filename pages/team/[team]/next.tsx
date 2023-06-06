@@ -116,7 +116,7 @@ export default function NextTeamMatch({
     );
   }
 
-  const title = `${teamQuery}'s Upcoming Match / Scout Machine`
+  const title = `${teamQuery}'s Upcoming Match / Scout Machine`;
 
   return (
     <>

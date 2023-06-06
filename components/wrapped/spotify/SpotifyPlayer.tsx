@@ -6,4 +6,4 @@ export const SpotifyPlayer = () => {
       <div id="spotify"></div>
     </div>
   );
-}
+};

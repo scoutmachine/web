@@ -19,4 +19,4 @@ export const WrappedContainer = ({
       {children}
     </div>
   );
-}
+};

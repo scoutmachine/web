@@ -17,8 +17,7 @@ export const TotalFavourited = (props: any) => {
   return (
     <WrappedContainer>
       <p className="text-2xl text-lightGray">
-        <b className="text-white">{props.team}</b> has been
-        favourited...
+        <b className="text-white">{props.team}</b> has been favourited...
       </p>
       <h1 className="text-primary font-bold text-7xl mt-[-10px] animate-in slide-in-from-bottom fade-in duration-1000">
         <CountUp end={props.totalFavourited} duration={2} /> times
