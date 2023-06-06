@@ -74,15 +74,15 @@ const ModalBody = (props: {
   avatar: string;
 }) => {
   const { data: session } = useSession();
-  // @ts-ignore
-  const [username, setUsername] = useState<string>(session?.user?.username);
+  const [username, setUsername] = useState<string>(
+    session?.user?.username as string
+  );
   const [displayName, setDisplayName] = useState<string>(
     session?.user?.name as string
   );
   const [avatarURL, setAvatarURL] = useState<string>();
   const [teamNumber, setTeamNumber] = useState<string>(
-    // @ts-ignore
-    session?.user?.teamNumber as string
+    session?.user.teamNumber as string
   );
   const [errorMessage, setErrorMessage] = useState<string>();
   const [deletedHover, setDeletedHover] = useState(false);
@@ -107,15 +107,11 @@ const ModalBody = (props: {
   };
 
   const updateInfo = async (): Promise<void> => {
-    //@ts-ignore
-    const existingUsername = session.user?.username;
-    //@ts-ignore
-    const existingDisplayName: string | null | undefined = session.user?.name;
-    //@ts-ignore
-    const existingAvatarURL: string | null | undefined = session.user?.image;
-    const existingTeamNumber: string | null | undefined =
-      //@ts-ignore
-      session.user?.teamNumber;
+    const existingUsername = session?.user.username;
+    const existingDisplayName: string | null | undefined = session?.user.name;
+    const existingAvatarURL: string | null | undefined = session?.user.image;
+    const existingTeamNumber: string | number | null | undefined =
+      session?.user.teamNumber;
 
     if (!username || !displayName || !avatarURL) {
       return setErrorMessage("Fields left blank");
@@ -256,32 +252,15 @@ const ModalBody = (props: {
 
 export const EditProfileModal = ({ isOpen, setOpen }: Props) => {
   const { data: session } = useSession();
-  const [imageURL, setImageURL] = useState(session?.user?.image);
-
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
-    const data: string = event.dataTransfer.getData("text/html");
-    const doc: Document = new DOMParser().parseFromString(data, "text/html");
-    const images: HTMLCollectionOf<HTMLImageElement> =
-      doc.getElementsByTagName("img");
-    if (images.length > 0) {
-      setImageURL(images[0].src);
-    }
-  };
 
   return (
-    <div
-      onDrop={handleDrop}
-      onDragOver={(event: DragEvent<HTMLDivElement>) => event.preventDefault()}
-    >
-      <Modal
-        header={<ModalHeader avatar={imageURL as string} />}
-        body={<ModalBody setOpen={setOpen} avatar={imageURL as string} />}
-        isOpen={isOpen}
-        setOpen={setOpen}
-        onClose={() => setImageURL(session?.user?.image)}
-      />
-    </div>
+    <Modal
+      header={<ModalHeader avatar={session?.user?.image as string} />}
+      body={
+        <ModalBody setOpen={setOpen} avatar={session?.user?.image as string} />
+      }
+      isOpen={isOpen}
+      setOpen={setOpen}
+    />
   );
 };

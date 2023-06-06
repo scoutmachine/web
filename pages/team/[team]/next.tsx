@@ -19,6 +19,12 @@ import Link from "next/link";
 import { NextRouter, useRouter } from "next/router";
 import { JSX, useEffect, useState } from "react";
 
+export const isTimeInPast = (time: string): boolean => {
+  const currentTime: Date = new Date();
+  const targetTime: Date = new Date(time);
+  return targetTime < currentTime;
+};
+
 export default function NextTeamMatch({
   next,
   avatars,
@@ -57,12 +63,6 @@ export default function NextTeamMatch({
   const teamAlliance = next.match?.teams
     .find((team: any): boolean => team.teamNumber === Number(teamQuery))
     .station.replace(/[0-9]/g, "");
-
-  const isTimeInPast = (time: string): boolean => {
-    const currentTime: Date = new Date();
-    const targetTime: Date = new Date(time);
-    return targetTime < currentTime;
-  };
 
   const [redAllianceWinRate, setRedAllianceWinRate] = useState(0);
   const [blueAllianceWinRate, setBlueAllianceWinRate] = useState(0);
@@ -149,7 +149,7 @@ export default function NextTeamMatch({
             {COMP_SEASON && (
               <button
                 onClick={refreshData}
-                className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-lightGray hover:text-white transition-all duration-150 py-2 px-5 rounded-lg"
+                className="text-sm flex mt-3 bg-[#191919] border dark:border-[#2A2A2A] text-center text-lightGray hover:text-white  py-2 px-5 rounded-lg"
               >
                 <FaRedo
                   className={`mr-2 text-xs mt-[4px] ${refreshIcon && "spin"}`}

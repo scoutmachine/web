@@ -7,13 +7,12 @@ import { FaMedal } from "react-icons/fa";
 import Head from "next/head";
 import { HOFTeams } from "@/lib/lists/hallOfFame";
 import { JSX } from "react";
+import { SEO } from "@/components/SEO";
 
 export default function HOFPage(): JSX.Element {
   return (
     <>
-      <Head>
-        <title>Hall of Fame | Scout Machine</title>
-      </Head>
+      <SEO title="Hall of Fame / Scout Machine" />
 
       <Navbar active="Hall of Fame" />
 

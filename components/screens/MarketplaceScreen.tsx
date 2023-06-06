@@ -22,8 +22,8 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
 
   return (
     <>
-      <div className="text-left mt-10">
-        <div className="pl-4 pr-4 pb-4 md:pr-8 md:pl-8 max-w-screen-3xl w-full flex">
+      <div className="mt-10 text-left">
+        <div className="flex w-full pb-4 pl-4 pr-4 md:pr-8 md:pl-8 max-w-screen-3xl">
           <p className="mr-2 text-lightGray">
             {filteredMarketplacePosts.length}{" "}
             {filteredMarketplacePosts.length === 1 ? "post" : "posts"}
@@ -48,7 +48,7 @@ export const MarketplaceScreen = ({ marketplacePosts, user }: any) => {
         </div>
       </div>
 
-      <div className="pl-4 pr-4 md:pl-8 md:pr-8 gap-3 space-y-3 columns-1 md:columns-3 lg:columns-5">
+      <div className="gap-3 pl-4 pr-4 space-y-3 md:pl-8 md:pr-8 columns-1 md:columns-3 lg:columns-5">
         {filteredMarketplacePosts.map((marketplacePost: any, index: number) => (
           <MarketplacePost
             key={index}

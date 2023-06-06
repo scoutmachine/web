@@ -15,6 +15,7 @@ import { getServerSession, Session, User } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { FavouritedTeam, Team } from "@prisma/client";
 import { teamNumberInRange } from "@/utils/team";
+import { SEO } from "@/components/SEO";
 
 const filterOptions = [
   { name: <FaHome />, range: "" },
@@ -41,7 +42,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
   const [endIndex, setEndIndex] = useState(50);
   const [buttonClicked, setButtonClicked] = useState("");
 
-  const itemsPerPage = 50;
+  const itemsPerPage: number = 50;
   const displayedTeams = allTeams.slice(0, endIndex);
 
   useEffect(() => {
@@ -122,9 +123,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
     <>
       {isClient && (
         <>
-          <Head>
-            <title>Teams | Scout Machine</title>
-          </Head>
+          <SEO title="Teams / Scout Machine" />
           <Navbar active="Teams" />
 
           <div className="flex flex-col">
@@ -166,7 +165,7 @@ export default function TeamsPage({ user, teams, avatars }: any): JSX.Element {
               </div>
               <div>
                 <button
-                  className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white transition-all duration-150"
+                  className="mt-2 border bg-white border-solid hover:bg-gray-100 dark:bg-card dark:hover:bg-[#191919] px-3 py-1 text-lightGray text-sm rounded-lg dark:border-[#2A2A2A] hover:text-black dark:hover:text-white "
                   onClick={(): void => {
                     exportFromJSON({
                       data: teams,
@@ -238,7 +237,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
       await db.user.findUnique({
         where: {
-          // @ts-ignore
           id: session.user.id,
         },
         include: {

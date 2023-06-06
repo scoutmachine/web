@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import Link from "next/link";
 import Image from "next/image";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import {
@@ -26,13 +25,7 @@ import { SignoutModal } from "../modals/SignoutModal";
 import { getFavourites } from "@/utils/favourites";
 import { Search } from "./Search";
 import { Team } from "@/types/Team";
-import {
-  API_URL,
-  BMAC_URL,
-  CURR_YEAR,
-  DISCORD_URL,
-  GITHUB_URL,
-} from "@/lib/constants";
+import { API_URL, BMAC_URL, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 import router from "next/router";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "../Loading";
@@ -71,15 +64,18 @@ export const Navbar = (props: {
   const [favourites, setFavourites] = useState<any>();
 
   useEffect((): void => {
-    getFavourites(setFavourites);
-  }, []);
+    if (session && searchTerm) {
+      getFavourites(setFavourites);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   useEffect((): void => {
     async function fetchData(): Promise<void> {
       const teamsData = getStorage(`teams`);
       if (teamsData) return setTeams(teamsData);
 
-      const data = await fetch(`${API_URL}/api/team/all`).then(
+      const data = await fetch(`${API_URL}/api/teams/all`).then(
         (res: Response) => res.json()
       );
 
@@ -175,7 +171,7 @@ export const Navbar = (props: {
                         props.active === link.title
                           ? "text-primary"
                           : "text-lightGray"
-                      } font-medium mb-2 md:mb-0`}
+                      } font-medium mb-2 md:mb-0 hover:text-primary`}
                     >
                       <div className="flex items-center">
                         <span className="text-lg mr-2">{link.icon}</span>
@@ -213,15 +209,12 @@ export const Navbar = (props: {
                 }
               >
                 <div className="py-2 gap-y-2 flex flex-col items-center">
-                  <p
-                    className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"
-                    onClick={(): void => {
-                      router.push(`/users/${session.user.username}`);
-                    }}
-                  >
-                    <FaUserCircle className="text-lg mr-1 inline-block" /> View
-                    Profile
-                  </p>
+                  <a href={`/users/${session.user.username}`}>
+                    <p className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary">
+                      <FaUserCircle className="text-lg mr-1 inline-block" />{" "}
+                      View Profile
+                    </p>
+                  </a>
 
                   <p
                     className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"

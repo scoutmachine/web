@@ -20,8 +20,7 @@ export default async function UpdateUser(
 
     await db.user.update({
       where: {
-        // @ts-ignore
-        id: session.user?.id,
+        id: session.user.id,
       },
       data: {
         ...body,

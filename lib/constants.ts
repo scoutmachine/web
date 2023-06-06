@@ -7,6 +7,6 @@ export const API_URL: string = dev
   ? "http://localhost:3000"
   : "https://www.scoutmachine.io";
 
-export const GITHUB_URL: string = "https://www.github.com/scoutmachine/web";
+export const GITHUB_URL: string = "https://github.com/scoutmachine/web";
 export const BMAC_URL: string = "https://www.buymeacoffee.com/scoutmachine";
 export const DISCORD_URL: string = "https://discord.com/invite/yYtc8gpsXK";

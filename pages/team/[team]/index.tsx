@@ -11,15 +11,17 @@ import { Navbar } from "@/components/navbar";
 import { TeamScreen } from "@/components/screens/TeamScreen";
 import { AboutTab } from "@/components/tabs/team/About";
 import { AwardsTab } from "@/components/tabs/team/Awards";
-import Head from "next/head";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { TeamMembersTab } from "@/components/tabs/team/TeamMembers";
 import { EventsTab } from "@/components/tabs/team/Events";
-import { useSession } from "next-auth/react";
-import { Loading } from "@/components/Loading";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { Session, getServerSession, User } from "next-auth";
+import db from "@/lib/db";
+import { FavouritedTeam } from "@prisma/client";
+import { SEO } from "@/components/SEO";
 
-const SubInfo = (props: any) => {
+export const SubInfo = (props: any) => {
   return (
     <span className="border border-[#2A2A2A] text-lightGray py-[3px] px-2 ml-1 rounded-full">
       {props.children}
@@ -28,6 +30,7 @@ const SubInfo = (props: any) => {
 };
 
 export default function TeamPage({
+  user,
   teamMembers,
   teamInfo,
   teamAvatar,
@@ -45,10 +48,9 @@ export default function TeamPage({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentYearTab, setCurrentYearTab] = useState();
   const [eventData, setEventData] = useState<any>();
-  const { data: session } = useSession();
 
-  useEffect(() => {
-    const redirectToHome = async () => {
+  useEffect((): void => {
+    const redirectToHome = async (): Promise<void> => {
       if (!teamInfo) {
         await router.push("/404");
       }
@@ -80,7 +82,7 @@ export default function TeamPage({
     const getEventData = async (): Promise<void> => {
       setLoading(true);
       const fetchEventData = await fetch(
-        `${API_URL}/api/team/events?team=${team}&year=${activeTab}`
+        `${API_URL}/api/teams/events?team=${team}&year=${activeTab}`
       ).then((res: Response) => res.json());
 
       setEventData(fetchEventData);
@@ -100,13 +102,19 @@ export default function TeamPage({
     setActiveTab(tabIndex);
   };
 
-  const title = `Team ${team} | Scout Machine`;
+  const title: string = teamInfo
+    ? `${teamInfo.team_number} / ${teamInfo.nickname} / Scout Machine`
+    : `${team} / Scout Machine`;
+
+  const description = `A FIRST Robotics Competition team from ${teamInfo.city}, ${teamInfo.state_prov}, ${teamInfo.country} competing since ${teamInfo.rookie_year}`;
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-      </Head>
+      <SEO
+        title={title}
+        description={description}
+        image={`${API_URL}/api/og/image?team=${team}`}
+      />
 
       <Navbar />
 
@@ -116,8 +124,7 @@ export default function TeamPage({
           years={yearsParticipated}
           socials={teamSocials}
           avatar={teamAvatar}
-          // @ts-ignore
-          user={session?.user?.favouritedTeams}
+          favouritedTeams={user?.favouritedTeams}
         />
 
         <div className="md:pl-8 md:pr-8 w-full max-w-screen-3xl">
@@ -153,26 +160,31 @@ export default function TeamPage({
               </TabButton>
               <div className="relative" ref={dropdownRef}>
                 <div
-                  className={`group bg-card border border-[#2A2A2A] w-[300px] text-white  ${
+                  className={`group bg-card border w-[300px] text-white  ${
                     isDropdownOpen
-                      ? "rounded-t-lg border-2 border-b-[#2A2A2A] border-transparent"
-                      : "rounded-lg border-b-[5px] border-[#2A2A2A]"
-                  } px-5 py-2 flex items-center justify-between cursor-pointer active:translate-y-1  active:[box-shadow:0_0px_0_0_#19999,0_0px_0_0_#19999] active:border-b-[0px] transition-all duration-150 [box-shadow:0_10px_0_0_#19999,0_15px_0_0_#19999]`}
+                      ? "rounded-t-lg border-2 border-[#2A2A2A]"
+                      : "rounded-lg border border-[#2A2A2A]"
+                  } px-5 py-2 flex items-center justify-between cursor-pointer`}
                   onClick={toggleDropdown}
                 >
                   <span
-                    className={`font-bold group-hover:text-white transition-all duration-150 ${
+                    className={`font-bold group-hover:text-white ${
                       activeTab === currentYearTab
                         ? "text-white"
                         : "text-lightGray"
                     } ${isDropdownOpen && "text-white"}`}
                   >
-                    {String(activeTab).length >= 4
-                      ? `${activeTab} Season`
-                      : "Select a Season"}
+                    {String(activeTab).length >= 4 ? (
+                      `${activeTab} Season`
+                    ) : (
+                      <span>
+                        Select a Season{" "}
+                        <SubInfo>{yearsParticipated.length}</SubInfo>{" "}
+                      </span>
+                    )}
                   </span>
                   <FaArrowUp
-                    className={`transform text-lightGray group-hover:text-white transition-all duration-150 ${
+                    className={`transform text-lightGray group-hover:text-white ${
                       isDropdownOpen ? "-rotate-180 text-white" : ""
                     }`}
                   />
@@ -187,7 +199,7 @@ export default function TeamPage({
                       {yearsParticipated?.map((year: any, key: any) => (
                         <div
                           key={key}
-                          className="transition-all duration-150 cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
+                          className="cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
                           onClick={(): void => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
@@ -370,6 +382,12 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ): Promise<any> => {
   const { team }: any = context.params;
+  const session: Session = (await getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  )) as Session;
+
   const {
     teamInfo,
     teamAvatar,
@@ -378,11 +396,37 @@ export const getServerSideProps: GetServerSideProps = async (
     teamMembers,
     yearsParticipated,
     teamEvents,
-  } = await fetch(`${API_URL}/api/teams?team=${team}`).then((res) =>
-    res.json()
-  );
+  } = await fetch(`${API_URL}/api/teams?team=${team}`, {
+    next: {
+      revalidate: 3600,
+    },
+  }).then((res: Response) => res.json());
 
   if (teamInfo) {
+    if (session) {
+      const user: (User & { favouritedTeams: FavouritedTeam[] }) | null =
+        await db.user.findUnique({
+          where: {
+            id: session.user.id,
+          },
+          include: {
+            favouritedTeams: true,
+          },
+        });
+
+      return {
+        props: {
+          user: JSON.parse(JSON.stringify(user)),
+          teamInfo,
+          teamAvatar: teamAvatar.avatar,
+          teamAwards,
+          teamMembers,
+          teamSocials,
+          teamEvents: teamEvents.reverse(),
+          yearsParticipated: yearsParticipated.reverse(),
+        },
+      };
+    }
     return {
       props: {
         teamInfo,

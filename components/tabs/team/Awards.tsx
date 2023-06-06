@@ -20,7 +20,7 @@ export const AwardsTab = (props: any) => {
           <div className="flex flex-wrap md:flex-row gap-3">
             <AnimatePresence>
               {filteredAwards
-                .reverse()
+                .sort((a: any, b: any) => b.year - a.year)
                 .slice(0, props.showAll ? props.teamAwards.length : 20)
                 .map((award: any, key: number) => {
                   return (
@@ -85,7 +85,7 @@ export const AwardsTab = (props: any) => {
                   !award.name.includes("Chairman's Award") &&
                   !award.name.includes("Woodie Flowers")
               )
-              .reverse()
+              .sort((a: any, b: any) => b.year - a.year)
               .map((award: any, key: number) => {
                 return (
                   <a

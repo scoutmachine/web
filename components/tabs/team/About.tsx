@@ -175,10 +175,12 @@ export const AboutTab = (props: any) => {
           <FaBolt className="mr-1 inline-block" /> Seasons Completed
         </h1>
         <p className="text-lightGray">
-          {props.yearsParticipated?.length} seasons
+          {props.yearsParticipated?.length}{" "}
+          {props.yearsParticipated?.length === 1 ? "season" : "seasons"}
         </p>
         <p className="text-lightGray flex-wrap text-sm">
-          ({props.yearsParticipated?.join(", ")})
+          {props.yearsParticipated.length > 0 &&
+            `(${props.yearsParticipated?.join(", ")})`}
         </p>
       </Card>
       <Card>
@@ -194,31 +196,42 @@ export const AboutTab = (props: any) => {
         <h1 className="text-black dark:text-white font-semibold">
           <FaMapMarkedAlt className="mr-1 inline-block" /> Avg Events per Season
         </h1>
-        <p className="text-lightGray">{avgEvents} events</p>
+        <p className="text-lightGray">
+          {isNaN(Number(avgEvents)) ? 0 : avgEvents} events
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
           <FaTrophy className="mr-1 inline-block" /> Events Won
         </h1>
-        <p className="text-lightGray">{eventsWon} events</p>
+        <p className="text-lightGray">
+          {eventsWon} {eventsWon === 1 ? "event" : "events"}
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Awards Won
         </h1>
-        <p className="text-lightGray">{props.teamAwards?.length} awards</p>
+        <p className="text-lightGray">
+          {props.teamAwards?.length}{" "}
+          {props.teamAwards?.length === 1 ? "award" : "awards"}
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Avg Awards per Season
         </h1>
-        <p className="text-lightGray">{avgAwards} awards</p>
+        <p className="text-lightGray">
+          {isNaN(Number(avgAwards)) ? 0 : avgAwards} awards
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">
           <FaAward className="mr-1 inline-block" /> Avg Awards per Event
         </h1>
-        <p className="text-lightGray">{avgAwardsPerEvent} awards</p>
+        <p className="text-lightGray">
+          {isNaN(Number(avgAwardsPerEvent)) ? 0 : avgAwardsPerEvent} awards
+        </p>
       </Card>
       <Card>
         <h1 className="text-black dark:text-white font-semibold">

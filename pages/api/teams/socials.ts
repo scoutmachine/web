@@ -35,8 +35,7 @@ export default async function addSocials(
               type: social.type,
               handle: social.handle,
               teamId: Number(team),
-              // @ts-ignore
-              userId: session.user?.id,
+              userId: session.user.id,
             },
           });
         })
@@ -55,8 +54,7 @@ export default async function addSocials(
               type: social.type,
               handle: social.handle,
               teamId: Number(team),
-              // @ts-ignore
-              userId: session.user?.id,
+              userId: session.user.id,
             },
           });
         })

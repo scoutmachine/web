@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Navbar } from "@/components/navbar";
 import { JSX } from "react";
 import { Card } from "@/components/misc/Card";
+import { DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 
 export default function PrivacyPage(): JSX.Element {
   return (
@@ -79,8 +80,13 @@ export default function PrivacyPage(): JSX.Element {
           <p className="text-lightGray">
             Our site currently relies wholly upon Vercel&apos;s website
             analytics, and does not use any other cookies or tracking outside
-            what Vercel uses, Vercel&apos;s website analytics can be found at
-            https://vercel.com/docs/concepts/analytics/privacy-policy).
+            what Vercel uses,{" "}
+            <a
+              href="https://vercel.com/docs/concepts/analytics/privacy-policy"
+              className="text-white"
+            >
+              Vercel&apos;s website analytics
+            </a>
           </p>
 
           <br />
@@ -97,21 +103,37 @@ export default function PrivacyPage(): JSX.Element {
 
           <h1 className="text-white font-bold text-2xl">License</h1>
           <p className="text-lightGray">
-            This Privacy Policy is adapted from GitHub&apos;s Privacy Statement
-            at
-            https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement)
-            and is licensed under the Creative Commons Attribution available at
-            https://creativecommons.org/licenses/by/4.0/) license. You may use
-            it freely under the terms of the Creative Commons license.
+            This Privacy Policy is adapted from{" "}
+            <a
+              href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement"
+              className="text-white"
+            >
+              GitHub&apos;s Privacy Statement{" "}
+            </a>
+            and is licensed under the{" "}
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              className="text-white"
+            >
+              Creative Commons Attribution License
+            </a>
+            . You may use it freely under the terms of the Creative Commons
+            license.
           </p>
 
           <br />
           <h1 className="text-white font-bold text-2xl">Contact us</h1>
           <p className="text-lightGray">
             If you have any questions about this Privacy Policy, please contact
-            us on the Scout Machine GitHub Repository at
-            https://github.com/scoutmachine/web or reach out to us on the Scout
-            Machine Discord at https://discord.com/invite/yYtc8gpsXK
+            us on the{" "}
+            <a href={GITHUB_URL} className="text-white">
+              Scout Machine GitHub Repository
+            </a>
+            , or reach out to us on the{" "}
+            <a href={DISCORD_URL} className="text-white">
+              {" "}
+              Scout Machine Discord{" "}
+            </a>
           </p>
         </Card>
       </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FaAward, FaInfoCircle, FaLink, FaPlus, FaStar } from "react-icons/fa";
 import { Socials } from "../tabs/team/Socials";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { findTeam } from "@/utils/team";
 import Link from "next/link";
 import { Social } from "../Social";
@@ -13,6 +13,7 @@ import { AddSocialsModal } from "../modals/AddSocialsModal";
 import { Socials as socials } from "@/lib/lists/socials";
 import { ErrorMessage } from "../ErrorMessage";
 import { LocationModal } from "../modals/LocationModal";
+import { findColour } from "@/utils/findColour";
 
 export function searchDistrict(array: any, valuetofind: any) {
   for (let i: number = 0; i < array.length; i++) {
@@ -25,11 +26,11 @@ export function searchDistrict(array: any, valuetofind: any) {
 export const TeamScreen = (props: any) => {
   const [error, setError] = useState(false);
   const isHOF = findTeam(String(props.team?.team_number));
-  const currentDistrict = props.district ? props.district.team : null;
   const [isStarFilled, setIsStarFilled] = useState(false);
   const { data: session } = useSession();
   const [isAddSocialModalOpen, setIsAddSocialModelOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [teamColor, setTeamColor] = useState("");
 
   const isFavourited = props.favouritedTeams?.some(
     (favouritedTeam: any): boolean =>
@@ -39,6 +40,23 @@ export const TeamScreen = (props: any) => {
     (favouritedTeam: any): boolean =>
       favouritedTeam.team_number === props.team?.team_number
   );
+
+  const avatarURL = props.avatar
+    ? `data:image/jpeg;base64,${props.avatar}`
+    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+        props.team?.website?.startsWith("https")
+          ? props.team?.website
+          : `https://${props.team?.website?.slice(7)}`
+      }/&size=64`;
+
+  useEffect(() => {
+    const fetchTeamColor = async () => {
+      const teamColor = await findColour(avatarURL);
+      setTeamColor(teamColor);
+    };
+
+    fetchTeamColor();
+  }, [avatarURL]);
 
   return (
     <>
@@ -52,15 +70,7 @@ export const TeamScreen = (props: any) => {
                 height="50"
                 width="50"
                 priority={true}
-                src={
-                  props.avatar
-                    ? `data:image/jpeg;base64,${props.avatar}`
-                    : `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
-                        props.team?.website?.startsWith("https")
-                          ? props.team?.website
-                          : `https://${props.team?.website?.slice(7)}`
-                      }/&size=64`
-                }
+                src={avatarURL}
                 onError={(): void => {
                   setError(true);
                 }}
@@ -86,7 +96,7 @@ export const TeamScreen = (props: any) => {
 
               <h1 className="font-black text-black dark:text-white text-4xl">
                 Team {props.team?.team_number}:{" "}
-                <span className="text-primary">{props.team?.nickname}</span>
+                <span style={{ color: teamColor }}>{props.team?.nickname}</span>
               </h1>
 
               <p className="text-lightGray">
@@ -137,8 +147,10 @@ export const TeamScreen = (props: any) => {
               message={
                 <span className="flex">
                   <FaInfoCircle className="mr-2 text-xl mt-[2px]" /> Team{" "}
-                  {props.team?.team_number} was last seen competing in{" "}
-                  {props.years?.[0]}
+                  {props.team?.team_number}{" "}
+                  {props.years.length > 0
+                    ? `was last seen competing in ${props.years?.[0]}`
+                    : "has never competed before"}
                 </span>
               }
             />
@@ -190,7 +202,7 @@ export const TeamScreen = (props: any) => {
                   {props.socials?.length !== socials.length && (
                     <button
                       onClick={() => setIsAddSocialModelOpen(true)}
-                      className="text-sm text-lightGray hover:text-white transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
+                      className="text-sm text-lightGray hover:text-white  inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
                     >
                       <FaPlus className="mr-2" />
                       <span>Add Social</span>
@@ -198,7 +210,7 @@ export const TeamScreen = (props: any) => {
                   )}
 
                   <button
-                    className="group text-primary text-sm transition-all duration-150 inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
+                    className="group text-primary text-sm  inline-flex items-center border border-gray-300 bg-[#f0f0f0] dark:bg-card dark:border-[#2A2A2A] rounded-lg px-3 py-1"
                     onClick={(): void => {
                       if (isFavourited) {
                         unfavouriteTeam(favouritedTeam, true);

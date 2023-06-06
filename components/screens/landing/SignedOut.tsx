@@ -9,7 +9,7 @@ import { FaCoffee, FaDiscord, FaGithub } from "react-icons/fa";
 
 const IssueTemplate = (props: any) => {
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 break-words">
       <li>
         Go to{" "}
         <a

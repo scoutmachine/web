@@ -1,4 +1,3 @@
-import router from "next/router";
 import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { Modal } from "./Modal";
 import { useSession } from "next-auth/react";
@@ -145,7 +144,7 @@ const OnboardingBody = () => {
         <div className="flex gap-3">
           {currentPage !== 0 && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray "
               onClick={handlePrevPage}
               disabled={currentPage === 0}
             >
@@ -154,19 +153,19 @@ const OnboardingBody = () => {
           )}
           {!isLastPage && (
             <button
-              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray transition-all duration-150"
+              className="outline-none border border-[#2A2A2A] bg-card text-lightGray py-2 px-4 rounded-lg cursor-pointer hover:border-gray-600 hover:text-black dark:hover:text-white text-lightGray "
               onClick={handleNextPage}
             >
               Next
             </button>
           )}
           {isLastPage && (
-            <button
-              className="outline-none bg-green-500 hover:bg-green-700 text-black dark:text-white font-bold py-2 px-4 rounded-lg"
-              onClick={() => router.push("/")}
-            >
-              Finish
-            </button>
+            // eslint-disable-next-line @next/next/no-html-link-for-pages
+            <a href="/">
+              <button className="outline-none bg-green-500 hover:bg-green-700 text-black dark:text-white font-bold py-2 px-4 rounded-lg">
+                Finish
+              </button>
+            </a>
           )}
         </div>
       </div>

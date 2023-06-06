@@ -1,26 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { fetchTBA } from "@/lib/fetchTBA";
 import { AxiosResponse } from "axios";
 import { CURR_YEAR } from "@/lib/constants";
 import { fetchFIRST } from "@/lib/fetchFIRST";
 import db from "@/lib/db";
+import { Team, Event } from "@prisma/client";
 
 export default async function getTeamInfo(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   const { team } = req.query;
-  const teamEvents = await db.team.findUnique({
-    where: { team_number: Number(team) },
-    include: {
-      events: {
-        where: { year: CURR_YEAR },
+  const teamEvents: (Team & { events: Event[] }) | null =
+    await db.team.findUnique({
+      where: { team_number: Number(team) },
+      include: {
+        events: {
+          where: { year: CURR_YEAR },
+        },
       },
-    },
-  });
-  const events = teamEvents?.events;
+    });
+  const events: Event[] | undefined = teamEvents?.events;
 
-  const currentEvent = events
+  const currentEvent: Event | undefined = events
     ?.filter((event: any): boolean => {
       const eventDate: Date = new Date(event.start_date || event.end_date);
       return eventDate <= new Date();

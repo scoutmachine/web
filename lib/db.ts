@@ -5,7 +5,6 @@ type GlobalThisWithPrismaClient = typeof globalThis & {
   [prismaClientPropertyName]: PrismaClient;
 };
 
-// @ts-ignore
 const getPrismaClient = (): PrismaClient<
   Prisma.PrismaClientOptions,
   Prisma.GetEvents<Prisma.LogLevel | Prisma.LogDefinition>,

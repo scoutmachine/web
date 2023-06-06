@@ -1,13 +1,14 @@
 import db from "@/lib/db";
-import { generateRandomString } from "@/utils/generateRandomString";
+import { generateAPIKey } from "@/utils/generateAPIKey";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
+import { ApiKey } from ".prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+): Promise<void> {
   const session: Session = (await getServerSession(
     req,
     res,
@@ -17,11 +18,10 @@ export default async function handler(
   if (!session) res.status(400).send("You are not logged in!");
 
   if (req.method === "POST") {
-    const key = generateRandomString(32);
-    const apiKey = await db.apiKey.create({
+    const key: string = generateAPIKey();
+    const apiKey: ApiKey = await db.apiKey.create({
       data: {
         key: key,
-        // @ts-ignore
         userId: session.user.id,
       },
     });

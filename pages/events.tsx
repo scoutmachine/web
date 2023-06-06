@@ -8,6 +8,7 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import db from "@/lib/db";
 import { Event } from "@prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function EventsPage({ events }: any): JSX.Element {
   const [year, setYear] = useState<number>(CURR_YEAR);
@@ -15,9 +16,7 @@ export default function EventsPage({ events }: any): JSX.Element {
 
   return (
     <>
-      <Head>
-        <title>Events | Scout Machine</title>
-      </Head>
+      <SEO title="Events / Scout Machine" />
 
       <Navbar active="Events" />
 

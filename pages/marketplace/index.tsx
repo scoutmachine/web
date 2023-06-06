@@ -7,11 +7,11 @@ import db from "@/lib/db";
 import { GetServerSideProps } from "next";
 import { getServerSession, Session, User } from "next-auth";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useState } from "react";
 import { FaMoneyBill } from "react-icons/fa";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { Post } from ".prisma/client";
+import { SEO } from "@/components/SEO";
 
 export default function MarketplacePage({ posts, user }: any) {
   const { data: session } = useSession();
@@ -19,9 +19,7 @@ export default function MarketplacePage({ posts, user }: any) {
 
   return (
     <>
-      <Head>
-        <title>Marketplace | Scout Machine</title>
-      </Head>
+      <SEO title="Marketplace / Scout Machine" />
 
       <Navbar active="Marketplace" />
 
@@ -36,9 +34,9 @@ export default function MarketplacePage({ posts, user }: any) {
             {session && (
               <button
                 onClick={() => setShowCreateListingModal(true)}
-                className="flex bg-card border border-[#2a2a2a] rounded-lg text-md px-5 py-1 mt-5 transition-all delay-100 text-lightGray hover:text-black dark:text-white"
+                className="flex bg-card border border-[#2a2a2a] rounded-lg text-md px-5 py-1 mt-5 transition-all delay-100 text-lightGray hover:text-primary dark:text-white"
               >
-                <FaMoneyBill className="text-3xl mr-2" /> Sell your parts
+                <FaMoneyBill className="mr-2 text-3xl" /> Sell your parts
               </button>
             )}
           </>
@@ -71,8 +69,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (session) {
     user = await db.user.findUnique({
       where: {
-        // @ts-ignore
-        id: session.user?.id,
+        id: session.user.id,
       },
     });
   }

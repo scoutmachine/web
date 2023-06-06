@@ -161,7 +161,7 @@ export const EventData = (props: any) => {
                       Win / Loss
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Team Score
+                      Alliance Score
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Opposing Alliance
