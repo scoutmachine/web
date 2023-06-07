@@ -1,8 +1,8 @@
 import { Navbar } from "@/components/navbar";
 import db from "@/lib/db";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { JSX } from "react";
-import { Match, Event } from "@prisma/client";
+import { JSX, useEffect, useState } from "react";
+import { Match, Event, FormQuestion } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,7 +13,27 @@ import { Footer } from "@/components/Footer";
 import { GoPrimitiveDot } from "react-icons/go";
 import { API_URL } from "@/lib/constants";
 
-const AllianceComponent = ({ match, teams }: any) => {
+const DividerSection = ({ headerName }: { headerName: string }) => {
+  return (
+    <div className="relative mt-5">
+      <div className="absolute inset-0 flex items-center">
+        <span className="w-full border-t border-[#2A2A2A]" />
+      </div>
+      <div className="relative flex justify-center text-xs uppercase">
+        <h1 className="bg-card py-1 px-5 rounded-lg text-center text-xl text-white font-bold">
+          {headerName}
+        </h1>
+      </div>
+    </div>
+  );
+};
+
+const AllianceComponent = ({
+  match,
+  teams,
+  onChangeTeam,
+  selectedTeam,
+}: any) => {
   return (
     <div className="flex flex-col md:grid md:grid-cols-2 gap-3">
       <div className="bg-red-500 rounded-md p-5">
@@ -32,7 +52,12 @@ const AllianceComponent = ({ match, teams }: any) => {
         <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
           {match.alliances.red.team_keys.map((team: any, key: number) => {
             return (
-              <Link key={key} href={`/team/${team.substring(3)}`}>
+              <div
+                key={team}
+                onClick={() => {
+                  onChangeTeam?.(team === selectedTeam ? "" : team);
+                }}
+              >
                 <div className={`bg-red-400 hover:bg-red-600 rounded-lg py-5`}>
                   <p className="text-center text-sm font-semibold text-red-200 mb-1">
                     {teams[team.substring(3)].nickname}
@@ -51,7 +76,8 @@ const AllianceComponent = ({ match, teams }: any) => {
                     Team {team.substring(3)}
                   </h1>
                 </div>
-              </Link>
+              </div>
+              // </Link>
             );
           })}
         </div>
@@ -99,6 +125,211 @@ const AllianceComponent = ({ match, teams }: any) => {
           })}
         </div>
       </div>
+    </div>
+  );
+};
+
+const BooleanQuestion = ({
+  question,
+  value,
+  onChange,
+}: {
+  question: FormQuestion;
+  value: any;
+  onChange: any;
+}) => {
+  return (
+    <div className="flex items-center mb-4 text-white rounded py-1 px-2">
+      <div className="w-1/2 pl-2">
+        <span className="flex text-lightGray">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={value}
+              onChange={() => onChange(!value)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          </label>
+        </span>
+
+        {/* <span className="flex text-lightGray">
+					<div className="flex items-center mr-3">
+						<input type="radio" name="autonomous" value="yes" className="mr-2"/>
+						<span>Yes</span>
+					</div>
+					<div className="flex items-center mr-3">
+						<input type="radio" name="autonomous" value="no" className="mr-2"/>
+						<span>No</span>
+					</div>
+				</span> */}
+      </div>
+    </div>
+  );
+};
+const CounterQuestion = ({
+  question,
+  value,
+  onChange,
+}: {
+  question: FormQuestion;
+  value: any;
+  onChange: any;
+}) => {
+  return (
+    // Using tailwind, create a grouped input box with a minus button, the value, and a plus button
+    <div className="flex items-center mb-4 text-white rounded py-1 px-2">
+      <div className="w-1/2 pl-2">
+        <span className="flex text-lightGray">
+          <div className="flex items-center mr-3">
+            <button
+              onClick={() => {
+                onChange(value - 1);
+              }}
+              className="bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center"
+            >
+              -
+            </button>
+            <span className="mx-2">{value}</span>
+            <button
+              onClick={() => {
+                onChange(value + 1);
+              }}
+              className="bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center"
+            >
+              +
+            </button>
+          </div>
+        </span>
+      </div>
+    </div>
+  );
+};
+
+const QuestionRow = ({
+  question,
+  value,
+  onChange,
+}: {
+  question: FormQuestion;
+  value: any;
+  onChange: any;
+}) => {
+  return (
+    <div key={question.id} className="rounded-md w-full">
+      <div className="flex items-center text-white rounded py-1 px-2">
+        <div className="pr-2">
+          <span className="text-lightGray font-semibold">{question.title}</span>
+        </div>
+        {question.type === "boolean" && (
+          <BooleanQuestion
+            question={question}
+            value={value}
+            onChange={(newVal) => {
+              onChange(newVal);
+            }}
+          />
+        )}
+        {question.type === "counter" && (
+          <CounterQuestion
+            question={question}
+            value={value}
+            onChange={(newVal) => {
+              onChange(newVal);
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const getIntitialFormState = (questions: FormQuestion[]) => {
+  const form: any = {};
+
+  for (const question of questions) {
+    if (question.type === "boolean") {
+      form[question.id] = {
+        questionId: question.id,
+        value: false,
+      };
+    } else if (question.type === "counter") {
+      form[question.id] = {
+        questionId: question.id,
+        value: 0,
+      };
+    }
+  }
+
+  return form;
+};
+
+const questions: FormQuestion[] = [
+  {
+    description: "",
+    formId: 1,
+    id: 1,
+    type: "boolean",
+    title: "Did the robot move in autonomous?",
+    options: ["Yes", "No"],
+    required: true,
+  },
+  {
+    description: "",
+    formId: 1,
+    id: 2,
+    type: "counter",
+    title: "How many points were scored?",
+    // TODO: Optional and remove
+    options: ["Yes", "No"],
+    required: true,
+  },
+];
+const ScoutForm = ({ selectedTeam }: { selectedTeam: string }) => {
+  const [form, setForm] = useState<any>(getIntitialFormState(questions));
+
+  console.log("form: ", form);
+  useEffect(() => {
+    // Reset form if the selected team changes
+    setForm(getIntitialFormState(questions));
+  }, [selectedTeam]);
+
+  if (!selectedTeam)
+    return (
+      <div>
+        <DividerSection headerName={`Scout Form`} />
+        <div className="pr-2">
+          <span className="text-lightGray font-semibold">
+            Select a team to begin scouting
+          </span>
+        </div>
+      </div>
+    );
+  return (
+    <div className="flex flex-col">
+      <DividerSection headerName={`Scout Form (${selectedTeam})`} />
+      {questions.map((question: FormQuestion) => {
+        return (
+          <QuestionRow
+            key={question.id}
+            question={question}
+            value={form[question.id].value}
+            onChange={(newVal) => {
+              setForm({
+                ...form,
+                [question.id]: {
+                  ...form[question.id],
+                  value: newVal,
+                },
+              });
+            }}
+          />
+        );
+      })}
+      {/* Full width submit button */}
+      <button className="text-lg mt-3 w-full bg-green-500 border text-center text-gray-300 hover:bg-green-600  py-2 px-5 rounded-lg">
+        Submit
+      </button>
     </div>
   );
 };
@@ -323,17 +554,7 @@ const MatchData = ({ event, breakdown, teams }: any): JSX.Element => {
     case "2023":
       return (
         <>
-          <div className="relative mt-5">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-[#2A2A2A]" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <h1 className="bg-card py-1 px-5 rounded-lg text-center text-xl text-white font-bold">
-                Score Breakdown
-              </h1>
-            </div>
-          </div>
-
+          <DividerSection headerName="Score Breakdown" />
           <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4">
             <StatsTable
               breakdown={breakdown.red}
@@ -349,16 +570,7 @@ const MatchData = ({ event, breakdown, teams }: any): JSX.Element => {
             />
           </div>
 
-          <div className="relative mt-5">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-[#2A2A2A]" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <h1 className="bg-card py-1 px-5 rounded-lg text-center text-xl text-white font-bold">
-                Score Location Breakdown
-              </h1>
-            </div>
-          </div>
+          <DividerSection headerName="Score Location Breakdown" />
 
           <div className="text-lightGray rounded-lg py-2 flex flex-wrap items-center justify-center">
             <div className="h-6 w-6 border-2 border-red-400 rounded-md mr-2"></div>{" "}
@@ -438,6 +650,7 @@ export default function MatchPage({
   eventData,
 }: any): JSX.Element {
   const router = useRouter();
+  const [selectedTeam, setSelectedTeam] = useState<string>("");
   const { event } = router.query;
 
   const findMatchName = () => {
@@ -472,7 +685,7 @@ export default function MatchPage({
     <>
       <SEO title={title} />
 
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="pr-4 pl-4 md:pr-8 md:pl-8 max-w-screen-3xl">
         <div className="bg-card mb-5 mt-10 p-5 rounded-lg border dark:border-[#2A2A2A]">
@@ -501,8 +714,16 @@ export default function MatchPage({
             </div>
           )}
         </div>
-        <AllianceComponent match={match} teams={teamData} />
+        <AllianceComponent
+          match={match}
+          teams={teamData}
+          selectedTeam={selectedTeam}
+          onChangeTeam={(team) => {
+            setSelectedTeam(team);
+          }}
+        />
 
+        <ScoutForm selectedTeam={selectedTeam} />
         <MatchData
           event={event}
           teams={match.alliances}
@@ -561,7 +782,6 @@ export const getServerSideProps: GetServerSideProps = async (
       key: formattedMatchData.event_key,
     },
   });
-
 
   return {
     props: {
