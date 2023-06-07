@@ -28,7 +28,79 @@ const DividerSection = ({ headerName }: { headerName: string }) => {
   );
 };
 
-const AllianceComponent = ({
+const AllianceGroup = ({
+  allianceColor,
+  alliance,
+  winningAlliance,
+  onChangeTeam,
+  selectedTeam,
+  allTeams,
+}: {
+  alliance: any;
+  allianceColor: "red" | "blue";
+  winningAlliance: "red" | "blue";
+  onChangeTeam: (team: string) => void;
+  selectedTeam: string;
+  allTeams: any;
+}) => {
+  console.log("alliance: ", alliance);
+  const color = allianceColor === "red" ? "red" : "sky";
+
+  return (
+    <div className={`bg-${color}-500 rounded-md p-5`}>
+      <h1 className="text-3xl font-bold mb-4 text-red-200 text-center capitalize">
+        {allianceColor} Alliance{" "}
+        <button
+          className={`cursor-default bg-${color}-600 rounded-lg text-sm align-middle py-1 px-3 text-white`}
+        >
+          <span className="flex">
+            {alliance.score} pts{" "}
+            {winningAlliance === allianceColor && (
+              <FaTrophy className="mt-1 ml-1" />
+            )}
+          </span>
+        </button>
+      </h1>
+
+      <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
+        {alliance.team_keys.map((team: any, key: number) => {
+          return (
+            <div
+              key={team}
+              onClick={() => {
+                onChangeTeam?.(team === selectedTeam ? "" : team);
+              }}
+            >
+              <div
+                className={`bg-${color}-400 hover:bg-${color}-600 rounded-lg py-5`}
+              >
+                <p
+                  className={`text-center text-sm font-semibold text-${color}-200 mb-1`}
+                >
+                  {allTeams[team.substring(3)].nickname}
+                </p>
+                <h1
+                  className={`text-xl flex items-center justify-center font-bold text-white`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className="rounded-lg mr-4 w-7"
+                    alt={`Team ${team.substring(3)} Avatar`}
+                    height="50"
+                    width="50"
+                    src={`${API_URL}/api/og/avatar?team=${team.substring(3)}`}
+                  />
+                  Team {team.substring(3)}
+                </h1>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+const AllianceBreakdown = ({
   match,
   teams,
   onChangeTeam,
@@ -36,95 +108,22 @@ const AllianceComponent = ({
 }: any) => {
   return (
     <div className="flex flex-col md:grid md:grid-cols-2 gap-3">
-      <div className="bg-red-500 rounded-md p-5">
-        <h1 className="text-3xl font-bold mb-4 text-red-200 text-center">
-          Red Alliance{" "}
-          <button className="cursor-default bg-red-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
-            <span className="flex">
-              {match.alliances.red.score} pts{" "}
-              {match.winning_alliance === "red" && (
-                <FaTrophy className="mt-1 ml-1" />
-              )}
-            </span>
-          </button>
-        </h1>
-
-        <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
-          {match.alliances.red.team_keys.map((team: any, key: number) => {
-            return (
-              <div
-                key={team}
-                onClick={() => {
-                  onChangeTeam?.(team === selectedTeam ? "" : team);
-                }}
-              >
-                <div className={`bg-red-400 hover:bg-red-600 rounded-lg py-5`}>
-                  <p className="text-center text-sm font-semibold text-red-200 mb-1">
-                    {teams[team.substring(3)].nickname}
-                  </p>
-                  <h1
-                    className={`text-xl flex items-center justify-center font-bold text-white`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className="rounded-lg mr-4 w-7"
-                      alt={`Team ${team.substring(3)} Avatar`}
-                      height="50"
-                      width="50"
-                      src={`${API_URL}/api/og/avatar?team=${team.substring(3)}`}
-                    />
-                    Team {team.substring(3)}
-                  </h1>
-                </div>
-              </div>
-              // </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="bg-sky-500 rounded-md p-5">
-        <h1 className="text-3xl font-bold mb-4 text-sky-200 text-center">
-          Blue Alliance{" "}
-          <button className="cursor-default bg-sky-600 rounded-lg text-sm align-middle py-1 px-3 text-white">
-            <span className="flex">
-              {match.alliances.blue.score} pts{" "}
-              {match.winning_alliance === "blue" && (
-                <FaTrophy className="mt-1 ml-1" />
-              )}
-            </span>
-          </button>
-        </h1>
-
-        <div className="flex flex-col md:grid md:grid-cols-3 gap-3">
-          {match.alliances.blue.team_keys.map((team: any, key: number) => {
-            return (
-              <Link key={key} href={`/team/${team.substring(3)}`}>
-                <div className={`bg-sky-400 hover:bg-sky-600 rounded-lg py-5`}>
-                  <p className="text-center text-sm font-semibold text-sky-200 mb-1">
-                    {teams[team.substring(3)].nickname}
-                  </p>
-                  <h1
-                    className={`text-xl flex items-center justify-center ${
-                      team.surrogate ? "text-lightGray" : "text-white"
-                    } font-bold`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      className="rounded-lg mr-4 w-7"
-                      alt={`Team ${team} Avatar`}
-                      height="50"
-                      width="50"
-                      src={`${API_URL}/api/og/avatar?team=${team.substring(3)}`}
-                    />
-                    Team {team.substring(3)}
-                  </h1>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      <AllianceGroup
+        alliance={match.alliances.red}
+        winningAlliance={match.winning_alliance}
+        onChangeTeam={onChangeTeam}
+        selectedTeam={selectedTeam}
+        allTeams={teams}
+        allianceColor="red"
+      />
+      <AllianceGroup
+        alliance={match.alliances.blue}
+        winningAlliance={match.winning_alliance}
+        onChangeTeam={onChangeTeam}
+        selectedTeam={selectedTeam}
+        allTeams={teams}
+        allianceColor="blue"
+      />
     </div>
   );
 };
@@ -714,7 +713,7 @@ export default function MatchPage({
             </div>
           )}
         </div>
-        <AllianceComponent
+        <AllianceBreakdown
           match={match}
           teams={teamData}
           selectedTeam={selectedTeam}
