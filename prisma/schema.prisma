@@ -236,19 +236,20 @@ model ApiKey {
 }
 
 model Form {
-	id          Int             @id @default(autoincrement())
-	title       String
-	year 			Int
-	description String?
-	questions   FormQuestion[]
+  id          Int            @id @default(autoincrement())
+  title       String
+  year        Int
+  description String?
+  questions   FormQuestion[]
 }
+
 model FormQuestion {
-	id          Int     @id @default(autoincrement())
-	title       String
-	description String?
-	type        String
-	required    Boolean @default(false)
-	options     String[]
-	form        Form    @relation(fields: [formId], references: [id], onDelete: Cascade)
-	formId      Int
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  type        String
+  required    Boolean  @default(false)
+  options     String[]
+  form        Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId      Int
 }

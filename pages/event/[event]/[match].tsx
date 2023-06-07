@@ -214,7 +214,7 @@ const QuestionRow = ({
 }: {
   question: FormQuestion;
   value: any;
-  onChange: any;
+  onChange: (newVal: any) => void;
 }) => {
   return (
     <div key={question.id} className="rounded-md w-full">
@@ -226,18 +226,14 @@ const QuestionRow = ({
           <BooleanQuestion
             question={question}
             value={value}
-            onChange={(newVal) => {
-              onChange(newVal);
-            }}
+            onChange={onChange}
           />
         )}
         {question.type === "counter" && (
           <CounterQuestion
             question={question}
             value={value}
-            onChange={(newVal) => {
-              onChange(newVal);
-            }}
+            onChange={onChange}
           />
         )}
       </div>
@@ -719,9 +715,7 @@ export default function MatchPage({
           match={match}
           teams={teamData}
           selectedTeam={selectedTeam}
-          onChangeTeam={(team) => {
-            setSelectedTeam(team);
-          }}
+          onChangeTeam={setSelectedTeam}
         />
 
         <ScoutForm selectedTeam={selectedTeam} />
