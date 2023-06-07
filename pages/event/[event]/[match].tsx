@@ -332,8 +332,8 @@ const ScoutForm = ({ selectedTeam }: { selectedTeam: string }) => {
 };
 
 const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
-  const linkNodes = links.find((link: any): boolean => link.row === level);
-  const linkIndices = linkNodes ? linkNodes.nodes : [];
+  const linkNodes = links.filter((link: any) => link.row === level);
+  const linkIndices = linkNodes.flatMap((link: any) => link.nodes);
   const levelKey = level.charAt(0).toUpperCase();
 
   const hasLinkInGroup = linkIndices.some(
@@ -649,6 +649,8 @@ export default function MatchPage({
   const router = useRouter();
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const { event } = router.query;
+
+  console.log(match);
 
   const findMatchName = () => {
     switch (match.comp_level) {
