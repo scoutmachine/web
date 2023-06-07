@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import db from "@/lib/db";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { JSX, useEffect, useState } from "react";
+import { Fragment, JSX, useEffect, useState } from "react";
 import { Match, Event, FormQuestion } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
@@ -332,29 +332,28 @@ const ScoutForm = ({ selectedTeam }: { selectedTeam: string }) => {
 };
 
 const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
-  const linkNodes = links.filter((link: any) => link.row === level);
-  const linkIndices = linkNodes.flatMap((link: any) => link.nodes);
   const levelKey = level.charAt(0).toUpperCase();
 
-  const hasLinkInGroup = linkIndices.some(
-    (index: number): boolean => scoringData[index] !== "None"
-  );
+  const hasLinkInGroup = (indices: number[]): boolean => {
+    return links.some(
+      (link: any) =>
+        link.row === level &&
+        link.nodes.some((index: number) => indices.includes(index))
+    );
+  };
 
   const boxes = scoringData.map((item: any, index: number) => {
-    const hasLink = linkIndices.includes(index);
     const isAutoScored: boolean = autoData[levelKey][index] !== "None";
 
     let boxClasses: string =
-      "border-2 bg-card h-16 rounded-md flex justify-center items-center";
+      "bg-card h-16 rounded-md flex justify-center items-center";
 
-    if (alliance === "red" && !hasLink && !isAutoScored) {
-      boxClasses += " border-red-400";
-    } else if (alliance === "blue" && !hasLink && !isAutoScored) {
-      boxClasses += " border-sky-400";
-    } else if (hasLink && hasLinkInGroup) {
-      boxClasses += " border-white";
+    if (alliance === "red" && !isAutoScored) {
+      boxClasses += " border-2 border-red-400";
+    } else if (alliance === "blue" && !isAutoScored) {
+      boxClasses += " border-2 border-sky-400";
     } else if (isAutoScored) {
-      boxClasses += " border-green-400";
+      boxClasses += " border-2 border-green-400";
     }
 
     return (
@@ -377,11 +376,37 @@ const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
   });
 
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-9 gap-4">
-      <div className="sm:col-span-2 md:col-span-9 text-center text-lightGray font-bold">
+    <div className="grid grid-cols-9 gap-4">
+      <div className="col-span-9 text-center text-lightGray font-bold">
         {level} Nodes
       </div>
-      {boxes}
+      {boxes.map((box: any, index: number) => {
+        const groupIndex = Math.floor(index / 3);
+        const groupStartIndex = groupIndex * 3;
+        const groupIndices = [
+          groupStartIndex,
+          groupStartIndex + 1,
+          groupStartIndex + 2,
+        ];
+
+        return (
+          <Fragment key={index}>
+            {(index + 1) % 3 === 1 && (
+              <div
+                className={`${
+                  hasLinkInGroup(groupIndices) && "border-2 border-white"
+                } py-2 px-2 rounded-lg col-span-3`}
+              >
+                <div className="flex flex-col md:grid md:grid-cols-3 gap-4">
+                  {box}
+                  {boxes[index + 1] && boxes[index + 1]}
+                  {boxes[index + 2] && boxes[index + 2]}
+                </div>
+              </div>
+            )}
+          </Fragment>
+        );
+      })}
     </div>
   );
 };
@@ -447,7 +472,12 @@ const StatsTable = ({ breakdown, teams }: any) => {
     },
     {
       category: "Links",
-      value: breakdown.linkPoints,
+      value: (
+        <p>
+          {breakdown.linkPoints / 5} links (+{breakdown.linkPoints} pts)
+        </p>
+      ),
+      important: true,
     },
     {
       category: "Cooperation Criteria Met?",
