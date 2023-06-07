@@ -43,7 +43,6 @@ const AllianceGroup = ({
   selectedTeam: string;
   allTeams: any;
 }) => {
-  console.log("alliance: ", alliance);
   const color = allianceColor === "red" ? "red" : "sky";
 
   return (
@@ -285,7 +284,6 @@ const questions: FormQuestion[] = [
 const ScoutForm = ({ selectedTeam }: { selectedTeam: string }) => {
   const [form, setForm] = useState<any>(getIntitialFormState(questions));
 
-  console.log("form: ", form);
   useEffect(() => {
     // Reset form if the selected team changes
     setForm(getIntitialFormState(questions));
@@ -679,8 +677,6 @@ export default function MatchPage({
   const router = useRouter();
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const { event } = router.query;
-
-  console.log(match);
 
   const findMatchName = () => {
     switch (match.comp_level) {
