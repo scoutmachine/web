@@ -48,7 +48,9 @@ const AllianceGroup = ({
 
   return (
     <div className={`bg-${color}-500 rounded-md p-5`}>
-      <h1 className="text-3xl font-bold mb-4 text-red-200 text-center capitalize">
+      <h1
+        className={`text-3xl font-bold mb-4 text-${color}-200 text-center capitalize`}
+      >
         {allianceColor} Alliance{" "}
         <button
           className={`cursor-default bg-${color}-600 rounded-lg text-sm align-middle py-1 px-3 text-white`}
