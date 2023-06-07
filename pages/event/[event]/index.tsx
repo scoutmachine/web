@@ -6,7 +6,6 @@ import { TabButton } from "@/components/TabButton";
 import { EventHeader } from "@/components/headers/EventHeader";
 import { AlliancesTab } from "@/components/tabs/event/Alliances";
 import { TeamsTab } from "@/components/tabs/event/Teams";
-import { MatchScout } from "@/pages/event/[event]/MatchScout";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { JSX, useState } from "react";
 import db from "@/lib/db";
