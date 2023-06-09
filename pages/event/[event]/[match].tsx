@@ -709,8 +709,7 @@ export default function MatchPage({
   return (
     <>
       <SEO title={title} />
-
-      {/* <Navbar /> */}
+      <Navbar />
 
       <div className="pr-4 pl-4 md:pr-8 md:pl-8 max-w-screen-3xl">
         <div className="bg-card mb-5 mt-10 p-5 rounded-lg border dark:border-[#2A2A2A]">
