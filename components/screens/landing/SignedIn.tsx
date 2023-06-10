@@ -9,9 +9,6 @@ import Link from "next/link";
 import { HiStatusOnline } from "react-icons/hi";
 import { TeamCompetingCard } from "@/components/TeamCompetingCard";
 import { convertDate } from "@/utils/date";
-import { CURR_YEAR } from "@/lib/constants";
-import { SubInfo } from "@/pages/team/[team]";
-import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const SignedInScreen = (props: {
   session: Session;
@@ -28,7 +25,7 @@ export const SignedInScreen = (props: {
   const [timeLeft, setTimeLeft] = useState<any>({});
   const kickoffTime: number = 1704542400;
   const router: NextRouter = useRouter();
-  const currentTime = new Date();
+  const currentTime: Date = new Date();
 
   function calculateTimeLeft(distance: any): {
     weeks: number;
