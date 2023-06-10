@@ -5,7 +5,7 @@ import { Fragment, JSX, useEffect, useState } from "react";
 import { Match, Event, FormQuestion } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import {NextRouter, useRouter} from "next/router";
 import { FaCube, FaTrophy, FaYoutube } from "react-icons/fa";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { BsCone } from "react-icons/bs";
@@ -43,7 +43,7 @@ const AllianceGroup = ({
   selectedTeam: string;
   allTeams: any;
 }) => {
-  const color = allianceColor === "red" ? "red" : "sky";
+  const color: string = allianceColor === "red" ? "red" : "sky";
 
   return (
     <div className={`bg-${color}-500 rounded-md p-5`}>
@@ -68,7 +68,7 @@ const AllianceGroup = ({
           return (
             <div
               key={team}
-              onClick={() => {
+              onClick={(): void => {
                 onChangeTeam?.(team === selectedTeam ? "" : team);
               }}
             >
@@ -183,7 +183,7 @@ const CounterQuestion = ({
         <span className="flex text-lightGray">
           <div className="flex items-center mr-3">
             <button
-              onClick={() => {
+              onClick={(): void => {
                 onChange(value - 1);
               }}
               className="bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center"
@@ -192,7 +192,7 @@ const CounterQuestion = ({
             </button>
             <span className="mx-2">{value}</span>
             <button
-              onClick={() => {
+              onClick={(): void => {
                 onChange(value + 1);
               }}
               className="bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center"
@@ -243,7 +243,7 @@ const QuestionRow = ({
 const getIntitialFormState = (questions: FormQuestion[]) => {
   const form: any = {};
 
-  for (const question of questions) {
+  for (const question: FormQuestion of questions) {
     if (question.type === "boolean") {
       form[question.id] = {
         questionId: question.id,
@@ -281,10 +281,10 @@ const questions: FormQuestion[] = [
     required: true,
   },
 ];
-const ScoutForm = ({ selectedTeam }: { selectedTeam: string }) => {
+const ScoutForm = ({ selectedTeam }: { selectedTeam: string }): JSX.Element => {
   const [form, setForm] = useState<any>(getIntitialFormState(questions));
 
-  useEffect(() => {
+  useEffect((): void => {
     // Reset form if the selected team changes
     setForm(getIntitialFormState(questions));
   }, [selectedTeam]);
@@ -309,7 +309,7 @@ const ScoutForm = ({ selectedTeam }: { selectedTeam: string }) => {
             key={question.id}
             question={question}
             value={form[question.id].value}
-            onChange={(newVal) => {
+            onChange={(newVal): void => {
               setForm({
                 ...form,
                 [question.id]: {
@@ -379,9 +379,9 @@ const BoxRow = ({ alliance, scoringData, level, links, autoData }: any) => {
         {level} Nodes
       </div>
       {boxes.map((box: any, index: number) => {
-        const groupIndex = Math.floor(index / 3);
-        const groupStartIndex = groupIndex * 3;
-        const groupIndices = [
+        const groupIndex: number = Math.floor(index / 3);
+        const groupStartIndex: number = groupIndex * 3;
+        const groupIndices: number[] = [
           groupStartIndex,
           groupStartIndex + 1,
           groupStartIndex + 2,
@@ -674,11 +674,11 @@ export default function MatchPage({
   teamData,
   eventData,
 }: any): JSX.Element {
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const { event } = router.query;
 
-  const findMatchName = () => {
+  const findMatchName = (): string => {
     switch (match.comp_level) {
       case "f":
         return "Finals";
