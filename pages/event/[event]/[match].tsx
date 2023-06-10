@@ -5,7 +5,7 @@ import { Fragment, JSX, useEffect, useState } from "react";
 import { Match, Event, FormQuestion } from "@prisma/client";
 import { SEO } from "@/components/SEO";
 import Link from "next/link";
-import {NextRouter, useRouter} from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { FaCube, FaTrophy, FaYoutube } from "react-icons/fa";
 import { ImCheckmark, ImCross } from "react-icons/im";
 import { BsCone } from "react-icons/bs";
