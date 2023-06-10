@@ -235,9 +235,9 @@ export const SignedInScreen = (props: {
               })}
             </div>
           ) : (
-            <span className="text-sm font-medium text-lightGray">
+            <h1 className="text-lightGray">
               Looks like you have no activity on marketplace, yet.
-            </span>
+            </h1>
           )}
         </div>
       </div>
