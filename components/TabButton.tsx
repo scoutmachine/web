@@ -16,7 +16,7 @@ export const TabButton = (props: Props) => {
         props.active === props.tab
           ? "text-white border-2 border-[#2A2A2A]"
           : "text-lightGray border border-[#2A2A2A]"
-      } bg-card font-semibold px-5 py-2 rounded-lg cursor-pointer hover:text-white`}
+      } bg-card font-semibold px-5 py-2 rounded-lg cursor-pointer hover:text-white transition-all duration-150`}
     >
       {props.children}
     </button>
