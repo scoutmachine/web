@@ -197,13 +197,15 @@ export const SignedInScreen = (props: {
             <div className="flex flex-col gap-3 mt-3 sm:grid sm:grid-cols-2 md:grid md:grid-cols-4">
               {props.favourites.map((team: any, key: number) => {
                 return (
-                  <TeamCard
-                    key={key}
-                    team={team}
-                    avatars={props.avatars}
-                    favourites={props.favourites}
-                    showFavLoading
-                  />
+                  <Link href={`/team/${team.team_number}`} key={key}>
+                    <TeamCard
+                      key={key}
+                      team={team}
+                      avatars={props.avatars}
+                      favourites={props.favourites}
+                      showFavLoading
+                    />
+                  </Link>
                 );
               })}
             </div>

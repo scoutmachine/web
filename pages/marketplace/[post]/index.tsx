@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (
     });
 
   if (getPostData) {
-    return { props: { post: getPostData } };
+    return { props: { post: JSON.parse(JSON.stringify(getPostData)) } };
   }
 
   return { props: {} };

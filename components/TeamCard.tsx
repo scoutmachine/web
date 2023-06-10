@@ -52,8 +52,8 @@ export const TeamCard = (props: any): JSX.Element => {
   return (
     <div
       onClick={() => {
-        props.setOpen(true);
-        props.setOpenTeam(props.team);
+        props.setOpen && props.setOpen(true);
+        props.setOpenTeam && props.setOpenTeam(props.team);
       }}
       className="relative px-5 py-8 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg"
     >
