@@ -8,6 +8,7 @@ import {
   FaSchool,
 } from "react-icons/fa";
 import { Slideover } from "./Sliderover";
+import Link from "next/link";
 
 type Props = {
   isOpen: boolean;
@@ -72,13 +73,13 @@ export const TeamSlideover = ({ isOpen, setOpen, openTeam }: Props) => {
             link={openTeam?.website}
           />
 
-          <a
+          <Link
             href={`/team/${openTeam?.team_number}`}
             className="flex bg-card border border-[#2A2A2A] hover:border-gray-600 rounded-lg py-2 px-5 w-full text-primary hover:text-white font-bold transition-all duration-150"
           >
             View {openTeam?.team_number} Full Profile{" "}
             <FaArrowRight className="ml-2 mt-1" />
-          </a>
+          </Link>
         </div>
       </div>
     </Slideover>

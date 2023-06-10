@@ -29,6 +29,7 @@ import { API_URL, BMAC_URL, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
 import router from "next/router";
 import { getStorage, setStorage } from "@/utils/localStorage";
 import { Loading } from "../Loading";
+import Link from "next/link";
 
 const Social = (props: { icon: ReactNode }) => {
   return (
@@ -123,14 +124,14 @@ export const Navbar = (props: {
           } bg-[#f7f7f7] border border-gray-300 dark:bg-card dark:border-[#2A2A2A] py-5 px-10 mb-[-10px] h-full max-w-screen-3xl mx-auto flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between`}
         >
           <div className="flex relative space-x-1">
-            <a href="/">
+            <Link href="/">
               <h1 className="font-extrabold text-black dark:text-white text-2xl mr-2 hidden md:block">
                 sm
               </h1>
               <h1 className="font-black text-black dark:text-white text-2xl mr-2 md:hidden">
                 sm
               </h1>
-            </a>
+            </Link>
 
             <a
               href={GITHUB_URL}
@@ -183,7 +184,7 @@ export const Navbar = (props: {
                 key: number
               ) => {
                 return (
-                  <a href={link.href} key={key}>
+                  <Link href={link.href} key={key}>
                     <p
                       className={`block md:inline-block text-[0.9rem] ${
                         props.active === link.title
@@ -196,7 +197,7 @@ export const Navbar = (props: {
                         <span>{link.title}</span>
                       </div>
                     </p>
-                  </a>
+                  </Link>
                 );
               }
             )}
@@ -227,12 +228,12 @@ export const Navbar = (props: {
                 }
               >
                 <div className="py-2 gap-y-2 flex flex-col items-center">
-                  <a href={`/users/${session.user.username}`}>
+                  <Link href={`/users/${session.user.username}`}>
                     <p className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary">
                       <FaUserCircle className="text-lg mr-1 inline-block" />{" "}
                       View Profile
                     </p>
-                  </a>
+                  </Link>
 
                   <p
                     className="text-sm text-lightGray cursor-pointer whitespace-nowrap hover:text-primary"

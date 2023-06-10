@@ -52,14 +52,14 @@ export const Search = (props: any) => {
                   props.setSearchTerm(`${team.nickname} - ${team.team_number}`)
                 }
               >
-                <a
+                <Link
                   key={key}
                   href={`/team/${team.team_number}`}
                   onClick={() => props.setSearchTerm("")}
                 >
                   <span className="font-medium">{team.team_number} |</span>{" "}
                   {team.nickname}{" "}
-                </a>
+                </Link>
 
                 {props.session && (
                   <FaStar

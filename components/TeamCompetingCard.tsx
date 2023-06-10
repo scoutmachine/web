@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { epochSecondsToTime } from "@/utils/time";
+import Link from "next/link";
 import { FaTwitch } from "react-icons/fa";
 
 export const TeamCompetingCard = (props: {
@@ -20,11 +21,7 @@ export const TeamCompetingCard = (props: {
   );
 
   return (
-    <a
-      href={`/team/${props.favourite.team_number}/next`}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <Link href={`/team/${props.favourite.team_number}/next`}>
       <div className="relative px-5 py-5 h-32 border bg-white border-solid dark:border-[#2A2A2A] dark:bg-card dark:hover:border-gray-600 rounded-lg">
         <a
           href={`https://twitch.tv/${channel}`}
@@ -67,6 +64,6 @@ export const TeamCompetingCard = (props: {
           .
         </p>
       </div>
-    </a>
+    </Link>
   );
 };
