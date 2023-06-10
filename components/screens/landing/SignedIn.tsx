@@ -183,10 +183,10 @@ export const SignedInScreen = (props: {
                 })}
             </div>
           ) : (
-            <span className="text-sm font-medium text-lightGray">
+            <h1 className="text-lightGray">
               Looks like you none of your favourited teams are currently
               competing.
-            </span>
+            </h1>
           )}
 
           <p className="flex mt-8 font-bold text-lightGray text-md md:mt-16">
@@ -211,9 +211,9 @@ export const SignedInScreen = (props: {
               })}
             </div>
           ) : (
-            <span className="text-sm font-medium text-lightGray">
+            <h1 className="text-lightGray">
               Looks like you have not favourited any teams, yet.
-            </span>
+            </h1>
           )}
 
           <p
