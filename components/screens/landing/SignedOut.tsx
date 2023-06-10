@@ -3,9 +3,23 @@ import { Card } from "@/components/misc/Card";
 import { FAQ } from "@/components/misc/FAQ";
 import { Feature } from "@/components/misc/Feature";
 import { BMAC_URL, CURR_YEAR, DISCORD_URL, GITHUB_URL } from "@/lib/constants";
-import { developers } from "@/lib/lists/developers";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { FaCoffee, FaDiscord, FaGithub } from "react-icons/fa";
+
+async function getContributors(): Promise<any> {
+  const fetchContributors = await fetch(
+    `https://api.github.com/repos/scoutmachine/web/contributors?per_page=100`
+  )
+    .then((response: Response) => response.json())
+    .then((contributors) =>
+      contributors
+        .filter((contributor: any) => !contributor.login.endsWith("[bot]"))
+        .slice(0, 10)
+    );
+
+  return fetchContributors;
+}
 
 const IssueTemplate = (props: any) => {
   return (
@@ -34,6 +48,16 @@ const IssueTemplate = (props: any) => {
 };
 
 export const SignedOutScreen = () => {
+  const [contributors, setContributors] = useState([]);
+
+  useEffect((): void => {
+    const fetchContributors = async (): Promise<any> => {
+      return await getContributors();
+    };
+
+    fetchContributors().then((r) => setContributors(r));
+  }, []);
+
   return (
     <div className="pl-4 pr-4 md:pr-8 md:pl-8 mt-5">
       <div className="flex flex-col md:grid grid-cols-3 gap-x-5">
@@ -52,7 +76,7 @@ export const SignedOutScreen = () => {
           </p>
 
           <div className="flex flex-wrap -space-x-1 overflow-hidden absolute bottom-10">
-            {developers.map((contributor: any) => {
+            {contributors.map((contributor: any) => {
               return (
                 <a
                   key={contributor.id}
