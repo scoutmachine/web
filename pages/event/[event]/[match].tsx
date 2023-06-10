@@ -243,7 +243,7 @@ const QuestionRow = ({
 const getIntitialFormState = (questions: FormQuestion[]) => {
   const form: any = {};
 
-  for (const question: FormQuestion of questions) {
+  for (const question of questions) {
     if (question.type === "boolean") {
       form[question.id] = {
         questionId: question.id,
@@ -678,7 +678,7 @@ export default function MatchPage({
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const { event } = router.query;
 
-  const findMatchName = (): string => {
+  const findMatchName = () => {
     switch (match.comp_level) {
       case "f":
         return "Finals";
