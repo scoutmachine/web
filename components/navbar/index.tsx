@@ -84,7 +84,7 @@ export const Navbar = (props: {
     }
 
     fetchData();
-  }, [teams]);
+  }, []);
 
   const filteredOptions =
     teams &&
