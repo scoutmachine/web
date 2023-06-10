@@ -22,6 +22,26 @@ export default function RookiesPage({
   rookieTeams,
   avatars,
 }: any): JSX.Element {
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(50);
+  const itemsPerPage: number = 50;
+  const displayedTeams = rookieTeams.slice(0, endIndex);
+
+  useEffect(() => {
+    const handleScroll = (): void => {
+      const scrollPosition: number = window.innerHeight + window.scrollY;
+      const contentHeight: number = document.documentElement.scrollHeight;
+
+      if (scrollPosition > contentHeight * 0.8) {
+        setStartIndex(endIndex + 1);
+        setEndIndex(endIndex + itemsPerPage);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [startIndex, endIndex]);
+
   return (
     <>
       <SEO title="Rookies / Scout Machine" />
@@ -56,17 +76,16 @@ export default function RookiesPage({
 
       <div className="w-full pl-4 pr-4 mx-auto md:pr-8 md:pl-8">
         <div className="flex flex-col w-full gap-3 mt-10 sm:grid sm:grid-cols-2 lg:grid-cols-5">
-          {Array.isArray(rookieTeams) &&
-            rookieTeams.map((team: any, key: number) => {
-              return (
-                <TeamCard
-                  key={key}
-                  team={team}
-                  avatars={avatars}
-                  favourites={user?.favouritedTeams}
-                />
-              );
-            })}
+          {displayedTeams.map((team: any, key: number) => {
+            return (
+              <TeamCard
+                key={key}
+                team={team}
+                avatars={avatars}
+                favourites={user?.favouritedTeams}
+              />
+            );
+          })}
         </div>
       </div>
 
