@@ -158,22 +158,16 @@ export default function TeamPage({
               >
                 Team Members <SubInfo>{teamMembers.length}</SubInfo>
               </TabButton>
-              <div className="relative" ref={dropdownRef}>
-                <div
-                  className={`group bg-card border w-[300px] text-white  ${
-                    isDropdownOpen
-                      ? "rounded-t-lg border-2 border-[#2A2A2A]"
-                      : "rounded-lg border border-[#2A2A2A]"
-                  } px-5 py-2 flex items-center justify-between cursor-pointer`}
+              <div className="group relative">
+                <TabButton
+                  className={`${
+                    isDropdownOpen ? "rounded-t-lg" : "rounded-lg"
+                  }`}
+                  active={activeTab}
                   onClick={toggleDropdown}
+                  tab={0}
                 >
-                  <span
-                    className={`font-bold group-hover:text-white ${
-                      activeTab === currentYearTab
-                        ? "text-white"
-                        : "text-lightGray"
-                    } ${isDropdownOpen && "text-white"}`}
-                  >
+                  <div className="flex">
                     {String(activeTab).length >= 4 ? (
                       `${activeTab} Season`
                     ) : (
@@ -182,25 +176,26 @@ export default function TeamPage({
                         <SubInfo>{yearsParticipated.length}</SubInfo>{" "}
                       </span>
                     )}
-                  </span>
-                  <FaArrowUp
-                    className={`transform text-lightGray group-hover:text-white ${
-                      isDropdownOpen ? "-rotate-180 text-white" : ""
-                    }`}
-                  />
-                </div>
+                    <FaArrowUp
+                      className={`transform text-lightGray group-hover:text-white transition-all duration-150 ml-10 mt-1 ${
+                        isDropdownOpen ? "-rotate-180 text-white" : ""
+                      }`}
+                    />
+                  </div>
+                </TabButton>
+
                 <div
                   className={`absolute right-0 left-0 bg-card text-white rounded-b-lg px-3 py-4 ${
                     isDropdownOpen ? "block" : "hidden"
                   } z-20`}
                 >
-                  {yearsParticipated?.length > 0 ? (
+                  {yearsParticipated.length > 0 ? (
                     <div className="grid grid-cols-3 gap-3">
-                      {yearsParticipated?.map((year: any, key: any) => (
+                      {yearsParticipated.map((year: any, key: number) => (
                         <div
                           key={key}
                           className="cursor-pointer text-lightGray hover:text-white bg-card border border-[#2A2A2A] hover:cursor-pointer py-1 px-3 rounded-lg"
-                          onClick={(): void => {
+                          onClick={() => {
                             handleTabClick(Number(year));
                             setIsDropdownOpen(false);
                             setCurrentYearTab(year);
@@ -212,7 +207,7 @@ export default function TeamPage({
                     </div>
                   ) : (
                     <p className="px-2 text-lightGray">
-                      Looks like {teamInfo?.team_number} hasn&apos;t competed,
+                      Looks like {teamInfo?.team_number} hasn&apos;t competed
                       yet.
                     </p>
                   )}

@@ -10,15 +10,19 @@ interface Props {
 
 export const TabButton = (props: Props) => {
   return (
-    <button
-      onClick={props.onClick}
-      className={`${
-        props.active === props.tab
-          ? "text-white border-2 border-[#2A2A2A]"
-          : "text-lightGray border border-[#2A2A2A]"
-      } bg-card font-semibold px-5 py-2 rounded-lg cursor-pointer hover:text-white transition-all duration-150`}
+    <div
+      className={`${props.className} bg-card hover:text-white transition-all duration-150 ${
+        props.active === props.tab ? "text-white" : "text-lightGray"
+      } font-semibold rounded-lg`}
     >
-      {props.children}
-    </button>
+      <div className="bg-gradient-to-b from-[#191919] to-card drop-shadow-[0_0.125rem_0.125rem_rgba(0,0,0,0.25)] rounded-lg">
+        <button
+          onClick={props.onClick}
+          className={`bg-card px-5 py-2 ${props.className ?? 'rounded-lg'}`}
+        >
+          {props.children}
+        </button>
+      </div>
+    </div>
   );
 };
