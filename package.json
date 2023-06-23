@@ -33,7 +33,7 @@
     "color-convert": "^2.0.1",
     "currency-codes": "^2.1.0",
     "eslint": "8.43.0",
-    "eslint-config-next": "13.4.6",
+    "eslint-config-next": "13.4.7",
     "export-from-json": "^1.7.2",
     "framer-motion": "^10.12.16",
     "haversine-distance": "^1.2.1",
