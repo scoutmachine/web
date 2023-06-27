@@ -22,7 +22,7 @@
     "@tensorflow/tfjs": "^4.8.0",
     "@tippyjs/react": "^4.2.6",
     "@types/color-convert": "^2.0.0",
-    "@types/node": "20.3.1",
+    "@types/node": "20.3.2",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
     "@types/react-transition-group": "^4.4.6",
@@ -63,8 +63,8 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.6",
+    "@commitlint/cli": "^17.6.6",
     "@types/lodash": "^4.14.195",
     "husky": "^8.0.3",
     "prettier": "^2.8.8",
