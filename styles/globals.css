@@ -1,8 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background: #111111;
   color: #fff;
 }
@@ -11,22 +10,24 @@ a:hover {
   color: #fbbb04;
 }
 
+/* Tooltip Animation */
 .tooltip {
   transition: opacity 0.5s, transform 0.5s;
   opacity: 0;
   transform: translateY(20px);
 }
 
-.fade-in {
+.tooltip.fade-in {
   opacity: 1;
   transform: translateY(0);
 }
 
-.fade-out {
+.tooltip.fade-out {
   opacity: 0;
   transform: translateY(-20px);
 }
 
+/* Banner Styles */
 .banner {
   background: #0f4bcb;
   color: #fff;
@@ -43,17 +44,17 @@ a:hover {
 }
 
 .banner:after {
-  border-bottom: 70px solid #0f4bcb;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 100%;
   border-color: #0f4bcb #0f4bcb transparent;
   border-style: solid;
   border-width: 5px 70px 20px;
-  content: "";
-  display: block;
-  left: 0;
-  position: absolute;
-  top: 100%;
+  border-bottom: 70px solid #0f4bcb;
 }
 
+/* Animation on Hover */
 .popStar:hover {
   animation: pop 0.3s linear 1;
 }
@@ -64,6 +65,7 @@ a:hover {
   }
 }
 
+/* Customizing Scrollbars */
 ::-webkit-scrollbar {
   width: 2px;
 }
@@ -72,12 +74,10 @@ a:hover {
   background: transparent;
 }
 
-/* Light */
 ::-webkit-scrollbar-thumb {
   background: #7d7d7d;
 }
 
-/* Dark */
 ::-webkit-scrollbar-thumb:hover {
   background: transparent;
 }
