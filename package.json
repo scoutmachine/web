@@ -37,7 +37,7 @@
     "export-from-json": "^1.7.2",
     "framer-motion": "^10.12.18",
     "haversine-distance": "^1.2.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "lucide-react": "^0.257.0",
     "next": "13.4.7",
     "next-api-handler": "^0.4.10",
