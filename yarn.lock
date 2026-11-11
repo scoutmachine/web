@@ -4669,10 +4669,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-haversine-distance@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/haversine-distance/-/haversine-distance-1.2.1.tgz#3b3a053890504925505273e96eba359042dc514b"
-  integrity sha512-rQpG89d6NlAis0eqOSFXDqNU/GZcMPlHNVMqTSzD16niD9s1fDK8T6kwrK0WJ7OMU+iRNy3cgGYnNQihMqmaHg==
+haversine-distance@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/haversine-distance/-/haversine-distance-1.2.4.tgz#4b64f6703594d0ad84b4d73f7c1123df188c7d23"
+  integrity sha512-8MHQBQXR7GXZJIvitCf/ux+gwLtWOxmXNNz5dReG+jJbuvaEoj6QIXlaIO3cPr433BFWM4jececJaLYpwxnZhg==
 
 hosted-git-info@^2.1.4:
   version "2.8.9"
